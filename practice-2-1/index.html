@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>2.1 · Native Data Types — Coding Practice · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+
+</head>
+<body class='is-practice'>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/' class='active'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Practice</span><span class='dot'>/</span><span class='eb-sec'>Chapter 2 · Coding Practice</span></div><h1 class='lesson-title'>2.1 · Native Data Types — Coding Practice</h1><div class='reading-meta'>&#9719; approx. 11 min read <span class='rm-sep'>&middot;</span> 30 worked examples</div></div><div class='lesson-grid'><div class='lesson-body'><p>These problems drill the core ideas of Section 2.1: naming the native types (<code>int</code>, <code>float</code>, <code>complex</code>, <code>bool</code>, <code>str</code>, <code>NoneType</code>), asking <code>type</code> what category a value belongs to, writing type predicates and boolean comparisons, knowing why float equality is a trap, and treating strings as values you can convert, concatenate, measure with <code>len</code>, format, and transform with string methods. Every solution is a short <code>def</code> — no sequences, indexing, or loops are needed yet.</p>
+<p>&gt; Work each problem from the starter signature first. Run your function against the Examples, then open the matching solution below to check your approach and its time and space cost.</p>
+<section id='easy' class='ls ls-default'>
+<h2 class='ls-h'><span>Easy</span></h2>
+<div class='ls-body'>
+<h3>1. Type Name</h3>
+<p>Define <code>type_name(value)</code> that returns the name of <code>value</code>&#x27;s type as a plain string — <code>&quot;int&quot;</code>, <code>&quot;float&quot;</code>, <code>&quot;str&quot;</code>, and so on. This is the lesson&#x27;s habit (&quot;before you trust a value, ask what type it is&quot;) packaged into a function. The type object knows its own name through its <code>.__name__</code> attribute.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  type_name(7)
+Output: &#x27;int&#x27;
+Explanation: 7 is a whole number, so its type is int.</code></pre>
+<pre class='code text'><code>Input:  type_name(&quot;7&quot;)
+Output: &#x27;str&#x27;
+Explanation: the quotation marks make it text, so the type is str, not int.</code></pre>
+<pre class='code text'><code>Input:  type_name(1 + 2j)
+Output: &#x27;complex&#x27;
+Explanation: the j suffix marks an imaginary part, so the value is complex.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>value</code> may be any single Python value.</li>
+<li>Return the type&#x27;s <em>name</em> as a string, not the <code>&lt;class &#x27;...&#x27;&gt;</code> object itself.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">type_name</span><span style="color: #657b83">(value):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>type(value)</code> gives the class; every class carries its short name in <code>.__name__</code>.</p></details>
+<h3>2. Is It a Whole Number?</h3>
+<p>Define <code>is_whole_number(value)</code> that returns <code>True</code> only when <code>value</code> is stored as an <code>int</code>, and <code>False</code> for everything else — including a <code>float</code> like <code>5.0</code> that <em>looks</em> whole and a string like <code>&quot;5&quot;</code> that only looks numeric. This is a <strong>type predicate</strong>: it inspects the category, not the printed shape.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  is_whole_number(5)
+Output: True
+Explanation: 5 has type int.</code></pre>
+<pre class='code text'><code>Input:  is_whole_number(5.0)
+Output: False
+Explanation: the decimal point makes 5.0 a float, even though it equals 5.</code></pre>
+<pre class='code text'><code>Input:  is_whole_number(&quot;5&quot;)
+Output: False
+Explanation: &quot;5&quot; is text (str), not a number at all.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>value</code> may be any single Python value.</li>
+<li>Compare the <em>type</em>, not the value: <code>5</code> and <code>5.0</code> are equal numerically but must give different answers here.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">is_whole_number</span><span style="color: #657b83">(value):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>type(value) == int</code> is <code>True</code> exactly when the value is stored as an integer.</p></details>
+<h3>3. Label the Sign</h3>
+<p>Define <code>label_sign(n)</code> that returns the string <code>&quot;positive&quot;</code>, <code>&quot;negative&quot;</code>, or <code>&quot;zero&quot;</code> depending on how <code>n</code> compares to <code>0</code>. The comparison operators return booleans, and <code>if</code>/<code>elif</code>/<code>else</code> turns those booleans into the right word.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  label_sign(7)
+Output: &#x27;positive&#x27;
+Explanation: 7 &gt; 0, so the answer is &quot;positive&quot;.</code></pre>
+<pre class='code text'><code>Input:  label_sign(-3.5)
+Output: &#x27;negative&#x27;
+Explanation: -3.5 &lt; 0, so the answer is &quot;negative&quot;.</code></pre>
+<pre class='code text'><code>Input:  label_sign(0)
+Output: &#x27;zero&#x27;
+Explanation: 0 is neither positive nor negative.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>n</code> is any <code>int</code> or <code>float</code>.</li>
+<li>Both <code>0</code> and <code>0.0</code> count as <code>&quot;zero&quot;</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">label_sign</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Check <code>n &gt; 0</code> first, then <code>n &lt; 0</code>, and let the final <code>else</code> cover exactly zero.</p></details>
+<h3>4. Shout It</h3>
+<p>Define <code>shout(word)</code> that returns <code>word</code> in all capitals with a single <code>&quot;!&quot;</code> added on the end. The uppercasing is a string <em>method</em> (<code>.upper()</code>), and the exclamation point is joined on with string concatenation (<code>+</code>).</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  shout(&quot;go&quot;)
+Output: &#x27;GO!&#x27;
+Explanation: &quot;go&quot;.upper() is &quot;GO&quot;, then &quot;+!&quot; makes &quot;GO!&quot;.</code></pre>
+<pre class='code text'><code>Input:  shout(&quot;Bears&quot;)
+Output: &#x27;BEARS!&#x27;
+Explanation: every letter becomes uppercase, then the &quot;!&quot; is appended.</code></pre>
+<pre class='code text'><code>Input:  shout(&quot;cs61a&quot;)
+Output: &#x27;CS61A!&#x27;
+Explanation: digits are left alone; only the letters are raised to uppercase.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>word</code> is a non-empty string.</li>
+<li>Use the <code>.upper()</code> string method and join the <code>&quot;!&quot;</code> with <code>+</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">shout</span><span style="color: #657b83">(word):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Call <code>.upper()</code> on the word first, then concatenate the literal <code>&quot;!&quot;</code>.</p></details>
+</div></section>
+<section id='medium' class='ls ls-default'>
+<h2 class='ls-h'><span>Medium</span></h2>
+<div class='ls-body'>
+<h3>5. Close Enough?</h3>
+<p>The lesson warns that <code>1 / 3 * 7 * 3</code> lands on <code>6.999999999999999</code>, not <code>7</code>, so testing floats with <code>==</code> is a trap. Define <code>close_enough(x, y)</code> that returns <code>True</code> when <code>x</code> and <code>y</code> are within a tiny tolerance of each other (<code>1e-9</code>), so the near-miss above counts as equal.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  close_enough(1 / 3 * 7 * 3, 7)
+Output: True
+Explanation: the left side is 6.999999999999999, within 1e-9 of 7.</code></pre>
+<pre class='code text'><code>Input:  close_enough(0.1 + 0.2, 0.3)
+Output: True
+Explanation: 0.1 + 0.2 stores as 0.30000000000000004, close enough to 0.3.</code></pre>
+<pre class='code text'><code>Input:  close_enough(1.0, 1.5)
+Output: False
+Explanation: 1.0 and 1.5 differ by 0.5, far larger than the tolerance.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>x</code> and <code>y</code> are numbers (<code>int</code> or <code>float</code>).</li>
+<li>Use the absolute difference against a tolerance of <code>1e-9</code>; do not use <code>==</code> on the raw values.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">close_enough</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Two values match when <code>abs(x - y)</code> is smaller than <code>1e-9</code>.</p></details>
+<h3>6. Price Tag</h3>
+<p>Define <code>price_tag(dollars)</code> that formats a number of dollars as a currency string: a leading <code>&quot;$&quot;</code> and exactly two digits after the decimal point. An f-string with the <code>:.2f</code> format does the rounding and padding for you.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  price_tag(3)
+Output: &#x27;$3.00&#x27;
+Explanation: an int is padded out to two decimal places as 3.00.</code></pre>
+<pre class='code text'><code>Input:  price_tag(19.5)
+Output: &#x27;$19.50&#x27;
+Explanation: one decimal digit is padded to two, giving 19.50.</code></pre>
+<pre class='code text'><code>Input:  price_tag(0.1)
+Output: &#x27;$0.10&#x27;
+Explanation: 0.1 becomes 0.10 with the trailing zero shown.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>dollars</code> is a non-negative <code>int</code> or <code>float</code>.</li>
+<li>The result must always show two digits after the decimal point.</li>
+<li>Use an f-string (or <code>format</code>) with the <code>.2f</code> specifier.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">price_tag</span><span style="color: #657b83">(dollars):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>f&quot;${dollars:.2f}&quot;</code> puts the dollar sign in front and fixes two decimals.</p></details>
+<h3>7. Count the Digits</h3>
+<p>Define <code>digit_count(n)</code> that returns how many digits a non-negative integer <code>n</code> has. There is no indexing yet, but you can turn the number into text with <code>str(...)</code> and then measure that text with <code>len(...)</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  digit_count(7)
+Output: 1
+Explanation: str(7) is &quot;7&quot;, whose length is 1.</code></pre>
+<pre class='code text'><code>Input:  digit_count(100)
+Output: 3
+Explanation: str(100) is &quot;100&quot;, whose length is 3.</code></pre>
+<pre class='code text'><code>Input:  digit_count(0)
+Output: 1
+Explanation: str(0) is &quot;0&quot;, a single digit.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>n</code> is a non-negative integer.</li>
+<li>Convert with <code>str(...)</code> and measure with <code>len(...)</code>; do not divide repeatedly.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">digit_count</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>The number of characters in <code>str(n)</code> is the number of digits.</p></details>
+<h3>8. Normalize a Name</h3>
+<p>Define <code>normalize_name(raw)</code> that cleans up a messily typed name: strip the surrounding whitespace and put it in title case (each word&#x27;s first letter capitalized, the rest lowercased). Both jobs are single string-method calls, chained one after the other.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  normalize_name(&quot;  ada lovelace &quot;)
+Output: &#x27;Ada Lovelace&#x27;
+Explanation: .strip() removes the outer spaces, .title() capitalizes each word.</code></pre>
+<pre class='code text'><code>Input:  normalize_name(&quot;GRACE HOPPER&quot;)
+Output: &#x27;Grace Hopper&#x27;
+Explanation: .title() lowercases the tails, leaving only the initials uppercase.</code></pre>
+<pre class='code text'><code>Input:  normalize_name(&quot;alan TURING&quot;)
+Output: &#x27;Alan Turing&#x27;
+Explanation: mixed case is normalized to Title Case regardless of the input.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>raw</code> is a string of one or more words separated by single spaces, possibly with leading/trailing whitespace.</li>
+<li>Use <code>.strip()</code> and <code>.title()</code>; chain them so each runs on the previous result.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">normalize_name</span><span style="color: #657b83">(raw):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>raw.strip()</code> first, then call <code>.title()</code> on what that returns.</p></details>
+</div></section>
+<section id='hard' class='ls ls-default'>
+<h2 class='ls-h'><span>Hard</span></h2>
+<div class='ls-body'>
+<h3>9. Receipt Line</h3>
+<p>Define <code>receipt_line(item, qty, unit_price)</code> that builds one line of a receipt as a single string, for example <code>&quot;Coffee x3 = $7.50&quot;</code>. You will combine three different types — a <code>str</code> item name, an <code>int</code> quantity, and a <code>float</code> price — into text, which means converting the numbers (<code>str(...)</code> and <code>format(...)</code>) before concatenating with <code>+</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  receipt_line(&quot;Coffee&quot;, 3, 2.5)
+Output: &#x27;Coffee x3 = $7.50&#x27;
+Explanation: total is 3 * 2.5 = 7.5, formatted to two decimals as 7.50.</code></pre>
+<pre class='code text'><code>Input:  receipt_line(&quot;Bagel&quot;, 2, 1.25)
+Output: &#x27;Bagel x2 = $2.50&#x27;
+Explanation: total is 2 * 1.25 = 2.5, shown as 2.50.</code></pre>
+<pre class='code text'><code>Input:  receipt_line(&quot;Tea&quot;, 1, 3.0)
+Output: &#x27;Tea x1 = $3.00&#x27;
+Explanation: total is 1 * 3.0 = 3.0, shown as 3.00.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>item</code> is a string, <code>qty</code> is a non-negative <code>int</code>, <code>unit_price</code> is a non-negative <code>float</code>.</li>
+<li>Compute <code>total = qty * unit_price</code> and format it with two decimal places.</li>
+<li>Build the line with concatenation; convert each number to text before joining it (a number cannot be <code>+</code>&#x27;d onto a string directly).</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">receipt_line</span><span style="color: #657b83">(item,</span> <span style="color: #657b83">qty,</span> <span style="color: #657b83">unit_price):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Concatenate the pieces in order: the item, <code>&quot; x&quot;</code>, <code>str(qty)</code>, <code>&quot; = $&quot;</code>, and the price formatted with <code>&quot;.2f&quot;</code>.</p></details>
+<h3>10. Numbers vs. Text</h3>
+<p>The lesson&#x27;s sharpest trap is that <code>&quot;4&quot; + &quot;5&quot;</code> is <code>&quot;45&quot;</code> while <code>4 + 5</code> is <code>9</code> — the same <code>+</code> symbol, completely different behavior, decided by the types. Define two functions over two <em>numeric strings</em>: <code>add_as_numbers(a, b)</code> converts both to <code>int</code> and adds them, while <code>join_as_text(a, b)</code> concatenates them as text. The pair makes the difference impossible to miss.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  add_as_numbers(&quot;4&quot;, &quot;5&quot;)
+Output: 9
+Explanation: int(&quot;4&quot;) + int(&quot;5&quot;) = 4 + 5 = 9.</code></pre>
+<pre class='code text'><code>Input:  join_as_text(&quot;4&quot;, &quot;5&quot;)
+Output: &#x27;45&#x27;
+Explanation: &quot;+&quot; on two strings glues them end to end.</code></pre>
+<pre class='code text'><code>Input:  add_as_numbers(&quot;12&quot;, &quot;30&quot;)
+Output: 42
+Explanation: converting first gives 12 + 30 = 42, not &quot;1230&quot;.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>a</code> and <code>b</code> are strings that contain only digits (no sign, no decimal point).</li>
+<li><code>add_as_numbers</code> must convert each with <code>int(...)</code> before adding; <code>join_as_text</code> must concatenate the strings unchanged.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">add_as_numbers</span><span style="color: #657b83">(a,</span> <span style="color: #657b83">b):</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">join_as_text</span><span style="color: #657b83">(a,</span> <span style="color: #657b83">b):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Convert with <code>int(...)</code> to add as numbers; leave the strings alone to join as text.</p></details>
+</div></section>
+<section id='solutions' class='ls ls-default'>
+<h2 class='ls-h'><span>Solutions</span></h2>
+<div class='ls-body'>
+<h3>1. Type Name</h3>
+<p><strong>Approach — ask <code>type</code>, then read its name.</strong> Section 2.1 introduces <code>type</code> as the function that reports a value&#x27;s class. The class object also stores its own short name in <code>.__name__</code>, so <code>type(value).__name__</code> turns the <code>&lt;class &#x27;int&#x27;&gt;</code> answer into the plain string <code>&quot;int&quot;</code>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">type_name</span><span style="color: #657b83">(value):</span>
+    <span style="color: #859900">return</span> <span style="color: #268bd2">type</span><span style="color: #657b83">(value)</span><span style="color: #93a1a1">.</span><span style="color: #268bd2">__name__</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>type(7)</code> is the class <code>int</code>; <code>int.__name__</code> is the string <code>&quot;int&quot;</code>. The same chain names every native type — <code>float</code>, <code>str</code>, <code>bool</code>, <code>complex</code>, and <code>NoneType</code> for <code>None</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. One <code>type</code> lookup and one attribute read.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">type_name(</span><span style="color: #2aa198">7</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;int&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">type_name(</span><span style="color: #2aa198">7.0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;float&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">type_name(</span><span style="color: #2aa198">&quot;7&quot;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;str&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">type_name(</span><span style="color: #2aa198">True</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;bool&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">type_name(</span><span style="color: #2aa198">1</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">2</span><span style="color: #657b83">j)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;complex&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">type_name(</span><span style="color: #2aa198">None</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;NoneType&quot;</span>
+</code></pre>
+<h3>2. Is It a Whole Number?</h3>
+<p><strong>Approach — compare the type, not the value.</strong> The lesson stresses that <code>2</code>, <code>2.0</code>, and <code>&quot;2&quot;</code> are three different objects even though they look alike. Checking <code>type(value) == int</code> asks the category question directly, so a <code>float</code> or a <code>str</code> that merely resembles a whole number is correctly rejected.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">is_whole_number</span><span style="color: #657b83">(value):</span>
+    <span style="color: #859900">return</span> <span style="color: #268bd2">type</span><span style="color: #657b83">(value)</span> <span style="color: #93a1a1">==</span> <span style="color: #268bd2">int</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>type(5)</code> is <code>int</code>, so the comparison is <code>True</code>; <code>type(5.0)</code> is <code>float</code> and <code>type(&quot;5&quot;)</code> is <code>str</code>, so both are <code>False</code>. Even <code>True</code>, whose type is <code>bool</code> rather than <code>int</code>, gives <code>False</code> — the predicate looks at the stored type, nothing else.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. One <code>type</code> call and one comparison.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">is_whole_number(</span><span style="color: #2aa198">5</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">True</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">is_whole_number(</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">12</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">True</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">is_whole_number(</span><span style="color: #2aa198">5.0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">False</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">is_whole_number(</span><span style="color: #2aa198">&quot;5&quot;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">False</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">is_whole_number(</span><span style="color: #2aa198">True</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">False</span>
+</code></pre>
+<h3>3. Label the Sign</h3>
+<p><strong>Approach — comparisons feeding a branch.</strong> Each comparison (<code>n &gt; 0</code>, <code>n &lt; 0</code>) evaluates to a <code>bool</code>, exactly the truth values the lesson lists among the native types. <code>if</code>/<code>elif</code>/<code>else</code> reads those booleans in order and returns the matching word, so every number lands in exactly one of the three cases.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">label_sign</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">&quot;positive&quot;</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">&quot;negative&quot;</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">&quot;zero&quot;</span>
+</code></pre>
+<p><strong>Why it works.</strong> A number is either greater than, less than, or equal to zero. The first two tests catch the first two cases; whatever reaches the <code>else</code> must equal zero, which covers both <code>0</code> and <code>0.0</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. At most two comparisons.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">label_sign(</span><span style="color: #2aa198">7</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;positive&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">label_sign(</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">3.5</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;negative&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">label_sign(</span><span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;zero&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">label_sign(</span><span style="color: #2aa198">0.0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;zero&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">label_sign(</span><span style="color: #2aa198">0.0001</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;positive&quot;</span>
+</code></pre>
+<h3>4. Shout It</h3>
+<p><strong>Approach — a string method plus concatenation.</strong> Strings are values you can transform: <code>.upper()</code> returns a new all-caps copy, and <code>+</code> joins two strings end to end (the same concatenation the lesson contrasts with numeric addition). Combining them builds the shouted word.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">shout</span><span style="color: #657b83">(word):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">word</span><span style="color: #93a1a1">.</span><span style="color: #657b83">upper()</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&quot;!&quot;</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>&quot;go&quot;.upper()</code> produces <code>&quot;GO&quot;</code>, and concatenating <code>&quot;!&quot;</code> gives <code>&quot;GO!&quot;</code>. Digits and other non-letters are unaffected by <code>.upper()</code>, so <code>&quot;cs61a&quot;</code> becomes <code>&quot;CS61A&quot;</code> before the <code>&quot;!&quot;</code> is added.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> in the length of <code>word</code> (uppercasing builds a new string).</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">shout(</span><span style="color: #2aa198">&quot;go&quot;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;GO!&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">shout(</span><span style="color: #2aa198">&quot;Bears&quot;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;BEARS!&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">shout(</span><span style="color: #2aa198">&quot;cs61a&quot;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;CS61A!&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">shout(</span><span style="color: #2aa198">&quot;Win&quot;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;WIN!&quot;</span>
+</code></pre>
+<h3>5. Close Enough?</h3>
+<p><strong>Approach — tolerance instead of exact equality.</strong> The lesson&#x27;s float pitfall is that <code>1 / 3 * 7 * 3</code> stores as <code>6.999999999999999</code>, so <code>== 7</code> is <code>False</code>. Comparing the <em>absolute difference</em> to a tiny tolerance treats values that are mathematically equal but stored slightly apart as the same.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">close_enough</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #859900">return</span> <span style="color: #268bd2">abs</span><span style="color: #657b83">(x</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">y)</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">1e-9</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>abs(x - y)</code> is the gap between the two stored floats; if that gap is below <code>1e-9</code>, the difference is just representation noise, so the answer is <code>True</code>. Genuinely different values like <code>1.0</code> and <code>1.5</code> have a gap of <code>0.5</code>, far above the tolerance.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. One subtraction, one absolute value, one comparison.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">close_enough(</span><span style="color: #2aa198">1</span> <span style="color: #93a1a1">/</span> <span style="color: #2aa198">3</span> <span style="color: #93a1a1">*</span> <span style="color: #2aa198">7</span> <span style="color: #93a1a1">*</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">7</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">True</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">close_enough(</span><span style="color: #2aa198">0.1</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">0.2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0.3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">True</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">close_enough(</span><span style="color: #2aa198">7</span> <span style="color: #93a1a1">/</span> <span style="color: #2aa198">3</span> <span style="color: #93a1a1">*</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">7.0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">True</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">close_enough(</span><span style="color: #2aa198">1.0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1.5</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">False</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">(</span><span style="color: #2aa198">1</span> <span style="color: #93a1a1">/</span> <span style="color: #2aa198">3</span> <span style="color: #93a1a1">*</span> <span style="color: #2aa198">7</span> <span style="color: #93a1a1">*</span> <span style="color: #2aa198">3</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">7</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">False</span>
+</code></pre>
+<h3>6. Price Tag</h3>
+<p><strong>Approach — format a float into fixed-point text.</strong> Formatting is how you turn a numeric value into a readable string. The <code>:.2f</code> specifier inside an f-string rounds to two decimals and pads with trailing zeros, so any <code>int</code> or <code>float</code> of dollars prints like money.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">price_tag</span><span style="color: #657b83">(dollars):</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">f&quot;${</span><span style="color: #657b83">dollars</span><span style="color: #2aa198">:.2f}&quot;</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>f&quot;${dollars:.2f}&quot;</code> evaluates <code>dollars</code>, formats it with exactly two fractional digits, and drops the result after the <code>$</code>. So <code>3</code> becomes <code>&quot;$3.00&quot;</code> and <code>0.1</code> becomes <code>&quot;$0.10&quot;</code>, with the trailing zero shown.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. One format operation building a short string.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">price_tag(</span><span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;$3.00&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">price_tag(</span><span style="color: #2aa198">19.5</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;$19.50&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">price_tag(</span><span style="color: #2aa198">0.1</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;$0.10&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">price_tag(</span><span style="color: #2aa198">1234.5</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;$1234.50&quot;</span>
+</code></pre>
+<h3>7. Count the Digits</h3>
+<p><strong>Approach — convert to a string, then measure it.</strong> Without indexing or loops, the way to count digits is to render the number as text with <code>str(...)</code> and take its <code>len(...)</code>. This leans on two native-type ideas at once: a number can be converted to a string, and a string has a length.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">digit_count</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">return</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(</span><span style="color: #268bd2">str</span><span style="color: #657b83">(n))</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>str(100)</code> is the three-character string <code>&quot;100&quot;</code>, and <code>len(&quot;100&quot;)</code> is <code>3</code>. Because <code>n</code> is a non-negative integer, every character of its string form is a digit, so the length is exactly the digit count.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mclose">)</span></span></span></span></span> in the number of digits <code>d</code> (the cost of building the string).</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">digit_count(</span><span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">digit_count(</span><span style="color: #2aa198">7</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">digit_count(</span><span style="color: #2aa198">100</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">digit_count(</span><span style="color: #2aa198">99999</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">5</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">digit_count(</span><span style="color: #2aa198">2026</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">4</span>
+</code></pre>
+<h3>8. Normalize a Name</h3>
+<p><strong>Approach — chain two string methods.</strong> Each string method returns a brand-new string, so you can call the next method on that result. <code>.strip()</code> removes surrounding whitespace; calling <code>.title()</code> on what it returns capitalizes the first letter of each word and lowercases the rest.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">normalize_name</span><span style="color: #657b83">(raw):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">raw</span><span style="color: #93a1a1">.</span><span style="color: #657b83">strip()</span><span style="color: #93a1a1">.</span><span style="color: #657b83">title()</span>
+</code></pre>
+<p><strong>Why it works.</strong> For <code>&quot;  ada lovelace &quot;</code>, <code>.strip()</code> yields <code>&quot;ada lovelace&quot;</code>, and <code>.title()</code> turns that into <code>&quot;Ada Lovelace&quot;</code>. Because <code>.title()</code> lowercases every non-initial letter, even all-caps input like <code>&quot;GRACE HOPPER&quot;</code> comes out as <code>&quot;Grace Hopper&quot;</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> in the length of <code>raw</code> (each method scans and rebuilds the string).</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">normalize_name(</span><span style="color: #2aa198">&quot;  ada lovelace &quot;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;Ada Lovelace&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">normalize_name(</span><span style="color: #2aa198">&quot;GRACE HOPPER&quot;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;Grace Hopper&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">normalize_name(</span><span style="color: #2aa198">&quot;alan TURING&quot;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;Alan Turing&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">normalize_name(</span><span style="color: #2aa198">&quot;katherine johnson&quot;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;Katherine Johnson&quot;</span>
+</code></pre>
+<h3>9. Receipt Line</h3>
+<p><strong>Approach — convert each type, then concatenate.</strong> A string can only be <code>+</code>&#x27;d onto another string, so the <code>int</code> quantity and the <code>float</code> total must become text first. <code>str(qty)</code> renders the count, and <code>format(total, &quot;.2f&quot;)</code> renders the price with two decimals; concatenation stitches the labeled pieces together.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">receipt_line</span><span style="color: #657b83">(item,</span> <span style="color: #657b83">qty,</span> <span style="color: #657b83">unit_price):</span>
+    <span style="color: #657b83">total</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">qty</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">unit_price</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">item</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&quot; x&quot;</span> <span style="color: #93a1a1">+</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(qty)</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&quot; = $&quot;</span> <span style="color: #93a1a1">+</span> <span style="color: #268bd2">format</span><span style="color: #657b83">(total,</span> <span style="color: #2aa198">&quot;.2f&quot;</span><span style="color: #657b83">)</span>
+</code></pre>
+<p><strong>Why it works.</strong> A local name <code>total</code> holds <code>qty * unit_price</code>. The return expression joins the string <code>item</code>, the literal <code>&quot; x&quot;</code>, the converted <code>str(qty)</code>, the literal <code>&quot; = $&quot;</code>, and the formatted total — so <code>(&quot;Coffee&quot;, 3, 2.5)</code> becomes <code>&quot;Coffee x3 = $7.50&quot;</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> in the total length of the assembled string.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">receipt_line(</span><span style="color: #2aa198">&quot;Coffee&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2.5</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;Coffee x3 = $7.50&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">receipt_line(</span><span style="color: #2aa198">&quot;Bagel&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1.25</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;Bagel x2 = $2.50&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">receipt_line(</span><span style="color: #2aa198">&quot;Tea&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3.0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;Tea x1 = $3.00&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">receipt_line(</span><span style="color: #2aa198">&quot;Muffin&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2.0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;Muffin x4 = $8.00&quot;</span>
+</code></pre>
+<h3>10. Numbers vs. Text</h3>
+<p><strong>Approach — let the types decide what <code>+</code> means.</strong> This is the lesson&#x27;s <code>&quot;4&quot; + &quot;5&quot;</code> versus <code>4 + 5</code> trap turned into two functions. <code>add_as_numbers</code> converts each string to an <code>int</code> so <code>+</code> performs arithmetic; <code>join_as_text</code> leaves them as strings so <code>+</code> performs concatenation. Same operator, opposite results — controlled entirely by type.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">add_as_numbers</span><span style="color: #657b83">(a,</span> <span style="color: #657b83">b):</span>
+    <span style="color: #859900">return</span> <span style="color: #268bd2">int</span><span style="color: #657b83">(a)</span> <span style="color: #93a1a1">+</span> <span style="color: #268bd2">int</span><span style="color: #657b83">(b)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">join_as_text</span><span style="color: #657b83">(a,</span> <span style="color: #657b83">b):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">a</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">b</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>int(&quot;4&quot;)</code> and <code>int(&quot;5&quot;)</code> are the numbers <code>4</code> and <code>5</code>, and <code>4 + 5</code> is <code>9</code>. Leaving <code>&quot;4&quot;</code> and <code>&quot;5&quot;</code> as strings makes <code>+</code> glue them into <code>&quot;45&quot;</code>. The two functions over the same inputs lay the difference side by side.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> in the length of the inputs (conversion and concatenation scan the characters).</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">add_as_numbers(</span><span style="color: #2aa198">&quot;4&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;5&quot;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">9</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">join_as_text(</span><span style="color: #2aa198">&quot;4&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;5&quot;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;45&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">add_as_numbers(</span><span style="color: #2aa198">&quot;12&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;30&quot;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">42</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">join_as_text(</span><span style="color: #2aa198">&quot;12&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;30&quot;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;1230&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">add_as_numbers(</span><span style="color: #2aa198">&quot;100&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;0&quot;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">100</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">join_as_text(</span><span style="color: #2aa198">&quot;100&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;0&quot;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;1000&quot;</span>
+</code></pre>
+</div></section><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+
+</body>
+</html>

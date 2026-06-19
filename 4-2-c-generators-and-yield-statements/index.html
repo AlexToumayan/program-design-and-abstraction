@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>4.2.5 Generators and Yield Statements · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/' class='active'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 4</span><span class='dot'>/</span><span class='eb-sec'>4.2 Implicit Sequences</span></div><h1 class='lesson-title'>4.2.5 Generators and Yield Statements</h1><div class='reading-meta'>&#9719; approx. 13 min read <span class='rm-sep'>&middot;</span> 6 worked examples</div><div class='lead'>
+<p>So far you have used iterators that Python already knew how to build for you: list iterators, the lazy iterators returned by <code>map</code> and <code>filter</code>, and the iterators that a <code>for</code> loop pulls values from. In this lesson you learn to write your own one-at-a-time sequence producer from scratch.</p>
+<p>The tool for that is a <strong>generator function</strong>: a function whose body contains a <code>yield</code> statement. By the end you will be able to recognize a generator function on sight, explain why calling one does not run its body, trace how each call to <code>next</code> resumes a paused function, and say exactly what happens when a generator runs out of values.</p>
+<p>The one habit to build here is to stop reading a function with <code>yield</code> as if it ran top to bottom in one shot. It does not. It pauses, hands back a value, and waits to be asked for the next one.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='a-storyteller-who-pauses' class='ls ls-default'>
+<h2 class='ls-h'><span>A Storyteller Who Pauses</span></h2>
+<div class='ls-body'>
+<p>A normal function is like a microwave. You press start, it runs to completion, and one result comes out. The job is over.</p>
+<p>A generator function is like a storyteller telling a story one sentence at a time. You say &quot;next,&quot; and the storyteller speaks a single sentence, then stops and waits. You say &quot;next&quot; again, and they pick up exactly where they left off, remembering every character and every thread of the plot. They do not start the story over, and they do not rush ahead. They produce the next piece only when you ask for it, and eventually they reach &quot;the end.&quot;</p>
+<p>That image captures the two ideas that make generators work. A generator produces values <strong>one at a time, on request</strong>, and between requests it <strong>remembers its place</strong> — every local variable and the exact line it paused on.</p>
+</div></section>
+<section id='what-a-generator-function-is' class='ls ls-default'>
+<h2 class='ls-h'><span>What a Generator Function Is</span></h2>
+<div class='ls-body'>
+<p>A <strong>generator</strong> is an iterator returned by a special kind of function called a <strong>generator function</strong>. What separates a generator function from an ordinary function is simple: instead of using <code>return</code> statements to send back a single result, its body uses one or more <code>yield</code> statements to hand back the elements of a series.</p>
+<p>This matters because of the problem it solves. When you built your own iterator objects by hand, you had to add a field like <code>self.current</code> to track your progress through the sequence, and your <code>__next__</code> method had to carefully save and restore that place every time it was called. For simple sequences that is manageable. For complicated ones, manually bookkeeping &quot;where was I?&quot; inside <code>__next__</code> becomes painful. A generator function lets you write the iteration as ordinary, straight-line code and leans on the Python interpreter itself to remember where execution paused.</p>
+<p>So a generator does not use attributes of an object to track its progress. Instead, the generator keeps the paused function itself ready to continue. Here is how: the function runs until the next <code>yield</code> statement is reached each time the generator&#x27;s <code>__next__</code> method is invoked, then pauses there. The generator object that a generator function hands back already has both <code>__iter__</code> and <code>__next__</code> methods, even though you never wrote them — which is exactly why it works in a <code>for</code> loop with no extra effort.</p>
+</div></section>
+<section id='return-versus-yield' class='ls ls-default'>
+<h2 class='ls-h'><span><code>return</code> Versus <code>yield</code></span></h2>
+<div class='ls-body'>
+<p>The contrast between these two words is the whole idea, so it is worth stating plainly.</p>
+<p>The word <code>return</code> ends a function call and sends back one result. Once a function returns, that call is finished; there is nothing left to resume.</p>
+<p>The word <code>yield</code> hands back one value but saves the function&#x27;s place so it can continue later. The local variables stay alive, and the next line to run is remembered. The function is paused, not finished.</p>
+<p>Here is the smallest contrast that shows the difference in behavior:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">give_one_value</span><span style="color: #657b83">():</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">10</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">give_values_over_time</span><span style="color: #657b83">():</span>
+    <span style="color: #859900">yield</span> <span style="color: #2aa198">10</span>
+    <span style="color: #859900">yield</span> <span style="color: #2aa198">20</span>
+    <span style="color: #859900">yield</span> <span style="color: #2aa198">30</span>
+
+
+<span style="color: #268bd2">print</span><span style="color: #657b83">(give_one_value())</span>
+
+<span style="color: #657b83">generator</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">give_values_over_time()</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">next</span><span style="color: #657b83">(generator))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">next</span><span style="color: #657b83">(generator))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">next</span><span style="color: #657b83">(generator))</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/3f72504db52e.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>10
+10
+20
+30</code></pre>
+<p>Read what each side does. <code>give_one_value()</code> runs its body once and <code>return 10</code> produces the value <code>10</code>; the call is over. <code>give_values_over_time()</code> is different: because its body contains <code>yield</code>, calling it does not run the body at all. It hands back a generator object, which we bind to the name <code>generator</code>. Each <code>next(generator)</code> then resumes the body, runs until the next <code>yield</code>, and produces that value — <code>10</code>, then <code>20</code>, then <code>30</code>, on three separate requests.</p>
+<h3>Anatomy: the <code>yield</code> statement</h3>
+<p>Walk the tokens of the first yielding line in <code>give_values_over_time</code>:</p>
+<pre class='code anatomy'><code>yield 10
+├─ yield ....... pause this function and hand a value back to the caller
+├─ 10 .......... the value to hand back on this request
+└─ action ...... produces 10, then suspends the function frame, remembering where to resume</code></pre>
+<p>The single final row is the point: a <code>yield</code> statement does not end the function the way <code>return</code> does. It produces a value and suspends, leaving the frame ready to continue on the next <code>next</code> call.</p>
+</div></section>
+<section id='the-official-letters-example' class='ls ls-default'>
+<h2 class='ls-h'><span>The Official Letters Example</span></h2>
+<div class='ls-body'>
+<p>The original text introduces generators with a function that produces the letters <code>&#x27;a&#x27;</code> through <code>&#x27;d&#x27;</code>. Here is that example exactly as it appears, as an interactive session:</p>
+<pre class='code text'><code>&gt;&gt;&gt; def letters_generator():
+        current = &#x27;a&#x27;
+        while current &lt;= &#x27;d&#x27;:
+            yield current
+            current = chr(ord(current)+1)
+
+&gt;&gt;&gt; for letter in letters_generator():
+        print(letter)
+a
+b
+c
+d</code></pre>
+<p>Even though we never explicitly defined <code>__iter__</code> or <code>__next__</code> methods, the <code>yield</code> statement is what marks this as a generator function. When you call it, it does not return a particular yielded value; it returns a generator, which is a kind of iterator, and that generator is what produces the yielded values. Because a generator object already has <code>__iter__</code> and <code>__next__</code> methods, the <code>for</code> loop can drive it directly, calling <code>__next__</code> over and over, and each call continues the generator function from wherever it last left off until another <code>yield</code> runs.</p>
+<p>Here is the same example as a program you can run, written with the double-quote string style this course uses:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">letters_generator</span><span style="color: #657b83">():</span>
+    <span style="color: #657b83">current</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">&quot;a&quot;</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">current</span> <span style="color: #93a1a1">&lt;=</span> <span style="color: #2aa198">&quot;d&quot;</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">yield</span> <span style="color: #657b83">current</span>
+        <span style="color: #657b83">current</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">chr</span><span style="color: #657b83">(</span><span style="color: #268bd2">ord</span><span style="color: #657b83">(current)</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+
+
+<span style="color: #859900">for</span> <span style="color: #657b83">letter</span> <span style="color: #859900">in</span> <span style="color: #657b83">letters_generator():</span>
+    <span style="color: #268bd2">print</span><span style="color: #657b83">(letter)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/9576c27a9458.json' data-mount='st1'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st1' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>a
+b
+c
+d</code></pre>
+<h3>How the letters advance</h3>
+<p>The update line uses two built-in functions to step from one letter to the next. <code>ord(current)</code> converts a one-character string into its numeric Unicode code point, and <code>chr(...)</code> converts a code point back into a character. Adding <code>1</code> to the code point moves to the following letter.</p>
+<p>Walk the tokens of the update line:</p>
+<pre class='code anatomy'><code>current = chr(ord(current) + 1)
+├─ current ..... the name being reassigned
+├─ = ........... bind the name on the left to the value on the right
+├─ chr ......... built-in: turns a code point number back into a character
+├─ ( ........... begins chr&#x27;s input
+├─ ord ......... built-in: turns a one-character string into its code point number
+├─ ( ........... begins ord&#x27;s input
+├─ current ..... the current letter, for example &quot;a&quot;
+├─ ) ........... ends ord&#x27;s input
+├─ + ........... addition operator
+├─ 1 ........... move one step forward in the code points
+├─ ) ........... ends chr&#x27;s input
+└─ action ...... rebinds current to the next letter, for example &quot;a&quot; becomes &quot;b&quot;</code></pre>
+<p>So when <code>current</code> is <code>&quot;a&quot;</code>, <code>ord(&quot;a&quot;) + 1</code> is the code point for <code>&quot;b&quot;</code>, and <code>chr(...)</code> turns it back into the string <code>&quot;b&quot;</code>. The <code>while</code> loop repeats this until <code>current</code> passes <code>&quot;d&quot;</code>, at which point the condition <code>current &lt;= &quot;d&quot;</code> is false and the function runs off the end.</p>
+</div></section>
+<section id='walking-the-generator-by-hand' class='ls ls-default'>
+<h2 class='ls-h'><span>Walking the Generator by Hand</span></h2>
+<div class='ls-body'>
+<p>The original text walks through the same generator by calling <code>__next__</code> manually, and watching that walk is the clearest way to see the pause-and-resume behavior. Here is that interactive session exactly as it appears:</p>
+<pre class='code text'><code>&gt;&gt;&gt; letters = letters_generator()
+&gt;&gt;&gt; type(letters)
+&lt;class &#x27;generator&#x27;&gt;
+&gt;&gt;&gt; letters.__next__()
+&#x27;a&#x27;
+&gt;&gt;&gt; letters.__next__()
+&#x27;b&#x27;
+&gt;&gt;&gt; letters.__next__()
+&#x27;c&#x27;
+&gt;&gt;&gt; letters.__next__()
+&#x27;d&#x27;
+&gt;&gt;&gt; letters.__next__()
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+StopIteration</code></pre>
+<p>Several things in that transcript are worth naming. Calling <code>letters_generator()</code> does not start executing any of the body statements; it only builds the generator object, which <code>type(letters)</code> confirms is a <code>&lt;class &#x27;generator&#x27;&gt;</code>. The body does not begin running until the first time <code>__next__</code> is invoked. The first <code>__next__</code> call runs the body until it reaches <code>yield current</code> and returns <code>&#x27;a&#x27;</code>. Crucially, a <code>yield</code> statement does not destroy the environment it paused in — it preserves it for later. So <code>current</code> and every other bound name in the scope of <code>letters_generator</code> survive across calls. The next <code>__next__</code> call resumes right after the <code>yield</code>, runs the update line, checks the <code>while</code> condition again, and yields <code>&#x27;b&#x27;</code>, and so on. After <code>&#x27;d&#x27;</code> is yielded, the next resume finds the <code>while</code> condition false, the generator function returns, and the generator raises <code>StopIteration</code>.</p>
+<p>The same generator can be driven with <code>next(letters)</code>, since <code>next(letters)</code> is just another way to write <code>letters.__next__()</code>. Here is an executable trace of the first two values:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">letters_generator</span><span style="color: #657b83">():</span>
+    <span style="color: #657b83">current</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">&quot;a&quot;</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">current</span> <span style="color: #93a1a1">&lt;=</span> <span style="color: #2aa198">&quot;d&quot;</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">yield</span> <span style="color: #657b83">current</span>
+        <span style="color: #657b83">current</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">chr</span><span style="color: #657b83">(</span><span style="color: #268bd2">ord</span><span style="color: #657b83">(current)</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+
+
+<span style="color: #657b83">letters</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">letters_generator()</span>
+
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">next</span><span style="color: #657b83">(letters))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">next</span><span style="color: #657b83">(letters))</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/323d61bd3031.json' data-mount='st2'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st2' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>a
+b</code></pre>
+<h3>Anatomy: building the generator object</h3>
+<p>Look closely at the line that creates the generator, one token at a time:</p>
+<pre class='code anatomy'><code>letters = letters_generator()
+├─ letters ........... the name we are binding
+├─ = ................. bind the name on the left to the value on the right
+├─ letters_generator . the generator function defined above
+├─ ( ................. begins the (empty) inputs
+├─ ) ................. ends the inputs and performs the call
+└─ action ............ builds a generator object without running the body; binds letters to it</code></pre>
+<p>The final row is the surprise for most beginners. The call does not print <code>&quot;a&quot;</code> and it does not run the <code>while</code> loop. It only manufactures the paused generator object. Nothing in the body executes until something asks the object for a value.</p>
+<h3>Step-by-step: the suspended frame</h3>
+<p>Tracing the two <code>next</code> calls in (3) makes the saved state concrete. Watch the value of <code>current</code> and the line where execution pauses.</p>
+<div class='table-wrap'><table><thead><tr>
+<th>Step</th>
+<th>What runs</th>
+<th><code>current</code></th>
+<th>Returned</th>
+<th>Where it pauses</th>
+</tr></thead><tbody>
+<tr>
+<td><code>letters = letters_generator()</code></td>
+<td>nothing in the body</td>
+<td>(unset)</td>
+<td>—</td>
+<td>before the first line</td>
+</tr>
+<tr>
+<td>first <code>next(letters)</code></td>
+<td><code>current = &quot;a&quot;</code>, enter <code>while</code>, <code>yield current</code></td>
+<td><code>&quot;a&quot;</code></td>
+<td><code>&quot;a&quot;</code></td>
+<td>at <code>yield current</code></td>
+</tr>
+<tr>
+<td>second <code>next(letters)</code></td>
+<td>resume after <code>yield</code>, run the update, re-check <code>while</code>, <code>yield current</code></td>
+<td><code>&quot;b&quot;</code></td>
+<td><code>&quot;b&quot;</code></td>
+<td>at <code>yield current</code></td>
+</tr>
+</tbody></table></div>
+<p>The generator remembers three things between calls: the value of <code>current</code>, the exact line where it paused, and the fact that it should continue after the most recent <code>yield</code> rather than restart from the top.</p>
+<p><img class="figure" src="figures/yield-pause-resume.svg" alt="Yield: pause, hand back, resume"></p>
+</div></section>
+<section id='exhaustion-of-a-generator' class='ls ls-default'>
+<h2 class='ls-h'><span>Exhaustion of a Generator</span></h2>
+<div class='ls-body'>
+<p>A generator is still an iterator, so like any iterator it can be used up. The original <code>letters</code> transcript above ended with a <code>StopIteration</code> after <code>&#x27;d&#x27;</code>; the generator raises that exception whenever its generator function returns — that is, when the body runs off the end with no more <code>yield</code> statements to reach.</p>
+<p>Here is a small, self-contained example that catches that exception so the program keeps running:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (4)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">two_values</span><span style="color: #657b83">():</span>
+    <span style="color: #859900">yield</span> <span style="color: #2aa198">&quot;first&quot;</span>
+    <span style="color: #859900">yield</span> <span style="color: #2aa198">&quot;second&quot;</span>
+
+
+<span style="color: #657b83">values</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">two_values()</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">next</span><span style="color: #657b83">(values))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">next</span><span style="color: #657b83">(values))</span>
+
+<span style="color: #859900">try</span><span style="color: #657b83">:</span>
+    <span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">next</span><span style="color: #657b83">(values))</span>
+<span style="color: #859900">except</span> <span style="color: #268bd2">StopIteration</span><span style="color: #657b83">:</span>
+    <span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #2aa198">&quot;generator is exhausted&quot;</span><span style="color: #657b83">)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/aca8e3490b9a.json' data-mount='st3'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st3' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>first
+second
+generator is exhausted</code></pre>
+<p>After both <code>yield</code> statements have run, there is nothing left in the body to reach, so the third <code>next(values)</code> raises <code>StopIteration</code>. This is exactly the signal a <code>for</code> loop relies on: a <code>for</code> loop keeps calling <code>next</code> and treats <code>StopIteration</code> as &quot;stop now.&quot; That is why the <code>for</code> loop over <code>letters_generator()</code> earlier ended cleanly after <code>d</code> without you writing any stopping logic yourself.</p>
+</div></section>
+<section id='generators-can-use-ordinary-control' class='ls ls-default'>
+<h2 class='ls-h'><span>Generators Can Use Ordinary Control</span></h2>
+<div class='ls-body'>
+<p>Nothing about a generator function restricts the body to a single straight line of <code>yield</code> statements. The body is ordinary Python: it can use assignment, <code>if</code> statements, <code>while</code> loops, and any helper calculations you like. The <code>letters_generator</code> example already did this — it ran a <code>while</code> loop and reassigned <code>current</code> on every pass. Here is another example, a countdown, that makes the point with a parameter:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (5)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">countdown</span><span style="color: #657b83">(start):</span>
+    <span style="color: #657b83">current</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">start</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">current</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">yield</span> <span style="color: #657b83">current</span>
+        <span style="color: #657b83">current</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">current</span> <span style="color: #93a1a1">-</span> <span style="color: #2aa198">1</span>
+
+
+<span style="color: #859900">for</span> <span style="color: #657b83">number</span> <span style="color: #859900">in</span> <span style="color: #657b83">countdown(</span><span style="color: #2aa198">3</span><span style="color: #657b83">):</span>
+    <span style="color: #268bd2">print</span><span style="color: #657b83">(number)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/238fe1be7151.json' data-mount='st4'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st4' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>3
+2
+1</code></pre>
+<p>The body reads like a normal loop. The only special ingredient is <code>yield</code>, which changes how values leave the function. Instead of computing one final answer and returning it, the function produces a whole sequence, one value per <code>next</code> call, pausing in between.</p>
+<p>This is what makes generators worth learning. A generator function lets you describe a sequence without first building a list of every element. Compare the two strategies:</p>
+<pre class='code text'><code>build a list first:
+    create empty list
+    append every value
+    return the full list
+
+yield values:
+    compute one value
+    yield it
+    pause
+    compute the next value only when asked</code></pre>
+<p>For a short sequence, either approach works. For a huge sequence — or an endless one — yielding values one at a time is far more powerful, because the program never has to hold every value in memory at once. It computes each value only at the moment something asks for it.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<p>One trap is thinking that calling a generator function immediately runs the whole body. It does not. Calling it only builds a generator object; the body starts running on the first <code>next</code> call.</p>
+<p>Another trap is reaching for <code>return</code> when you mean <code>yield</code>. <code>return</code> ends the function and the call is over. <code>yield</code> produces one value and pauses, ready to continue.</p>
+<p>A third trap is assuming a generator can be restarted after it is exhausted. A generator object remembers its position, and once it reaches the end it stays at the end: every further <code>next</code> raises <code>StopIteration</code> and a second <code>for</code> loop over it produces no values at all. To iterate again, call the generator function a second time to get a fresh generator object.</p>
+<p>A fourth trap is forgetting that a <code>for</code> loop consumes the generator as it goes. If you loop over the same generator object a second time, it will not start over — it is already used up.</p>
+<p>A fifth trap is expecting <code>yield</code> to print anything. It does not. It hands a value back to whatever called <code>next</code>; printing is the caller&#x27;s job.</p>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>A generator function <code>g</code> has a body of <code>yield 1</code>, then <code>yield 2</code>, then <code>yield 3</code>. After <code>gen = g()</code>, what does each of the next two lines print: <code>print(next(gen))</code> then <code>print(next(gen))</code>?</li>
+<li>What happens when Python reaches a <code>yield</code> statement?</li>
+<li>Why does <code>letters_generator()</code> create a generator object instead of immediately printing letters?</li>
+<li>What exception signals that a generator has no more values, and when is it raised?</li>
+<li>Why are generators useful for huge or unbounded sequences?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li>It prints <code>1</code>, then <code>2</code>. The call <code>g()</code> builds a paused generator object without running the body, so the first <code>next(gen)</code> runs to the first <code>yield</code> and produces <code>1</code>, and the second <code>next(gen)</code> resumes after that <code>yield</code> and runs to the next one, producing <code>2</code>. The third value <code>3</code> is never requested.</li>
+<li>Python hands the yielded value back to the caller and suspends the function frame. The local variables and the next line to run are preserved for the next <code>next</code> call; the environment is not destroyed.</li>
+<li>Calling the generator function only builds the paused generator object. The body begins running when the program first asks that object for a value with <code>next</code> (or <code>__next__</code>).</li>
+<li><code>StopIteration</code> signals that the generator has no more values. It is raised when the generator function returns — that is, when the body runs off the end with no further <code>yield</code> to reach.</li>
+<li>Generators compute each value only when it is requested, so the program can work with a long or never-ending sequence without storing every value in memory at once.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>A generator function is an ordinary-looking function whose body contains a <code>yield</code> statement, and calling it returns a generator — a kind of iterator with <code>__iter__</code> and <code>__next__</code> methods you never had to write. Each call to <code>next</code> (equivalently <code>__next__</code>) resumes the function from wherever it last paused, runs until the next <code>yield</code>, and produces that value; the generator preserves its local state and its paused location between calls rather than tracking progress in an object field. When the body finally returns, the generator raises <code>StopIteration</code>, which is exactly what a <code>for</code> loop watches for. Because values are produced one at a time on request, generators give you a direct, memory-light way to build lazy sequences in Python without ever assembling a full list.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>This program is the lesson in miniature: one generator object, three separate requests for values. Stepping through it draws the <strong>environment diagram</strong> that makes the pause visible: the generator&#x27;s own frame sits suspended at the <code>yield</code>, its local <code>current</code> persisting between <code>next</code> calls, while the global frame merely collects the values that frame hands back as it resumes. Before stepping through the block below, write down three predictions: how many times the line <code>current = chr(ord(current) + 1)</code> runs, what <code>current</code> holds in the generator&#x27;s paused frame when the final line finishes (this last one is the tricky prediction — the value lives inside the paused frame, so picture where the storyteller stopped), and what <code>third</code> is bound to.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (6)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">letters_generator</span><span style="color: #657b83">():</span>
+    <span style="color: #657b83">current</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">&quot;a&quot;</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">current</span> <span style="color: #93a1a1">&lt;=</span> <span style="color: #2aa198">&quot;c&quot;</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">yield</span> <span style="color: #657b83">current</span>
+        <span style="color: #657b83">current</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">chr</span><span style="color: #657b83">(</span><span style="color: #268bd2">ord</span><span style="color: #657b83">(current)</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+
+
+<span style="color: #657b83">letters</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">letters_generator()</span>
+<span style="color: #657b83">first</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">next</span><span style="color: #657b83">(letters)</span>
+<span style="color: #657b83">second</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">next</span><span style="color: #657b83">(letters)</span>
+<span style="color: #657b83">third</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">next</span><span style="color: #657b83">(letters)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/8d2cc296d9ed.json' data-mount='st5'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st5' hidden></div></figure>
+<p>Step through it and check each prediction. Stepping over <code>letters = letters_generator()</code> binds <code>letters</code> to a generator object and runs none of the body. Each <code>next(letters)</code> then resumes the suspended frame, producing <code>&quot;a&quot;</code>, <code>&quot;b&quot;</code>, and <code>&quot;c&quot;</code>. The update line runs only twice, and the run ends with the generator still paused at the <code>yield</code>, <code>current</code> and <code>third</code> both holding <code>&quot;c&quot;</code>. <code>current</code> lives in the generator&#x27;s frame, never the global one.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>4.2-B Iterable Processing and For Statements</span></a><a class='pg pg-next' href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>4.2-D Iterable and Iterator Interfaces</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#a-storyteller-who-pauses'>A Storyteller Who Pauses</a></li><li><a href='#what-a-generator-function-is'>What a Generator Function Is</a></li><li><a href='#return-versus-yield'>return Versus yield</a></li><li><a href='#the-official-letters-example'>The Official Letters Example</a></li><li><a href='#walking-the-generator-by-hand'>Walking the Generator by Hand</a></li><li><a href='#exhaustion-of-a-generator'>Exhaustion of a Generator</a></li><li><a href='#generators-can-use-ordinary-control'>Generators Can Use Ordinary Control</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>2.3 Lists and Sequence Iteration · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/' class='active'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 2</span><span class='dot'>/</span><span class='eb-sec'>2.3 Sequences</span></div><h1 class='lesson-title'>2.3 Lists and Sequence Iteration</h1><div class='reading-meta'>&#9719; approx. 16 min read <span class='rm-sep'>&middot;</span> 25 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>So far you have given names to single values and built small machines (functions) that take a few inputs. This lesson is where you learn to handle <strong>many</strong> values at once without inventing a fresh name for every one of them. By the end you will be able to do five things: build a <strong>list</strong> and read its parts, ask a list for its length and pull out an element by position, combine and search lists with sequence operations, walk through every element with a <strong>for</strong> statement, and generate a run of integers with <strong>range</strong>.</p>
+<p>The thread that ties all of this together is one idea: a <strong>sequence</strong> is an ordered collection of values. Ordered is the load-bearing word. A sequence is not a loose bag of items where order does not matter; every element sits at a known position, and you can ask for &quot;the element at position 2&quot; and get a definite answer.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='sequences-are-ordered-collections' class='ls ls-default'>
+<h2 class='ls-h'><span>Sequences Are Ordered Collections</span></h2>
+<div class='ls-body'>
+<p>Think about a numbered to-do list stuck to your fridge.</p>
+<pre class='code text'><code>1. eggs
+2. milk
+3. rice</code></pre>
+<p>Two facts make this a sequence rather than a pile. First, it has a definite <strong>length</strong>: there are exactly three items, and you can count them. Second, it has <strong>element selection</strong>: each item lives at a position, so &quot;the second item&quot; unambiguously means milk. Those two properties — a finite length, and an element for every position — are exactly what the textbook uses to define a sequence in general, and every sequence type in Python shares them.</p>
+<p>Python sequences work just like the fridge list, with one twist that trips up nearly every beginner: Python counts positions starting at <code>0</code>, not <code>1</code>. So the eggs would be at position <code>0</code>, the milk at position <code>1</code>, and the rice at position <code>2</code>. We will come back to why zero is a sensible starting point, because the reason makes the rest of indexing feel natural instead of arbitrary.</p>
+</div></section>
+<section id='lists-are-sequences-you-write-with-square-brackets' class='ls ls-default'>
+<h2 class='ls-h'><span>Lists Are Sequences You Write With Square Brackets</span></h2>
+<div class='ls-body'>
+<p>The most common sequence you will build is a <strong>list</strong>. A list can hold any values, in any order, and it can be as long as you like. You write one by placing its elements between square brackets, separated by commas.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #657b83">digits</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">8</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">8</span><span style="color: #657b83">]</span>
+</code></pre>
+<p>After line (1) runs, the name <code>digits</code> refers to a list of four numbers. A useful way to picture it is a row of labeled boxes, with the position index written above each box:</p>
+<pre class='code text'><code>name: digits
+
+index:   0   1   2   3
+       +---+---+---+---+
+value: | 1 | 8 | 2 | 8 |
+       +---+---+---+---+</code></pre>
+<p>The name <code>digits</code> is not the list itself. It is a label that points to the list value, exactly the way a name pointed to a number in the previous chapter. Several names could point to this same list, and the picture would not change — only the labels hanging off it would.</p>
+</div></section>
+<section id='follow-the-line-a-list-literal' class='ls ls-default'>
+<h2 class='ls-h'><span>Follow the Line: A List Literal</span></h2>
+<div class='ls-body'>
+<p>The right-hand side of (1) is a <strong>list literal</strong> — the actual brackets-and-commas notation that builds a fresh list. Read it left to right and notice what each piece is doing, not just what it is named:</p>
+<pre class='code anatomy'><code>[1, 8, 2, 8]
+├─ [ ........... opens a new list literal
+├─ 1 .......... element 0: the value placed in the first position
+├─ , ........... separates one element from the next
+├─ 8 .......... element 1: the value placed in the second position
+├─ , ........... separates one element from the next
+├─ 2 .......... element 2: the value placed in the third position
+├─ , ........... separates one element from the next
+├─ 8 .......... element 3: the value placed in the fourth position
+├─ ] ........... closes the list literal
+└─ evaluates to  the list [1, 8, 2, 8]</code></pre>
+<p>The commas are what tell Python where one element ends and the next begins. The spaces after the commas are purely for human eyes — Python does not require them — but we write them anyway, because readable code is how you catch your own mistakes before the machine does.</p>
+</div></section>
+<section id='length-and-element-selection' class='ls ls-default'>
+<h2 class='ls-h'><span>Length and Element Selection</span></h2>
+<div class='ls-body'>
+<p>Two operations work on every sequence, and you saw both in the definition above. The built-in function <code>len</code> reports how many elements a sequence contains.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #268bd2">len</span><span style="color: #657b83">(digits)</span>
+</code></pre>
+<p>Follow the line:</p>
+<pre class='code anatomy'><code>len(digits)
+├─ len ......... the built-in function: counts the elements of a sequence
+├─ ( ........... begins the input
+├─ digits ...... the sequence to measure
+├─ ) ........... ends the input
+└─ evaluates to  4</code></pre>
+<p>So the interpreter displays:</p>
+<pre class='code text'><code>4</code></pre>
+<p>The second operation is <strong>element selection</strong>: square brackets written immediately after a sequence, with an index inside, hand you back the element at that position.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #657b83">digits[</span><span style="color: #2aa198">3</span><span style="color: #657b83">]</span>
+</code></pre>
+<p>Follow the line:</p>
+<pre class='code anatomy'><code>digits[3]
+├─ digits ...... the sequence to select from
+├─ [ ........... begins an element selection
+├─ 3 ........... the index: which position to read (counting from 0)
+├─ ] ........... ends the selection
+└─ evaluates to  8</code></pre>
+<p>Index <code>3</code> is the <strong>fourth</strong> box, because counting starts at <code>0</code>. The interpreter displays:</p>
+<pre class='code text'><code>8</code></pre>
+<p>Here is the official transcript from the text, which introduces a list, measures it, and selects from it in one short session:</p>
+<pre class='code text'><code>&gt;&gt;&gt; digits = [1, 8, 2, 8]
+&gt;&gt;&gt; len(digits)
+4
+&gt;&gt;&gt; digits[3]
+8</code></pre>
+</div></section>
+<section id='why-indexing-starts-at-zero' class='ls ls-default'>
+<h2 class='ls-h'><span>Why Indexing Starts at Zero</span></h2>
+<div class='ls-body'>
+<p>The cleanest way to make zero-based indexing feel right is to read an index as <strong>&quot;how many steps from the front?&quot;</strong> rather than &quot;which number item.&quot;</p>
+<pre class='code text'><code>index 0: take 0 steps from the front
+index 1: take 1 step from the front
+index 2: take 2 steps from the front
+index 3: take 3 steps from the front</code></pre>
+<p>Line up those steps against the list:</p>
+<pre class='code text'><code>[1, 8, 2, 8]
+ ^
+ front (0 steps lands here)</code></pre>
+<p>Taking zero steps leaves you standing on the first element, <code>1</code>. Taking three steps lands you on <code>8</code>, the last element. Under this reading the last valid index is always one less than the length: a four-element list has length <code>4</code> and a final index of <code>3</code>. Hold onto that fact — the most common list error in the language comes from forgetting it.</p>
+</div></section>
+<section id='combining-lists-concatenation-and-repetition' class='ls ls-default'>
+<h2 class='ls-h'><span>Combining Lists: Concatenation and Repetition</span></h2>
+<div class='ls-body'>
+<p>Lists support some of the same operators you have seen on numbers, but the meaning is adapted to sequences. The <code>+</code> operator <strong>concatenates</strong> two lists, joining them end to end into a brand-new list.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (4)</span>
+<span style="color: #657b83">[</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">7</span><span style="color: #657b83">]</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">digits</span>
+</code></pre>
+<p>If <code>digits</code> is <code>[1, 8, 2, 8]</code>, then (4) produces a six-element list:</p>
+<pre class='code text'><code>[2, 7, 1, 8, 2, 8]</code></pre>
+<p>Notice that <code>+</code> here does not add numbers position-by-position. It glues the second list onto the back of the first. Follow the line to see the two operands and the result:</p>
+<pre class='code anatomy'><code>[2, 7] + digits
+├─ [2, 7] ...... the left list (two elements)
+├─ + ........... the concatenation operator for sequences
+├─ digits ...... the right list, currently [1, 8, 2, 8]
+└─ evaluates to  [2, 7, 1, 8, 2, 8]</code></pre>
+<p>The <code>*</code> operator <strong>repeats</strong> a list. Given a list and an integer <code>k</code>, it returns a new list made of <code>k</code> copies of the original, laid end to end.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (5)</span>
+<span style="color: #657b83">digits</span> <span style="color: #93a1a1">*</span> <span style="color: #2aa198">2</span>
+</code></pre>
+<p>This produces:</p>
+<pre class='code text'><code>[1, 8, 2, 8, 1, 8, 2, 8]</code></pre>
+<p>Read <code>*</code> carefully: it does not multiply each element by <code>2</code>. It repeats the whole list twice. The result is a new eight-element list; the original <code>digits</code> is untouched.</p>
+<p>Now the official example, which combines both operators in a single expression:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (6)</span>
+<span style="color: #657b83">[</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">7</span><span style="color: #657b83">]</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">digits</span> <span style="color: #93a1a1">*</span> <span style="color: #2aa198">2</span>
+</code></pre>
+<p>Operator precedence matters here, and it matches arithmetic: <code>*</code> binds tighter than <code>+</code>, so Python evaluates <code>digits * 2</code> first, then concatenates <code>[2, 7]</code> onto the front. Follow the evaluation:</p>
+<pre class='code anatomy'><code>[2, 7] + digits * 2
+├─ digits * 2 ........ evaluated first: [1, 8, 2, 8, 1, 8, 2, 8]
+├─ [2, 7] + (...) .... then concatenate [2, 7] onto the front
+└─ evaluates to       [2, 7, 1, 8, 2, 8, 1, 8, 2, 8]</code></pre>
+<p>The official transcript:</p>
+<pre class='code text'><code>&gt;&gt;&gt; [2, 7] + digits * 2
+[2, 7, 1, 8, 2, 8, 1, 8, 2, 8]</code></pre>
+</div></section>
+<section id='membership-asking-whether-a-value-is-inside' class='ls ls-default'>
+<h2 class='ls-h'><span>Membership: Asking Whether a Value Is Inside</span></h2>
+<div class='ls-body'>
+<p>You will often want to ask a yes-or-no question: does this sequence contain a particular value? The <code>in</code> operator answers exactly that, returning <code>True</code> or <code>False</code>.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (7)</span>
+<span style="color: #2aa198">2</span> <span style="color: #859900">in</span> <span style="color: #657b83">digits</span>
+<span style="color: #2aa198">5</span> <span style="color: #859900">in</span> <span style="color: #657b83">digits</span>
+</code></pre>
+<p>For <code>digits = [1, 8, 2, 8]</code>, the results are:</p>
+<pre class='code text'><code>True
+False</code></pre>
+<p>Follow the line on the first one to keep the three pieces straight:</p>
+<pre class='code anatomy'><code>2 in digits
+├─ 2 ........... the value to search for
+├─ in .......... the membership operator: is it present?
+├─ digits ...... the sequence to search through
+└─ evaluates to  True</code></pre>
+<p>Under the hood, Python walks the sequence and compares each element to the target, stopping the moment it finds a match (or returning <code>False</code> once it runs off the end). <code>2</code> appears at index <code>2</code>, so the first line is <code>True</code>; <code>5</code> never appears, so the second is <code>False</code>.</p>
+</div></section>
+<section id='nested-lists-lists-inside-lists' class='ls ls-default'>
+<h2 class='ls-h'><span>Nested Lists: Lists Inside Lists</span></h2>
+<div class='ls-body'>
+<p>Because a list can hold <strong>any</strong> values, it can hold other lists. This is what lets you represent grids, pairs, rows of data, and trees later on.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (8)</span>
+<span style="color: #657b83">pairs</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[[</span><span style="color: #2aa198">10</span><span style="color: #657b83">,</span> <span style="color: #2aa198">20</span><span style="color: #657b83">],</span> <span style="color: #657b83">[</span><span style="color: #2aa198">30</span><span style="color: #657b83">,</span> <span style="color: #2aa198">40</span><span style="color: #657b83">]]</span>
+</code></pre>
+<p>The outer list has exactly <strong>two</strong> elements, and each element is itself a two-element list:</p>
+<pre class='code text'><code>index:   0          1
+       +----------+----------+
+value: | [10, 20] | [30, 40] |
+       +----------+----------+</code></pre>
+<p>Selecting from the outer list gives you back an inner list, not a number:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (9)</span>
+<span style="color: #657b83">pairs[</span><span style="color: #2aa198">1</span><span style="color: #657b83">]</span>
+</code></pre>
+<p>Follow the line:</p>
+<pre class='code anatomy'><code>pairs[1]
+├─ pairs ....... the outer list
+├─ [1] ......... select index 1: the second element
+└─ evaluates to  [30, 40]</code></pre>
+<p>To reach a number, select again on the result. Element selection can be chained, applied as many times as the nesting is deep:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (10)</span>
+<span style="color: #657b83">pairs[</span><span style="color: #2aa198">1</span><span style="color: #657b83">][</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span>
+</code></pre>
+<p>Python evaluates this left to right: it does the first selection, then applies the second selection to whatever that produced.</p>
+<pre class='code anatomy'><code>pairs[1][0]
+├─ pairs[1] .... select index 1 of the outer list -&gt; [30, 40]
+├─ [0] ......... then select index 0 of that inner list
+└─ evaluates to  30</code></pre>
+<p>Spelled out as two steps:</p>
+<pre class='code text'><code>Step 1: pairs[1]      -&gt;  [30, 40]
+Step 2: [30, 40][0]   -&gt;  30</code></pre>
+<p>The official transcript:</p>
+<pre class='code text'><code>&gt;&gt;&gt; pairs = [[10, 20], [30, 40]]
+&gt;&gt;&gt; pairs[1]
+[30, 40]
+&gt;&gt;&gt; pairs[1][0]
+30</code></pre>
+</div></section>
+<section id='sequence-iteration-doing-something-with-every-element' class='ls ls-default'>
+<h2 class='ls-h'><span>Sequence Iteration: Doing Something With Every Element</span></h2>
+<div class='ls-body'>
+<p>The real payoff of sequences is that you can process all of their elements with a few lines of code, no matter how long the sequence is. Consider a concrete task: count how many times a particular value appears in a sequence.</p>
+<p>Before reaching for a new tool, you can already solve this with a <code>while</code> loop and an explicit index counter. The textbook writes it exactly this way first:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (11)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">count</span><span style="color: #657b83">(s,</span> <span style="color: #657b83">value):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Count the number of occurrences of value in sequence s.&quot;&quot;&quot;</span>
+    <span style="color: #657b83">total,</span> <span style="color: #657b83">index</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">index</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(s):</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">s[index]</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">value:</span>
+            <span style="color: #657b83">total</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">total</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+        <span style="color: #657b83">index</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">index</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">total</span>
+</code></pre>
+<p>Read what (11) is doing. It keeps two running numbers: <code>total</code>, the count so far, and <code>index</code>, the position it is currently inspecting. The <code>while</code> loop runs as long as <code>index</code> is a valid position (<code>index &lt; len(s)</code>). Each pass looks at <code>s[index]</code>, bumps <code>total</code> when it matches <code>value</code>, and then advances <code>index</code> by one so the next pass looks at the next element. When <code>index</code> reaches the length, every position has been checked and the loop stops.</p>
+<p>That works, but notice the bookkeeping: you have to create <code>index</code>, compare it against the length, select <code>s[index]</code> by hand, and remember to increment it. Forgetting that last <code>index = index + 1</code> would loop forever. The <strong>for</strong> statement removes all of that ceremony by handing you the elements directly.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (12)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">count</span><span style="color: #657b83">(s,</span> <span style="color: #657b83">value):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Count the number of occurrences of value in sequence s.&quot;&quot;&quot;</span>
+    <span style="color: #657b83">total</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">elem</span> <span style="color: #859900">in</span> <span style="color: #657b83">s:</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">elem</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">value:</span>
+            <span style="color: #657b83">total</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">total</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">total</span>
+</code></pre>
+<p>Version (12) does the same job as (11), but there is no index, no length check, and no manual increment. The <code>for</code> statement walks the sequence for you, and on each pass the name <code>elem</code> is bound to the next element. You compare <code>elem</code> directly to <code>value</code>. This is the version you should reach for whenever you need every element and do not need its position.</p>
+<p>Both definitions answer the canonical example the same way:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (13)</span>
+<span style="color: #657b83">count(digits,</span> <span style="color: #2aa198">8</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>Since <code>8</code> appears at index <code>1</code> and again at index <code>3</code>, the result is:</p>
+<pre class='code text'><code>2</code></pre>
+<p>The official transcript pairs the for-loop definition with this call:</p>
+<pre class='code text'><code>&gt;&gt;&gt; def count(s, value):
+        &quot;&quot;&quot;Count the number of occurrences of value in sequence s.&quot;&quot;&quot;
+        total = 0
+        for elem in s:
+            if elem == value:
+                total = total + 1
+        return total
+
+&gt;&gt;&gt; count(digits, 8)
+2</code></pre>
+</div></section>
+<section id='follow-the-line-the-for-statement-header' class='ls ls-default'>
+<h2 class='ls-h'><span>Follow the Line: The For Statement Header</span></h2>
+<div class='ls-body'>
+<p>The new piece of syntax is the header line of the loop. Focus on it by itself:</p>
+<pre class='code anatomy'><code>for elem in s:
+├─ for ......... begin a loop that visits each element of a sequence
+├─ elem ........ the loop name: rebound to the current element each pass
+├─ in .......... connects the loop name to the sequence being traversed
+├─ s ........... the sequence expression to iterate over
+├─ : ........... begins the indented body (the suite) that repeats
+└─ does .......  runs the suite once for every element, in order</code></pre>
+<p>This is a <strong>statement</strong>, not an expression, so the final line states the <strong>action</strong> it performs rather than a value it evaluates to: it runs the indented suite once per element. The indented lines after the colon are the body, and indentation is what physically marks them as &quot;inside the loop.&quot;</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (14)</span>
+<span style="color: #859900">for</span> <span style="color: #657b83">elem</span> <span style="color: #859900">in</span> <span style="color: #657b83">s:</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">elem</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">value:</span>
+        <span style="color: #657b83">total</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">total</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+</code></pre>
+<p>If a line is indented under the <code>for</code>, it repeats once per element. If a line is not indented under it, the loop does not touch it. We will see in the traps section how getting that indentation wrong silently breaks a function.</p>
+</div></section>
+<section id='the-general-form-of-a-for-statement' class='ls ls-default'>
+<h2 class='ls-h'><span>The General Form of a For Statement</span></h2>
+<div class='ls-body'>
+<p>The textbook gives the shape of every <code>for</code> statement as a template. The pieces in angle brackets are placeholders you fill in — they are not literal Python you type:</p>
+<pre class='code text'><code>for &lt;name&gt; in &lt;expression&gt;:
+    &lt;suite&gt;</code></pre>
+<p>And it spells out the exact procedure Python follows when it executes one:</p>
+<pre class='code text'><code>1. Evaluate the header &lt;expression&gt;, which must yield an iterable value (something you can walk through element by element, such as a list).
+2. For each element value in that iterable value, in order:
+     a. Bind &lt;name&gt; to that value in the current frame.
+     b. Execute the &lt;suite&gt;.</code></pre>
+<p>Three things in that procedure are worth underlining. The <code>&lt;expression&gt;</code> must be <strong>iterable</strong> — a list and a range both qualify. The <code>&lt;name&gt;</code> is <strong>rebound</strong> on every pass, not created fresh each time; it simply points to a new element. And the suite runs <strong>in order</strong>, first element to last, which is why order is part of what makes a sequence a sequence.</p>
+</div></section>
+<section id='trace-counting-step-by-step' class='ls ls-default'>
+<h2 class='ls-h'><span>Trace: Counting Step by Step</span></h2>
+<div class='ls-body'>
+<p>Tracing a loop by hand is the fastest way to trust it. Trace this call against the for-loop version (12):</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (15)</span>
+<span style="color: #657b83">count([</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">8</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">8</span><span style="color: #657b83">],</span> <span style="color: #2aa198">8</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>When the call starts, a frame for <code>count</code> is created with the arguments bound and <code>total</code> initialized:</p>
+<pre class='code text'><code>count frame
++-------+--------------+
+| s     | [1, 8, 2, 8] |
+| value | 8            |
+| total | 0            |
++-------+--------------+</code></pre>
+<p>Now the <code>for</code> statement runs the suite once per element, rebinding <code>elem</code> each pass:</p>
+<pre class='code text'><code>Pass 1:
+  elem = 1
+  elem == value  -&gt;  1 == 8  -&gt;  False
+  total stays 0
+
+Pass 2:
+  elem = 8
+  elem == value  -&gt;  8 == 8  -&gt;  True
+  total becomes 1
+
+Pass 3:
+  elem = 2
+  elem == value  -&gt;  2 == 8  -&gt;  False
+  total stays 1
+
+Pass 4:
+  elem = 8
+  elem == value  -&gt;  8 == 8  -&gt;  True
+  total becomes 2
+
+Loop ends (no elements left).
+return total  -&gt;  2</code></pre>
+<p>The list <code>[1, 8, 2, 8]</code> is never copied or split apart. The same list is traversed once, and <code>elem</code> points to one element at a time as the loop advances.</p>
+</div></section>
+<section id='sequence-unpacking-naming-several-parts-at-once' class='ls ls-default'>
+<h2 class='ls-h'><span>Sequence Unpacking: Naming Several Parts at Once</span></h2>
+<div class='ls-body'>
+<p>A common shape is a sequence whose elements are themselves short, fixed-length sequences — a list of pairs, for instance. A <code>for</code> statement can list <strong>several names</strong> in its header to pull each element apart into its pieces in one move. This is called <strong>sequence unpacking</strong>.</p>
+<p>Start with a verifiable bridge before the official example. Suppose you want to add up the second number of every pair:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (16)</span>
+<span style="color: #657b83">totals</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[[</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">],</span> <span style="color: #657b83">[</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">20</span><span style="color: #657b83">],</span> <span style="color: #657b83">[</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">30</span><span style="color: #657b83">]]</span>
+<span style="color: #657b83">running</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">for</span> <span style="color: #657b83">first,</span> <span style="color: #657b83">second</span> <span style="color: #859900">in</span> <span style="color: #657b83">totals:</span>
+    <span style="color: #657b83">running</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">running</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">second</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/358255a8a747.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>On each pass Python expects the current element to hold exactly two values, and it binds them to <code>first</code> and <code>second</code> in order:</p>
+<pre class='code text'><code>Pass 1:  [1, 10]  -&gt;  first = 1, second = 10  -&gt;  running = 10
+Pass 2:  [2, 20]  -&gt;  first = 2, second = 20  -&gt;  running = 30
+Pass 3:  [3, 30]  -&gt;  first = 3, second = 30  -&gt;  running = 60</code></pre>
+<p>You can confirm by hand that <code>running</code> ends at <code>60</code>. Now the official example, which counts how many pairs have two equal elements:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (17)</span>
+<span style="color: #657b83">pairs</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[[</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">],</span> <span style="color: #657b83">[</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">],</span> <span style="color: #657b83">[</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">],</span> <span style="color: #657b83">[</span><span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">]]</span>
+<span style="color: #657b83">same_count</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+
+<span style="color: #859900">for</span> <span style="color: #657b83">x,</span> <span style="color: #657b83">y</span> <span style="color: #859900">in</span> <span style="color: #657b83">pairs:</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">y:</span>
+        <span style="color: #657b83">same_count</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">same_count</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/0a99a840fa36.json' data-mount='st1'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st1' hidden></div></figure>
+<p>The header <code>for x, y in pairs:</code> unpacks each inner list into <code>x</code> and <code>y</code>:</p>
+<pre class='code text'><code>Pass 1:  [1, 2]  -&gt;  x = 1, y = 2  -&gt;  1 == 2 is False, same_count stays 0
+Pass 2:  [2, 2]  -&gt;  x = 2, y = 2  -&gt;  2 == 2 is True,  same_count becomes 1
+Pass 3:  [2, 3]  -&gt;  x = 2, y = 3  -&gt;  2 == 3 is False, same_count stays 1
+Pass 4:  [4, 4]  -&gt;  x = 4, y = 4  -&gt;  4 == 4 is True,  same_count becomes 2</code></pre>
+<p>The final value of <code>same_count</code> is <code>2</code>, because <code>[2, 2]</code> and <code>[4, 4]</code> are the pairs whose two elements are equal. The official transcript:</p>
+<pre class='code text'><code>&gt;&gt;&gt; pairs = [[1, 2], [2, 2], [2, 3], [4, 4]]
+&gt;&gt;&gt; same_count = 0
+&gt;&gt;&gt; for x, y in pairs:
+        if x == y:
+            same_count = same_count + 1
+
+&gt;&gt;&gt; same_count
+2</code></pre>
+</div></section>
+<section id='ranges-sequences-of-integers' class='ls ls-default'>
+<h2 class='ls-h'><span>Ranges: Sequences of Integers</span></h2>
+<div class='ls-body'>
+<p>Often you do not have a list to walk; you just want a loop to run a certain number of times, or to step through a run of integers. The <strong>range</strong> type is a built-in sequence of integers built for exactly this. You create one with <code>range</code>, which in its common two-argument form takes a start and an end.</p>
+<p>A subtle and important point comes first: a range is a sequence, but it is not a list. When you ask the REPL for a range directly, it shows you the range itself, not its contents.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (18)</span>
+<span style="color: #268bd2">range</span><span style="color: #657b83">(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>The official transcript makes the boundary behavior explicit with a comment — the start is included, the end is not:</p>
+<pre class='code text'><code>&gt;&gt;&gt; range(1, 10)  # Includes 1, but not 10
+range(1, 10)</code></pre>
+<p>To actually see the integers a range stands for, convert it to a list with <code>list</code>.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (19)</span>
+<span style="color: #268bd2">list</span><span style="color: #657b83">(</span><span style="color: #268bd2">range</span><span style="color: #657b83">(</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">8</span><span style="color: #657b83">))</span>
+</code></pre>
+<p>Follow the line:</p>
+<pre class='code anatomy'><code>list(range(5, 8))
+├─ range(5, 8) ... the integers from 5 up to but not including 8
+├─ list(...) ..... collect those integers into an actual list
+└─ evaluates to    [5, 6, 7]</code></pre>
+<p>The result:</p>
+<pre class='code text'><code>[5, 6, 7]</code></pre>
+<p>If you give <code>range</code> a single argument, it is treated as the end, and the start defaults to <code>0</code>:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (20)</span>
+<span style="color: #268bd2">list</span><span style="color: #657b83">(</span><span style="color: #268bd2">range</span><span style="color: #657b83">(</span><span style="color: #2aa198">4</span><span style="color: #657b83">))</span>
+</code></pre>
+<p>This produces:</p>
+<pre class='code text'><code>[0, 1, 2, 3]</code></pre>
+<p>The official transcript shows all three together:</p>
+<pre class='code text'><code>&gt;&gt;&gt; range(1, 10)  # Includes 1, but not 10
+range(1, 10)
+&gt;&gt;&gt; list(range(5, 8))
+[5, 6, 7]
+&gt;&gt;&gt; list(range(4))
+[0, 1, 2, 3]</code></pre>
+<p>A range with <code>n</code> as its single argument therefore produces the <code>n</code> integers <code>0</code> through <code>n - 1</code> — exactly the valid indices of a length-<code>n</code> sequence, which is no accident.</p>
+</div></section>
+<section id='running-a-loop-a-fixed-number-of-times' class='ls ls-default'>
+<h2 class='ls-h'><span>Running a Loop a Fixed Number of Times</span></h2>
+<div class='ls-body'>
+<p>The most frequent use of <code>range</code> is as the expression in a <code>for</code> header, to repeat a suite a set number of times. When the loop name is not actually needed inside the body, Python programmers conventionally use the single underscore <code>_</code> as the name.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (21)</span>
+<span style="color: #859900">for</span> <span style="color: #657b83">_</span> <span style="color: #859900">in</span> <span style="color: #268bd2">range</span><span style="color: #657b83">(</span><span style="color: #2aa198">3</span><span style="color: #657b83">):</span>
+    <span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #2aa198">&#39;Go Bears!&#39;</span><span style="color: #657b83">)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/e7bec950c8d1.json' data-mount='st2'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st2' hidden></div></figure>
+<p>This runs the body three times, printing the same line each time:</p>
+<pre class='code text'><code>Go Bears!
+Go Bears!
+Go Bears!</code></pre>
+<p>The underscore is still an ordinary name — there is nothing magic about it. By convention it signals &quot;I have to bind something here, but I do not plan to use the value.&quot; The official transcript:</p>
+<pre class='code text'><code>&gt;&gt;&gt; for _ in range(3):
+        print(&#x27;Go Bears!&#x27;)
+
+Go Bears!
+Go Bears!
+Go Bears!</code></pre>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<p>The first trap is using the length as if it were the last index. The valid indices of a length-<code>4</code> list are <code>0</code> through <code>3</code>, so reaching for index <code>4</code> runs off the end:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (22)</span>
+<span style="color: #657b83">digits</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">8</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">8</span><span style="color: #657b83">]</span>
+<span style="color: #657b83">digits[</span><span style="color: #2aa198">4</span><span style="color: #657b83">]</span>
+</code></pre>
+<p>This raises an <code>IndexError</code>, because there is no element at position <code>4</code>. The fix is the rule from earlier: the last index is <code>len(s) - 1</code>.</p>
+<p>The second trap is reading <code>digits * 2</code> as &quot;double every element.&quot; It does not touch the elements; it repeats the whole list, giving <code>[1, 8, 2, 8, 1, 8, 2, 8]</code>. Likewise <code>+</code> between two lists concatenates them rather than adding matching positions.</p>
+<p>The third trap is putting <code>return</code> inside the loop when it belongs after it:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (23)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">broken_count</span><span style="color: #657b83">(s,</span> <span style="color: #657b83">value):</span>
+    <span style="color: #657b83">total</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">elem</span> <span style="color: #859900">in</span> <span style="color: #657b83">s:</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">elem</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">value:</span>
+            <span style="color: #657b83">total</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">total</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">total</span>
+</code></pre>
+<p>Because <code>return total</code> is indented under the <code>for</code>, the function returns on the very first pass, after looking at only one element. The indentation, not your intention, decides what is inside the loop. Moving <code>return total</code> out one level (so it lines up with <code>total = 0</code>) fixes it.</p>
+<p>The fourth trap is unpacking an element into the wrong number of names:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (24)</span>
+<span style="color: #859900">for</span> <span style="color: #657b83">x,</span> <span style="color: #657b83">y</span> <span style="color: #859900">in</span> <span style="color: #657b83">[[</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">],</span> <span style="color: #657b83">[</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">]]:</span>
+    <span style="color: #268bd2">print</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y)</span>
+</code></pre>
+<p>The first element <code>[1, 2]</code> unpacks cleanly into <code>x</code> and <code>y</code>, but the second element <code>[3, 4, 5]</code> has three values and cannot fit into exactly two names, so Python raises a <code>ValueError</code> mid-loop. Sequence unpacking requires every element to have exactly as many parts as you list names.</p>
+<p>The fifth trap is expecting a <code>range</code> to print its integers. Typing <code>range(5, 8)</code> at the prompt shows <code>range(5, 8)</code>, not <code>[5, 6, 7]</code>; you must wrap it in <code>list(...)</code> to see the contents.</p>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>For <code>digits = [1, 8, 2, 8]</code>, what is the value of <code>digits[0]</code>, and why?</li>
+<li>Why does <code>digits[4]</code> raise an error for that same list?</li>
+<li>What does <code>[1, 2] + [3, 4]</code> produce, and how is that different from adding numbers?</li>
+<li>In <code>for elem in s:</code>, at what moment does <code>elem</code> change, and what does it change to?</li>
+<li>Using the for-loop version of <code>count</code> from example (12), what does <code>count([4, 4, 4, 7], 4)</code> return?</li>
+<li>What does <code>list(range(4))</code> produce, and what does plain <code>range(1, 10)</code> display in the REPL?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li><code>digits[0]</code> is <code>1</code>. Indexing starts at <code>0</code>, so index <code>0</code> is the first element — zero steps from the front.</li>
+<li>The list has four elements, so its only valid indices are <code>0</code>, <code>1</code>, <code>2</code>, and <code>3</code>. Index <code>4</code> is one slot past the end, which raises an <code>IndexError</code>.</li>
+<li>It produces <code>[1, 2, 3, 4]</code>. The <code>+</code> operator on lists concatenates them end to end; it does not add elements at matching positions the way <code>+</code> on two numbers would.</li>
+<li><code>elem</code> changes at the start of every pass through the loop. Python takes the next element of <code>s</code>, in order, and rebinds <code>elem</code> to that element for the duration of that one pass.</li>
+<li>It returns <code>3</code>. The for loop binds <code>elem</code> to each element in turn; the value <code>4</code> appears at the first three positions and the comparison <code>elem == value</code> is <code>True</code> each of those times, bumping <code>total</code> to <code>3</code>, while the final <code>7</code> leaves it unchanged.</li>
+<li><code>list(range(4))</code> produces <code>[0, 1, 2, 3]</code>. Plain <code>range(1, 10)</code> displays <code>range(1, 10)</code>, because a range shows itself rather than its contents until you convert it with <code>list</code>.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>A <strong>sequence</strong> is an ordered collection of values, defined by two properties: a finite <strong>length</strong> and <strong>element selection</strong> by index, with indices starting at <code>0</code>. The most common sequence is a <strong>list</strong>, written with square brackets and commas. <code>len</code> reports how many elements a sequence has; square brackets with an index select an element; <code>+</code> concatenates lists and <code>*</code> repeats one; <code>in</code> tests membership; and lists can be nested so that selection chains like <code>pairs[1][0]</code> reach deeply nested values. The <strong>for</strong> statement walks a sequence, rebinding a loop name to each element in order and running its suite once per element — replacing the manual index bookkeeping of a <code>while</code> loop. A <code>for</code> header can <strong>unpack</strong> fixed-length elements into several names at once. Finally, <strong>range</strong> generates a sequence of integers (start included, end excluded), most often used to run a loop a fixed number of times. Together these let you write one short piece of code that processes any number of values.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>This program is the lesson in one place: it defines a list, then sums it with a <code>for</code> loop, ending on the interesting call. The <strong>environment diagram</strong> for <code>list_sum(digits)</code> opens a single call frame and keeps it open for every pass of the loop, rebinding <code>elem</code> and <code>total</code> inside that one frame while the list object that <code>digits</code> and <code>s</code> both point at sits unchanged in memory (the area environment diagrams call the heap, where list objects live) — so the diagram shows you that the loop traverses one shared list rather than copying it. Before you step through the block below, write down three predictions: whether each pass of the loop opens a new frame, what <code>total</code> holds just after the loop&#x27;s second pass, and what value the call on the last line returns.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (25)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">list_sum</span><span style="color: #657b83">(s):</span>
+    <span style="color: #657b83">total</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">elem</span> <span style="color: #859900">in</span> <span style="color: #657b83">s:</span>
+        <span style="color: #657b83">total</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">total</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">elem</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">total</span>
+
+<span style="color: #657b83">digits</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">8</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">8</span><span style="color: #657b83">]</span>
+<span style="color: #657b83">list_sum(digits)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/dcdae89b2b06.json' data-mount='st3'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st3' hidden></div></figure>
+<p>Step through it one line at a time and check each prediction. There is one global frame holding <code>list_sum</code> and <code>digits</code>, and exactly one more for the call <code>list_sum(digits)</code> — the loop never opens another. Inside that single call frame, <code>elem</code> is rebound on each pass while <code>total</code> climbs from <code>0</code> through <code>1</code>, <code>9</code>, and <code>11</code> to <code>19</code>. The list <code>digits</code> is never copied into separate pieces; the same list is traversed once, and the call returns <code>19</code>.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>2.2-B Pairs, Barriers, and Data Properties</span></a><a class='pg pg-next' href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>2.3-B Sequence Processing, Abstraction, and Strings</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#sequences-are-ordered-collections'>Sequences Are Ordered Collections</a></li><li><a href='#lists-are-sequences-you-write-with-square-brackets'>Lists Are Sequences You Write With Square Brackets</a></li><li><a href='#follow-the-line-a-list-literal'>Follow the Line: A List Literal</a></li><li><a href='#length-and-element-selection'>Length and Element Selection</a></li><li><a href='#why-indexing-starts-at-zero'>Why Indexing Starts at Zero</a></li><li><a href='#combining-lists-concatenation-and-repetition'>Combining Lists: Concatenation and Repetition</a></li><li><a href='#membership-asking-whether-a-value-is-inside'>Membership: Asking Whether a Value Is Inside</a></li><li><a href='#nested-lists-lists-inside-lists'>Nested Lists: Lists Inside Lists</a></li><li><a href='#sequence-iteration-doing-something-with-every-element'>Sequence Iteration: Doing Something With Every Element</a></li><li><a href='#follow-the-line-the-for-statement-header'>Follow the Line: The For Statement Header</a></li><li><a href='#the-general-form-of-a-for-statement'>The General Form of a For Statement</a></li><li><a href='#trace-counting-step-by-step'>Trace: Counting Step by Step</a></li><li><a href='#sequence-unpacking-naming-several-parts-at-once'>Sequence Unpacking: Naming Several Parts at Once</a></li><li><a href='#ranges-sequences-of-integers'>Ranges: Sequences of Integers</a></li><li><a href='#running-a-loop-a-fixed-number-of-times'>Running a Loop a Fixed Number of Times</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

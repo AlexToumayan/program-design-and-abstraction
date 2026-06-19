@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>3.2 Quotation and Symbolic Data · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/' class='active'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 3</span><span class='dot'>/</span><span class='eb-sec'>3.2 Functional Programming</span></div><h1 class='lesson-title'>3.2 Quotation and Symbolic Data</h1><div class='reading-meta'>&#9719; approx. 15 min read <span class='rm-sep'>&middot;</span> 1 worked example <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>Every Scheme name you have written so far has been active. When the interpreter sees <code>square</code> or <code>a</code>, it immediately looks that name up in the environment and uses whatever value it finds. That is exactly what you want most of the time.</p>
+<p>This lesson gives you the opposite power: the ability to hold a name still and treat it as data. By the end you will be able to do four things. You will explain the difference between using a name and mentioning a name. You will read the <strong>quote</strong> special form and the apostrophe shorthand for it. You will predict what <code>(list &#x27;a b)</code> produces without running it. And you will see why this small feature is the seed of the whole chapter&#x27;s big idea: a program can be represented as data that another program inspects.</p>
+<p>The constructs are short, but the habit underneath them is the one that matters: before the interpreter evaluates an expression, you decide whether you want its <strong>value</strong> or the <strong>expression itself</strong>.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='using-a-word-versus-mentioning-a-word' class='ls ls-default'>
+<h2 class='ls-h'><span>Using a Word Versus Mentioning a Word</span></h2>
+<div class='ls-body'>
+<p>There is a distinction in ordinary language that programmers borrow directly. Consider a single word written on a board:</p>
+<pre class='code text'><code>Ada</code></pre>
+<p>If a teacher says &quot;Ada, please answer the question,&quot; the word is being <strong>used</strong>: it reaches out and picks a particular person. If the teacher says &quot;the word Ada has three letters,&quot; the word is being <strong>mentioned</strong>: it is sitting there as a thing to talk about, and no person is being summoned.</p>
+<p>The original text frames this with a sharper image. There is a real dog, which runs around and barks, and there is the word &quot;dog,&quot; which is a linguistic construct for designating such things. The dog and the word are not the same kind of thing. You can put the word in quotation marks and count its letters; you cannot do that to the animal.</p>
+<p>Programming languages need the same split. Sometimes a name should be <strong>used</strong>: look it up and get its value. Sometimes a name should be <strong>mentioned</strong>: keep the symbol itself as a piece of data. Scheme handles the second job with quotation.</p>
+</div></section>
+<section id='why-we-need-quotation-building-a-list-of-symbols' class='ls ls-default'>
+<h2 class='ls-h'><span>Why We Need Quotation: Building a List of Symbols</span></h2>
+<div class='ls-body'>
+<p>Here is the concrete problem the original text uses to motivate quotation. Suppose all the data you have built so far was made out of numbers, and now you want to construct the list whose two elements are the symbols <code>a</code> and <code>b</code>, written <code>(a b)</code>.</p>
+<p>Your first instinct is to reach for <code>list</code>:</p>
+<pre class='code scheme'><code>(list a b)</code></pre>
+<p>But this does not give you what you want. The call expression <code>(list a b)</code> evaluates each operand first, so it builds a list of the <strong>values</strong> of <code>a</code> and <code>b</code>, not the symbols themselves. If <code>a</code> is <code>1</code> and <code>b</code> is <code>2</code>, you get the list <code>(1 2)</code>. The symbols disappeared the moment they were looked up.</p>
+<p>To keep the symbols, you need a way to say &quot;do not evaluate this; hand me the symbol.&quot; That new element in the language is <strong>quotation</strong>.</p>
+</div></section>
+<section id='symbols-and-the-quote-special-form' class='ls ls-default'>
+<h2 class='ls-h'><span>Symbols and the Quote Special Form</span></h2>
+<div class='ls-body'>
+<p>A <strong>symbol</strong> is a value that represents a name-like piece of text. Without quotation, a bare name is an expression that triggers a lookup:</p>
+<pre class='code scheme'><code>a</code></pre>
+<p>The interpreter searches the environment for a binding named <code>a</code>. If one exists, you get its value; if not, you get an error.</p>
+<p>With quotation, you preserve the name as data:</p>
+<pre class='code scheme'><code>&#x27;a</code></pre>
+<p>This produces the symbol <code>a</code> itself, with no lookup at all. The leading apostrophe is the instruction &quot;do not evaluate the following expression; use it as data.&quot;</p>
+<p>The apostrophe is a <em>reader</em> abbreviation — that is, before the interpreter evaluates anything, the part that reads your text in automatically expands <code>&#x27;a</code> into <code>(quote a)</code>. The longer, explicit form is the <strong>quote</strong> special form:</p>
+<pre class='code scheme'><code>(quote a)</code></pre>
+<p>The short form <code>&#x27;a</code> and the long form <code>(quote a)</code> mean exactly the same thing. <code>quote</code> is a special form rather than an ordinary procedure precisely because it must <strong>not</strong> evaluate its operand the normal way. A normal call like <code>(list a b)</code> evaluates <code>a</code> and <code>b</code> first; <code>quote</code> does the opposite, returning the operand untouched.</p>
+<p>This is the official definition of quotation worth memorizing: in Scheme, any expression that is not evaluated is said to be <strong>quoted</strong>.</p>
+<h3>Anatomy: a bare name is a lookup</h3>
+<pre class='code scheme'><code>a</code></pre>
+<pre class='code anatomy'><code>a
+├─ a ........... a name; an expression that asks the environment for its binding
+└─ evaluates to  the value bound to a (an error if a is unbound)</code></pre>
+<h3>Anatomy: the apostrophe holds the name still</h3>
+<pre class='code scheme'><code>&#x27;a</code></pre>
+<pre class='code anatomy'><code>&#x27;a
+├─ &#x27; ........... the quote abbreviation: do not evaluate what follows
+├─ a ........... the symbol to preserve as data
+└─ evaluates to  the symbol a (no lookup happens)</code></pre>
+<h3>Anatomy: the long form of quote</h3>
+<pre class='code scheme'><code>(quote a)</code></pre>
+<pre class='code anatomy'><code>(quote a)
+├─ ( ........... begins a special-form expression
+├─ quote ....... the quote special form: return the operand without evaluating it
+├─ a ........... the operand, preserved exactly as written
+├─ ) ........... ends the expression
+└─ evaluates to  the symbol a (identical to &#x27;a)</code></pre>
+</div></section>
+<section id='quotation-preserves-whole-expressions-not-just-names' class='ls ls-default'>
+<h2 class='ls-h'><span>Quotation Preserves Whole Expressions, Not Just Names</span></h2>
+<div class='ls-body'>
+<p>Quotation is not limited to single symbols. You can quote an entire compound expression, and Scheme preserves its structure as data instead of running it. This is where the chapter&#x27;s central theme appears in miniature.</p>
+<p>Normally this expression is a call:</p>
+<pre class='code scheme'><code>(+ 2 3)</code></pre>
+<p>The interpreter reads <code>+</code> as the operator, evaluates <code>2</code> and <code>3</code>, applies addition, and the value is <code>5</code>.</p>
+<p>Quote the very same text and nothing is called:</p>
+<pre class='code scheme'><code>&#x27;(+ 2 3)</code></pre>
+<p>Now you have a three-element list: the symbol <code>+</code>, the number <code>2</code>, and the number <code>3</code>. The plus sign is no longer an operator to apply; it is just a symbol sitting in the first position of a list.</p>
+<p>The same visible characters can be one of two completely different things depending on quotation. Evaluated, <code>(+ 2 3)</code> is a program that computes <code>5</code>. Quoted, <code>&#x27;(+ 2 3)</code> is symbolic data that <strong>represents</strong> that program. That is the Chapter 3 theme in a single line: programs can be data.</p>
+<p>The figure below shows the same text splitting into its two roles: a program to run on one side and data to inspect or build on the other.</p>
+<p><img class="figure" src="figures/programs-as-data.svg" alt="Diagram showing the same expression text branching into two roles, on one side an evaluated program that computes a value and on the other side quoted symbolic data that represents the program and can be inspected or built"></p>
+<h3>Anatomy: quoting a compound expression</h3>
+<pre class='code scheme'><code>&#x27;(+ 2 3)</code></pre>
+<pre class='code anatomy'><code>&#x27;(+ 2 3)
+├─ &#x27; ........... quote: preserve the following list as data, do not call it
+├─ ( ........... begins the list to preserve
+├─ + ........... kept as the symbol +, not used as an operator
+├─ 2 ........... kept as the number 2
+├─ 3 ........... kept as the number 3
+├─ ) ........... ends the list
+└─ evaluates to  the list (+ 2 3): the symbol +, then 2, then 3</code></pre>
+</div></section>
+<section id='quoting-a-list-of-symbols' class='ls ls-default'>
+<h2 class='ls-h'><span>Quoting a List of Symbols</span></h2>
+<div class='ls-body'>
+<p>The motivating goal was the list <code>(a b)</code>. Quotation reaches it directly, and the idea extends to any list of symbols:</p>
+<pre class='code scheme'><code>&#x27;(a b c)</code></pre>
+<p>This produces a list containing three symbols: <code>a</code>, <code>b</code>, and <code>c</code>. Crucially, the interpreter does not try to call <code>a</code> as an operator on <code>b</code> and <code>c</code>, and it does not look up any of the three names. The leading apostrophe quotes the whole list, so every element is preserved as data.</p>
+<h3>Anatomy: quoting a list of symbols</h3>
+<pre class='code scheme'><code>&#x27;(a b c)</code></pre>
+<pre class='code anatomy'><code>&#x27;(a b c)
+├─ &#x27; ........... quote: preserve the following list, evaluate nothing inside it
+├─ ( ........... begins the list
+├─ a ........... kept as the symbol a (not called, not looked up)
+├─ b ........... kept as the symbol b
+├─ c ........... kept as the symbol c
+├─ ) ........... ends the list
+└─ evaluates to  the list (a b c): three symbols</code></pre>
+</div></section>
+<section id='quoted-lists-are-still-lists' class='ls ls-default'>
+<h2 class='ls-h'><span>Quoted Lists Are Still Lists</span></h2>
+<div class='ls-body'>
+<p>A quoted list is an ordinary list. Quotation changes how the list is <strong>created</strong>, but once it exists, every list operation you learned works on it normally. The original text demonstrates this with the two selectors you already know, <code>car</code> and <code>cdr</code>.</p>
+<p>Take the first element:</p>
+<pre class='code scheme'><code>(car &#x27;(a b c))</code></pre>
+<p>The interpreter evaluates the operand <code>&#x27;(a b c)</code> to the list of symbols, then <code>car</code> selects its first element, the symbol <code>a</code>.</p>
+<p>Take the rest:</p>
+<pre class='code scheme'><code>(cdr &#x27;(a b c))</code></pre>
+<p>Here <code>&#x27;(a b c)</code> again evaluates to the list of symbols, and <code>cdr</code> returns everything after the first element: the list containing <code>b</code> and <code>c</code>.</p>
+<p>Notice the order of operations. The apostrophe applies only to <code>(a b c)</code>, producing data. The surrounding call <code>(car ...)</code> or <code>(cdr ...)</code> is a perfectly ordinary call expression that runs as usual. Quotation and evaluation coexist in the same line.</p>
+<h3>Anatomy: selecting from a quoted list</h3>
+<pre class='code scheme'><code>(car &#x27;(a b c))</code></pre>
+<pre class='code anatomy'><code>(car &#x27;(a b c))
+├─ ( ........... begins a call expression (this part is evaluated normally)
+├─ car ......... the selector: return the first element of a list
+├─ &#x27;(a b c) .... the operand: quotation makes it the list of symbols a, b, c
+├─ ) ........... ends the call
+└─ evaluates to  the symbol a (the first element)</code></pre>
+<pre class='code scheme'><code>(cdr &#x27;(a b c))</code></pre>
+<pre class='code anatomy'><code>(cdr &#x27;(a b c))
+├─ ( ........... begins a call expression, evaluated normally
+├─ cdr ......... the selector: return the list after the first element
+├─ &#x27;(a b c) .... the operand: the quoted list of symbols a, b, c
+├─ ) ........... ends the call
+└─ evaluates to  the list (b c)</code></pre>
+</div></section>
+<section id='building-symbolic-data-from-ordinary-words' class='ls ls-default'>
+<h2 class='ls-h'><span>Building Symbolic Data from Ordinary Words</span></h2>
+<div class='ls-body'>
+<p>You can put symbols into a list even when those words have powerful meanings in the language. The original text shows this striking example:</p>
+<pre class='code scheme'><code>(list &#x27;define &#x27;list)</code></pre>
+<p>Read why both words are quoted. The word <code>define</code> is a special form, and the word <code>list</code> names a built-in procedure. If you wrote them unquoted, Scheme would try to treat them as language constructs. But here you do not want those meanings at all; you want the two words themselves as data sitting inside a new list. Quoting each one says &quot;the symbol, please, not the construct,&quot; and the call to <code>list</code> then assembles them into a list whose two elements are the symbols <code>define</code> and <code>list</code>.</p>
+<p>This is a small but vivid picture of programs-as-data: you are using ordinary list-building tools to assemble something that looks like the beginning of a <code>define</code> form, purely as data, with nothing performed.</p>
+<h3>Anatomy: a list of two language words as data</h3>
+<pre class='code scheme'><code>(list &#x27;define &#x27;list)</code></pre>
+<pre class='code anatomy'><code>(list &#x27;define &#x27;list)
+├─ ( ........... begins a call expression
+├─ list ........ the list constructor: gather its arguments into a list
+├─ &#x27;define ..... the symbol define (quoted, so the special form is NOT triggered)
+├─ &#x27;list ....... the symbol list (quoted, so the procedure is NOT called)
+├─ ) ........... ends the call
+└─ evaluates to  the list (define list): two symbols, nothing performed</code></pre>
+</div></section>
+<section id='the-use-versus-mention-diagnostic' class='ls ls-default'>
+<h2 class='ls-h'><span>The Use-Versus-Mention Diagnostic</span></h2>
+<div class='ls-body'>
+<p>The original text settles the whole idea with three short examples built on two ordinary bindings. These are the source checkpoints for this section, and being able to predict all three is the real test of understanding.</p>
+<p>First, set up two active names:</p>
+<pre class='code scheme'><code>(define a 1)
+(define b 2)</code></pre>
+<p>Now <code>a</code> is bound to <code>1</code> and <code>b</code> is bound to <code>2</code>. With both names unquoted, <code>list</code> evaluates each operand and builds a list of their values:</p>
+<pre class='code scheme'><code>(list a b)</code></pre>
+<p>The output is:</p>
+<pre class='code text'><code>(1 2)</code></pre>
+<p>With both names quoted, <code>list</code> receives the symbols instead, and they survive into the result:</p>
+<pre class='code scheme'><code>(list &#x27;a &#x27;b)</code></pre>
+<p>The output is:</p>
+<pre class='code text'><code>(a b)</code></pre>
+<p>The decisive case mixes the two. The first operand is quoted, so the symbol <code>a</code> is kept; the second operand is unquoted, so <code>b</code> is looked up and its value <code>2</code> is used:</p>
+<pre class='code scheme'><code>(list &#x27;a b)</code></pre>
+<p>The output is:</p>
+<pre class='code text'><code>(a 2)</code></pre>
+<h3>Anatomy: one quoted operand, one evaluated operand</h3>
+<pre class='code scheme'><code>(list &#x27;a b)</code></pre>
+<pre class='code anatomy'><code>(list &#x27;a b)
+├─ ( ........... begins a call expression
+├─ list ........ the list constructor
+├─ &#x27;a .......... quoted: contributes the symbol a
+├─ b ........... unquoted: looked up in the environment, contributes the value 2
+├─ ) ........... ends the call
+└─ evaluates to  the list (a 2)</code></pre>
+<p>Line these three up and the rule is impossible to miss. The only thing that changed across the examples is which operands carry an apostrophe, and that single mark decides, operand by operand, whether you get the symbol or the value:</p>
+<div class='table-wrap'><table><thead><tr>
+<th>Expression</th>
+<th>What each operand does</th>
+<th>Result</th>
+</tr></thead><tbody>
+<tr>
+<td><code>(list a b)</code></td>
+<td>look up <code>a</code>, look up <code>b</code></td>
+<td><code>(1 2)</code></td>
+</tr>
+<tr>
+<td><code>(list &#x27;a &#x27;b)</code></td>
+<td>keep symbol <code>a</code>, keep symbol <code>b</code></td>
+<td><code>(a b)</code></td>
+</tr>
+<tr>
+<td><code>(list &#x27;a b)</code></td>
+<td>keep symbol <code>a</code>, look up <code>b</code></td>
+<td><code>(a 2)</code></td>
+</tr>
+</tbody></table></div>
+</div></section>
+<section id='a-step-by-step-evaluation-of-the-mixed-case' class='ls ls-default'>
+<h2 class='ls-h'><span>A Step-by-Step Evaluation of the Mixed Case</span></h2>
+<div class='ls-body'>
+<p>It is worth walking the interpreter through <code>(list &#x27;a b)</code> one operand at a time, because it makes clear that quotation is just a rule about how a single operand is evaluated, not a special mode for the whole line.</p>
+<pre class='code text'><code>Evaluate (list &#x27;a b), with a bound to 1 and b bound to 2:
+
+  step 1  identify the operator
+          list  -&gt;  the list-constructing procedure
+
+  step 2  evaluate the first operand
+          &#x27;a    -&gt;  quote returns the symbol a, with no lookup
+
+  step 3  evaluate the second operand
+          b     -&gt;  ordinary lookup finds the value 2
+
+  step 4  apply the operator to the evaluated operands
+          (list &lt;symbol a&gt; &lt;value 2&gt;)  -&gt;  the list (a 2)</code></pre>
+<p>Every step except step 2 is the normal call-evaluation rule you already know: find the operator, evaluate the operands, apply. Quotation only changes what happens inside step 2, turning an operand from &quot;look it up&quot; into &quot;keep it as written.&quot; That locality is the whole concept.</p>
+</div></section>
+<section id='the-boundary-between-expression-and-data' class='ls ls-default'>
+<h2 class='ls-h'><span>The Boundary Between Expression and Data</span></h2>
+<div class='ls-body'>
+<p>Three closely related expressions sharpen the line one more time:</p>
+<pre class='code scheme'><code>(list 1 2 3)</code></pre>
+<pre class='code scheme'><code>&#x27;(1 2 3)</code></pre>
+<pre class='code scheme'><code>&#x27;(list 1 2 3)</code></pre>
+<p>Their meanings differ:</p>
+<pre class='code text'><code>(list 1 2 3)    calls the list procedure and builds a list of three numbers
+&#x27;(1 2 3)        directly produces the list of three numbers, no call performed
+&#x27;(list 1 2 3)   produces a list whose first element is the symbol list</code></pre>
+<p>The first two reach the same value, <code>(1 2 3)</code>, by different routes: one calls a procedure, the other quotes a literal list. The third is genuinely different, because quoting <code>(list 1 2 3)</code> preserves the word <code>list</code> as a symbol in the first position rather than calling it.</p>
+<p>This is the beginner bridge that matters most. Quotation does not mean &quot;string,&quot; and it does not mean &quot;freeze a value.&quot; It means &quot;do not evaluate this expression right now; preserve its structure as data.&quot; A quoted list is a real list you can take apart; a quoted name is a real symbol you can store and compare.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<ul>
+<li>Thinking <code>&#x27;a</code> is the same as a string. In Scheme a symbol and a string are different kinds of values. <code>&#x27;a</code> is the symbol <code>a</code>, not the text in quotation marks, so a symbol will not match a string in a comparison and code that expects <code>&#x27;a</code> to equal <code>&quot;a&quot;</code> silently takes the wrong branch.</li>
+<li>Forgetting that quotation prevents evaluation. <code>(+ 2 3)</code> computes <code>5</code>, but <code>&#x27;(+ 2 3)</code> produces a list that merely represents that expression. Nothing is added.</li>
+<li>Reaching for quotation only to silence an error. Quote a name because you genuinely want the symbol as data, not as a random trick to stop a lookup from failing.</li>
+<li>Believing a quoted list is no longer a list. <code>&#x27;(a b c)</code> is a perfectly ordinary list, and <code>car</code>, <code>cdr</code>, and the other list operations work on it normally.</li>
+<li>Expecting the apostrophe to spread across a whole call. In <code>(car &#x27;(a b c))</code>, only <code>(a b c)</code> is quoted; the surrounding <code>car</code> call still evaluates the normal way.</li>
+<li>Confusing <code>&#x27;(1 2 3)</code> with <code>&#x27;(list 1 2 3)</code>. The first is a list of three numbers; the second is a list whose first element is the symbol <code>list</code>.</li>
+</ul>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>What is the difference between evaluating <code>a</code> and evaluating <code>&#x27;a</code>?</li>
+<li>What does <code>(quote a)</code> mean, and how does it relate to <code>&#x27;a</code>?</li>
+<li>Why does <code>(list a b)</code> fail to build the list <code>(a b)</code> when <code>a</code> is <code>1</code> and <code>b</code> is <code>2</code>?</li>
+<li>What does <code>(car (cdr &#x27;(a b c)))</code> evaluate to, and why?</li>
+<li>Why are both words quoted in <code>(list &#x27;define &#x27;list)</code>?</li>
+<li>What are the three results of <code>(list a b)</code>, <code>(list &#x27;a &#x27;b)</code>, and <code>(list &#x27;a b)</code> when <code>a</code> is <code>1</code> and <code>b</code> is <code>2</code>, and why do they differ?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li>Evaluating <code>a</code> looks up the name <code>a</code> in the environment and returns its bound value (an error if <code>a</code> is unbound); evaluating <code>&#x27;a</code> returns the symbol <code>a</code> itself with no lookup.</li>
+<li><code>(quote a)</code> is the explicit quote special form, which returns its operand without evaluating it; <code>&#x27;a</code> is just a reader abbreviation for <code>(quote a)</code>, so the two are identical.</li>
+<li>Because <code>(list a b)</code> is an ordinary call that evaluates its operands first, so it builds a list of the values <code>1</code> and <code>2</code>, giving <code>(1 2)</code>; the symbols <code>a</code> and <code>b</code> are looked up and lost.</li>
+<li>It evaluates to the symbol <code>b</code>. The quoted <code>&#x27;(a b c)</code> is the list of three symbols; <code>(cdr &#x27;(a b c))</code> drops the first element to give <code>(b c)</code>, and <code>car</code> then takes the first element of that, the symbol <code>b</code>.</li>
+<li>Both words have language meanings (<code>define</code> is a special form, <code>list</code> is a procedure), but here they are wanted as data, so each is quoted to produce the symbol rather than trigger its construct.</li>
+<li><code>(list a b)</code> gives <code>(1 2)</code> because both names are looked up; <code>(list &#x27;a &#x27;b)</code> gives <code>(a b)</code> because both are kept as symbols; <code>(list &#x27;a b)</code> gives <code>(a 2)</code> because the first is kept as a symbol and the second is looked up. The apostrophe on each operand decides symbol versus value.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>Quotation lets Scheme treat an expression as data instead of evaluating it. A bare name is <strong>used</strong>: the interpreter looks it up. A quoted name, written <code>&#x27;a</code> or <code>(quote a)</code>, is <strong>mentioned</strong>: the interpreter returns the symbol itself. The same applies to whole expressions, so <code>(+ 2 3)</code> computes <code>5</code> while <code>&#x27;(+ 2 3)</code> is a list that represents that program. Quoted lists remain ordinary lists, which is why <code>car</code> and <code>cdr</code> work on <code>&#x27;(a b c)</code>, and why <code>(list &#x27;define &#x27;list)</code> assembles two language words into data with nothing performed. The three checkpoints <code>(list a b)</code>, <code>(list &#x27;a &#x27;b)</code>, and <code>(list &#x27;a b)</code> — yielding <code>(1 2)</code>, <code>(a b)</code>, and <code>(a 2)</code> — capture the whole idea: a single apostrophe, applied operand by operand, chooses between a value and a symbol. This is the chapter&#x27;s central theme in its smallest form: when a program can be preserved as data, another program can inspect it, transform it, or evaluate it.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>The next block models the lesson&#x27;s core split in Python: looking a name <strong>up</strong> in an environment versus <strong>mentioning</strong> it as a literal piece of data. Python has no Scheme symbols, but a dictionary stands in for the environment, and a string of characters stands in for a held-still name. Stepping through it draws the <strong>environment diagram</strong> for that split: each <code>use_name</code> frame reaches out to the global <code>environment</code> dictionary to resolve its <code>name</code>, while each <code>mention_name</code> frame returns its string with no lookup at all, and <code>program_as_data</code> sits in the global frame as a plain <code>[&quot;+&quot;, 2, 3]</code> list object waiting to be inspected. Before you step through the block below, write down three predictions: how many local frames open over the whole run, what <code>mixed</code> holds when its line finishes, and what the final two lines print for <code>operator</code> and <code>operands</code>. Don&#x27;t worry if you&#x27;re unsure — jot a guess, then check it against the walkthrough right below; this is practice to test yourself against, not a graded checkpoint.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #657b83">environment</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">{</span><span style="color: #2aa198">&quot;a&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;b&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">2</span><span style="color: #657b83">}</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">use_name</span><span style="color: #657b83">(name):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">environment[name]</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">mention_name</span><span style="color: #657b83">(name):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">name</span>
+
+
+<span style="color: #657b83">used_a</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">use_name(</span><span style="color: #2aa198">&quot;a&quot;</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">mentioned_a</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">mention_name(</span><span style="color: #2aa198">&quot;a&quot;</span><span style="color: #657b83">)</span>
+
+<span style="color: #657b83">mixed</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[mention_name(</span><span style="color: #2aa198">&quot;a&quot;</span><span style="color: #657b83">),</span> <span style="color: #657b83">use_name(</span><span style="color: #2aa198">&quot;b&quot;</span><span style="color: #657b83">)]</span>
+<span style="color: #657b83">program_as_data</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[</span><span style="color: #2aa198">&quot;+&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">]</span>
+<span style="color: #657b83">operator</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">program_as_data[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span>
+<span style="color: #657b83">operands</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">program_as_data[</span><span style="color: #2aa198">1</span><span style="color: #657b83">:]</span>
+
+<span style="color: #268bd2">print</span><span style="color: #657b83">(used_a)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(mentioned_a)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(mixed)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(operator)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(operands)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/59c0793209fa.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>Step through it one line at a time and check each prediction as the frames open. Four local frames appear in all, two for <code>use_name</code> and two for <code>mention_name</code>. Each <code>use_name</code> frame reads the global dictionary before returning, so using a name costs an environment lookup: <code>1</code> for <code>&quot;a&quot;</code> and <code>2</code> for <code>&quot;b&quot;</code>, exactly like the unquoted names in <code>(list a b)</code>. Each <code>mention_name</code> frame returns its string untouched, with no lookup at all, modeling the quoted <code>&#x27;a</code>. That is why <code>mixed</code> holds <code>[&#x27;a&#x27;, 2]</code>, the Python echo of <code>(list &#x27;a b)</code> giving <code>(a 2)</code>, and why the first three prints show <code>1</code>, <code>a</code>, and <code>[&#x27;a&#x27;, 2]</code>. The last two prints, <code>+</code> and <code>[2, 3]</code>, come from <code>program_as_data</code>, the model of <code>&#x27;(+ 2 3)</code>: a program expression stored as a plain data structure, its operator and operands available for inspection before any interpreter runs it.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>3.2-C Pairs, Lists, and Recursive Sequence Processing</span></a><a class='pg pg-next' href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>3.2-E Turtle Graphics and Recursive Drawing</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#using-a-word-versus-mentioning-a-word'>Using a Word Versus Mentioning a Word</a></li><li><a href='#why-we-need-quotation-building-a-list-of-symbols'>Why We Need Quotation: Building a List of Symbols</a></li><li><a href='#symbols-and-the-quote-special-form'>Symbols and the Quote Special Form</a></li><li><a href='#quotation-preserves-whole-expressions-not-just-names'>Quotation Preserves Whole Expressions, Not Just Names</a></li><li><a href='#quoting-a-list-of-symbols'>Quoting a List of Symbols</a></li><li><a href='#quoted-lists-are-still-lists'>Quoted Lists Are Still Lists</a></li><li><a href='#building-symbolic-data-from-ordinary-words'>Building Symbolic Data from Ordinary Words</a></li><li><a href='#the-use-versus-mention-diagnostic'>The Use-Versus-Mention Diagnostic</a></li><li><a href='#a-step-by-step-evaluation-of-the-mixed-case'>A Step-by-Step Evaluation of the Mixed Case</a></li><li><a href='#the-boundary-between-expression-and-data'>The Boundary Between Expression and Data</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

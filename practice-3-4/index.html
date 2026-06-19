@@ -1,0 +1,760 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>3.4 · The Calculator Interpreter — Coding Practice · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+
+</head>
+<body class='is-practice'>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/' class='active'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Practice</span><span class='dot'>/</span><span class='eb-sec'>Chapter 3 · Coding Practice</span></div><h1 class='lesson-title'>3.4 · The Calculator Interpreter — Coding Practice</h1><div class='reading-meta'>&#9719; approx. 13 min read <span class='rm-sep'>&middot;</span> 31 worked examples</div></div><div class='lesson-grid'><div class='lesson-body'><p>These problems build fluency with the Calculator interpreter you assembled in Python: constructing and reading <code>Pair</code>-based expression trees, walking those trees recursively, parsing one line of text with <code>scheme_read</code>, evaluating with <code>calc_eval</code> and <code>calc_apply</code>, and extending or transforming the interpreter itself.</p>
+<p>&gt; Work each problem from the starter signature first. Run your function against the Examples, then open the matching solution below to check your approach and its time and space cost.</p>
+<p>Every problem runs against the Calculator machinery reproduced verbatim in the <strong>Setup</strong> block at the top of the Solutions section: <code>Pair</code>/<code>nil</code>, the tokenizer, the <code>Buffer</code> and reader (<code>scheme_read</code>/<code>read_tail</code>, plus a one-line <code>read_line</code> helper), and the evaluator (<code>calc_eval</code>/<code>calc_apply</code> with <code>simplify</code>, <code>reduce</code>, and <code>as_scheme_list</code>). Read that block once before you start — it is the same code from this section&#x27;s teaching documents.</p>
+<section id='easy' class='ls ls-default'>
+<h2 class='ls-h'><span>Easy</span></h2>
+<div class='ls-body'>
+<h3>1. Build a Flat Call Expression</h3>
+<p>Write <code>make_call(operator, operands)</code> that builds a Calculator call expression as a <code>Pair</code> tree. <code>operator</code> is a symbol string such as <code>&#x27;+&#x27;</code>, and <code>operands</code> is an ordinary Python list of already-built operand values (numbers or subtrees). The result is a <code>Pair</code> whose <code>first</code> is the operator and whose <code>second</code> is the operand list, terminated by <code>nil</code>. Do not call the reader; construct the <code>Pair</code> chain yourself.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  str(make_call(&#x27;+&#x27;, [2, 3]))
+Output: (+ 2 3)
+Explanation: the operator goes in first; 2 and 3 chain through second to nil.
+
+Input:  repr(make_call(&#x27;+&#x27;, [2, 3]))
+Output: Pair(&#x27;+&#x27;, Pair(2, Pair(3, nil)))
+Explanation: repr shows the Python construction; str shows the Scheme list.
+
+Input:  str(make_call(&#x27;-&#x27;, [10]))
+Output: (- 10)
+Explanation: a single operand still forms a well-formed one-element operand list.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Build the operand list by chaining <code>Pair</code> objects ending in <code>nil</code>; do not use <code>as_scheme_list</code> or the reader.</li>
+<li><code>operands</code> may be empty, in which case <code>second</code> is just <code>nil</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">make_call</span><span style="color: #657b83">(operator,</span> <span style="color: #657b83">operands):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Build the operand chain from the back: start from <code>nil</code> and wrap each operand (in reverse) in a <code>Pair</code>, then wrap the whole chain with the operator.</p></details>
+<h3>2. Read Operator and Arity</h3>
+<p>Write <code>operator_and_arity(exp)</code> that takes an expression tree (a <code>Pair</code> representing a combination) and returns a two-tuple <code>(operator, arity)</code>, where <code>operator</code> is the symbol in <code>first</code> and <code>arity</code> is the number of operands. Use the <code>Pair</code> sequence interface: the operand list is <code>exp.second</code>, and <code>len</code> of a <code>Pair</code> chain counts its elements.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  operator_and_arity(read_line(&#x27;(+ 2 3)&#x27;))
+Output: (&#x27;+&#x27;, 2)
+Explanation: the operator is &#x27;+&#x27;, and there are two operands.
+
+Input:  operator_and_arity(read_line(&#x27;(/ 40 (* 4 5))&#x27;))
+Output: (&#x27;/&#x27;, 2)
+Explanation: the second operand is itself a subtree, but it still counts as one operand.
+
+Input:  operator_and_arity(read_line(&#x27;(+)&#x27;))
+Output: (&#x27;+&#x27;, 0)
+Explanation: a combination with no operands has arity 0.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Read the operator from <code>exp.first</code> and the operand list from <code>exp.second</code>.</li>
+<li>Get the count with <code>len(...)</code> on the operand list, which works on a <code>Pair</code> chain and on <code>nil</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">operator_and_arity</span><span style="color: #657b83">(exp):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>len(nil)</code> is <code>0</code>, and <code>len</code> of a <code>Pair</code> chain walks to <code>nil</code> counting elements, so one <code>len</code> call handles every arity.</p></details>
+<h3>3. Evaluate One Line</h3>
+<p>Write <code>calc(line)</code> that takes a single line of Calculator text and returns its value, gluing together the two interpreter stages: parse the line into a tree with <code>read_line</code>, then evaluate that tree with <code>calc_eval</code>. This is the Read-then-Eval core of the REPL for one expression.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  calc(&#x27;(* (+ 1 2) (+ 2 3))&#x27;)
+Output: 15
+Explanation: the inner sums evaluate to 3 and 5, then * gives 15.
+
+Input:  calc(&#x27;(- 100 (* 7 (+ 8 (/ -12 -3))))&#x27;)
+Output: 16
+Explanation: inside-out, (/ -12 -3) is 4, (+ 8 4) is 12, (* 7 12) is 84, (- 100 84) is 16.
+
+Input:  calc(&#x27;(/ 10)&#x27;)
+Output: 0.1
+Explanation: a single operand to / takes the reciprocal of 10.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Use <code>read_line</code> for the Read step and <code>calc_eval</code> for the Eval step; do not re-implement either.</li>
+<li>A bare number line such as <code>&#x27;42&#x27;</code> should evaluate to that number.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">calc</span><span style="color: #657b83">(line):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>This is a two-line function — feed the result of <code>read_line(line)</code> straight into <code>calc_eval</code>.</p></details>
+<h3>4. Count the Numbers in a Tree</h3>
+<p>Write <code>count_numbers(exp)</code> that returns how many number leaves appear in an expression tree. A leaf is any node that is not a <code>Pair</code> (an <code>int</code> or <code>float</code>). For a combination, the operator symbol in <code>first</code> does <strong>not</strong> count; only the operands and their descendants do.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  count_numbers(read_line(&#x27;(+ 2 3)&#x27;))
+Output: 2
+Explanation: two number leaves, 2 and 3; the operator &#x27;+&#x27; is not a number.
+
+Input:  count_numbers(read_line(&#x27;(- 100 (* 7 (+ 8 (/ -12 -3))))&#x27;))
+Output: 5
+Explanation: the leaves are 100, 7, 8, -12, and -3.
+
+Input:  count_numbers(read_line(&#x27;(+)&#x27;))
+Output: 0
+Explanation: no operands means no number leaves.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Recurse on each operand in <code>exp.second</code>; the base case is a non-<code>Pair</code>, which contributes <code>1</code>.</li>
+<li>Do not count the operator symbol stored in <code>first</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">count_numbers</span><span style="color: #657b83">(exp):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Walk the operand list (<code>exp.second</code>) with a <code>while</code> loop, recursing into each <code>operands.first</code>, and return <code>1</code> whenever <code>exp</code> is not a <code>Pair</code>.</p></details>
+</div></section>
+<section id='medium' class='ls ls-default'>
+<h2 class='ls-h'><span>Medium</span></h2>
+<div class='ls-body'>
+<h3>5. Sum Every Number</h3>
+<p>Write <code>sum_leaves(exp)</code> that returns the sum of all number leaves in an expression tree, ignoring operators entirely. Unlike a real evaluator it does not apply any operator — it just adds up the numbers wherever they sit. A bare number tree sums to itself.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  sum_leaves(read_line(&#x27;(* (+ 1 2) (+ 2 3))&#x27;))
+Output: 8
+Explanation: the leaves are 1, 2, 2, 3, which add to 8 (no multiplication happens).
+
+Input:  sum_leaves(read_line(&#x27;(- 100 (* 7 (+ 8 (/ -12 -3))))&#x27;))
+Output: 100
+Explanation: 100 + 7 + 8 + (-12) + (-3) = 100.
+
+Input:  sum_leaves(read_line(&#x27;(+ 10 (- 5))&#x27;))
+Output: 15
+Explanation: the leaves are 10 and 5; the unary - is just an operator and is ignored.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>The base case is a non-<code>Pair</code> leaf, which returns its own numeric value.</li>
+<li>Add the recursive results over every operand in <code>exp.second</code>; the operator symbol is skipped.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">sum_leaves</span><span style="color: #657b83">(exp):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Same tree walk as the counting problem, but the leaf case returns <code>exp</code> (the number) instead of <code>1</code>.</p></details>
+<h3>6. Depth of an Expression Tree</h3>
+<p>Write <code>tree_depth(exp)</code> that returns the nesting depth of a combination. A bare number has depth <code>0</code>. A flat combination like <code>(+ 2 3)</code> has depth <code>1</code>. Each additional level of nested combination adds one. Formally, the depth of a combination is <code>1</code> plus the maximum depth among its operands (and <code>1</code> if it has no operands).</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  tree_depth(read_line(&#x27;(+ 2 3)&#x27;))
+Output: 1
+Explanation: a flat combination wraps only number leaves.
+
+Input:  tree_depth(read_line(&#x27;(* (+ 1 2) (+ 2 3))&#x27;))
+Output: 2
+Explanation: the outer * wraps combinations that are themselves depth 1.
+
+Input:  tree_depth(read_line(&#x27;(- 100 (* 7 (+ 8 (/ -12 -3))))&#x27;))
+Output: 4
+Explanation: the operators nest four deep: - then * then + then /.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>A non-<code>Pair</code> returns <code>0</code>.</li>
+<li>For a combination, take the largest operand depth (default <code>0</code> when there are no operands) and add <code>1</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">tree_depth</span><span style="color: #657b83">(exp):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Track the deepest operand seen as you loop over <code>exp.second</code>, then return <code>1 + deepest</code>.</p></details>
+<h3>7. Add a <code>max</code> Operator</h3>
+<p>Extend the evaluator with a new operator <code>max</code> that returns the largest of its (already-evaluated) operand values, while leaving the four arithmetic operators working as before. Write <code>apply_with_max(operator, args)</code> (which handles <code>&#x27;max&#x27;</code> itself and otherwise defers to <code>calc_apply</code>) and <code>eval_with_max(exp)</code>, a copy of <code>calc_eval</code> that dispatches combinations to <code>apply_with_max</code>. <code>args</code> is a <code>Pair</code> list of finished values, exactly as <code>calc_apply</code> expects.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  eval_with_max(read_line(&#x27;(max 3 7 2)&#x27;))
+Output: 7
+Explanation: the largest of the three values is 7.
+
+Input:  eval_with_max(read_line(&#x27;(max (+ 1 2) (* 2 2))&#x27;))
+Output: 4
+Explanation: operands evaluate to 3 and 4 first; the max of those is 4.
+
+Input:  eval_with_max(read_line(&#x27;(+ 1 (max 4 9 2))&#x27;))
+Output: 10
+Explanation: the inner max is 9, then (+ 1 9) is 10 — old operators still work.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>apply_with_max</code> handles <code>&#x27;max&#x27;</code> by scanning the <code>args</code> <code>Pair</code> list for the largest value; every other operator falls through to <code>calc_apply(operator, args)</code>.</li>
+<li><code>eval_with_max</code> mirrors <code>calc_eval</code> but maps <strong>itself</strong> over the operands and calls <code>apply_with_max</code>.</li>
+<li><code>max</code> requires at least one argument.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">apply_with_max</span><span style="color: #657b83">(operator,</span> <span style="color: #657b83">args):</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">eval_with_max</span><span style="color: #657b83">(exp):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Seed <code>best</code> from <code>args.first</code>, then walk <code>args.second</code> with a <code>while</code> loop updating <code>best</code>; for <code>eval_with_max</code>, copy <code>calc_eval</code> and swap the two names.</p></details>
+<h3>8. Reverse Every Operand List</h3>
+<p>Write <code>reverse_operands(exp)</code> that returns a new expression tree in which the operands of every combination appear in reverse order, recursively, with each operand subtree itself reversed. Numbers are returned unchanged. The original tree must not be mutated; build new <code>Pair</code> nodes.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  str(reverse_operands(read_line(&#x27;(- 10 1 2)&#x27;)))
+Output: (- 2 1 10)
+Explanation: the operator stays first; the three operands reverse to 2, 1, 10.
+
+Input:  str(reverse_operands(read_line(&#x27;(/ 40 (* 4 5))&#x27;)))
+Output: (/ (* 5 4) 40)
+Explanation: the outer operands reverse, and the inner (* 4 5) reverses to (* 5 4).
+
+Input:  str(reverse_operands(read_line(&#x27;(+ 2 3)&#x27;)))
+Output: (+ 3 2)
+Explanation: a flat combination just swaps its two operands.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>A non-<code>Pair</code> is returned as-is.</li>
+<li>Keep <code>exp.first</code> (the operator) in front; reverse the operand list and recurse into each operand.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">reverse_operands</span><span style="color: #657b83">(exp):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Build the reversed operand chain by prepending each recursively-reversed operand onto a <code>nil</code>-seeded accumulator, then put the operator back in front.</p></details>
+</div></section>
+<section id='hard' class='ls ls-default'>
+<h2 class='ls-h'><span>Hard</span></h2>
+<div class='ls-body'>
+<h3>9. Constant-Fold the Tree</h3>
+<p>Write <code>constant_fold(exp)</code> that simplifies an expression tree by evaluating any combination whose operands are <strong>all</strong> numbers, replacing it with that single number — recursively, from the leaves up. A combination that still contains a non-number operand (such as a variable symbol) keeps its shape, but its all-number subtrees are still folded. Trees here may contain symbol leaves like <code>&#x27;x&#x27;</code> (which the reader returns as plain strings); leave those untouched.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  constant_fold(read_line(&#x27;(* (+ 1 2) (+ 2 3))&#x27;))
+Output: 15
+Explanation: both inner sums fold to 3 and 5, then the all-number (* 3 5) folds to 15.
+
+Input:  str(constant_fold(read_line(&#x27;(+ x (* 2 3))&#x27;)))
+Output: (+ x 6)
+Explanation: (* 2 3) is all numbers so it folds to 6, but x keeps the outer + unfolded.
+
+Input:  str(constant_fold(read_line(&#x27;(* w (+ a 1))&#x27;)))
+Output: (* w (+ a 1))
+Explanation: nothing is all-number, so no combination folds.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Fold a combination (with <code>calc_eval</code>) only when every folded operand is an <code>int</code> or <code>float</code>.</li>
+<li>Otherwise rebuild the combination from the folded operands; leaves (numbers and symbol strings) are returned unchanged.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">constant_fold</span><span style="color: #657b83">(exp):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Fold each operand first; track whether they are all numbers; if so, rebuild the combination and hand it to <code>calc_eval</code>, otherwise return the rebuilt combination.</p></details>
+<h3>10. Pretty-Print as Infix</h3>
+<p>Write <code>to_infix(exp)</code> that converts a Calculator expression tree into an infix string. A number becomes its own text. A combination with two or more operands joins their infix forms with <code> operator </code> and wraps the whole thing in parentheses, e.g. <code>(2 + 3)</code>. A single-operand combination becomes <code>(operatorinfix)</code>, e.g. <code>(-3)</code> for <code>(- 3)</code>. Recurse into operand subtrees.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  to_infix(read_line(&#x27;(* (+ 1 2) (+ 2 3))&#x27;))
+Output: ((1 + 2) * (2 + 3))
+Explanation: each inner sum becomes (1 + 2) and (2 + 3), joined by * and wrapped.
+
+Input:  to_infix(read_line(&#x27;(- 10 1 2)&#x27;))
+Output: (10 - 1 - 2)
+Explanation: three operands are joined by &#x27; - &#x27; between each pair.
+
+Input:  to_infix(read_line(&#x27;(- 3)&#x27;))
+Output: (-3)
+Explanation: a single operand prints as the operator directly in front of it.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>A non-<code>Pair</code> leaf becomes <code>str(exp)</code>.</li>
+<li>One operand → <code>&#x27;(&#x27; + operator + to_infix(operand) + &#x27;)&#x27;</code>; two or more → operands joined by <code>&#x27; operator &#x27;</code>, wrapped in parentheses.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">to_infix</span><span style="color: #657b83">(exp):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Collect each operand&#x27;s infix string into a Python list, then <code>(&#x27; &#x27; + operator + &#x27; &#x27;).join(...)</code> the multi-operand case; special-case length 1.</p></details>
+</div></section>
+<section id='solutions' class='ls ls-default'>
+<h2 class='ls-h'><span>Solutions</span></h2>
+<div class='ls-body'>
+<h3>Setup</h3>
+<p>These problems run against the Calculator interpreter machinery from this section&#x27;s teaching documents — <code>Pair</code>/<code>nil</code>, the tokenizer, the <code>Buffer</code> and reader, and the evaluator — plus a one-line <code>read_line</code> helper that parses a single line of text. Define all of it first:</p>
+<pre class='code python'><code><span style="color: #cb4b16">import</span> <span style="color: #268bd2">sys</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">operator</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">add,</span> <span style="color: #657b83">sub,</span> <span style="color: #657b83">mul,</span> <span style="color: #657b83">truediv</span>
+
+<span style="color: #859900">class</span> <span style="color: #268bd2">Pair</span><span style="color: #657b83">(</span><span style="color: #268bd2">object</span><span style="color: #657b83">):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;A pair has two instance attributes: first and second.&quot;&quot;&quot;</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">first,</span> <span style="color: #657b83">second):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">first</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">second</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__repr__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">&quot;Pair({0}, {1})&quot;</span><span style="color: #93a1a1">.</span><span style="color: #657b83">format(</span><span style="color: #268bd2">repr</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first),</span> <span style="color: #268bd2">repr</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second))</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__str__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #657b83">s</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">&quot;(&quot;</span> <span style="color: #93a1a1">+</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+        <span style="color: #657b83">second</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+        <span style="color: #859900">while</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(second,</span> <span style="color: #657b83">Pair):</span>
+            <span style="color: #657b83">s</span> <span style="color: #93a1a1">+=</span> <span style="color: #2aa198">&quot; &quot;</span> <span style="color: #93a1a1">+</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(second</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+            <span style="color: #657b83">second</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">second</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">second</span> <span style="color: #859900">is</span> <span style="color: #859900">not</span> <span style="color: #657b83">nil:</span>
+            <span style="color: #657b83">s</span> <span style="color: #93a1a1">+=</span> <span style="color: #2aa198">&quot; . &quot;</span> <span style="color: #93a1a1">+</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(second)</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">s</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&quot;)&quot;</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__len__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #657b83">n,</span> <span style="color: #657b83">second</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+        <span style="color: #859900">while</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(second,</span> <span style="color: #657b83">Pair):</span>
+            <span style="color: #657b83">n</span> <span style="color: #93a1a1">+=</span> <span style="color: #2aa198">1</span>
+            <span style="color: #657b83">second</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">second</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">second</span> <span style="color: #859900">is</span> <span style="color: #859900">not</span> <span style="color: #657b83">nil:</span>
+            <span style="color: #859900">raise</span> <span style="color: #268bd2">TypeError</span><span style="color: #657b83">(</span><span style="color: #2aa198">&quot;length attempted on improper list&quot;</span><span style="color: #657b83">)</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">n</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__getitem__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">k):</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">raise</span> <span style="color: #268bd2">IndexError</span><span style="color: #657b83">(</span><span style="color: #2aa198">&quot;negative index into list&quot;</span><span style="color: #657b83">)</span>
+        <span style="color: #657b83">y</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span>
+        <span style="color: #859900">for</span> <span style="color: #657b83">_</span> <span style="color: #859900">in</span> <span style="color: #268bd2">range</span><span style="color: #657b83">(k):</span>
+            <span style="color: #859900">if</span> <span style="color: #657b83">y</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span> <span style="color: #859900">is</span> <span style="color: #657b83">nil:</span>
+                <span style="color: #859900">raise</span> <span style="color: #268bd2">IndexError</span><span style="color: #657b83">(</span><span style="color: #2aa198">&quot;list index out of bounds&quot;</span><span style="color: #657b83">)</span>
+            <span style="color: #859900">elif</span> <span style="color: #859900">not</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(y</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second,</span> <span style="color: #657b83">Pair):</span>
+                <span style="color: #859900">raise</span> <span style="color: #268bd2">TypeError</span><span style="color: #657b83">(</span><span style="color: #2aa198">&quot;ill-formed list&quot;</span><span style="color: #657b83">)</span>
+            <span style="color: #657b83">y</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">y</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">y</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">map</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">fn):</span>
+        <span style="color: #93a1a1">&quot;&quot;&quot;Return a Scheme list after mapping Python function FN to SELF.&quot;&quot;&quot;</span>
+        <span style="color: #657b83">mapped</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">fn(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+        <span style="color: #859900">if</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span> <span style="color: #859900">is</span> <span style="color: #657b83">nil</span> <span style="color: #859900">or</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second,</span> <span style="color: #657b83">Pair):</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">Pair(mapped,</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span><span style="color: #93a1a1">.</span><span style="color: #657b83">map(fn))</span>
+        <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">raise</span> <span style="color: #268bd2">TypeError</span><span style="color: #657b83">(</span><span style="color: #2aa198">&quot;ill-formed list&quot;</span><span style="color: #657b83">)</span>
+
+<span style="color: #859900">class</span> <span style="color: #268bd2">nil</span><span style="color: #657b83">(</span><span style="color: #268bd2">object</span><span style="color: #657b83">):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;The empty list.&quot;&quot;&quot;</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__repr__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">&quot;nil&quot;</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__str__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">&quot;()&quot;</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__len__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">0</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__getitem__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">k):</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">raise</span> <span style="color: #268bd2">IndexError</span><span style="color: #657b83">(</span><span style="color: #2aa198">&quot;negative index into list&quot;</span><span style="color: #657b83">)</span>
+        <span style="color: #859900">raise</span> <span style="color: #268bd2">IndexError</span><span style="color: #657b83">(</span><span style="color: #2aa198">&quot;list index out of bounds&quot;</span><span style="color: #657b83">)</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">map</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">fn):</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span>
+
+<span style="color: #657b83">nil</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">nil()</span>  <span style="color: #93a1a1; font-style: italic"># there is only one empty-list object</span>
+
+<span style="color: #657b83">_NUMERAL_STARTS</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">set</span><span style="color: #657b83">(</span><span style="color: #2aa198">&#39;0123456789&#39;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">|</span> <span style="color: #268bd2">set</span><span style="color: #657b83">(</span><span style="color: #2aa198">&#39;+-.&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">_SYMBOL_CHARS</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">(</span><span style="color: #268bd2">set</span><span style="color: #657b83">(</span><span style="color: #2aa198">&#39;!$%&amp;*/:&lt;=&gt;?@^_~&#39;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">|</span> <span style="color: #268bd2">set</span><span style="color: #657b83">(</span><span style="color: #2aa198">&#39;abcdefghijklmnopqrstuvwxyz&#39;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">|</span>
+                 <span style="color: #268bd2">set</span><span style="color: #657b83">(</span><span style="color: #2aa198">&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ&#39;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">|</span> <span style="color: #657b83">_NUMERAL_STARTS)</span>
+<span style="color: #657b83">_WHITESPACE</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">set</span><span style="color: #657b83">(</span><span style="color: #2aa198">&#39; \t\n\r&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">_SINGLE_CHAR_TOKENS</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">set</span><span style="color: #657b83">(</span><span style="color: #2aa198">&quot;()&#39;`&quot;</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">_TOKEN_END</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">_WHITESPACE</span> <span style="color: #93a1a1">|</span> <span style="color: #657b83">_SINGLE_CHAR_TOKENS</span> <span style="color: #93a1a1">|</span> <span style="color: #657b83">{</span><span style="color: #2aa198">&#39;&quot;&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;;&#39;</span><span style="color: #657b83">}</span>
+<span style="color: #657b83">DELIMITERS</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">_SINGLE_CHAR_TOKENS</span> <span style="color: #93a1a1">|</span> <span style="color: #657b83">{</span><span style="color: #2aa198">&#39;.&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;,&#39;</span><span style="color: #657b83">}</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">valid_symbol</span><span style="color: #657b83">(s):</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(s)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">False</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">c</span> <span style="color: #859900">in</span> <span style="color: #657b83">s:</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">c</span> <span style="color: #859900">not</span> <span style="color: #859900">in</span> <span style="color: #657b83">_SYMBOL_CHARS:</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">False</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">True</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">next_candidate_token</span><span style="color: #657b83">(line,</span> <span style="color: #657b83">k):</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(line):</span>
+        <span style="color: #657b83">c</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">line[k]</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">c</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;;&#39;</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">None</span><span style="color: #657b83">,</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(line)</span>
+        <span style="color: #859900">elif</span> <span style="color: #657b83">c</span> <span style="color: #859900">in</span> <span style="color: #657b83">_WHITESPACE:</span>
+            <span style="color: #657b83">k</span> <span style="color: #93a1a1">+=</span> <span style="color: #2aa198">1</span>
+        <span style="color: #859900">elif</span> <span style="color: #657b83">c</span> <span style="color: #859900">in</span> <span style="color: #657b83">_SINGLE_CHAR_TOKENS:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">c,</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+        <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+            <span style="color: #657b83">j</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">k</span>
+            <span style="color: #859900">while</span> <span style="color: #657b83">j</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(line)</span> <span style="color: #859900">and</span> <span style="color: #657b83">line[j]</span> <span style="color: #859900">not</span> <span style="color: #859900">in</span> <span style="color: #657b83">_TOKEN_END:</span>
+                <span style="color: #657b83">j</span> <span style="color: #93a1a1">+=</span> <span style="color: #2aa198">1</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">line[k:j],</span> <span style="color: #268bd2">min</span><span style="color: #657b83">(j,</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(line))</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">None</span><span style="color: #657b83">,</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(line)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">tokenize_line</span><span style="color: #657b83">(line):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;The list of Scheme tokens on line. Excludes comments and whitespace.&quot;&quot;&quot;</span>
+    <span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[]</span>
+    <span style="color: #657b83">text,</span> <span style="color: #657b83">i</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">next_candidate_token(line,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">text</span> <span style="color: #859900">is</span> <span style="color: #859900">not</span> <span style="color: #2aa198">None</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">text</span> <span style="color: #859900">in</span> <span style="color: #657b83">DELIMITERS:</span>
+            <span style="color: #657b83">result</span><span style="color: #93a1a1">.</span><span style="color: #657b83">append(text)</span>
+        <span style="color: #859900">elif</span> <span style="color: #657b83">text</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;+&#39;</span> <span style="color: #859900">or</span> <span style="color: #657b83">text</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;-&#39;</span><span style="color: #657b83">:</span>
+            <span style="color: #657b83">result</span><span style="color: #93a1a1">.</span><span style="color: #657b83">append(text)</span>
+        <span style="color: #859900">elif</span> <span style="color: #657b83">text</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;nil&#39;</span><span style="color: #657b83">:</span>
+            <span style="color: #657b83">result</span><span style="color: #93a1a1">.</span><span style="color: #657b83">append(text)</span>
+        <span style="color: #859900">elif</span> <span style="color: #657b83">text[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span> <span style="color: #859900">in</span> <span style="color: #657b83">_NUMERAL_STARTS:</span>
+            <span style="color: #859900">try</span><span style="color: #657b83">:</span>
+                <span style="color: #657b83">result</span><span style="color: #93a1a1">.</span><span style="color: #657b83">append(</span><span style="color: #268bd2">int</span><span style="color: #657b83">(text))</span>
+            <span style="color: #859900">except</span> <span style="color: #268bd2">ValueError</span><span style="color: #657b83">:</span>
+                <span style="color: #859900">try</span><span style="color: #657b83">:</span>
+                    <span style="color: #657b83">result</span><span style="color: #93a1a1">.</span><span style="color: #657b83">append(</span><span style="color: #268bd2">float</span><span style="color: #657b83">(text))</span>
+                <span style="color: #859900">except</span> <span style="color: #268bd2">ValueError</span><span style="color: #657b83">:</span>
+                    <span style="color: #859900">raise</span> <span style="color: #268bd2">ValueError</span><span style="color: #657b83">(</span><span style="color: #2aa198">&quot;invalid numeral: {0}&quot;</span><span style="color: #93a1a1">.</span><span style="color: #657b83">format(text))</span>
+        <span style="color: #859900">elif</span> <span style="color: #657b83">text[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span> <span style="color: #859900">in</span> <span style="color: #657b83">_SYMBOL_CHARS</span> <span style="color: #859900">and</span> <span style="color: #657b83">valid_symbol(text):</span>
+            <span style="color: #657b83">result</span><span style="color: #93a1a1">.</span><span style="color: #657b83">append(text)</span>
+        <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">raise</span> <span style="color: #268bd2">ValueError</span><span style="color: #657b83">(</span><span style="color: #2aa198">&quot;invalid token: {0}&quot;</span><span style="color: #93a1a1">.</span><span style="color: #657b83">format(text))</span>
+        <span style="color: #657b83">text,</span> <span style="color: #657b83">i</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">next_candidate_token(line,</span> <span style="color: #657b83">i)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">result</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">tokenize_lines</span><span style="color: #657b83">(</span><span style="color: #268bd2">input</span><span style="color: #657b83">):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;An iterator returning lists of tokens, one for each line of input.&quot;&quot;&quot;</span>
+    <span style="color: #859900">return</span> <span style="color: #268bd2">map</span><span style="color: #657b83">(tokenize_line,</span> <span style="color: #268bd2">input</span><span style="color: #657b83">)</span>
+
+<span style="color: #859900">class</span> <span style="color: #268bd2">Buffer</span><span style="color: #657b83">(</span><span style="color: #268bd2">object</span><span style="color: #657b83">):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;A Buffer provides access to a sequence of tokens across lines.&quot;&quot;&quot;</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">source):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">index</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">lines</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[]</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">source</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">source</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">current_line</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">()</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">current()</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">pop</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #93a1a1">&quot;&quot;&quot;Remove the next item from self and return it, or None if exhausted.&quot;&quot;&quot;</span>
+        <span style="color: #657b83">current</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">current()</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">index</span> <span style="color: #93a1a1">+=</span> <span style="color: #2aa198">1</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">current</span>
+
+    <span style="color: #268bd2">@property</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">more_on_line</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">index</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">current_line)</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">current</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #93a1a1">&quot;&quot;&quot;Return the current element, or None if none exists.&quot;&quot;&quot;</span>
+        <span style="color: #859900">while</span> <span style="color: #859900">not</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">more_on_line:</span>
+            <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">index</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+            <span style="color: #859900">try</span><span style="color: #657b83">:</span>
+                <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">current_line</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">next</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">source)</span>
+                <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">lines</span><span style="color: #93a1a1">.</span><span style="color: #657b83">append(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">current_line)</span>
+            <span style="color: #859900">except</span> <span style="color: #268bd2">StopIteration</span><span style="color: #657b83">:</span>
+                <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">current_line</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">()</span>
+                <span style="color: #859900">return</span> <span style="color: #2aa198">None</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">current_line[</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">index]</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">scheme_read</span><span style="color: #657b83">(src):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Read the next expression from src, a Buffer of tokens.&quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">src</span><span style="color: #93a1a1">.</span><span style="color: #657b83">current()</span> <span style="color: #859900">is</span> <span style="color: #2aa198">None</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">raise</span> <span style="color: #268bd2">EOFError</span>
+    <span style="color: #657b83">val</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">src</span><span style="color: #93a1a1">.</span><span style="color: #657b83">pop()</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">val</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;nil&#39;</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">nil</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">val</span> <span style="color: #859900">not</span> <span style="color: #859900">in</span> <span style="color: #657b83">DELIMITERS:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">val</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">val</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;(&quot;</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">read_tail(src)</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">raise</span> <span style="color: #268bd2">SyntaxError</span><span style="color: #657b83">(</span><span style="color: #2aa198">&quot;unexpected token: {0}&quot;</span><span style="color: #93a1a1">.</span><span style="color: #657b83">format(val))</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">read_tail</span><span style="color: #657b83">(src):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return the remainder of a list in src, starting before an element or ).&quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">src</span><span style="color: #93a1a1">.</span><span style="color: #657b83">current()</span> <span style="color: #859900">is</span> <span style="color: #2aa198">None</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">raise</span> <span style="color: #268bd2">SyntaxError</span><span style="color: #657b83">(</span><span style="color: #2aa198">&quot;unexpected end of file&quot;</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">src</span><span style="color: #93a1a1">.</span><span style="color: #657b83">current()</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;)&quot;</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">src</span><span style="color: #93a1a1">.</span><span style="color: #657b83">pop()</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">nil</span>
+    <span style="color: #657b83">first</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">scheme_read(src)</span>
+    <span style="color: #657b83">rest</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">read_tail(src)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">Pair(first,</span> <span style="color: #657b83">rest)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">read_line</span><span style="color: #657b83">(line):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Read a single Calculator expression from one line of text.&quot;&quot;&quot;</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">scheme_read(Buffer(tokenize_lines([line])))</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">simplify</span><span style="color: #657b83">(value):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return an int if value is a whole float, else value unchanged.&quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(value,</span> <span style="color: #268bd2">float</span><span style="color: #657b83">)</span> <span style="color: #859900">and</span> <span style="color: #268bd2">int</span><span style="color: #657b83">(value)</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">value:</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">int</span><span style="color: #657b83">(value)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">value</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">reduce</span><span style="color: #657b83">(fn,</span> <span style="color: #657b83">scheme_list,</span> <span style="color: #657b83">start):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Reduce a recursive list of Pairs using fn and a start value.&quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">scheme_list</span> <span style="color: #859900">is</span> <span style="color: #657b83">nil:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">start</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">reduce(fn,</span> <span style="color: #657b83">scheme_list</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second,</span> <span style="color: #657b83">fn(start,</span> <span style="color: #657b83">scheme_list</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first))</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">as_scheme_list</span><span style="color: #657b83">(</span><span style="color: #93a1a1">*</span><span style="color: #657b83">args):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return a recursive list of Pairs containing the elements of args.&quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(args)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">nil</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">Pair(args[</span><span style="color: #2aa198">0</span><span style="color: #657b83">],</span> <span style="color: #657b83">as_scheme_list(</span><span style="color: #93a1a1">*</span><span style="color: #657b83">args[</span><span style="color: #2aa198">1</span><span style="color: #657b83">:]))</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">calc_apply</span><span style="color: #657b83">(operator,</span> <span style="color: #657b83">args):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Apply the named operator to a Scheme list of args.&quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #859900">not</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(operator,</span> <span style="color: #268bd2">str</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">raise</span> <span style="color: #268bd2">TypeError</span><span style="color: #657b83">(</span><span style="color: #268bd2">str</span><span style="color: #657b83">(operator)</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&#39; is not a symbol&#39;</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">operator</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;+&#39;</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">reduce(add,</span> <span style="color: #657b83">args,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">operator</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;-&#39;</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">if</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(args)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">raise</span> <span style="color: #268bd2">TypeError</span><span style="color: #657b83">(operator</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&#39; requires at least 1 argument&#39;</span><span style="color: #657b83">)</span>
+        <span style="color: #859900">elif</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(args)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #93a1a1">-</span><span style="color: #657b83">args</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span>
+        <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">reduce(sub,</span> <span style="color: #657b83">args</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second,</span> <span style="color: #657b83">args</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">operator</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;*&#39;</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">reduce(mul,</span> <span style="color: #657b83">args,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">operator</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;/&#39;</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">if</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(args)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">raise</span> <span style="color: #268bd2">TypeError</span><span style="color: #657b83">(operator</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&#39; requires at least 1 argument&#39;</span><span style="color: #657b83">)</span>
+        <span style="color: #859900">elif</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(args)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">1</span> <span style="color: #93a1a1">/</span> <span style="color: #657b83">args</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span>
+        <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">reduce(truediv,</span> <span style="color: #657b83">args</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second,</span> <span style="color: #657b83">args</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">raise</span> <span style="color: #268bd2">TypeError</span><span style="color: #657b83">(operator</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&#39; is an unknown operator&#39;</span><span style="color: #657b83">)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">calc_eval</span><span style="color: #657b83">(exp):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Evaluate a Calculator expression.&quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">type</span><span style="color: #657b83">(exp)</span> <span style="color: #859900">in</span> <span style="color: #657b83">(</span><span style="color: #268bd2">int</span><span style="color: #657b83">,</span> <span style="color: #268bd2">float</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">simplify(exp)</span>
+    <span style="color: #859900">elif</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(exp,</span> <span style="color: #657b83">Pair):</span>
+        <span style="color: #657b83">arguments</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">exp</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span><span style="color: #93a1a1">.</span><span style="color: #657b83">map(calc_eval)</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">simplify(calc_apply(exp</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">arguments))</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">raise</span> <span style="color: #268bd2">TypeError</span><span style="color: #657b83">(</span><span style="color: #268bd2">str</span><span style="color: #657b83">(exp)</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&#39; is not a number or call expression&#39;</span><span style="color: #657b83">)</span>
+</code></pre>
+<h3>1. Build a Flat Call Expression</h3>
+<p><strong>Approach — chain Pairs from the back.</strong> A Scheme list is a chain of <code>Pair</code> boxes ending in <code>nil</code>, so build the operand list by starting from <code>nil</code> and wrapping each operand (in reverse order) in a new <code>Pair</code>. Then put the operator in <code>first</code> — the same <code>(operator operand-1 ... operand-n)</code> shape the reader produces.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">make_call</span><span style="color: #657b83">(operator,</span> <span style="color: #657b83">operands):</span>
+    <span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">nil</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">value</span> <span style="color: #859900">in</span> <span style="color: #268bd2">reversed</span><span style="color: #657b83">(operands):</span>
+        <span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Pair(value,</span> <span style="color: #657b83">result)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">Pair(operator,</span> <span style="color: #657b83">result)</span>
+</code></pre>
+<p><strong>Why it works.</strong> Wrapping operands in reverse means the last operand attaches to <code>nil</code> first and the first operand ends up at the front of the chain, exactly matching <code>Pair(op, Pair(o1, Pair(o2, nil)))</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> for <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span></span> operands. One <code>Pair</code> is built per operand.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(make_call(</span><span style="color: #2aa198">&#39;+&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">[</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">]))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;(+ 2 3)&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(make_call(</span><span style="color: #2aa198">&#39;*&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">[</span><span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">6</span><span style="color: #657b83">]))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;(* 4 5 6)&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(make_call(</span><span style="color: #2aa198">&#39;-&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">[</span><span style="color: #2aa198">10</span><span style="color: #657b83">]))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;(- 10)&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #268bd2">repr</span><span style="color: #657b83">(make_call(</span><span style="color: #2aa198">&#39;+&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">[</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">]))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;Pair(&#39;+&#39;, Pair(2, Pair(3, nil)))&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">make_call(</span><span style="color: #2aa198">&#39;+&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">[</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">])</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;+&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(make_call(</span><span style="color: #2aa198">&#39;+&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">[</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">])</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">2</span>
+</code></pre>
+<h3>2. Read Operator and Arity</h3>
+<p><strong>Approach — first and second.</strong> Every combination stores the operator in <code>first</code> and the operand list in <code>second</code>. Because a <code>Pair</code> chain (and <code>nil</code>) supports <code>len</code>, one length call returns the arity directly, including the zero-operand case.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">operator_and_arity</span><span style="color: #657b83">(exp):</span>
+    <span style="color: #657b83">operator</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">exp</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span>
+    <span style="color: #657b83">operands</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">exp</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">(operator,</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(operands))</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>exp.second</code> is the well-formed operand list; <code>len</code> walks it to <code>nil</code> counting elements, and <code>len(nil)</code> is <code>0</code>, so the function handles <code>(+)</code> and <code>(/ 40 (* 4 5))</code> alike.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> for <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span></span> operands. <code>len</code> walks the operand chain once.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">operator_and_arity(read_line(</span><span style="color: #2aa198">&#39;(+ 2 3)&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">(</span><span style="color: #2aa198">&#39;+&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">operator_and_arity(read_line(</span><span style="color: #2aa198">&#39;(* 4 5 6)&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">(</span><span style="color: #2aa198">&#39;*&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">operator_and_arity(read_line(</span><span style="color: #2aa198">&#39;(- 9)&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">(</span><span style="color: #2aa198">&#39;-&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">operator_and_arity(read_line(</span><span style="color: #2aa198">&#39;(/ 40 (* 4 5))&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">(</span><span style="color: #2aa198">&#39;/&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">operator_and_arity(read_line(</span><span style="color: #2aa198">&#39;(+)&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">(</span><span style="color: #2aa198">&#39;+&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span>
+</code></pre>
+<h3>3. Evaluate One Line</h3>
+<p><strong>Approach — Read then Eval.</strong> This is the heart of the REPL for a single expression: parse the text into a <code>Pair</code> tree with <code>read_line</code>, then hand that tree to <code>calc_eval</code>, which dispatches on type and recurses through the nesting.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">calc</span><span style="color: #657b83">(line):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">calc_eval(read_line(line))</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>read_line</code> turns the characters into the expression tree, and <code>calc_eval</code> evaluates operands before applying the operator, so any depth of nesting resolves inside-out to a single value.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mclose">)</span></span></span></span></span> where <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span></span> is the token count and <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">d</span></span></span></span></span> the nesting depth. Parsing and evaluation each visit every node once; recursion depth is the tree depth.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">calc(</span><span style="color: #2aa198">&#39;(+ 2 3)&#39;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">5</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">calc(</span><span style="color: #2aa198">&#39;(* (+ 1 2) (+ 2 3))&#39;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">15</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">calc(</span><span style="color: #2aa198">&#39;(- 100 (* 7 (+ 8 (/ -12 -3))))&#39;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">16</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">calc(</span><span style="color: #2aa198">&#39;(+)&#39;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">calc(</span><span style="color: #2aa198">&#39;(/ 10)&#39;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0.1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">calc(</span><span style="color: #2aa198">&#39;42&#39;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">42</span>
+</code></pre>
+<h3>4. Count the Numbers in a Tree</h3>
+<p><strong>Approach — tree recursion over operands.</strong> A leaf (non-<code>Pair</code>) contributes one number; a combination contributes the sum over its operands. Walking <code>exp.second</code> with a <code>while</code> loop and recursing into each <code>operands.first</code> visits exactly the operands, never the operator symbol in <code>first</code>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">count_numbers</span><span style="color: #657b83">(exp):</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(exp,</span> <span style="color: #657b83">Pair):</span>
+        <span style="color: #657b83">total</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+        <span style="color: #657b83">operands</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">exp</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+        <span style="color: #859900">while</span> <span style="color: #657b83">operands</span> <span style="color: #859900">is</span> <span style="color: #859900">not</span> <span style="color: #657b83">nil:</span>
+            <span style="color: #657b83">total</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">total</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">count_numbers(operands</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+            <span style="color: #657b83">operands</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">operands</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">total</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">1</span>
+</code></pre>
+<p><strong>Why it works.</strong> The recursion mirrors <code>calc_eval</code>&#x27;s structure but counts instead of evaluates: it descends only into operands, so operator symbols never reach the leaf case.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mclose">)</span></span></span></span></span> for a tree of <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span></span> nodes and depth <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">d</span></span></span></span></span>. Each node is visited once; the call stack is the tree depth.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">count_numbers(read_line(</span><span style="color: #2aa198">&#39;(+ 2 3)&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">2</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_numbers(read_line(</span><span style="color: #2aa198">&#39;(* (+ 1 2) (+ 2 3))&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">4</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_numbers(read_line(</span><span style="color: #2aa198">&#39;(- 100 (* 7 (+ 8 (/ -12 -3))))&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">5</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_numbers(read_line(</span><span style="color: #2aa198">&#39;(+)&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_numbers(read_line(</span><span style="color: #2aa198">&#39;7&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+</code></pre>
+<h3>5. Sum Every Number</h3>
+<p><strong>Approach — same walk, numeric leaf.</strong> Reuse the operand-recursion shape, but the leaf case returns the number itself rather than <code>1</code>. Operators are skipped because only <code>exp.second</code> operands are recursed into, so no operator symbol is ever added.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">sum_leaves</span><span style="color: #657b83">(exp):</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(exp,</span> <span style="color: #657b83">Pair):</span>
+        <span style="color: #657b83">total</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+        <span style="color: #657b83">operands</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">exp</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+        <span style="color: #859900">while</span> <span style="color: #657b83">operands</span> <span style="color: #859900">is</span> <span style="color: #859900">not</span> <span style="color: #657b83">nil:</span>
+            <span style="color: #657b83">total</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">total</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">sum_leaves(operands</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+            <span style="color: #657b83">operands</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">operands</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">total</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">exp</span>
+</code></pre>
+<p><strong>Why it works.</strong> Every number leaf is reached exactly once and added in; combinations contribute the sum of their operands&#x27; sums, so the total is the sum of all leaves regardless of which operators appear.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mclose">)</span></span></span></span></span> for <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span></span> nodes and depth <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">d</span></span></span></span></span>. One visit per node; stack depth is the tree depth.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">sum_leaves(read_line(</span><span style="color: #2aa198">&#39;(+ 2 3)&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">5</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">sum_leaves(read_line(</span><span style="color: #2aa198">&#39;(* (+ 1 2) (+ 2 3))&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">8</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">sum_leaves(read_line(</span><span style="color: #2aa198">&#39;(- 100 (* 7 (+ 8 (/ -12 -3))))&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">100</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">sum_leaves(read_line(</span><span style="color: #2aa198">&#39;(+ 10 (- 5))&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">15</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">sum_leaves(read_line(</span><span style="color: #2aa198">&#39;9&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">9</span>
+</code></pre>
+<h3>6. Depth of an Expression Tree</h3>
+<p><strong>Approach — one plus the deepest operand.</strong> A non-<code>Pair</code> has depth <code>0</code>. A combination is <code>1</code> plus the largest depth among its operands, defaulting to <code>0</code> when it has none, so a flat <code>(+ 2 3)</code> is depth <code>1</code> and each nested layer adds one.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">tree_depth</span><span style="color: #657b83">(exp):</span>
+    <span style="color: #859900">if</span> <span style="color: #859900">not</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(exp,</span> <span style="color: #657b83">Pair):</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">0</span>
+    <span style="color: #657b83">deepest</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+    <span style="color: #657b83">operands</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">exp</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">operands</span> <span style="color: #859900">is</span> <span style="color: #859900">not</span> <span style="color: #657b83">nil:</span>
+        <span style="color: #657b83">child</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">tree_depth(operands</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">child</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #657b83">deepest:</span>
+            <span style="color: #657b83">deepest</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">child</span>
+        <span style="color: #657b83">operands</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">operands</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">1</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">deepest</span>
+</code></pre>
+<p><strong>Why it works.</strong> The recursion computes each operand&#x27;s depth and keeps the maximum; adding <code>1</code> accounts for the current combination&#x27;s own level, which is the standard tree-height definition.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mclose">)</span></span></span></span></span> for <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span></span> nodes and depth <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">d</span></span></span></span></span>. Every node contributes one comparison; recursion depth equals the tree depth.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">tree_depth(read_line(</span><span style="color: #2aa198">&#39;7&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">tree_depth(read_line(</span><span style="color: #2aa198">&#39;(+ 2 3)&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">tree_depth(read_line(</span><span style="color: #2aa198">&#39;(* (+ 1 2) (+ 2 3))&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">2</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">tree_depth(read_line(</span><span style="color: #2aa198">&#39;(- 100 (* 7 (+ 8 (/ -12 -3))))&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">4</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">tree_depth(read_line(</span><span style="color: #2aa198">&#39;(+ 1 (* 2 (+ 3 (* 4 5))))&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">4</span>
+</code></pre>
+<h3>7. Add a <code>max</code> Operator</h3>
+<p><strong>Approach — extend apply, mirror eval.</strong> Adding an operator to the Calculator means teaching <code>calc_apply</code> a new clause and routing combinations through it. <code>apply_with_max</code> handles <code>&#x27;max&#x27;</code> by scanning the already-evaluated <code>args</code> list and otherwise defers to the original <code>calc_apply</code>; <code>eval_with_max</code> is <code>calc_eval</code> with the two calls swapped to point at the extended versions.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">apply_with_max</span><span style="color: #657b83">(operator,</span> <span style="color: #657b83">args):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">operator</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;max&#39;</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">if</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(args)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">raise</span> <span style="color: #268bd2">TypeError</span><span style="color: #657b83">(</span><span style="color: #2aa198">&#39;max requires at least 1 argument&#39;</span><span style="color: #657b83">)</span>
+        <span style="color: #657b83">best</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">args</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span>
+        <span style="color: #657b83">rest</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">args</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+        <span style="color: #859900">while</span> <span style="color: #657b83">rest</span> <span style="color: #859900">is</span> <span style="color: #859900">not</span> <span style="color: #657b83">nil:</span>
+            <span style="color: #859900">if</span> <span style="color: #657b83">rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #657b83">best:</span>
+                <span style="color: #657b83">best</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span>
+            <span style="color: #657b83">rest</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">best</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">calc_apply(operator,</span> <span style="color: #657b83">args)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">eval_with_max</span><span style="color: #657b83">(exp):</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">type</span><span style="color: #657b83">(exp)</span> <span style="color: #859900">in</span> <span style="color: #657b83">(</span><span style="color: #268bd2">int</span><span style="color: #657b83">,</span> <span style="color: #268bd2">float</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">simplify(exp)</span>
+    <span style="color: #859900">elif</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(exp,</span> <span style="color: #657b83">Pair):</span>
+        <span style="color: #657b83">arguments</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">exp</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span><span style="color: #93a1a1">.</span><span style="color: #657b83">map(eval_with_max)</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">simplify(apply_with_max(exp</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">arguments))</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">raise</span> <span style="color: #268bd2">TypeError</span><span style="color: #657b83">(</span><span style="color: #268bd2">str</span><span style="color: #657b83">(exp)</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&#39; is not a number or call expression&#39;</span><span style="color: #657b83">)</span>
+</code></pre>
+<p><strong>Why it works.</strong> Because <code>eval_with_max</code> maps itself over the operands, nested <code>max</code> and arithmetic calls are evaluated to values first, so <code>apply_with_max</code> always receives finished numbers — exactly the contract <code>calc_apply</code> relies on. Unknown-to-<code>max</code> operators fall straight through to the existing arithmetic.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mclose">)</span></span></span></span></span> for <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span></span> nodes and depth <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">d</span></span></span></span></span>. Each combination scans its operands once; recursion depth is the tree depth.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">eval_with_max(read_line(</span><span style="color: #2aa198">&#39;(max 3 7 2)&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">7</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">eval_with_max(read_line(</span><span style="color: #2aa198">&#39;(max 5)&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">5</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">eval_with_max(read_line(</span><span style="color: #2aa198">&#39;(max (+ 1 2) (* 2 2))&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">4</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">eval_with_max(read_line(</span><span style="color: #2aa198">&#39;(+ 1 (max 4 9 2))&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">10</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">eval_with_max(read_line(</span><span style="color: #2aa198">&#39;(+ 2 3)&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">5</span>
+</code></pre>
+<h3>8. Reverse Every Operand List</h3>
+<p><strong>Approach — rebuild reversed Pairs.</strong> Keep the operator in <code>first</code>, but build a new operand list that prepends each recursively-reversed operand onto a <code>nil</code>-seeded accumulator. Prepending while iterating front-to-back naturally reverses the order, and recursing into each operand reverses subtrees too.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">reverse_operands</span><span style="color: #657b83">(exp):</span>
+    <span style="color: #859900">if</span> <span style="color: #859900">not</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(exp,</span> <span style="color: #657b83">Pair):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">exp</span>
+    <span style="color: #657b83">new_operands</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">nil</span>
+    <span style="color: #657b83">operands</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">exp</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">operands</span> <span style="color: #859900">is</span> <span style="color: #859900">not</span> <span style="color: #657b83">nil:</span>
+        <span style="color: #657b83">reversed_child</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">reverse_operands(operands</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+        <span style="color: #657b83">new_operands</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Pair(reversed_child,</span> <span style="color: #657b83">new_operands)</span>
+        <span style="color: #657b83">operands</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">operands</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">Pair(exp</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">new_operands)</span>
+</code></pre>
+<p><strong>Why it works.</strong> Each operand is processed in order but pushed onto the front of <code>new_operands</code>, so the first operand ends up last; the recursive call reverses each operand subtree before it is placed. No original <code>Pair</code> is modified — every node is freshly constructed.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> for a tree of <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span></span> nodes. Every node is rebuilt once.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(reverse_operands(read_line(</span><span style="color: #2aa198">&#39;(- 10 1 2)&#39;</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;(- 2 1 10)&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(reverse_operands(read_line(</span><span style="color: #2aa198">&#39;(/ 40 (* 4 5))&#39;</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;(/ (* 5 4) 40)&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(reverse_operands(read_line(</span><span style="color: #2aa198">&#39;(+ 2 3)&#39;</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;(+ 3 2)&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(reverse_operands(read_line(</span><span style="color: #2aa198">&#39;7&#39;</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;7&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">calc_eval(reverse_operands(read_line(</span><span style="color: #2aa198">&#39;(- 10 1 2)&#39;</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">9</span>
+</code></pre>
+<h3>9. Constant-Fold the Tree</h3>
+<p><strong>Approach — fold leaves up, evaluate all-number nodes.</strong> Recurse first so every operand is folded, tracking whether all folded operands turned into numbers. Rebuild the combination from the folded operands; if every one is a number, the whole combination is constant, so evaluate it with <code>calc_eval</code> and return the single value. Otherwise return the rebuilt (partially folded) combination. Number and symbol leaves pass straight through.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">constant_fold</span><span style="color: #657b83">(exp):</span>
+    <span style="color: #859900">if</span> <span style="color: #859900">not</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(exp,</span> <span style="color: #657b83">Pair):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">exp</span>
+    <span style="color: #657b83">folded_operands</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[]</span>
+    <span style="color: #657b83">all_numbers</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">True</span>
+    <span style="color: #657b83">operands</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">exp</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">operands</span> <span style="color: #859900">is</span> <span style="color: #859900">not</span> <span style="color: #657b83">nil:</span>
+        <span style="color: #657b83">folded</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">constant_fold(operands</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+        <span style="color: #657b83">folded_operands</span><span style="color: #93a1a1">.</span><span style="color: #657b83">append(folded)</span>
+        <span style="color: #859900">if</span> <span style="color: #268bd2">type</span><span style="color: #657b83">(folded)</span> <span style="color: #859900">not</span> <span style="color: #859900">in</span> <span style="color: #657b83">(</span><span style="color: #268bd2">int</span><span style="color: #657b83">,</span> <span style="color: #268bd2">float</span><span style="color: #657b83">):</span>
+            <span style="color: #657b83">all_numbers</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">False</span>
+        <span style="color: #657b83">operands</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">operands</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+    <span style="color: #657b83">new_operands</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">nil</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">value</span> <span style="color: #859900">in</span> <span style="color: #268bd2">reversed</span><span style="color: #657b83">(folded_operands):</span>
+        <span style="color: #657b83">new_operands</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Pair(value,</span> <span style="color: #657b83">new_operands)</span>
+    <span style="color: #657b83">new_exp</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Pair(exp</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">new_operands)</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">all_numbers:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">calc_eval(new_exp)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">new_exp</span>
+</code></pre>
+<p><strong>Why it works.</strong> Folding bottom-up means by the time a combination is examined, each operand is either a number or an irreducible subtree. A combination with only numeric operands is exactly what <code>calc_eval</code> can collapse to one value; any non-number operand (a variable symbol) keeps the combination symbolic while its numeric siblings are already folded.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> for a tree of <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span></span> nodes. Each node is folded and rebuilt once; the all-number <code>calc_eval</code> calls re-traverse only already-collapsed subtrees.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">constant_fold(read_line(</span><span style="color: #2aa198">&#39;(+ 2 3)&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">5</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">constant_fold(read_line(</span><span style="color: #2aa198">&#39;(* (+ 1 2) (+ 2 3))&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">15</span>
+<span style="color: #859900">assert</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(constant_fold(read_line(</span><span style="color: #2aa198">&#39;(+ x (* 2 3))&#39;</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;(+ x 6)&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(constant_fold(read_line(</span><span style="color: #2aa198">&#39;(- (+ 1 2) y)&#39;</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;(- 3 y)&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">constant_fold(read_line(</span><span style="color: #2aa198">&#39;z&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;z&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(constant_fold(read_line(</span><span style="color: #2aa198">&#39;(* w (+ a 1))&#39;</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;(* w (+ a 1))&#39;</span>
+</code></pre>
+<h3>10. Pretty-Print as Infix</h3>
+<p><strong>Approach — recurse and join.</strong> A leaf prints as its own text. A combination collects the infix form of each operand into a Python list; a single operand prints as the operator directly in front of it, while two or more are joined by <code>&#x27; operator &#x27;</code> and wrapped in parentheses. Recursing into operands renders subtrees, and the parentheses preserve grouping.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">to_infix</span><span style="color: #657b83">(exp):</span>
+    <span style="color: #859900">if</span> <span style="color: #859900">not</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(exp,</span> <span style="color: #657b83">Pair):</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(exp)</span>
+    <span style="color: #657b83">operator</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">exp</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span>
+    <span style="color: #657b83">operands</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">exp</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(operands)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;(&#39;</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">operator</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">to_infix(operands</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&#39;)&#39;</span>
+    <span style="color: #657b83">parts</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[]</span>
+    <span style="color: #657b83">rest</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">operands</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">rest</span> <span style="color: #859900">is</span> <span style="color: #859900">not</span> <span style="color: #657b83">nil:</span>
+        <span style="color: #657b83">parts</span><span style="color: #93a1a1">.</span><span style="color: #657b83">append(to_infix(rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first))</span>
+        <span style="color: #657b83">rest</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+    <span style="color: #657b83">joined</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">(</span><span style="color: #2aa198">&#39; &#39;</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">operator</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&#39; &#39;</span><span style="color: #657b83">)</span><span style="color: #93a1a1">.</span><span style="color: #657b83">join(parts)</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;(&#39;</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">joined</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&#39;)&#39;</span>
+</code></pre>
+<p><strong>Why it works.</strong> Each operand is converted before being joined, so nested combinations become parenthesized infix strings in place. Wrapping every multi-operand combination in parentheses keeps the original grouping unambiguous, and the unary case mirrors how <code>(- 3)</code> reads as negation <code>(-3)</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> for a tree of <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span></span> nodes. Each node produces one string fragment; joining concatenates them once.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">to_infix(read_line(</span><span style="color: #2aa198">&#39;(+ 2 3)&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;(2 + 3)&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">to_infix(read_line(</span><span style="color: #2aa198">&#39;(* (+ 1 2) (+ 2 3))&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;((1 + 2) * (2 + 3))&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">to_infix(read_line(</span><span style="color: #2aa198">&#39;(- 10 1 2)&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;(10 - 1 - 2)&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">to_infix(read_line(</span><span style="color: #2aa198">&#39;(- 3)&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;(-3)&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">to_infix(read_line(</span><span style="color: #2aa198">&#39;(/ 40 (* 4 5))&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;(40 / (4 * 5))&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">to_infix(read_line(</span><span style="color: #2aa198">&#39;7&#39;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;7&#39;</span>
+</code></pre>
+</div></section><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+
+</body>
+</html>

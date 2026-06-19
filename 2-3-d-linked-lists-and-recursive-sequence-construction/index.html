@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>2.3 Linked Lists and Recursive Sequence Construction · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/' class='active'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 2</span><span class='dot'>/</span><span class='eb-sec'>2.3 Sequences</span></div><h1 class='lesson-title'>2.3 Linked Lists and Recursive Sequence Construction</h1><div class='reading-meta'>&#9719; approx. 21 min read <span class='rm-sep'>&middot;</span> 18 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>Up to now, every sequence you have built has been a native Python value: a list, a range, a string. This lesson builds a sequence out of nothing but pairs that you wire together yourself. That structure is the <strong>linked list</strong>, and it is your first chance to see a data type whose very shape is recursive.</p>
+<p>By the end you will be able to do five things. You will read a linked list as a chain of two-part links instead of one flat container. You will build one with the <code>link</code> constructor and take it apart with the <code>first</code> and <code>rest</code> selectors. You will write iterative functions that walk the chain one link at a time. You will write recursive functions that match the recursive shape of the data almost line for line. And you will use linked lists to construct answers incrementally, building up to a program that lists every integer partition explicitly rather than merely counting them.</p>
+<p>The single habit this lesson trains is this: when a piece of data is defined in terms of a smaller copy of itself, the cleanest code is usually defined the same way.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='a-chain-of-notes' class='ls ls-default'>
+<h2 class='ls-h'><span>A Chain of Notes</span></h2>
+<div class='ls-body'>
+<p>Picture a scavenger hunt. The organizer hands you one card. On that card are two things: a clue you can use right now, and directions to where the next card is hidden. You read the clue, walk to the next spot, and find another card with the same two-part shape: one clue, plus directions onward. Eventually you reach a card that says &quot;you are done&quot; and points nowhere.</p>
+<p>A linked list has exactly that shape. Each link holds two things:</p>
+<ol>
+<li>the first value of the sequence, the part you can use right now</li>
+<li>the rest of the sequence, which is itself another linked list</li>
+</ol>
+<p>That second part is the recursive idea. The rest of a linked list is not a number or a loose value. It is a smaller linked list, holding its own first value and its own rest, all the way down until you reach a final marker that means &quot;the sequence ends here.&quot; That marker plays the role of the last card in the hunt.</p>
+<p>The figure below shows this chain of links, each holding a first value and a rest that points to the next link.</p>
+<p><img class="figure" src="figures/linked-list-chain.svg" alt="Chain of linked-list nodes where each node holds a first value and a rest pointer to the next node, ending at the empty marker"></p>
+<p>For the sequence <code>1, 2, 3, 4</code>, the chain looks like this:</p>
+<pre class='code text'><code>+---+---+    +---+---+    +---+---+    +---+-------+
+| 1 | o----&gt; | 2 | o----&gt; | 3 | o----&gt; | 4 | empty |
++---+---+    +---+---+    +---+---+    +---+-------+</code></pre>
+<p>Each box is one link. The left cell holds a value; the right cell holds an arrow to the next link. The very last link&#x27;s &quot;rest&quot; is the special end-marker rather than another arrow.</p>
+</div></section>
+<section id='building-the-link-abstraction-in-python' class='ls ls-default'>
+<h2 class='ls-h'><span>Building the Link Abstraction in Python</span></h2>
+<div class='ls-body'>
+<p>A linked list is built from pairs, and we represent each pair as a two-element Python list. But you are not going to reach into those lists with <code>[0]</code> and <code>[1]</code> in your everyday code. Instead you will define a small <strong>abstract data representation</strong>: a constructor that builds a link, selectors that read its two parts, and a checker that decides whether a value obeys the rules. Once those exist, you program against the names, not the underlying lists.</p>
+<p>First, the end-marker. We need a single value that stands for &quot;the empty linked list,&quot; the thing the last link points at:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #657b83">empty</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">&#39;empty&#39;</span>
+</code></pre>
+<p>The exact value is not important; what matters is that it is one fixed value every part of the program agrees to treat as &quot;the end.&quot; Here we use the string <code>&#x27;empty&#x27;</code>.</p>
+<p>Now the checker, constructor, and selectors. This is the official representation, reproduced exactly:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">is_link</span><span style="color: #657b83">(s):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;s is a linked list if it is empty or a (first, rest) pair.&quot;&quot;&quot;</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">s</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">empty</span> <span style="color: #859900">or</span> <span style="color: #657b83">(</span><span style="color: #268bd2">len</span><span style="color: #657b83">(s)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">2</span> <span style="color: #859900">and</span> <span style="color: #657b83">is_link(s[</span><span style="color: #2aa198">1</span><span style="color: #657b83">]))</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">link</span><span style="color: #657b83">(first,</span> <span style="color: #657b83">rest):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Construct a linked list from its first element and the rest.&quot;&quot;&quot;</span>
+    <span style="color: #859900">assert</span> <span style="color: #657b83">is_link(rest),</span> <span style="color: #2aa198">&quot;rest must be a linked list.&quot;</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">[first,</span> <span style="color: #657b83">rest]</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">first</span><span style="color: #657b83">(s):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return the first element of a linked list s.&quot;&quot;&quot;</span>
+    <span style="color: #859900">assert</span> <span style="color: #657b83">is_link(s),</span> <span style="color: #2aa198">&quot;first only applies to linked lists.&quot;</span>
+    <span style="color: #859900">assert</span> <span style="color: #657b83">s</span> <span style="color: #93a1a1">!=</span> <span style="color: #657b83">empty,</span> <span style="color: #2aa198">&quot;empty linked list has no first element.&quot;</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">s[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">rest</span><span style="color: #657b83">(s):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return the rest of the elements of a linked list s.&quot;&quot;&quot;</span>
+    <span style="color: #859900">assert</span> <span style="color: #657b83">is_link(s),</span> <span style="color: #2aa198">&quot;rest only applies to linked lists.&quot;</span>
+    <span style="color: #859900">assert</span> <span style="color: #657b83">s</span> <span style="color: #93a1a1">!=</span> <span style="color: #657b83">empty,</span> <span style="color: #2aa198">&quot;empty linked list has no rest.&quot;</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">s[</span><span style="color: #2aa198">1</span><span style="color: #657b83">]</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/8a6b20a7dfd8.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>Read these as a set of cooperating pieces:</p>
+<ul>
+<li><code>link</code> is the <strong>constructor</strong>. It takes a first value and a rest, checks that the rest really is a linked list, and packages them as the pair <code>[first, rest]</code>.</li>
+<li><code>first</code> is a <strong>selector</strong>. It returns the value stored in a link.</li>
+<li><code>rest</code> is a <strong>selector</strong>. It returns the smaller linked list stored in a link.</li>
+<li><code>is_link</code> is the <strong>checker</strong>. It returns <code>True</code> when a value is either the end-marker or a two-element pair whose second part is, recursively, also a linked list.</li>
+</ul>
+<p>Notice that <code>is_link</code> and <code>link</code> are themselves recursive: <code>is_link</code> validates the rest by calling <code>is_link</code> again, and <code>link</code> only accepts a rest that already passes that check. This is the same closure idea from earlier in the chapter: the rest of a linked list must be the same kind of thing as the whole linked list, which is what lets the chain extend to any length.</p>
+<p>The constructor and selectors are designed to be inverses. If you build a link from a first value and a rest, then <code>first</code> hands back exactly that first value and <code>rest</code> hands back exactly that rest. That inverse relationship is the entire contract of the abstraction. (One aside worth holding onto: because a link is just a pair, and pairs can be built out of functions alone, linked lists could be implemented with no lists at all. The two-element list is a convenience, not a requirement. Don&#x27;t worry about how building pairs from functions would work; a later section shows it. The point here is only that the abstraction doesn&#x27;t depend on the two-element list.)</p>
+</div></section>
+<section id='anatomy-of-the-constructor-call' class='ls ls-default'>
+<h2 class='ls-h'><span>Anatomy of the Constructor Call</span></h2>
+<div class='ls-body'>
+<p>Here is the smallest non-empty linked list, a single link holding the value <code>1</code>:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #657b83">link(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #657b83">empty)</span>
+</code></pre>
+<p>Follow the call one part at a time. Each row says what that part does, and the final row gives the value the whole call produces:</p>
+<pre class='code anatomy'><code>link(1, empty)
+├─ link ........ the constructor: packages a first value and a rest into one link
+├─ ( ........... begins the arguments
+├─ 1 ........... the first value to store in this link
+├─ , ........... separates the arguments
+├─ empty ....... the rest: the end-marker, so this link is the last one
+├─ ) ........... ends the arguments and performs the call
+└─ evaluates to  [1, &#x27;empty&#x27;], a one-element linked list</code></pre>
+<p>In the chain picture, that result is a single box whose rest is the end-marker:</p>
+<pre class='code text'><code>+---+-------+
+| 1 | empty |
++---+-------+</code></pre>
+</div></section>
+<section id='building-a-longer-list-from-the-inside-out' class='ls ls-default'>
+<h2 class='ls-h'><span>Building a Longer List From the Inside Out</span></h2>
+<div class='ls-body'>
+<p>To build the four-element sequence <code>1, 2, 3, 4</code>, you nest four constructor calls. Each <code>link</code> wraps the chain that the next call produced:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (4)</span>
+<span style="color: #657b83">four</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">link(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #657b83">link(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #657b83">link(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #657b83">link(</span><span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #657b83">empty))))</span>
+</code></pre>
+<p>Follow how this expression is built. Each row names the sub-call and what it contributes; the final row is the whole value:</p>
+<pre class='code anatomy'><code>link(1, link(2, link(3, link(4, empty))))
+├─ link(4, empty) ................. the last link: holds 4, rest is the end-marker
+├─ link(3, &lt;that&gt;) ................ holds 3, rest is the 4-link
+├─ link(2, &lt;that&gt;) ................ holds 2, rest is the 3-link
+├─ link(1, &lt;that&gt;) ................ holds 1, rest is the 2-link
+└─ evaluates to  the full chain 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; empty</code></pre>
+<p>Python always evaluates the innermost call first, because an outer <code>link</code> cannot run until it knows what its <code>rest</code> argument is. So the chain is actually constructed back to front: the <code>4</code>-link exists before the <code>3</code>-link, which exists before the <code>2</code>-link, and so on. In evaluation order:</p>
+<pre class='code text'><code>link(4, empty)
+link(3, link(4, empty))
+link(2, link(3, link(4, empty)))
+link(1, link(2, link(3, link(4, empty))))</code></pre>
+<p>There are two ways to look at the finished value. The literal representation, the actual nested Python lists, is deeply nested:</p>
+<pre class='code text'><code>[1, [2, [3, [4, &#x27;empty&#x27;]]]]</code></pre>
+<p>The abstract view, the thing you actually care about, is a flat sequence:</p>
+<pre class='code text'><code>1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; empty</code></pre>
+<p>The whole point of the abstraction is that you get to think in the second picture and let <code>link</code>, <code>first</code>, and <code>rest</code> manage the first.</p>
+</div></section>
+<section id='reading-values-out-with-the-selectors' class='ls ls-default'>
+<h2 class='ls-h'><span>Reading Values Out With the Selectors</span></h2>
+<div class='ls-body'>
+<p>Once <code>four</code> exists, you pull values out with the selectors. Here is the official session that does exactly that:</p>
+<pre class='code text'><code>&gt;&gt;&gt; four = link(1, link(2, link(3, link(4, empty))))
+&gt;&gt;&gt; first(four)
+1
+&gt;&gt;&gt; rest(four)
+[2, [3, [4, &#x27;empty&#x27;]]]</code></pre>
+<p><code>first(four)</code> returns the value in the outermost link, <code>1</code>. <code>rest(four)</code> returns everything after it, which is itself a linked list, the chain <code>2 -&gt; 3 -&gt; 4</code>. Python displays that rest in its literal nested form, <code>[2, [3, [4, &#x27;empty&#x27;]]]</code>, but abstractly it is just the three-element sequence.</p>
+<p>To reach the second value, you compose the selectors. Read the composition from the inside out:</p>
+<pre class='code anatomy'><code>first(rest(four))
+├─ rest(four) ........ strip the first link, leaving the sequence 2 -&gt; 3 -&gt; 4
+├─ first(...) ........ take the first value of that shorter sequence
+└─ evaluates to  2</code></pre>
+<p>This inside-out reading, evaluate the inner call, then apply the outer one, is exactly how every nested expression works. Linked lists make it concrete: each <code>rest</code> peels off one link, and <code>first</code> reads whatever link is now at the front.</p>
+</div></section>
+<section id='length-and-selection-showing-it-is-a-sequence' class='ls ls-default'>
+<h2 class='ls-h'><span>Length and Selection: Showing It Is a Sequence</span></h2>
+<div class='ls-body'>
+<p>A linked list stores values in order, but storing values is not enough to call it a sequence. A sequence has to support two behaviors: you can ask for its length, and you can select an element by index. We build both on top of the abstraction.</p>
+<h3>Length by Iteration</h3>
+<p>This function counts the links by walking down the chain until it reaches the end-marker:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (5)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">len_link</span><span style="color: #657b83">(s):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return the length of linked list s.&quot;&quot;&quot;</span>
+    <span style="color: #657b83">length</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">s</span> <span style="color: #93a1a1">!=</span> <span style="color: #657b83">empty:</span>
+        <span style="color: #657b83">s,</span> <span style="color: #657b83">length</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">rest(s),</span> <span style="color: #657b83">length</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">length</span>
+</code></pre>
+<p>The loop does two things on every pass: it advances <code>s</code> to the rest of the current list, and it adds one to <code>length</code>. When <code>s</code> finally reaches <code>empty</code>, the loop stops and the count is returned. Trace <code>len_link(four)</code>:</p>
+<pre class='code text'><code>Start:
+s = 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; empty
+length = 0
+
+Pass 1:
+s becomes 2 -&gt; 3 -&gt; 4 -&gt; empty
+length becomes 1
+
+Pass 2:
+s becomes 3 -&gt; 4 -&gt; empty
+length becomes 2
+
+Pass 3:
+s becomes 4 -&gt; empty
+length becomes 3
+
+Pass 4:
+s becomes empty
+length becomes 4
+
+Loop test is now false; return 4.</code></pre>
+<p>One subtlety lives in the line <code>s, length = rest(s), length + 1</code>. Python evaluates both expressions on the right, <code>rest(s)</code> and <code>length + 1</code>, before it rebinds either name on the left. So <code>rest(s)</code> uses the old <code>s</code>, and <code>length + 1</code> uses the old <code>length</code>. If you split this into two separate assignments in the wrong order, you would advance <code>s</code> first and then count the wrong list. The simultaneous assignment keeps the two updates consistent.</p>
+<h3>Selection by Iteration</h3>
+<p>To select the element at index <code>i</code>, move down the chain <code>i</code> times, then read the first value of wherever you land:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (6)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">getitem_link</span><span style="color: #657b83">(s,</span> <span style="color: #657b83">i):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return the element at index i of linked list s.&quot;&quot;&quot;</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">i</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">s,</span> <span style="color: #657b83">i</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">rest(s),</span> <span style="color: #657b83">i</span> <span style="color: #93a1a1">-</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">first(s)</span>
+</code></pre>
+<p>Each pass advances <code>s</code> to its rest and decreases <code>i</code> by one. When <code>i</code> reaches <code>0</code>, the front link is the one you wanted, and <code>first(s)</code> returns its value. The official session confirms both functions on <code>four</code>:</p>
+<pre class='code text'><code>&gt;&gt;&gt; len_link(four)
+4
+&gt;&gt;&gt; getitem_link(four, 1)
+2</code></pre>
+<h3>A Step-by-Step Trace of getitem_link</h3>
+<p>Selection by index is where the &quot;increasingly shorter suffix&quot; pattern is easiest to watch, so it is worth tracing <code>getitem_link(four, 1)</code> frame by frame. To make the frames readable, treat <code>four</code> as the literal nested pairs <code>[1, [2, [3, [4, &#x27;empty&#x27;]]]]</code>; reaching past the abstraction like this is something you would not do in real code, but it lets you see the values directly.</p>
+<pre class='code text'><code>Call getitem_link(s, i) with s = [1, [2, [3, [4, &#x27;empty&#x27;]]]], i = 1.
+
+Local frame:
+    s -&gt; [1, [2, [3, [4, &#x27;empty&#x27;]]]]
+    i -&gt; 1
+
+Check the while header: i &gt; 0 is True, so run the suite.
+    rest(s) returns the sublist that starts with 2.
+    Rebind both names simultaneously.
+
+Local frame is now:
+    s -&gt; [2, [3, [4, &#x27;empty&#x27;]]]
+    i -&gt; 0
+
+Check the while header again: i &gt; 0 is False, so leave the loop.
+Run the final line: first(s).
+    first selects the value 2 from the front link.
+Return 2 from getitem_link.</code></pre>
+<p>Each pass of the loop hands the next pass a strictly shorter list, the suffix that remains. That is the shape of nearly every linked-list computation: peel off the front, recurse or loop on the rest, until either the end-marker or the target is reached.</p>
+<p>This incremental walking does cost real time. To find the length, you visit every link; to find an element, you visit every link up to that index. Python&#x27;s built-in lists are stored differently under the hood, so they can report their length and fetch an element without walking, but the details of that representation are beyond what we need here. What matters is that the linked list satisfies the sequence behaviors, even if it pays a walking cost to do so.</p>
+</div></section>
+<section id='the-same-operations-written-recursively' class='ls ls-default'>
+<h2 class='ls-h'><span>The Same Operations, Written Recursively</span></h2>
+<div class='ls-body'>
+<p>Both <code>len_link</code> and <code>getitem_link</code> are iterative: a loop peels away one layer of the pair at a time. But the data is recursive, so the operations can be too. A recursive version says what to do at the end of the list, and otherwise reduces the problem to the same operation on the rest.</p>
+<h3>A Bridge: Recursive Length You Can Check by Hand</h3>
+<p>Before the official version, here is a slightly more explicit form you can verify on a two-element list. It spells out the recursive case with an <code>else</code>:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (7)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">len_link_recursive_bridge</span><span style="color: #657b83">(s):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">s</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">empty:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">1</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">len_link_recursive_bridge(rest(s))</span>
+</code></pre>
+<p>Walk it on the sequence <code>1 -&gt; 2 -&gt; empty</code>:</p>
+<pre class='code text'><code>len_link_recursive_bridge(1 -&gt; 2 -&gt; empty)
+= 1 + len_link_recursive_bridge(2 -&gt; empty)
+= 1 + (1 + len_link_recursive_bridge(empty))
+= 1 + (1 + 0)
+= 2</code></pre>
+<p>Each call strips one link and adds one, and the deepest call hits the empty list and returns <code>0</code>. The additions then resolve outward.</p>
+<h3>The Official Recursive Length</h3>
+<p>The official version is identical in behavior but drops the <code>else</code>. Because the <code>if</code> branch returns, control only reaches the last line when <code>s</code> is not empty, so the explicit <code>else</code> is unnecessary:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (8)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">len_link_recursive</span><span style="color: #657b83">(s):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return the length of a linked list s.&quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">s</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">empty:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">1</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">len_link_recursive(rest(s))</span>
+</code></pre>
+<p>The base case is the empty list, whose length is <code>0</code>. The recursive case takes the length of the rest and adds one for the current link.</p>
+<h3>The Official Recursive Selection</h3>
+<p>Index selection follows the same shape. The base case is reaching index <code>0</code>; otherwise, look for index <code>i - 1</code> in the rest:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (9)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">getitem_link_recursive</span><span style="color: #657b83">(s,</span> <span style="color: #657b83">i):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return the element at index i of linked list s.&quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">i</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">first(s)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">getitem_link_recursive(rest(s),</span> <span style="color: #657b83">i</span> <span style="color: #93a1a1">-</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>When <code>i</code> is <code>0</code>, the value you want is at the front, so return <code>first(s)</code>. Otherwise, the answer is the element at index <code>i - 1</code> of the rest of the list, which is a smaller version of the very same problem. Both recursive functions follow the chain of pairs until they hit either the end of the list or the target element. The official session shows them producing the same answers as their iterative twins:</p>
+<pre class='code text'><code>&gt;&gt;&gt; len_link_recursive(four)
+4
+&gt;&gt;&gt; getitem_link_recursive(four, 1)
+2</code></pre>
+</div></section>
+<section id='recursion-for-transforming-and-combining-lists' class='ls ls-default'>
+<h2 class='ls-h'><span>Recursion for Transforming and Combining Lists</span></h2>
+<div class='ls-body'>
+<p>Recursion is not just for measuring a list; it is also how you build new lists from old ones. Three operations come up constantly: appending one list to another, transforming every element, and keeping only some elements.</p>
+<h3>Appending: extend_link</h3>
+<p>To put the elements of one list <code>s</code> in front of another list <code>t</code>, copy <code>s</code> link by link and attach <code>t</code> at the end:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (10)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">extend_link</span><span style="color: #657b83">(s,</span> <span style="color: #657b83">t):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return a list with the elements of s followed by those of t.&quot;&quot;&quot;</span>
+    <span style="color: #859900">assert</span> <span style="color: #657b83">is_link(s)</span> <span style="color: #859900">and</span> <span style="color: #657b83">is_link(t)</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">s</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">empty:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">t</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">link(first(s),</span> <span style="color: #657b83">extend_link(rest(s),</span> <span style="color: #657b83">t))</span>
+</code></pre>
+<p>The base case is when <code>s</code> is empty: there is nothing of <code>s</code> left to copy, so the result is just <code>t</code>. The recursive case rebuilds the front link of <code>s</code> onto the extension of the rest of <code>s</code> with <code>t</code>. The official session shows the list <code>four</code> appended to itself:</p>
+<pre class='code text'><code>&gt;&gt;&gt; extend_link(four, four)
+[1, [2, [3, [4, [1, [2, [3, [4, &#x27;empty&#x27;]]]]]]]]</code></pre>
+<p>Abstractly, that nested result is the eight-element sequence:</p>
+<pre class='code text'><code>1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; empty</code></pre>
+<p>The first <code>four</code> is copied into fresh links, and where its end-marker used to be, the second <code>four</code> now hangs.</p>
+<h3>Transforming: apply_to_all_link</h3>
+<p>This function builds a new list of the same shape, but with a function applied to every element:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (11)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">apply_to_all_link</span><span style="color: #657b83">(f,</span> <span style="color: #657b83">s):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Apply f to each element of s.&quot;&quot;&quot;</span>
+    <span style="color: #859900">assert</span> <span style="color: #657b83">is_link(s)</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">s</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">empty:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">s</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">link(f(first(s)),</span> <span style="color: #657b83">apply_to_all_link(f,</span> <span style="color: #657b83">rest(s)))</span>
+</code></pre>
+<p>If <code>s</code> is empty, the transformed list is also empty. Otherwise, apply <code>f</code> to the first value, and put that in front of the transformed rest. The official session squares every element of <code>four</code>:</p>
+<pre class='code text'><code>&gt;&gt;&gt; apply_to_all_link(lambda x: x*x, four)
+[1, [4, [9, [16, &#x27;empty&#x27;]]]]</code></pre>
+<p>The chain still has four links in the same order, but each value has been replaced by its square: <code>1 -&gt; 4 -&gt; 9 -&gt; 16 -&gt; empty</code>. The structure is preserved; only the contents change.</p>
+<h3>Filtering: keep_if_link</h3>
+<p>This function keeps only the elements that satisfy a predicate <code>f</code>:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (12)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">keep_if_link</span><span style="color: #657b83">(f,</span> <span style="color: #657b83">s):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return a list with elements of s for which f(e) is true.&quot;&quot;&quot;</span>
+    <span style="color: #859900">assert</span> <span style="color: #657b83">is_link(s)</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">s</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">empty:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">s</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">kept</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">keep_if_link(f,</span> <span style="color: #657b83">rest(s))</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">f(first(s)):</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">link(first(s),</span> <span style="color: #657b83">kept)</span>
+        <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">kept</span>
+</code></pre>
+<p>Read the order of operations carefully. The function first filters the rest of the list into <code>kept</code>. Only then does it look at the current first value: if <code>f(first(s))</code> is true, it puts that value back onto the front of <code>kept</code>; if not, it returns <code>kept</code> unchanged, dropping the current value. The official session keeps the even elements of <code>four</code>:</p>
+<pre class='code text'><code>&gt;&gt;&gt; keep_if_link(lambda x: x%2 == 0, four)
+[2, [4, &#x27;empty&#x27;]]</code></pre>
+<p>The odds <code>1</code> and <code>3</code> are dropped; the evens <code>2</code> and <code>4</code> remain in order, as <code>2 -&gt; 4 -&gt; empty</code>.</p>
+<h3>Joining for Display: join_link</h3>
+<p>To turn a linked list into a readable string, walk it and place a separator between consecutive elements:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (13)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">join_link</span><span style="color: #657b83">(s,</span> <span style="color: #657b83">separator):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return a string of all elements in s separated by separator.&quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">s</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">empty:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">&quot;&quot;</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">rest(s)</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">empty:</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(first(s))</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(first(s))</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">separator</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">join_link(rest(s),</span> <span style="color: #657b83">separator)</span>
+</code></pre>
+<p>There are three cases, and the middle one is the interesting one. If the list is empty, the result is the empty string. If the current link is the last one (its rest is empty), return just that value as a string, with no trailing separator. Otherwise, glue the current value, the separator, and the joined rest together. The official session joins <code>four</code> with a comma:</p>
+<pre class='code text'><code>&gt;&gt;&gt; join_link(four, &quot;, &quot;)
+&#x27;1, 2, 3, 4&#x27;</code></pre>
+<p>Without the <code>elif rest(s) == empty</code> case, the function would tack a separator after the final element and produce <code>&#x27;1, 2, 3, 4, &#x27;</code>. That middle case is what stops the trailing separator.</p>
+</div></section>
+<section id='recursive-construction-listing-the-partitions-of-an-integer' class='ls ls-default'>
+<h2 class='ls-h'><span>Recursive Construction: Listing the Partitions of an Integer</span></h2>
+<div class='ls-body'>
+<p>Linked lists shine when you build a sequence up incrementally inside a recursive computation, especially when you do not know in advance how long the result will be. The classic example is integer partitions.</p>
+<p>A <strong>partition</strong> of a positive integer <code>n</code> using parts up to <code>m</code> is a way to write <code>n</code> as a sum of positive integers, each no larger than <code>m</code>. Earlier in the course, a tree-recursive function merely counted these partitions. Now we can list them explicitly. For <code>n = 4</code> with parts up to <code>3</code>, the partitions are:</p>
+<pre class='code text'><code>3 + 1
+2 + 2
+2 + 1 + 1
+1 + 1 + 1 + 1</code></pre>
+<p>We represent each individual partition as a linked list of its parts, and then represent the whole collection of partitions as a linked list of those linked lists. The recursive analysis is the same one used for counting: partitioning <code>n</code> with parts up to <code>m</code> either uses at least one part of size <code>m</code>, or it uses no part of size <code>m</code> at all.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (14)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">partitions</span><span style="color: #657b83">(n,</span> <span style="color: #657b83">m):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return a linked list of partitions of n using parts of up to m.</span>
+<span style="color: #93a1a1">    Each partition is represented as a linked list.</span>
+<span style="color: #93a1a1">    &quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">link(empty,</span> <span style="color: #657b83">empty)</span> <span style="color: #93a1a1; font-style: italic"># A list containing the empty partition</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">0</span> <span style="color: #859900">or</span> <span style="color: #657b83">m</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">empty</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">using_m</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">partitions(n</span><span style="color: #93a1a1">-</span><span style="color: #657b83">m,</span> <span style="color: #657b83">m)</span>
+        <span style="color: #657b83">with_m</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">apply_to_all_link(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">s:</span> <span style="color: #657b83">link(m,</span> <span style="color: #657b83">s),</span> <span style="color: #657b83">using_m)</span>
+        <span style="color: #657b83">without_m</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">partitions(n,</span> <span style="color: #657b83">m</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">extend_link(with_m,</span> <span style="color: #657b83">without_m)</span>
+</code></pre>
+<p>The base cases capture when the recursion succeeds or fails:</p>
+<ul>
+<li>If <code>n == 0</code>, you have used parts that sum exactly to the original target, so you have found one valid partition: the empty one. The return value <code>link(empty, empty)</code> is a collection holding exactly one partition, and that one partition is itself the empty linked list.</li>
+<li>If <code>n &lt; 0</code>, the most recent part overshot the target, so this path is a dead end and contributes no partitions, hence <code>empty</code>.</li>
+<li>If <code>m == 0</code>, there are no positive part sizes left to use, so again no partitions, hence <code>empty</code>.</li>
+</ul>
+<p>The recursive case builds two sub-collections and combines them:</p>
+<ul>
+<li><code>using_m</code> finds every partition of the smaller target <code>n - m</code> (still allowing parts up to <code>m</code>). Each of those partitions becomes a partition of <code>n</code> once you prepend a single <code>m</code>, which is what <code>with_m</code> does by mapping <code>lambda s: link(m, s)</code> over the whole collection.</li>
+<li><code>without_m</code> finds every partition of <code>n</code> that uses parts no larger than <code>m - 1</code>, that is, every partition that avoids <code>m</code> entirely.</li>
+<li><code>extend_link</code> concatenates the two collections into one linked list of all partitions.</li>
+</ul>
+<p>The subtle point is the <code>n == 0</code> base case. Returning <code>link(empty, empty)</code> says &quot;there is one success here, and it is the empty partition,&quot; whereas returning <code>empty</code> would say &quot;there are no successes here.&quot; Those are very different: one contributes a partition to the count, the other contributes nothing.</p>
+<h3>Displaying the Partitions</h3>
+<p>Because <code>partitions</code> returns a linked list of linked lists, displaying it takes two passes of <code>join_link</code> with different separators: one to render each partition with <code>&quot; + &quot;</code> between its parts, and one to put each rendered partition on its own line:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (15)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">print_partitions</span><span style="color: #657b83">(n,</span> <span style="color: #657b83">m):</span>
+    <span style="color: #657b83">lists</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">partitions(n,</span> <span style="color: #657b83">m)</span>
+    <span style="color: #657b83">strings</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">apply_to_all_link(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">s:</span> <span style="color: #657b83">join_link(s,</span> <span style="color: #2aa198">&quot; + &quot;</span><span style="color: #657b83">),</span> <span style="color: #657b83">lists)</span>
+    <span style="color: #268bd2">print</span><span style="color: #657b83">(join_link(strings,</span> <span style="color: #2aa198">&quot;\n&quot;</span><span style="color: #657b83">))</span>
+</code></pre>
+<p>The official session prints the partitions of <code>6</code> using parts up to <code>4</code>:</p>
+<pre class='code text'><code>&gt;&gt;&gt; print_partitions(6, 4)
+4 + 2
+4 + 1 + 1
+3 + 3
+3 + 2 + 1
+3 + 1 + 1 + 1
+2 + 2 + 2
+2 + 2 + 1 + 1
+2 + 1 + 1 + 1 + 1
+1 + 1 + 1 + 1 + 1 + 1</code></pre>
+<p>The order is not arbitrary. The recursion considers partitions that use the largest available part before those that avoid it, because <code>with_m</code> (the partitions containing <code>m</code>) is extended in front of <code>without_m</code>. That is why every partition containing a <code>4</code> is listed before any partition that tops out at <code>3</code>, and so on down. This is the same recursive idea you saw as a decision tree when you were only counting partitions; here the successful paths are collected into an explicit linked list of answers rather than tallied as a number.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<p>The first trap is treating <code>empty</code> as if it were Python&#x27;s empty list <code>[]</code>. In this representation, <code>empty</code> is the string <code>&#x27;empty&#x27;</code>, a sentinel that means &quot;end of the chain.&quot; Comparisons like <code>s == empty</code> work only because every part of the program agrees on that one fixed marker. It is not <code>[]</code>, and mixing the two will break the checker.</p>
+<p>The second trap is forgetting that the rest of a link must itself be a linked list. The following is rejected by the constructor:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (16)</span>
+<span style="color: #657b83">link(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>The <code>assert is_link(rest)</code> in <code>link</code> fires, because <code>2</code> is a bare number, not a linked list. The rest position is what carries the chain forward, so it must always be another link or the end-marker.</p>
+<p>The third trap is reaching past the abstraction with raw indexing in ordinary code:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (17)</span>
+<span style="color: #657b83">s[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span>
+<span style="color: #657b83">s[</span><span style="color: #2aa198">1</span><span style="color: #657b83">]</span>
+</code></pre>
+<p>Those work because a link happens to be a two-element list, but they expose the representation. In linked-list programs, use <code>first(s)</code> and <code>rest(s)</code> instead. The only place that touches <code>s[0]</code> and <code>s[1]</code> directly should be the selectors themselves, the code that implements the abstraction.</p>
+<p>The fourth trap is omitting the empty base case in a recursive function. Without a check for <code>s == empty</code>, the recursion eventually calls <code>first</code> or <code>rest</code> on the end-marker. Those selectors assert <code>s != empty</code>, so the program stops with an assertion error instead of silently misbehaving, but the fix is always the same: handle <code>empty</code> first.</p>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>What are the two parts of a non-empty linked list, and what kind of value must the second part be?</li>
+<li>Why does the constructor reject <code>link(1, 2)</code>?</li>
+<li>When <code>four</code> represents <code>1 -&gt; 2 -&gt; 3 -&gt; 4</code>, what does <code>first(rest(four))</code> return, and why?</li>
+<li>When <code>four</code> represents <code>1 -&gt; 2 -&gt; 3 -&gt; 4</code>, what does <code>getitem_link_recursive(four, 2)</code> return, and how many calls to <code>getitem_link_recursive</code> happen along the way?</li>
+<li>In <code>partitions</code>, why does the <code>n == 0</code> case return <code>link(empty, empty)</code> rather than <code>empty</code>?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li>A non-empty linked list stores a first value and the rest of the list. The rest must itself be a linked list, that is, either another link or the end-marker <code>empty</code>. That requirement is what lets the chain extend to any length.</li>
+<li>The constructor runs <code>assert is_link(rest)</code>, and <code>2</code> is not a linked list, so the assertion fails. The rest position must preserve the chain shape, and a bare number cannot.</li>
+<li>It returns <code>2</code>. <code>rest(four)</code> strips the first link to give the sequence <code>2 -&gt; 3 -&gt; 4</code>, and <code>first</code> then reads the value at the front of that shorter sequence, which is <code>2</code>.</li>
+<li>It returns <code>3</code>. The first call has <code>i = 2</code>, so it recurses on the rest with <code>i = 1</code>; that call recurses again on the rest with <code>i = 0</code>; the third call hits the base case and returns <code>first</code> of the link now at the front, which is <code>3</code>. That makes three calls in all, one per step down to index <code>0</code>.</li>
+<li>Reaching <code>n == 0</code> means a sequence of parts summed exactly to the target, so one partition has been found, the empty one. <code>link(empty, empty)</code> is a collection containing that single successful partition, while <code>empty</code> would mean no partitions were found at all.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>A linked list represents a sequence as a chain of two-part links: each link holds a first value and the rest of the sequence, where the rest is itself a linked list ending in the marker <code>empty</code>. You build links with the <code>link</code> constructor and read them with the <code>first</code> and <code>rest</code> selectors, programming against those names instead of the underlying pairs. Because the data is recursive, the operations come in two flavors: iterative functions like <code>len_link</code> and <code>getitem_link</code> walk the chain one link at a time, while recursive functions like <code>len_link_recursive</code>, <code>extend_link</code>, <code>apply_to_all_link</code>, <code>keep_if_link</code>, and <code>join_link</code> handle the empty case and then reduce to the same operation on the rest. That recursive style pays off most in construction: <code>partitions</code> builds an explicit linked list of every way to write an integer as a sum, and <code>print_partitions</code> renders it. The throughline is that recursive data invites recursive code, and the abstraction barrier keeps that code readable no matter how deeply the pairs nest.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>This program builds a two-element linked list, reads its parts with the selectors, and then measures it recursively. In an <strong>environment diagram</strong>, <code>two</code> points at the outer <code>[first, rest]</code> pair whose second slot holds the next pair, and so on down to <code>&#x27;empty&#x27;</code>, so the chain shows up on the heap as boxes nested inside boxes; as <code>len_link_recursive</code> recurses, each new frame binds <code>s</code> to one link deeper into that same structure, and the diagram lets you see the call descend the chain and then add a <code>1</code> per frame on the way back out. Before you step through the block below, write down three predictions: how many <code>len_link_recursive</code> frames will open over the whole run, what <code>s</code> holds in each of those frames, and what value <code>remaining_items</code> is bound to, written as nested Python lists.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (18)</span>
+<span style="color: #657b83">empty</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">&#39;empty&#39;</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">is_link</span><span style="color: #657b83">(s):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;s is a linked list if it is empty or a (first, rest) pair.&quot;&quot;&quot;</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">s</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">empty</span> <span style="color: #859900">or</span> <span style="color: #657b83">(</span><span style="color: #268bd2">len</span><span style="color: #657b83">(s)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">2</span> <span style="color: #859900">and</span> <span style="color: #657b83">is_link(s[</span><span style="color: #2aa198">1</span><span style="color: #657b83">]))</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">link</span><span style="color: #657b83">(first,</span> <span style="color: #657b83">rest):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Construct a linked list from its first element and the rest.&quot;&quot;&quot;</span>
+    <span style="color: #859900">assert</span> <span style="color: #657b83">is_link(rest),</span> <span style="color: #2aa198">&quot;rest must be a linked list.&quot;</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">[first,</span> <span style="color: #657b83">rest]</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">first</span><span style="color: #657b83">(s):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return the first element of a linked list s.&quot;&quot;&quot;</span>
+    <span style="color: #859900">assert</span> <span style="color: #657b83">is_link(s),</span> <span style="color: #2aa198">&quot;first only applies to linked lists.&quot;</span>
+    <span style="color: #859900">assert</span> <span style="color: #657b83">s</span> <span style="color: #93a1a1">!=</span> <span style="color: #657b83">empty,</span> <span style="color: #2aa198">&quot;empty linked list has no first element.&quot;</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">s[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">rest</span><span style="color: #657b83">(s):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return the rest of the elements of a linked list s.&quot;&quot;&quot;</span>
+    <span style="color: #859900">assert</span> <span style="color: #657b83">is_link(s),</span> <span style="color: #2aa198">&quot;rest only applies to linked lists.&quot;</span>
+    <span style="color: #859900">assert</span> <span style="color: #657b83">s</span> <span style="color: #93a1a1">!=</span> <span style="color: #657b83">empty,</span> <span style="color: #2aa198">&quot;empty linked list has no rest.&quot;</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">s[</span><span style="color: #2aa198">1</span><span style="color: #657b83">]</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">len_link_recursive</span><span style="color: #657b83">(s):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return the length of a linked list s.&quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">s</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">empty:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">1</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">len_link_recursive(rest(s))</span>
+
+<span style="color: #657b83">two</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">link(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #657b83">link(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #657b83">empty))</span>
+<span style="color: #657b83">first_item</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">first(two)</span>
+<span style="color: #657b83">remaining_items</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">rest(two)</span>
+<span style="color: #657b83">second_item</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">first(remaining_items)</span>
+<span style="color: #657b83">length</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">len_link_recursive(two)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/9ceeb56117fc.json' data-mount='st1'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st1' hidden></div></figure>
+<p>Step through it one line at a time and check each prediction as the frames appear. The recursive length call opens three frames, one per link plus one for the end-marker: the first holds the full chain in <code>s</code>, the second the one-link rest, and the third receives <code>empty</code> and returns <code>0</code>; the earlier frames each add <code>1</code> as they return, resolving as <code>1 + (1 + 0)</code> to bind <code>length</code> to <code>2</code>. The global frame ends with <code>two</code> bound to the chain <code>1 -&gt; 2 -&gt; empty</code>, <code>first_item</code> to <code>1</code>, <code>remaining_items</code> to <code>[2, &#x27;empty&#x27;]</code>, the sequence <code>2 -&gt; empty</code> in literal form, and <code>second_item</code> to <code>2</code>.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>2.3-C Trees as Recursive Data</span></a><a class='pg pg-next' href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>2.4-A Objects, Mutable Sequences, and Identity</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#a-chain-of-notes'>A Chain of Notes</a></li><li><a href='#building-the-link-abstraction-in-python'>Building the Link Abstraction in Python</a></li><li><a href='#anatomy-of-the-constructor-call'>Anatomy of the Constructor Call</a></li><li><a href='#building-a-longer-list-from-the-inside-out'>Building a Longer List From the Inside Out</a></li><li><a href='#reading-values-out-with-the-selectors'>Reading Values Out With the Selectors</a></li><li><a href='#length-and-selection-showing-it-is-a-sequence'>Length and Selection: Showing It Is a Sequence</a></li><li><a href='#the-same-operations-written-recursively'>The Same Operations, Written Recursively</a></li><li><a href='#recursion-for-transforming-and-combining-lists'>Recursion for Transforming and Combining Lists</a></li><li><a href='#recursive-construction-listing-the-partitions-of-an-integer'>Recursive Construction: Listing the Partitions of an Integer</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

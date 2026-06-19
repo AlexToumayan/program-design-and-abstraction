@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>1.1 Getting Started: The Shape of Python Programs · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/' class='active'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 1</span><span class='dot'>/</span><span class='eb-sec'>1.1 Getting Started</span></div><h1 class='lesson-title'>1.1 Getting Started: The Shape of Python Programs</h1><div class='reading-meta'>&#9719; approx. 21 min read <span class='rm-sep'>&middot;</span> 7 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>This is day one. By the end of it you will be able to do five things: explain what a program actually is, describe how Python runs the code you type, tell an <strong>expression</strong> apart from a <strong>statement</strong>, read a small piece of Python by breaking it into tokens (its smallest meaningful pieces), and read an error message without panic.</p>
+<p>None of this requires you to have programmed before. It does require a habit that we will build starting now: when code looks confusing, you slow down and separate it into the smallest meaningful pieces.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='programs-are-careful-instructions' class='ls ls-default'>
+<h2 class='ls-h'><span>Programs Are Careful Instructions</span></h2>
+<div class='ls-body'>
+<p>A computer is powerful, but it is not a mind reader. It is closer to a very fast, very literal kitchen assistant. If you say &quot;make dinner,&quot; that instruction is too vague. If you say &quot;put two cups of rice into the pot, add four cups of water, turn on the heat, wait until the water is absorbed,&quot; the assistant has a sequence it can follow.</p>
+<p>A <strong>program</strong> is that kind of carefully written sequence of instructions. In this course we use Python because Python lets us write instructions in a language that is readable by humans while still being precise enough for a machine.</p>
+</div></section>
+<section id='why-we-learn-with-python' class='ls ls-default'>
+<h2 class='ls-h'><span>Why We Learn With Python</span></h2>
+<div class='ls-body'>
+<p>Every programming language is a trade-off between what is easy for a person to read and what is easy for a machine to run. Python&#x27;s designers leaned hard toward human readability, which is exactly why it is a good first language: you can often guess what a short Python program means just by reading it slowly.</p>
+<p>That readability is not only a beginner convenience. Python is used to build real software — websites, scientific tools, data analysis, and the systems behind products you use every day. So the language you are learning to read on day one is the same language professionals write on day one thousand. You are not learning a toy version of programming.</p>
+<p>There is a useful way to think about what is ahead. The writer Arika Okrent observed that &quot;a language isn&#x27;t something you learn so much as something you join.&quot; Learning Python is less about memorizing rules and more about joining a community of people who already write it, read their code, borrow their tools, and ask them questions. Keep that framing — it will matter again when we talk about errors.</p>
+</div></section>
+<section id='getting-python-running' class='ls ls-default'>
+<h2 class='ls-h'><span>Getting Python Running</span></h2>
+<div class='ls-body'>
+<p>Python is itself a program. To run Python code on your own computer, you first install that program — and the steps differ just enough between operating systems that each one gets its own walkthrough, where we can go slowly and answer the snags beginners actually hit. Pick yours, follow it to the end, then come back here:</p>
+<ul>
+<li><strong>Installing Python on macOS</strong> — <a href="https://alextoumayan.github.io/program-design-and-abstraction/help-install-macos/">open the step-by-step guide</a></li>
+<li><strong>Installing Python on Windows</strong> — <a href="https://alextoumayan.github.io/program-design-and-abstraction/help-install-windows/">open the step-by-step guide</a></li>
+<li><strong>Installing Python on Linux</strong> — <a href="https://alextoumayan.github.io/program-design-and-abstraction/help-install-linux/">open the step-by-step guide</a></li>
+</ul>
+<p>These guides are where to turn if something goes wrong. Setup is the one part of programming where a small snag can swallow an afternoon, so they spend most of their length on troubleshooting.</p>
+<p>Once you have worked through your guide, a single check confirms you are ready. Open a terminal and ask Python for its version number. (The <code>$</code> below is the terminal&#x27;s own prompt — it is already there; you type only what comes after it.)</p>
+<pre class='code text'><code>$ python3 --version
+Python 3.12.2</code></pre>
+<p>Any answer that starts with <code>3</code> means you are set; your exact numbers may differ from <code>3.12.2</code>, and that is fine.</p>
+<p><img class="figure" src="figures/terminal-first-look.svg" alt="An illustration of a terminal window. At the shell&#x27;s dollar-sign prompt the user types python3 --version and the terminal prints Python 3.12.2. The user then starts Python by typing python3, and at the resulting triple-greater-than prompt types 2 + 2; the terminal prints 4 and leaves a fresh triple-greater-than prompt waiting."></p>
+<h3>Two ways to run your code</h3>
+<p>Once Python is installed, there are two ways to run code, and you will use both throughout this course:</p>
+<ul>
+<li><strong>Interactively</strong>, one line at a time, by starting the interpreter and typing code at its prompt. You start it by typing <code>python3</code> with no file name and pressing Enter; the prompt then changes from <code>$</code> to <code>&gt;&gt;&gt;</code>, which means <em>Python itself</em> is now listening. This is ideal for trying things out, and it is how the rest of this lesson works.</li>
+<li><strong>From a file</strong>, by saving your code in a file ending in <code>.py</code> and running the whole file at once:</li>
+</ul>
+<pre class='code text'><code>$ python3 my_program.py</code></pre>
+<p>Reach for a file when you have a finished program you want to run again and again; reach for the interactive prompt when you are exploring. For the rest of this lesson, picture yourself at that interactive <code>&gt;&gt;&gt;</code> prompt.</p>
+</div></section>
+<section id='talking-to-python-the-read-eval-print-loop' class='ls ls-default'>
+<h2 class='ls-h'><span>Talking to Python: The Read-Eval-Print Loop</span></h2>
+<div class='ls-body'>
+<p>When you start Python interactively, it shows a prompt made of three characters:</p>
+<pre class='code text'><code>&gt;&gt;&gt;</code></pre>
+<p>The <code>&gt;&gt;&gt;</code> prompt means Python is waiting for you to type something. When you type a line and press Enter, Python repeats a simple four-step cycle:</p>
+<pre class='code text'><code>read    Python reads the line you typed.
+eval    Python evaluates it, working out what it means.
+print   Python prints a value, performs an action, or reports an error.
+loop    Python returns to the prompt and waits for the next line.</code></pre>
+<p>Because it repeats, this cycle has a name you will hear often: the <strong>read-eval-print loop</strong>, sometimes shortened to REPL. Every interactive session in this course is a conversation with that loop.</p>
+<p>Here is the smallest possible conversation. You type <code>2 + 2</code>, and Python answers:</p>
+<pre class='code text'><code>&gt;&gt;&gt; 2 + 2
+4</code></pre>
+<p>The line beginning with <code>&gt;&gt;&gt;</code> is what you typed. The line below it, with no prompt, is Python&#x27;s answer.</p>
+<p>Two small bits of housekeeping for later. If something ever keeps running and you want to stop it, press <strong>Ctrl-C</strong>, which halts the current line and returns you to the prompt. When you are finished entirely, you end the session by pressing <strong>Ctrl-D</strong> (or by typing <code>quit()</code> and pressing Enter).</p>
+</div></section>
+<section id='two-kinds-of-code-expressions-and-statements' class='ls ls-default'>
+<h2 class='ls-h'><span>Two Kinds of Code: Expressions and Statements</span></h2>
+<div class='ls-body'>
+<p>Here is the single most useful idea for reading Python. Broadly, a program is a list of instructions, and every instruction does one of exactly two jobs: it either <strong>computes a value</strong> or <strong>carries out an action</strong>. Those two jobs have names.</p>
+<ul>
+<li>An <strong>expression</strong> is a piece of code that computes a value. When Python evaluates an expression, it works out the value, and in an interactive session it prints that value back to you. <code>2 + 2</code> is an expression; its value is <code>4</code>.</li>
+<li>A <strong>statement</strong> is a piece of code that carries out an action. When Python executes a statement, it does something — it gives a name to a value, brings in a tool, repeats a block of code — but a statement does not, by itself, produce a value for Python to print.</li>
+</ul>
+<p>This table is worth keeping nearby for the whole chapter:</p>
+<div class='table-wrap'><table><thead><tr>
+<th></th>
+<th>Expression</th>
+<th>Statement</th>
+</tr></thead><tbody>
+<tr>
+<td>Its job</td>
+<td>Compute a value</td>
+<td>Carry out an action</td>
+</tr>
+<tr>
+<td>Python&#x27;s response</td>
+<td>Prints the value (in the REPL)</td>
+<td>Performs the action, prints nothing</td>
+</tr>
+<tr>
+<td>Early examples</td>
+<td><code>2 + 2</code>, <code>max(7.5, 9.5)</code>, <code>1 / 2</code></td>
+<td><code>x = 4</code>, <code>from urllib.request import urlopen</code></td>
+</tr>
+</tbody></table></div>
+<p>You will spend the next several lessons going deep on expressions, because they are where computation happens. Statements come back as the main character in lesson 1.5, &quot;Control,&quot; where you will use them to make decisions and repeat work. For now, the goal is simply to never again confuse &quot;code that produces a value&quot; with &quot;code that performs an action.&quot;</p>
+</div></section>
+<section id='expressions-code-that-computes-a-value' class='ls ls-default'>
+<h2 class='ls-h'><span>Expressions: Code That Computes a Value</span></h2>
+<div class='ls-body'>
+<p>The simplest expressions look like ordinary arithmetic:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #2aa198">2</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">2</span>
+</code></pre>
+<p>Python does not &quot;see&quot; (1) the way you see a handwritten math problem. It sees <strong>tokens</strong> — small, meaningful pieces of code — and reads them left to right:</p>
+<pre class='code anatomy'><code>2 + 2
+├─ 2 ........... the integer value two
+├─ + ........... the addition operator
+├─ 2 ........... the integer value two
+└─ evaluates to  4</code></pre>
+<p>The token <code>2</code> means the integer value two. The token <code>+</code> means &quot;combine the value on the left with the value on the right using addition.&quot; Python combines them to produce the value:</p>
+<div class='math'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">4</span></span></span></span></span></div>
+<p>So in an interactive session the interpreter displays:</p>
+<pre class='code text'><code>4</code></pre>
+</div></section>
+<section id='reading-tricky-expressions' class='ls ls-default'>
+<h2 class='ls-h'><span>Reading Tricky Expressions</span></h2>
+<div class='ls-body'>
+<p>Python is literal about punctuation, and that is easiest to feel on an example that looks stranger than it is:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span> <span style="color: #93a1a1">-</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span>
+</code></pre>
+<p>At first (2) looks confusing because there are minus signs near each other. They do not all mean the same thing. Split it into tokens:</p>
+<pre class='code anatomy'><code>-1 - -1
+├─ -1 .......... the number negative one
+├─ - ........... the subtraction operator
+├─ -1 .......... the number negative one
+└─ evaluates to  0</code></pre>
+<p>So Python evaluates &quot;negative one, minus negative one.&quot; Subtracting a negative number moves upward on the number line:</p>
+<div class='math'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">−</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">−</span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">−</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span></span></div>
+<p>On a number line, subtracting a negative flips direction: instead of moving left, you step to the right.</p>
+<p><img class="figure" src="figures/number-line-negatives.svg" alt="A number line marked with negative two, negative one, zero, one, and two. A blue dot sits on negative one labeled as the start, a curved arrow arcs to the right from negative one to zero, and a cyan dot sits on zero labeled as the result."></p>
+<p>The interpreter displays:</p>
+<pre class='code text'><code>0</code></pre>
+<p>This is the habit from the first page, made concrete: when code looks confusing, separate it into the smallest meaningful pieces, then evaluate one piece at a time.</p>
+<p>Division works the same way, and it introduces a new kind of number:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #2aa198">1</span> <span style="color: #93a1a1">/</span> <span style="color: #2aa198">2</span>
+</code></pre>
+<p>The <code>/</code> symbol means divide, just as in arithmetic. Python calls this <strong>true division</strong>, and its defining feature is that it always hands back a decimal number. The value is:</p>
+<div class='math'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.0074em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.5</span></span></span></span></span></div>
+<p>So Python displays:</p>
+<pre class='code text'><code>0.5</code></pre>
+<p>The number <code>0.5</code> is a <strong>floating-point number</strong>, usually called a <code>float</code>. A float is Python&#x27;s way of representing numbers with a decimal point. Later we will study why floats are only approximations and why that occasionally matters; for now, it is enough to know that division can produce one.</p>
+</div></section>
+<section id='calling-a-function' class='ls ls-default'>
+<h2 class='ls-h'><span>Calling a Function</span></h2>
+<div class='ls-body'>
+<p>Not every expression is written like arithmetic. Python also has <strong>functions</strong>, which are named, reusable operations. One built-in function is <code>max</code>, which returns the largest of the values you give it:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (4)</span>
+<span style="color: #268bd2">max</span><span style="color: #657b83">(</span><span style="color: #2aa198">7.5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">9.5</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>Look at the structure of (4) one token at a time:</p>
+<pre class='code anatomy'><code>max(7.5, 9.5)
+├─ max ......... the function: returns the largest input
+├─ ( ........... begins the inputs
+├─ 7.5 ......... first input
+├─ , ........... separates the inputs
+├─ 9.5 ......... second input
+├─ ) ........... ends the inputs
+└─ evaluates to  9.5</code></pre>
+<p>Here is the same call as a picture: a machine named <code>max</code> that takes two separate inputs and hands back one value.</p>
+<p><img class="figure" src="figures/function-machine.svg" alt="A diagram of the max function drawn as a machine. The values 7.5 and 9.5 enter on the left as two separate inputs, a box labeled max keeps the largest, and 9.5 leaves on the right as the output, which is the value of the whole call."></p>
+<p>The inputs to a function are called <strong>arguments</strong>. Slow this down as if Python were a clerk following a form. The name <code>max</code> is not a magic word for &quot;do something with these numbers.&quot; It is the name of a built-in function whose one job is to inspect its arguments and hand back the greatest one. Python first finds the function named <code>max</code>, then gives that function two separate values, <code>7.5</code> and <code>9.5</code>.</p>
+<p>The comma matters because it keeps the two values separate. Python is not asked to compute <code>7.5 + 9.5</code>, and it is not asked to average them. It is asked:</p>
+<pre class='code text'><code>Among these separate arguments, which one is largest?</code></pre>
+<p>Since <code>9.5</code> is greater than <code>7.5</code>, the call returns <code>9.5</code>. A beginner-safe way to read the line out loud is:</p>
+<pre class='code text'><code>Call the function named max.
+Give it 7.5 and 9.5 as two separate inputs.
+Let max compare those inputs.
+Use the larger input as the value of the whole expression.</code></pre>
+</div></section>
+<section id='the-shape-of-a-call-expression' class='ls ls-default'>
+<h2 class='ls-h'><span>The Shape of a Call Expression</span></h2>
+<div class='ls-body'>
+<p>Every function call has the same consistent shape:</p>
+<pre class='code text'><code>function_name(argument_1, argument_2)</code></pre>
+<p>In that template, <code>function_name</code>, <code>argument_1</code>, and <code>argument_2</code> are <strong>placeholders</strong>. They are not real Python names you type literally; they stand for the real pieces you substitute in, such as <code>max</code>, <code>7.5</code>, and <code>9.5</code>. The parentheses physically tell Python &quot;call this function now.&quot; Without parentheses, a function name usually refers to the function itself; with parentheses, Python performs the call.</p>
+<p>This is why the parentheses are not optional decoration. Compare a valid call with an invalid one:</p>
+<pre class='code text'><code>max(7.5, 9.5)      a valid call expression
+max 7.5, 9.5       not valid Python</code></pre>
+<p>A human might understand &quot;max 7.5 and 9.5&quot; from context, but Python has no flexible common sense. When the shape is wrong, Python stops and reports a <strong>syntax error</strong>, which means the code does not follow the grammar rules of the language. The grammar Python needs is exactly:</p>
+<pre class='code text'><code>function_name(argument, argument)</code></pre>
+<p>When you see any function call, the safe first question is always: what function is being called, and what exact values are being handed to it?</p>
+</div></section>
+<section id='statements-code-that-carries-out-an-action' class='ls ls-default'>
+<h2 class='ls-h'><span>Statements: Code That Carries Out an Action</span></h2>
+<div class='ls-body'>
+<p>So far every example has been an expression — code that produces a value. Now look at the other half of the table. The most common statement you will write is an <strong>assignment statement</strong>, which gives a name to a value:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (5)</span>
+<span style="color: #657b83">x</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">2</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">2</span>
+</code></pre>
+<p>Read (5) carefully, because the difference from an expression is the whole point. The bare expression <code>2 + 2</code> computes <code>4</code> and the REPL prints it. The statement <code>x = 2 + 2</code> also computes <code>4</code> on the right-hand side, but then it carries out an action: it binds the name <code>x</code> to that value. It prints nothing. After this line, <code>x</code> is <code>4</code>, and you can use <code>x</code> in later expressions.</p>
+<pre class='code text'><code>2 + 2        an expression: prints 4
+x = 2 + 2    a statement: binds x to 4, prints nothing</code></pre>
+<p>A second kind of statement brings in tools that are not built in. An <strong>import statement</strong> loads a function or value from elsewhere so you can use it by name:</p>
+<pre class='code text'><code>from urllib.request import urlopen</code></pre>
+<p>After that line runs, the name <code>urlopen</code> refers to a function you can call, even though you did not define it yourself. Importing is exactly the &quot;borrow other people&#x27;s tools&quot; idea from joining a language — and it sets up our first real program.</p>
+</div></section>
+<section id='a-first-real-program-searching-shakespeare' class='ls ls-default'>
+<h2 class='ls-h'><span>A First Real Program: Searching Shakespeare</span></h2>
+<div class='ls-body'>
+<p>The examples so far are tiny on purpose. But the reason programming is powerful is that the very same rules let a program work through a huge amount of real data far faster than a person could by hand.</p>
+<p>Imagine being asked to search all of Shakespeare for words with a special property: six-letter words whose reversal is also a real word, like <code>redder</code> reversed. By hand that would be slow and error-prone. Here is the entire program, as an interactive session, exactly as it appears in the original text:</p>
+<pre class='code text'><code>&gt;&gt;&gt; from urllib.request import urlopen
+&gt;&gt;&gt; shakespeare = urlopen(&#x27;http://composingprograms.com/shakespeare.txt&#x27;)
+&gt;&gt;&gt; words = set(shakespeare.read().decode().split())
+&gt;&gt;&gt; {w for w in words if len(w) == 6 and w[::-1] in words}
+{&#x27;redder&#x27;, &#x27;drawer&#x27;, &#x27;reward&#x27;, &#x27;diaper&#x27;, &#x27;repaid&#x27;}</code></pre>
+<p>If that looks like a lot at once — <code>urlopen</code>, <code>set</code>, <code>{w for w in words ...}</code>, <code>w[::-1]</code> — that is exactly what it should look like on day one. <strong>You are not meant to understand every symbol here, and you are definitely not meant to write code like this yet.</strong> Think of this program as a <em>preview</em>: a single photograph of where you are headed. Every idea in it gets its own slow, from-scratch lesson later. To be concrete about the roadmap:</p>
+<ul>
+<li><strong>Calling and writing functions</strong> like <code>set</code> and <code>urlopen</code> — the rest of Chapter 1 (you start in earnest in 1.3, &quot;Defining New Functions&quot;).</li>
+<li><strong>Objects</strong> like this set, and how to build your own — Chapter 2.</li>
+<li><strong>The interpreter</strong> reading and running it all — Chapter 3, where you build a small one yourself.</li>
+</ul>
+<p>So nothing here is a prerequisite for the next lesson; it is a destination. With that pressure off, read the middle line not symbol by symbol but as a <em>pipeline</em> of plain-English actions:</p>
+<pre class='code anatomy'><code>words = set(shakespeare.read().decode().split())
+├─ shakespeare.read() .... read the text of Shakespeare&#x27;s works
+├─ .decode() ............. decode the raw bytes into readable characters
+├─ .split() .............. split the characters into separate words
+├─ set(...) .............. collect the words so each distinct word appears once
+└─ words = ............... bind that set to the name words</code></pre>
+<p>The last line then asks for every word <code>w</code> that is six letters long and whose reverse <code>w[::-1]</code> is also in the set. (Do not worry about the exact punctuation here: <code>== 6</code> is just how Python asks &quot;is this equal to six?&quot;, and <code>w[::-1]</code> is its shorthand for &quot;this word, reversed.&quot; Each gets its own proper lesson later.) The result is five words.</p>
+<p>Those three previewed ideas — functions, objects, and interpreters — are the load-bearing concepts of the whole course, and each one is already visible right here in this short program.</p>
+<h3>Functions</h3>
+<p><code>urlopen</code>, <code>set</code>, <code>len</code>, and <code>decode</code> are all <strong>functions</strong> — named operations that take inputs and produce outputs. The whole program is built by handing the output of one function to the next. Nearly everything you do from here on is composing functions like these, which is why call expressions earned such careful reading above.</p>
+<h3>Objects</h3>
+<p>Look at the name <code>words</code>. The data it holds is not a number and not a piece of text — it is a <strong>set</strong>, which is one of several <em>kinds</em> of data Python works with. A kind of data is called a <strong>type</strong>, and you have already met one: back in &quot;Reading Tricky Expressions,&quot; the value <code>0.5</code> had the type <code>float</code>. So <code>words</code> is simply data of a different type, a set.</p>
+<p>Here is the deeper idea, and it is one the rest of the course is built on. In Python a piece of data does not just sit there — it also carries the operations that make sense for it. Data bundled together with its own operations is called an <strong>object</strong>, and every type of data is a type of object. A set, then, is one kind of object, and it arrives already knowing how to answer questions like &quot;how many items do I have?&quot; (<code>len</code>) and &quot;do I contain this item?&quot; (the <code>in</code> test). You did not have to teach it those abilities; they come with being a set. Chapter 2 is where you learn to build your own kinds of objects like this one.</p>
+<h3>Interpreters</h3>
+<p>Finally, the <code>&gt;&gt;&gt;</code> session is you talking to an <strong>interpreter</strong> — a program whose job is to read another program and carry out its meaning. Right now Python is that interpreter for you. Remarkably, by Chapter 3 you will understand interpreters well enough to write a small one yourself.</p>
+</div></section>
+<section id='errors-are-information' class='ls ls-default'>
+<h2 class='ls-h'><span>Errors Are Information</span></h2>
+<div class='ls-body'>
+<p>Beginning programmers often read an error message as &quot;I failed.&quot; In this course, read it instead as &quot;Python reached a point where it could not continue, and it is telling me where the meaning broke.&quot; That reframing is not a pep talk; it is how experienced programmers actually work.</p>
+<p>There are two early categories of error:</p>
+<ul>
+<li>A <strong>syntax error</strong> happens when the code does not match Python&#x27;s grammar, like the missing parentheses in <code>max 7.5, 9.5</code>. Python catches these before it even tries to run the line.</li>
+<li>A <strong>runtime error</strong> happens when the code has valid grammar but something goes wrong while Python is running it.</li>
+</ul>
+<p>Here is a runtime error you can predict:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (6)</span>
+<span style="color: #2aa198">1</span> <span style="color: #93a1a1">/</span> <span style="color: #2aa198">0</span>
+</code></pre>
+<p>The grammar of (6) is perfectly valid. Python knows what <code>1</code>, <code>/</code>, and <code>0</code> mean. The problem is mathematical: division by zero has no defined value, so Python cannot produce a normal result. It stops and reports the problem like this:</p>
+<pre class='code text'><code>Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+ZeroDivisionError: division by zero</code></pre>
+<p>Read the last line first. It names the kind of problem Python hit: a <code>ZeroDivisionError</code>. The word <code>Traceback</code> means Python is also showing the path of steps that led to the error — the middle line, with <code>&lt;stdin&gt;</code> and <code>&lt;module&gt;</code>, is just Python noting where it was, which you can ignore for now. Early on, your job is not to understand every line of a traceback, but to find that final error name and ask, &quot;what operation was Python trying to perform when it gave up?&quot;</p>
+</div></section>
+<section id='computers-are-powerful-and-stupid' class='ls ls-default'>
+<h2 class='ls-h'><span>Computers Are Powerful and Stupid</span></h2>
+<div class='ls-body'>
+<p>It helps to hold an honest mental model of the machine. A useful one, from Stanford&#x27;s introductory course, is a small equation:</p>
+<div class='math'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8095em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">computer</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">powerful</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">stupid</span></span></span></span></span></span></div>
+<p><strong>Powerful</strong>, because a computer performs billions of operations correctly, faster than you can imagine. <strong>Stupid</strong>, because it does exactly and only what you tell it, with zero common sense. It will never guess what you meant. When your code is wrong, the computer does not &quot;almost&quot; do the right thing — it does precisely the wrong thing you actually wrote.</p>
+<p>This is why every programmer, at every level, spends real time <strong>debugging</strong>: finding and fixing the gap between what they meant and what they wrote. Errors are not a sign that you are bad at this. They are the normal weather of programming, and getting good means getting good at debugging. Four habits do most of the work:</p>
+<div class='table-wrap'><table><thead><tr>
+<th>Habit</th>
+<th>What it means in practice</th>
+</tr></thead><tbody>
+<tr>
+<td>Test incrementally</td>
+<td>Run small pieces as you build them, instead of writing many lines and running them all at once.</td>
+</tr>
+<tr>
+<td>Isolate errors</td>
+<td>Narrow the problem down to the smallest piece of code that still shows it.</td>
+</tr>
+<tr>
+<td>Check your assumptions</td>
+<td>Verify what you believe is true — print a value, check a result — rather than trusting your memory of it.</td>
+</tr>
+<tr>
+<td>Consult others</td>
+<td>Read the documentation, search for the error message, and ask people. You joined a language; use the community.</td>
+</tr>
+</tbody></table></div>
+<p>That last habit connects back to where we started. You are not learning Python alone in a sealed room. When you are stuck, looking things up and asking for help is not cheating — it is exactly how the people who already write Python got good at it.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>The next code block uses statements to store values, then ends with an expression, which lets us sketch a simple picture of what Python is keeping track of — a picture called an <strong>environment diagram</strong>. Here it is just one <strong>global frame</strong>: a table of names and the values they point to. Before you step through the block below, write down three predictions: the order in which names will appear in that frame, the value <code>larger</code> points to once the third line runs, and what, if anything, the last line adds to the frame.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (7)</span>
+<span style="color: #657b83">first</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">7.5</span>
+<span style="color: #657b83">second</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">9.5</span>
+<span style="color: #657b83">larger</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">max</span><span style="color: #657b83">(first,</span> <span style="color: #657b83">second)</span>
+<span style="color: #657b83">larger</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/e327b83cc566.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>Step through it one line at a time and check each prediction as the frame fills in. The first three lines are assignments, so <code>first</code>, <code>second</code>, and <code>larger</code> should have appeared one at a time, with <code>larger</code> bound to <code>9.5</code>; the last line is an expression, and it adds no name at all. The important idea, which we will use throughout Chapter 1, is that a name like <code>larger</code> is not the value itself. It is a label that points to a value. The assignment <code>larger = max(first, second)</code> first evaluates the expression on the right to <code>9.5</code>, then binds the name on the left to that result.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<p>When a student gets stuck in the first few days of Python, the cause is usually one of these:</p>
+<ul>
+<li>Reading code as English sentences instead of as small Python tokens.</li>
+<li>Forgetting that <code>()</code> is what turns a function name into an actual function call. Without the parentheses, nothing runs; the name just refers to the function itself instead of calling it.</li>
+<li>Forgetting that commas separate the arguments inside a call. Omit one and Python reports a <code>SyntaxError</code> instead of running the call.</li>
+<li>Expecting an assignment like <code>x = 2 + 2</code> to print <code>4</code>. It does not — a statement carries out an action and prints nothing; only an expression prints a value.</li>
+<li>Treating an error as a dead end instead of as a diagnostic message that names the problem.</li>
+<li>Assuming Python &quot;knows what I meant.&quot; It only ever follows the code you actually wrote.</li>
+</ul>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>You type these two lines into the interpreter, one after the other. What, if anything, does Python print after each?</li>
+</ol>
+<pre class='code text'><code>   &gt;&gt;&gt; y = 10 / 4
+   &gt;&gt;&gt; y</code></pre>
+<ol>
+<li>What is the difference between an expression and a statement? Give one example of each.</li>
+<li>In <code>max(7.5, 9.5)</code>, what do the parentheses tell Python, and what do the commas do?</li>
+<li>Why is <code>max 7.5, 9.5</code> a syntax error rather than a runtime error?</li>
+<li>The line <code>1 / 0</code> has valid grammar. Why does Python still stop, and what is that kind of error called?</li>
+<li>The &quot;powerful + stupid&quot; model says the computer has no common sense. Which of the four debugging habits most directly helps when your code runs but gives the wrong answer?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li>The first line is an assignment statement, so it carries out an action (binding <code>y</code>) and prints nothing. The second line is an expression — just the name <code>y</code> — so the REPL prints its value, <code>2.5</code> (a float, because <code>/</code> is true division).</li>
+<li>An expression computes a value (and the REPL prints it); a statement carries out an action and prints nothing. Example expression: <code>2 + 2</code>. Example statement: <code>x = 4</code>.</li>
+<li>The parentheses tell Python to call the function <code>max</code> now; the commas separate <code>7.5</code> and <code>9.5</code> into two distinct arguments.</li>
+<li>Because the code breaks Python&#x27;s grammar rules for a call expression, so Python rejects it before running it. A runtime error, by contrast, has valid grammar but fails while running.</li>
+<li>Division by zero has no defined value, so the operation cannot produce a result; Python raises a runtime error called <code>ZeroDivisionError</code>.</li>
+<li>Checking your assumptions — verifying what a value actually is rather than what you assume it is — is the most direct tool for a wrong-answer bug. (Isolating the error is a strong second.)</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>A Python program is precise text that an interpreter reads and evaluates inside the read-eval-print loop. Every piece of code does one of two jobs: an <strong>expression</strong> computes a value, and a <strong>statement</strong> carries out an action. Reading code well means breaking it into tokens, identifying its structure, and predicting the value or action Python will produce — whether that code is <code>2 + 2</code>, a <code>max(...)</code> call, an assignment, or an import. The Shakespeare search shows the destination: functions, objects, and an interpreter combine so that small, precise rules can answer a real question about a large body of data. And because the machine is powerful but has no common sense, errors are normal information, and debugging — testing incrementally, isolating problems, checking assumptions, and consulting others — is a core skill, not a sign of failure.</p>
+</div></section><nav class='pager'><span></span><a class='pg pg-next' href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>1.2-A Expressions, Calls, Imports, and Evaluation</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#programs-are-careful-instructions'>Programs Are Careful Instructions</a></li><li><a href='#why-we-learn-with-python'>Why We Learn With Python</a></li><li><a href='#getting-python-running'>Getting Python Running</a></li><li><a href='#talking-to-python-the-read-eval-print-loop'>Talking to Python: The Read-Eval-Print Loop</a></li><li><a href='#two-kinds-of-code-expressions-and-statements'>Two Kinds of Code: Expressions and Statements</a></li><li><a href='#expressions-code-that-computes-a-value'>Expressions: Code That Computes a Value</a></li><li><a href='#reading-tricky-expressions'>Reading Tricky Expressions</a></li><li><a href='#calling-a-function'>Calling a Function</a></li><li><a href='#the-shape-of-a-call-expression'>The Shape of a Call Expression</a></li><li><a href='#statements-code-that-carries-out-an-action'>Statements: Code That Carries Out an Action</a></li><li><a href='#a-first-real-program-searching-shakespeare'>A First Real Program: Searching Shakespeare</a></li><li><a href='#errors-are-information'>Errors Are Information</a></li><li><a href='#computers-are-powerful-and-stupid'>Computers Are Powerful and Stupid</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

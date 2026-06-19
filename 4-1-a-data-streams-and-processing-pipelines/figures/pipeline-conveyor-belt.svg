@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 430" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- ===== title ===== -->
+  <text x="350" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#073642">The Pipeline as a Conveyor Belt</text>
+
+  <!-- ===== three worker stations (the pipeline) ===== -->
+  <!-- station 1: FILTER -->
+  <rect x="120" y="48" width="150" height="58" rx="10" fill="#fdf6e3" stroke="#073642" stroke-width="2"/>
+  <text x="195" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#073642">FILTER</text>
+  <text x="195" y="92" text-anchor="middle" font-size="11" fill="#657b83">keep only student records</text>
+  <!-- station 2: TRANSFORM -->
+  <rect x="300" y="48" width="150" height="58" rx="10" fill="#fdf6e3" stroke="#073642" stroke-width="2"/>
+  <text x="375" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#073642">TRANSFORM</text>
+  <text x="375" y="92" text-anchor="middle" font-size="11" fill="#657b83">pull out the time</text>
+  <!-- station 3: SUMMARIZE -->
+  <rect x="480" y="48" width="150" height="58" rx="10" fill="#fdf6e3" stroke="#073642" stroke-width="2"/>
+  <text x="555" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#073642">SUMMARIZE</text>
+  <text x="555" y="92" text-anchor="middle" font-size="11" fill="#657b83">combine into one result</text>
+
+  <!-- little stems linking each station down toward the belt -->
+  <line x1="195" y1="106" x2="195" y2="132" stroke="#93a1a1" stroke-width="1.5" stroke-dasharray="3 4"/>
+  <line x1="375" y1="106" x2="375" y2="132" stroke="#93a1a1" stroke-width="1.5" stroke-dasharray="3 4"/>
+  <line x1="555" y1="106" x2="555" y2="132" stroke="#93a1a1" stroke-width="1.5" stroke-dasharray="3 4"/>
+
+  <!-- ===== motion arrow above the belt: the stream ===== -->
+  <line x1="40" y1="150" x2="250" y2="150" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="248,144 259,150 248,156" fill="#268bd2"/>
+  <text x="150" y="142" text-anchor="middle" font-size="12" fill="#268bd2">stream: one at a time</text>
+
+  <!-- ===== the conveyor belt: two parallel rails + rollers ===== -->
+  <!-- top rail -->
+  <line x1="24" y1="188" x2="676" y2="188" stroke="#073642" stroke-width="2.5"/>
+  <!-- bottom rail -->
+  <line x1="24" y1="232" x2="676" y2="232" stroke="#073642" stroke-width="2.5"/>
+  <!-- belt rollers underneath -->
+  <circle cx="60" cy="232" r="9" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <circle cx="180" cy="232" r="9" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <circle cx="300" cy="232" r="9" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <circle cx="420" cy="232" r="9" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <circle cx="540" cy="232" r="9" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <circle cx="640" cy="232" r="9" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+
+  <!-- ===== data items riding the belt (left to right) ===== -->
+  <!-- entry box: full raw record -->
+  <rect x="26" y="190" width="84" height="40" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="68" y="206" text-anchor="middle" font-size="9.5" font-family="monospace" fill="#073642">{time: 9:00,</text>
+  <text x="68" y="220" text-anchor="middle" font-size="9.5" font-family="monospace" fill="#073642">kind: student}</text>
+
+  <!-- a second raw record still entering, partly between rollers -->
+  <rect x="128" y="190" width="84" height="40" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="170" y="206" text-anchor="middle" font-size="9.5" font-family="monospace" fill="#073642">{time: 9:03,</text>
+  <text x="170" y="220" text-anchor="middle" font-size="9.5" font-family="monospace" fill="#073642">kind: student}</text>
+
+  <!-- after TRANSFORM: a surviving box reduced to just the time -->
+  <rect x="404" y="190" width="84" height="40" rx="8" fill="#ffffff" stroke="#2aa198" stroke-width="2"/>
+  <text x="446" y="215" text-anchor="middle" font-size="16" font-family="monospace" fill="#073642">9:00</text>
+
+  <!-- on-belt arrows showing the item handed station to station -->
+  <line x1="240" y1="210" x2="284" y2="210" stroke="#073642" stroke-width="2"/>
+  <polygon points="282,205 292,210 282,215" fill="#073642"/>
+  <line x1="320" y1="210" x2="398" y2="210" stroke="#073642" stroke-width="2"/>
+  <polygon points="396,205 406,210 396,215" fill="#073642"/>
+
+  <!-- ===== discard: non-student records fall off after FILTER ===== -->
+  <!-- two greyed boxes falling toward the bin -->
+  <rect x="246" y="238" width="70" height="30" rx="6" fill="#ffffff" stroke="#93a1a1" stroke-width="2" transform="rotate(-14 281 253)"/>
+  <text x="281" y="257" text-anchor="middle" font-size="9" font-family="monospace" fill="#93a1a1" transform="rotate(-14 281 253)">kind: teacher</text>
+  <rect x="272" y="272" width="70" height="30" rx="6" fill="#ffffff" stroke="#93a1a1" stroke-width="2" transform="rotate(11 307 287)"/>
+  <text x="307" y="291" text-anchor="middle" font-size="9" font-family="monospace" fill="#93a1a1" transform="rotate(11 307 287)">kind: visitor</text>
+  <!-- the discard bin -->
+  <path d="M 236 308 L 362 308 L 352 348 L 246 348 Z" fill="#fdf6e3" stroke="#dc322f" stroke-width="2"/>
+  <text x="299" y="366" text-anchor="middle" font-size="11" fill="#dc322f">not a student &#8594; discarded</text>
+
+  <!-- ===== output tray at far right ===== -->
+  <!-- tray -->
+  <path d="M 556 248 L 668 248 L 660 286 L 564 286 Z" fill="none" stroke="#2aa198" stroke-width="2"/>
+  <!-- the single summarized result resting in the tray -->
+  <rect x="568" y="252" width="92" height="30" rx="8" fill="#ffffff" stroke="#2aa198" stroke-width="2.5"/>
+  <text x="614" y="272" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">[9:00, 9:03]</text>
+  <text x="614" y="302" text-anchor="middle" font-size="11" fill="#2aa198">result</text>
+
+  <!-- arrow from belt's end into the output tray -->
+  <line x1="612" y1="210" x2="612" y2="244" stroke="#2aa198" stroke-width="2.5"/>
+  <polygon points="606,242 612,253 618,242" fill="#2aa198"/>
+
+  <!-- ===== caption strip: the vocabulary ===== -->
+  <line x1="40" y1="338" x2="160" y2="338" stroke="#93a1a1" stroke-width="1" stroke-dasharray="2 3"/>
+  <text x="60" y="358" font-size="12" fill="#657b83"><tspan font-weight="bold" fill="#073642">DATA</tspan> = the boxes</text>
+  <text x="60" y="378" font-size="12" fill="#657b83"><tspan font-weight="bold" fill="#073642">STREAM</tspan> = the moving belt</text>
+  <text x="60" y="398" font-size="12" fill="#657b83"><tspan font-weight="bold" fill="#073642">PIPELINE</tspan> = the row of stations</text>
+
+  <!-- ===== bottom caption ===== -->
+  <text x="350" y="422" text-anchor="middle" font-size="13" fill="#93a1a1">Each station does one job, touches one item, and passes it along.</text>
+</svg>

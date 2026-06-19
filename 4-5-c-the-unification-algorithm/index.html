@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>4.5.3 The Unification Algorithm · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/' class='active'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 4</span><span class='dot'>/</span><span class='eb-sec'>4.5 Unification</span></div><h1 class='lesson-title'>4.5.3 The Unification Algorithm</h1><div class='reading-meta'>&#9719; approx. 17 min read <span class='rm-sep'>&middot;</span> 2 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>You have already seen pattern matching: one side is a pattern with variables, the other side is a concrete expression, and matching decides whether the concrete expression fits the pattern. This lesson takes the next step. <strong>Unification</strong> is the procedure that matches two expressions when <strong>both</strong> of them may contain variables, and records the variable bindings that make them equal.</p>
+<p>By the end you will be able to do four things. You will be able to explain, in plain terms, what unification adds on top of pattern matching. You will be able to walk through the official example where <code>(?x ?x)</code> unifies with <code>((a ?y c) (a b ?z))</code> step by step, predicting every binding. You will be able to read the six-case description of the algorithm and connect each case to a line of the real <code>unify</code> function. And you will be able to explain the one surprising fact in the docstring: that the environment may be changed even when unification does not succeed.</p>
+<p>A note on languages before we start. The facts, queries, and patterns of the logic language are written in a parenthesized, Lisp-like notation with <code>?</code>-variables. That notation is <strong>not</strong> Python, so it is shown in plain or Scheme-style blocks. The <code>unify</code> function that <strong>implements</strong> the algorithm is ordinary Python, so it is shown in Python blocks. Keep that distinction in mind as you read.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='an-intuition-two-half-finished-forms' class='ls ls-default'>
+<h2 class='ls-h'><span>An Intuition: Two Half-Finished Forms</span></h2>
+<div class='ls-body'>
+<p>Pattern matching is like fitting one key into one lock. One side is fixed, the other side is shaped, and you check whether they meet.</p>
+<p>Unification is more like comparing two half-finished forms. Imagine two people each filled out part of the same application. The first person wrote the same answer in two boxes but left the answer itself blank: &quot;whatever goes in box one must also go in box two.&quot; The second person filled in some boxes with real values and left others blank, labeled &quot;copy this from elsewhere.&quot; To merge the two forms into one fully consistent document, you have to figure out whether there is <strong>any</strong> way to fill every blank so that both people&#x27;s constraints hold at once.</p>
+<p>That is exactly what unification does. Each <code>?</code>-variable is a blank that can be filled in. A repeated variable like <code>?x</code> is the rule &quot;these two blanks must end up identical.&quot; Unification searches for a single consistent way to fill in all the blanks. If it finds one, it records the fill-ins; if no consistent fill-in exists, it reports failure.</p>
+</div></section>
+<section id='what-unification-is' class='ls ls-default'>
+<h2 class='ls-h'><span>What Unification Is</span></h2>
+<div class='ls-body'>
+<p>Here is the official framing.</p>
+<p><strong>Unification is a generalization of pattern matching that attempts to find a mapping between two expressions that may both contain variables.</strong> The <code>unify</code> function carries this out through a recursive process: it performs unification on corresponding parts of the two expressions, drilling in piece by piece, until either it reaches a contradiction or it establishes a workable binding for every variable.</p>
+<p>The hard part, compared to ordinary pattern matching, is that a variable may need to be bound to an expression that itself still contains other variables. You will see this happen in the very first example.</p>
+</div></section>
+<section id='the-official-example' class='ls ls-default'>
+<h2 class='ls-h'><span>The Official Example</span></h2>
+<div class='ls-body'>
+<p>Start with the example the source uses. The two patterns are these.</p>
+<pre class='code scheme'><code>(?x ?x)
+((a ?y c) (a b ?z))</code></pre>
+<p>Why should these unify at all? <strong>Because there is an expression with no variables that matches both:</strong></p>
+<pre class='code scheme'><code>((a b c) (a b c))</code></pre>
+<p>The first pattern, <code>(?x ?x)</code>, is &quot;some value, repeated.&quot; If you set that value to <code>(a b c)</code>, you get <code>((a b c) (a b c))</code>. The second pattern, <code>((a ?y c) (a b ?z))</code>, becomes the same thing when <code>?y</code> is <code>b</code> and <code>?z</code> is <code>c</code>. A single variable-free expression satisfies both patterns, so unification should succeed.</p>
+<p>Before walking through the official reasoning, build the intuition on something smaller.</p>
+<h3>Warm-up: a single shared variable</h3>
+<p>Here is the simplest case of &quot;both sides have a variable.&quot; Unify these two single-element expressions.</p>
+<pre class='code scheme'><code>(?x)
+(7)</code></pre>
+<p><code>?x</code> is a blank, <code>7</code> is a value. To make the two equal, bind <code>?x</code> to <code>7</code>. That is the whole result: <code>?x -&gt; 7</code>. Nothing recursive, nothing surprising. One variable, one value, one binding.</p>
+<h3>Bridge: a repeated variable that forces a choice</h3>
+<p>Now add the feature that makes unification more than matching: a <strong>repeated</strong> variable. Unify these.</p>
+<pre class='code scheme'><code>(?x ?x)
+(5 ?y)</code></pre>
+<p>Walk the elements left to right. The first elements are <code>?x</code> and <code>5</code>, so bind <code>?x -&gt; 5</code>. The second elements are <code>?x</code> and <code>?y</code>. But <code>?x</code> is no longer just a name; it already stands for <code>5</code>. So you first replace <code>?x</code> with its value <code>5</code>, and then you are really matching <code>5</code> against <code>?y</code>, which binds <code>?y -&gt; 5</code>. The repeated <code>?x</code> reached across the two positions and forced <code>?y</code> to become <code>5</code>. That reaching-across is the exact mechanism the official example uses, just with a list instead of a single number.</p>
+<h3>The official step-by-step reasoning</h3>
+<p>Now the official case. Unification identifies the solution for <code>(?x ?x)</code> and <code>((a ?y c) (a b ?z))</code> via the following two steps, quoted from the source.</p>
+<ol>
+<li>To match the first element of each pattern, the variable <code>?x</code> is bound to the expression <code>(a ?y c)</code>.</li>
+<li>To match the second element of each pattern, first the variable <code>?x</code> is replaced by its value. Then, <code>(a ?y c)</code> is matched to <code>(a b ?z)</code> by binding <code>?y</code> to <code>b</code> and <code>?z</code> to <code>c</code>.</li>
+</ol>
+<p>Look closely at step 2, because it is where the repeated variable does its work. The second element of the first pattern is again <code>?x</code>. But <code>?x</code> was already bound in step 1, so it is replaced by its value <code>(a ?y c)</code>. The comparison is therefore between <code>(a ?y c)</code> and the second element of the other pattern, <code>(a b ?z)</code>. Matching those two lists position by position gives <code>a</code> against <code>a</code> (already equal), <code>?y</code> against <code>b</code> (so <code>?y -&gt; b</code>), and <code>c</code> against <code>?z</code> (so <code>?z -&gt; c</code>).</p>
+<p><img class="figure" src="figures/unification-repeated-variable.svg" alt="The Repeated Variable Reaches Across"></p>
+<p>As a result, the bindings placed in the environment passed to <code>unify</code> contain entries for <code>?x</code>, <code>?y</code>, and <code>?z</code>.</p>
+</div></section>
+<section id='following-the-line-reading-the-bindings-transcript' class='ls ls-default'>
+<h2 class='ls-h'><span>Following the Line: Reading the Bindings Transcript</span></h2>
+<div class='ls-body'>
+<p>This is the official transcript. It is an interactive logic-interpreter session, so it lives in a plain block; the lines beginning with <code>&gt;&gt;&gt;</code> are what you type, and the lines without a prompt are what the interpreter prints back.</p>
+<pre class='code text'><code>&gt;&gt;&gt; e = read_line(&quot;(?x ?x)&quot;)
+&gt;&gt;&gt; f = read_line(&quot; ((a ?y c) (a b ?z))&quot;)
+&gt;&gt;&gt; env = Frame(None)
+&gt;&gt;&gt; unify(e, f, env)
+True
+&gt;&gt;&gt; env.bindings
+{&#x27;?z&#x27;: &#x27;c&#x27;, &#x27;?y&#x27;: &#x27;b&#x27;, &#x27;?x&#x27;: Pair(&#x27;a&#x27;, Pair(&#x27;?y&#x27;, Pair(&#x27;c&#x27;, nil)))}</code></pre>
+<p>The most informative line is the call to <code>unify</code>. Read it one token at a time.</p>
+<pre class='code anatomy'><code>unify(e, f, env)
+├─ unify ....... the unification procedure
+├─ ( ........... begins the inputs
+├─ e ........... first expression, the parsed form of (?x ?x)
+├─ , ........... separates the inputs
+├─ f ........... second expression, the parsed form of ((a ?y c) (a b ?z))
+├─ , ........... separates the inputs
+├─ env ......... the frame that will receive the bindings
+├─ ) ........... ends the inputs
+└─ returns       True, and env now holds bindings for ?x, ?y, and ?z</code></pre>
+<p>Now read the dictionary it produced, again token by meaningful token.</p>
+<pre class='code anatomy'><code>{&#x27;?z&#x27;: &#x27;c&#x27;, &#x27;?y&#x27;: &#x27;b&#x27;, &#x27;?x&#x27;: Pair(&#x27;a&#x27;, Pair(&#x27;?y&#x27;, Pair(&#x27;c&#x27;, nil)))}
+├─ &#x27;?z&#x27;: &#x27;c&#x27; ........................... ?z is bound to the symbol c
+├─ &#x27;?y&#x27;: &#x27;b&#x27; ........................... ?y is bound to the symbol b
+├─ &#x27;?x&#x27;: Pair(&#x27;a&#x27;, Pair(&#x27;?y&#x27;, ...)) .... ?x is bound to the list (a ?y c)
+└─ result is          a frame where ?x&#x27;s value still mentions ?y, which is fine</code></pre>
+<p>Two things are worth noticing. First, the order of keys in the dictionary need not match the order you reasoned in; dictionaries print in their own internal order. Second, and more important, <code>?x</code> is bound to a structure that <strong>still contains a variable</strong>, <code>?y</code>. That is not a bug. The result of unification may bind a variable to an expression that also contains variables, as you see here with <code>?x</code> bound to <code>(a ?y c)</code>. It is consistent because <code>?y</code> is itself bound, to <code>b</code>.</p>
+</div></section>
+<section id='following-the-line-resolving-bindings-with-bind' class='ls ls-default'>
+<h2 class='ls-h'><span>Following the Line: Resolving Bindings with <code>bind</code></span></h2>
+<div class='ls-body'>
+<p>The environment stores <code>?x -&gt; (a ?y c)</code>, which is correct but not fully resolved. To get the variable-free answer, the interpreter uses <code>bind</code>. <strong>The <code>bind</code> function recursively and repeatedly binds all variables to their values in an expression until no bound variables remain.</strong></p>
+<p>This is the official transcript, again a logic-interpreter session.</p>
+<pre class='code text'><code>&gt;&gt;&gt; print(bind(e, env))
+((a b c) (a b c))</code></pre>
+<p>Follow the call.</p>
+<pre class='code anatomy'><code>print(bind(e, env))
+├─ print ....... display the result
+├─ ( ........... begins print&#x27;s input
+├─ bind ........ the resolver: replace every variable by its value, repeatedly
+├─ ( ........... begins bind&#x27;s inputs
+├─ e ........... the expression (?x ?x) to resolve
+├─ , ........... separates bind&#x27;s inputs
+├─ env ......... the frame holding the bindings for ?x, ?y, ?z
+├─ ) ........... ends bind&#x27;s inputs
+├─ ) ........... ends print&#x27;s input
+└─ prints        ((a b c) (a b c)), every variable fully resolved</code></pre>
+<p>Trace why the output is <code>((a b c) (a b c))</code>. Resolving <code>e</code>, which is <code>(?x ?x)</code>, replaces each <code>?x</code> with its value <code>(a ?y c)</code>. But <code>(a ?y c)</code> still mentions <code>?y</code>, so <code>bind</code> keeps going and replaces <code>?y</code> with <code>b</code>, giving <code>(a b c)</code>. Both copies of <code>?x</code> resolve to <code>(a b c)</code>, so the whole expression resolves to <code>((a b c) (a b c))</code>. That is precisely the variable-free expression we predicted would match both patterns at the start.</p>
+</div></section>
+<section id='the-six-cases-of-unify' class='ls ls-default'>
+<h2 class='ls-h'><span>The Six Cases of <code>unify</code></span></h2>
+<div class='ls-body'>
+<p>In general, unification proceeds by checking several conditions. The implementation of <code>unify</code> directly follows the description below, quoted from the source.</p>
+<ol>
+<li>Both inputs <code>e</code> and <code>f</code> are replaced by their values if they are variables.</li>
+<li>If <code>e</code> and <code>f</code> are equal, unification succeeds.</li>
+<li>If <code>e</code> is a variable, unification succeeds and <code>e</code> is bound to <code>f</code>.</li>
+<li>If <code>f</code> is a variable, unification succeeds and <code>f</code> is bound to <code>e</code>.</li>
+<li>If neither is a variable, both are not lists, and they are not equal, then <code>e</code> and <code>f</code> cannot be unified, and so unification fails.</li>
+<li>If none of these cases holds, then <code>e</code> and <code>f</code> are both pairs, and so unification is performed on both their first and second corresponding elements.</li>
+</ol>
+<p>A word on case 5. A non-list value such as a symbol or a number is an <strong>atom</strong>. If two atoms are not equal, there is no smaller structure inside them to inspect, so there is nothing left to try and unification fails. Case 6 is the opposite situation: if neither input is an atom, both must be pairs, and a pair can always be broken into a first part and a second part, so unification recurses into those parts. For two lists to unify, their first elements must unify <strong>and</strong> the remainders of the lists must unify.</p>
+</div></section>
+<section id='following-the-line-the-official-unify-code' class='ls ls-default'>
+<h2 class='ls-h'><span>Following the Line: The Official <code>unify</code> Code</span></h2>
+<div class='ls-body'>
+<p>Now the implementation. This is Python: it is the code that runs the algorithm, so it carries sequential code labels. The block is shown as an interactive Python session, exactly as the source presents it.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #93a1a1">&gt;&gt;&gt;</span> <span style="color: #859900">def</span> <span style="color: #268bd2">unify</span><span style="color: #657b83">(e,</span> <span style="color: #657b83">f,</span> <span style="color: #657b83">env):</span>
+        <span style="color: #93a1a1">&quot;&quot;&quot;Destructively extend ENV so as to unify (make equal) e and f, returning</span>
+<span style="color: #93a1a1">        True if this succeeds and False otherwise.  ENV may be modified in either</span>
+<span style="color: #93a1a1">        case (its existing bindings are never changed).&quot;&quot;&quot;</span>
+        <span style="color: #657b83">e</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">lookup(e,</span> <span style="color: #657b83">env)</span>
+        <span style="color: #657b83">f</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">lookup(f,</span> <span style="color: #657b83">env)</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">e</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">f:</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">True</span>
+        <span style="color: #859900">elif</span> <span style="color: #657b83">isvar(e):</span>
+            <span style="color: #657b83">env</span><span style="color: #93a1a1">.</span><span style="color: #657b83">define(e,</span> <span style="color: #657b83">f)</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">True</span>
+        <span style="color: #859900">elif</span> <span style="color: #657b83">isvar(f):</span>
+            <span style="color: #657b83">env</span><span style="color: #93a1a1">.</span><span style="color: #657b83">define(f,</span> <span style="color: #657b83">e)</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">True</span>
+        <span style="color: #859900">elif</span> <span style="color: #657b83">scheme_atomp(e)</span> <span style="color: #859900">or</span> <span style="color: #657b83">scheme_atomp(f):</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">False</span>
+        <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">unify(e</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">f</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">env)</span> <span style="color: #859900">and</span> <span style="color: #657b83">unify(e</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second,</span> <span style="color: #657b83">f</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second,</span> <span style="color: #657b83">env)</span>
+</code></pre>
+<p>Each branch of this function is one of the six cases. The first interesting line is the pair of lookups, then the chain of <code>if</code>/<code>elif</code>/<code>else</code>. Read the header and the body&#x27;s decisions one piece at a time.</p>
+<pre class='code anatomy'><code>def unify(e, f, env):
+├─ def ......... begins a function definition
+├─ unify ....... the name of the function
+├─ (e, f, env)   the two expressions to unify and the frame to extend
+├─ : ........... begins the body
+└─ does          recursively decides whether e and f can be made equal, extending env</code></pre>
+<p>Now the body, line by load-bearing line, mapped to the six cases.</p>
+<pre class='code anatomy'><code>e = lookup(e, env);  f = lookup(f, env)
+├─ lookup(e, env) ...... case 1: replace e with its value if e is a bound variable
+├─ lookup(f, env) ...... case 1: replace f with its value if f is a bound variable
+└─ effect              both inputs are now their current values before any comparison</code></pre>
+<pre class='code anatomy'><code>if e == f: return True
+├─ e == f .............. case 2: the two values are already equal
+└─ action              succeed immediately, no new binding needed</code></pre>
+<pre class='code anatomy'><code>elif isvar(e): env.define(e, f); return True
+├─ isvar(e) ............ case 3: e is an unbound variable
+├─ env.define(e, f) .... record the binding e -&gt; f in the frame
+└─ action              succeed; env is now extended</code></pre>
+<pre class='code anatomy'><code>elif isvar(f): env.define(f, e); return True
+├─ isvar(f) ............ case 4: f is an unbound variable
+├─ env.define(f, e) .... record the binding f -&gt; e in the frame
+└─ action              succeed; env is now extended</code></pre>
+<pre class='code anatomy'><code>elif scheme_atomp(e) or scheme_atomp(f): return False
+├─ scheme_atomp(e) ..... e is an atom (a non-list value)
+├─ scheme_atomp(f) ..... or f is an atom
+└─ action              case 5: an atom that was not equal cannot be unified; fail</code></pre>
+<pre class='code anatomy'><code>else: return unify(e.first, f.first, env) and unify(e.second, f.second, env)
+├─ unify(e.first, f.first, env) ...... case 6: unify the two first elements
+├─ and ............................... both subproblems must succeed
+├─ unify(e.second, f.second, env) .... and unify the two remainders
+└─ action                            succeed only if first parts and rest parts both unify</code></pre>
+<p>That last line is the recursive heart of the algorithm. A list is a <code>first</code> element joined to a <code>second</code> (the rest of the list), so two lists unify exactly when their <code>first</code> elements unify and their <code>second</code> parts unify. The single <code>and</code> enforces &quot;both halves must agree.&quot;</p>
+</div></section>
+<section id='a-full-trace-of-the-official-unification' class='ls ls-default'>
+<h2 class='ls-h'><span>A Full Trace of the Official Unification</span></h2>
+<div class='ls-body'>
+<p>Put the code and the example together. Here is <code>unify(e, f, env)</code> for <code>e = (?x ?x)</code> and <code>f = ((a ?y c) (a b ?z))</code>, starting from an empty frame. Each row is one call to <code>unify</code>, showing which case fires and what happens to the environment.</p>
+<div class='table-wrap'><table><thead><tr>
+<th>Call (e vs f)</th>
+<th>After lookup</th>
+<th>Case</th>
+<th>Effect</th>
+</tr></thead><tbody>
+<tr>
+<td><code>(?x ?x)</code> vs <code>((a ?y c) (a b ?z))</code></td>
+<td>both are pairs</td>
+<td>6</td>
+<td>recurse on first parts, then second parts</td>
+</tr>
+<tr>
+<td>first parts: <code>?x</code> vs <code>(a ?y c)</code></td>
+<td><code>?x</code> unbound</td>
+<td>3</td>
+<td>bind <code>?x -&gt; (a ?y c)</code>, return True</td>
+</tr>
+<tr>
+<td>second parts: <code>(?x)</code> vs <code>((a b ?z))</code></td>
+<td>both are pairs</td>
+<td>6</td>
+<td>recurse on first parts, then second parts</td>
+</tr>
+<tr>
+<td>first parts: <code>?x</code> vs <code>(a b ?z)</code></td>
+<td><code>?x</code> -&gt; <code>(a ?y c)</code></td>
+<td>6</td>
+<td>now a pair vs a pair; recurse</td>
+</tr>
+<tr>
+<td><code>a</code> vs <code>a</code></td>
+<td>equal atoms</td>
+<td>2</td>
+<td>return True</td>
+</tr>
+<tr>
+<td><code>(?y c)</code> vs <code>(b ?z)</code></td>
+<td>both pairs</td>
+<td>6</td>
+<td>recurse</td>
+</tr>
+<tr>
+<td><code>?y</code> vs <code>b</code></td>
+<td><code>?y</code> unbound</td>
+<td>3</td>
+<td>bind <code>?y -&gt; b</code>, return True</td>
+</tr>
+<tr>
+<td><code>(c)</code> vs <code>(?z)</code></td>
+<td>both pairs</td>
+<td>6</td>
+<td>recurse</td>
+</tr>
+<tr>
+<td><code>c</code> vs <code>?z</code></td>
+<td><code>?z</code> unbound</td>
+<td>4</td>
+<td>bind <code>?z -&gt; c</code>, return True</td>
+</tr>
+<tr>
+<td><code>nil</code> vs <code>nil</code></td>
+<td>equal</td>
+<td>2</td>
+<td>return True (lists ended together)</td>
+</tr>
+</tbody></table></div>
+<p>Every subproblem returned True, so the whole call returns True, and the frame now holds <code>?x -&gt; (a ?y c)</code>, <code>?y -&gt; b</code>, and <code>?z -&gt; c</code>. Notice the key moment: when the second <code>?x</code> came up, <code>lookup</code> had already turned it into <code>(a ?y c)</code>, which is why the comparison against <code>(a b ?z)</code> is a pair-versus-pair recursion (case 6) rather than a variable binding. That is the repeated variable reaching across positions, now visible as a single line in the trace.</p>
+</div></section>
+<section id='why-the-environment-may-change-even-on-failure' class='ls ls-default'>
+<h2 class='ls-h'><span>Why the Environment May Change Even on Failure</span></h2>
+<div class='ls-body'>
+<p>Read the docstring again, slowly: the function will &quot;Destructively extend ENV so as to unify (make equal) e and f, returning True if this succeeds and False otherwise. <strong>ENV may be modified in either case (its existing bindings are never changed).</strong>&quot;</p>
+<p>There are two claims packed into that sentence. The first is reassuring: the bindings that were already in the frame are never altered. Unification only <strong>adds</strong> bindings; it never overwrites an existing one. The second claim is the surprising one: even when unification ultimately returns <code>False</code>, some bindings may already have been added along the way.</p>
+<p>Why can that happen? Because of case 6. A pair-versus-pair unification calls <code>unify</code> on the first parts and then on the second parts, joined by <code>and</code>. Python evaluates the first call before the second. If the first call succeeds, it may have added a binding to the frame; if the second call then fails, the function returns <code>False</code>, but the binding from the first call is still sitting in the frame. The word &quot;destructively&quot; in the docstring is the signal: <code>unify</code> writes directly into the frame as it goes, rather than computing a result and committing it only at the end.</p>
+<p>This is safe in practice because of how the larger machinery uses <code>unify</code>. The procedure that drives the overall proof search hands <code>unify</code> a fresh frame for each attempt it makes, so a half-filled frame from a failed attempt is simply discarded rather than reused. The details of that search procedure are the subject of a later section; for now the takeaway is narrower. Treat a frame passed to <code>unify</code> as scratch space for a single attempt. If <code>unify</code> returns <code>True</code>, the bindings in that frame are meaningful. If it returns <code>False</code>, the frame may contain leftover bindings, and you should not trust them.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<ul>
+<li>Treating unification as ordinary equality. It is equality <strong>plus</strong> the freedom to bind variables until the two sides match. <code>5 == 6</code> is just false, but <code>?x</code> unifying with <code>5</code> succeeds by binding <code>?x -&gt; 5</code>.</li>
+<li>Forgetting case 1. Before comparing <code>e</code> and <code>f</code>, you must replace each one with its current value if it is a bound variable. Skipping the lookup makes you compare a variable name instead of the expression it now stands for, which is the single most common mistake in tracing.</li>
+<li>Believing a variable can change meaning mid-unification. Once <code>?x</code> is bound, it stays bound for the rest of that attempt. The second appearance of <code>?x</code> is replaced by its first value, not re-bound to something new.</li>
+<li>Panicking when a variable is bound to an expression that still contains another variable, like <code>?x -&gt; (a ?y c)</code>. That is normal and consistent, as long as the inner variable is itself bound. <code>bind</code> resolves these chains later.</li>
+<li>Misreading case 6. Two lists do not unify just because their first elements match. The first elements must unify <strong>and</strong> the remainders must unify; the <code>and</code> is doing real work.</li>
+<li>Assuming a <code>False</code> result leaves the frame untouched. It may have added bindings before failing. That is exactly what &quot;ENV may be modified in either case&quot; warns you about.</li>
+</ul>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>Unify <code>(?x ?x)</code> with <code>(2 ?y)</code> starting from an empty frame. Walking left to right, what value gets bound to <code>?x</code>, and what then gets bound to <code>?y</code>?</li>
+<li>Why does <code>(?x ?x)</code> unify with <code>((a ?y c) (a b ?z))</code>, and what single variable-free expression matches both?</li>
+<li>In the official example, what are the final bindings for <code>?x</code>, <code>?y</code>, and <code>?z</code>, and why is it acceptable for <code>?x</code>&#x27;s binding to still contain <code>?y</code>?</li>
+<li>Why must <code>unify</code> call <code>lookup</code> on <code>e</code> and <code>f</code> before comparing them?</li>
+<li>Which case of <code>unify</code> causes failure, and why is there nothing left to try in that case?</li>
+<li>The docstring says the environment &quot;may be modified in either case.&quot; Explain how a binding can end up in the frame even when <code>unify</code> returns <code>False</code>.</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li>The first elements are <code>?x</code> and <code>2</code>, so <code>?x -&gt; 2</code>. The second elements are <code>?x</code> and <code>?y</code>; <code>?x</code> now looks up to <code>2</code>, so the comparison is <code>2</code> against <code>?y</code>, giving <code>?y -&gt; 2</code>. Both bindings are <code>2</code>, with the repeated <code>?x</code> forcing <code>?y</code> through <code>lookup</code>.</li>
+<li>They unify because there is a variable-free expression that matches both patterns: <code>((a b c) (a b c))</code>. Setting <code>?x</code> to <code>(a b c)</code>, <code>?y</code> to <code>b</code>, and <code>?z</code> to <code>c</code> satisfies both.</li>
+<li><code>?x -&gt; (a ?y c)</code>, <code>?y -&gt; b</code>, and <code>?z -&gt; c</code>. It is acceptable for <code>?x</code>&#x27;s value to mention <code>?y</code> because <code>?y</code> is itself bound to <code>b</code>; <code>bind</code> resolves the chain, turning <code>?x</code> into <code>(a b c)</code>.</li>
+<li>Because either input might be a variable that already has a value. <code>lookup</code> replaces it with that value first, so the comparison and recursion act on the real expressions, not on stale variable names.</li>
+<li>Case 5: when at least one side is an atom and the two sides are not equal. Atoms have no internal first/second structure to recurse into, so there is no smaller subproblem to attempt, and unification fails.</li>
+<li>Case 6 unifies first parts, then second parts, joined by <code>and</code>. If the first parts unify, a binding may be added to the frame; if the second parts then fail to unify, <code>unify</code> returns <code>False</code>, but the binding from the first step has already been written destructively into the frame.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>Unification generalizes pattern matching: it takes two expressions that may both contain variables and tries to find a consistent set of bindings that make them equal. The official <code>unify</code> function does this recursively through six cases: look up bound variables first, succeed on equality, bind an unbound <code>e</code> or <code>f</code> to the other side, fail when unequal atoms have no inner structure, and otherwise recurse into the first and second parts of two pairs, requiring both to unify. The official example, <code>(?x ?x)</code> against <code>((a ?y c) (a b ?z))</code>, shows the defining feature in action: a repeated variable binds once and then, through <code>lookup</code>, forces the bindings <code>?y -&gt; b</code> and <code>?z -&gt; c</code> on its second appearance, producing the variable-free result <code>((a b c) (a b c))</code> once <code>bind</code> resolves the chain. Finally, because <code>unify</code> writes bindings destructively as it goes, the environment may already hold partial bindings even when an attempt fails, which is why each attempt in the larger search is given its own fresh frame to use as scratch space.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>The next block is a self-contained, runnable Python model of the unification machinery: it uses plain lists in place of the interpreter&#x27;s <code>Pair</code> structures but follows the same six cases. Stepping through it draws the <strong>environment diagram</strong> of the recursion: each recursive <code>unify</code> call opens its own frame for <code>e</code> and <code>f</code>, the frames stack up as the algorithm drills into corresponding list elements, and the single <code>bindings</code> dict on the heap in the global frame grows an entry each time <code>is_var(e)</code> or <code>is_var(f)</code> fires, with <code>lookup</code> reaching back into that shared dict to resolve <code>?x</code> to <code>[&quot;a&quot;, &quot;?y&quot;, &quot;c&quot;]</code> on its second appearance. Before you step through the block below, write down two predictions: how many calls to <code>unify</code> will open over the whole run, and in what order the three keys will appear when the last line prints the dictionary.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #657b83">bindings</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">{}</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">is_var</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(x,</span> <span style="color: #268bd2">str</span><span style="color: #657b83">)</span> <span style="color: #859900">and</span> <span style="color: #657b83">x</span><span style="color: #93a1a1">.</span><span style="color: #657b83">startswith(</span><span style="color: #2aa198">&quot;?&quot;</span><span style="color: #657b83">)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">lookup</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">is_var(x)</span> <span style="color: #859900">and</span> <span style="color: #657b83">x</span> <span style="color: #859900">in</span> <span style="color: #657b83">bindings:</span>
+        <span style="color: #657b83">x</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">bindings[x]</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">x</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">unify</span><span style="color: #657b83">(e,</span> <span style="color: #657b83">f):</span>
+    <span style="color: #657b83">e</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">lookup(e)</span>
+    <span style="color: #657b83">f</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">lookup(f)</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">e</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">f:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">True</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">is_var(e):</span>
+        <span style="color: #657b83">bindings[e]</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">f</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">True</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">is_var(f):</span>
+        <span style="color: #657b83">bindings[f]</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">e</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">True</span>
+    <span style="color: #859900">if</span> <span style="color: #859900">not</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(e,</span> <span style="color: #268bd2">list</span><span style="color: #657b83">)</span> <span style="color: #859900">or</span> <span style="color: #859900">not</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(f,</span> <span style="color: #268bd2">list</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">False</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(e)</span> <span style="color: #93a1a1">!=</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(f):</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">False</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">i</span> <span style="color: #859900">in</span> <span style="color: #268bd2">range</span><span style="color: #657b83">(</span><span style="color: #268bd2">len</span><span style="color: #657b83">(e)):</span>
+        <span style="color: #859900">if</span> <span style="color: #859900">not</span> <span style="color: #657b83">unify(e[i],</span> <span style="color: #657b83">f[i]):</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">False</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">True</span>
+
+<span style="color: #657b83">left</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[</span><span style="color: #2aa198">&quot;?x&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;?x&quot;</span><span style="color: #657b83">]</span>
+<span style="color: #657b83">right</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[[</span><span style="color: #2aa198">&quot;a&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;?y&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;c&quot;</span><span style="color: #657b83">],</span> <span style="color: #657b83">[</span><span style="color: #2aa198">&quot;a&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;b&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;?z&quot;</span><span style="color: #657b83">]]</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(unify(left,</span> <span style="color: #657b83">right))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(bindings)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/2ff2b19d4fde.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>Check each prediction as you step. Six calls to <code>unify</code> open in all: one for the outer lists, one for each element, and three inside the second of those. When the second element&#x27;s call begins, <code>bindings</code> already maps <code>?x</code> to <code>[&quot;a&quot;, &quot;?y&quot;, &quot;c&quot;]</code>, so <code>lookup</code> turns that comparison into list-against-list recursion rather than a fresh binding. The run prints <code>True</code>, and the keys print in the order the bindings were created, <code>?x</code>, then <code>?y</code> mapped to <code>&quot;b&quot;</code>, then <code>?z</code> mapped to <code>&quot;c&quot;</code>, not the order of the official transcript. The official interpreter would then run <code>bind</code> over <code>left</code> to collapse those chains into the fully resolved <code>[[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;], [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]]</code>.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>4.5-B Representing Facts, Queries, and Binding Frames</span></a><a class='pg pg-next' href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>4.5-D Proofs as Structured Reasoning</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#an-intuition-two-half-finished-forms'>An Intuition: Two Half-Finished Forms</a></li><li><a href='#what-unification-is'>What Unification Is</a></li><li><a href='#the-official-example'>The Official Example</a></li><li><a href='#following-the-line-reading-the-bindings-transcript'>Following the Line: Reading the Bindings Transcript</a></li><li><a href='#following-the-line-resolving-bindings-with-bind'>Following the Line: Resolving Bindings with bind</a></li><li><a href='#the-six-cases-of-unify'>The Six Cases of unify</a></li><li><a href='#following-the-line-the-official-unify-code'>Following the Line: The Official unify Code</a></li><li><a href='#a-full-trace-of-the-official-unification'>A Full Trace of the Official Unification</a></li><li><a href='#why-the-environment-may-change-even-on-failure'>Why the Environment May Change Even on Failure</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

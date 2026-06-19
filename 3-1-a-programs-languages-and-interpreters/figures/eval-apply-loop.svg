@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 340" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- entry arrow: expression in -->
+  <line x1="24" y1="170" x2="150" y2="170" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="148,164 159,170 148,176" fill="#268bd2"/>
+  <text x="86" y="158" text-anchor="middle" font-size="12" font-family="monospace" fill="#93a1a1">expression in</text>
+
+  <!-- exit arrow: value out -->
+  <line x1="150" y1="206" x2="24" y2="206" stroke="#2aa198" stroke-width="2.5"/>
+  <polygon points="35,200 24,206 35,212" fill="#2aa198"/>
+  <text x="86" y="226" text-anchor="middle" font-size="12" font-family="monospace" fill="#93a1a1">value out</text>
+
+  <!-- EVALUATE box -->
+  <rect x="152" y="132" width="180" height="112" rx="16" fill="#268bd2" fill-opacity="0.12" stroke="#268bd2" stroke-width="2.5"/>
+  <text x="242" y="182" text-anchor="middle" font-size="24" font-weight="bold" fill="#073642">EVALUATE</text>
+  <text x="242" y="208" text-anchor="middle" font-size="13" fill="#657b83">find an expression value</text>
+
+  <!-- APPLY box -->
+  <rect x="368" y="132" width="180" height="112" rx="16" fill="#2aa198" fill-opacity="0.12" stroke="#2aa198" stroke-width="2.5"/>
+  <text x="458" y="182" text-anchor="middle" font-size="24" font-weight="bold" fill="#073642">APPLY</text>
+  <text x="458" y="208" text-anchor="middle" font-size="13" fill="#657b83">run a function on its arguments</text>
+
+  <!-- top arrow: EVALUATE to APPLY -->
+  <path d="M 300 132 C 320 92, 380 92, 398 128" fill="none" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="402,136 393,120 388,131" fill="#268bd2"/>
+  <text x="350" y="86" text-anchor="middle" font-size="12" fill="#93a1a1">to finish a call, apply the operator</text>
+
+  <!-- bottom arrow: APPLY back to EVALUATE -->
+  <path d="M 400 244 C 380 284, 320 284, 302 248" fill="none" stroke="#2aa198" stroke-width="2.5"/>
+  <polygon points="298,240 307,256 312,245" fill="#2aa198"/>
+  <text x="350" y="300" text-anchor="middle" font-size="12" fill="#93a1a1">to run a user-defined function, evaluate its body</text>
+
+  <!-- caption -->
+  <text x="350" y="324" text-anchor="middle" font-size="12" fill="#93a1a1">the two jobs form a closed loop, handing work back and forth</text>
+  <text x="350" y="338" text-anchor="middle" font-size="12" fill="#93a1a1">until the expression is fully reduced.</text>
+</svg>

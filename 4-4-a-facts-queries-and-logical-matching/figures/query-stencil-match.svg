@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 488" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <text x="350" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#073642">Matching a query stencil against the facts</text>
+
+  <line x1="63" y1="108" x2="63" y2="356" stroke="#93a1a1" stroke-width="1" stroke-dasharray="3 6"/>
+  <line x1="141" y1="108" x2="141" y2="356" stroke="#93a1a1" stroke-width="1" stroke-dasharray="3 6"/>
+  <line x1="219" y1="108" x2="219" y2="356" stroke="#93a1a1" stroke-width="1" stroke-dasharray="3 6"/>
+
+  <text x="141" y="62" text-anchor="middle" font-size="13" fill="#657b83">the query pattern</text>
+
+  <rect x="24" y="74" width="78" height="42" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="63" y="101" text-anchor="middle" font-size="16" font-family="monospace" fill="#073642">parent</text>
+  <rect x="102" y="74" width="78" height="42" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="141" y="101" text-anchor="middle" font-size="16" font-family="monospace" fill="#073642">abraham</text>
+  <rect x="180" y="74" width="78" height="42" rx="8" fill="#fdf6e3" stroke="#268bd2" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="219" y="101" text-anchor="middle" font-size="16" font-family="monospace" fill="#268bd2">?child</text>
+
+  <text x="102" y="136" text-anchor="middle" font-size="12" fill="#93a1a1">must match exactly</text>
+  <text x="219" y="136" text-anchor="middle" font-size="12" fill="#268bd2">free slot</text>
+
+  <text x="497" y="62" text-anchor="middle" font-size="13" fill="#657b83">tested against every stored fact</text>
+
+  <rect x="380" y="148" width="78" height="42" rx="8" fill="#2aa198" fill-opacity="0.16" stroke="#2aa198" stroke-width="2"/>
+  <text x="419" y="175" text-anchor="middle" font-size="16" font-family="monospace" fill="#073642">parent</text>
+  <rect x="458" y="148" width="78" height="42" rx="8" fill="#2aa198" fill-opacity="0.16" stroke="#2aa198" stroke-width="2"/>
+  <text x="497" y="175" text-anchor="middle" font-size="16" font-family="monospace" fill="#073642">abraham</text>
+  <rect x="536" y="148" width="78" height="42" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="575" y="175" text-anchor="middle" font-size="16" font-family="monospace" fill="#073642">barack</text>
+  <text x="630" y="176" font-size="20" fill="#2aa198">&#10003;</text>
+  <text x="652" y="174" font-size="12" font-weight="bold" fill="#2aa198">MATCH</text>
+
+  <rect x="380" y="200" width="78" height="42" rx="8" fill="#2aa198" fill-opacity="0.16" stroke="#2aa198" stroke-width="2"/>
+  <text x="419" y="227" text-anchor="middle" font-size="16" font-family="monospace" fill="#073642">parent</text>
+  <rect x="458" y="200" width="78" height="42" rx="8" fill="#2aa198" fill-opacity="0.16" stroke="#2aa198" stroke-width="2"/>
+  <text x="497" y="227" text-anchor="middle" font-size="16" font-family="monospace" fill="#073642">abraham</text>
+  <rect x="536" y="200" width="78" height="42" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="575" y="227" text-anchor="middle" font-size="16" font-family="monospace" fill="#073642">clinton</text>
+  <text x="630" y="228" font-size="20" fill="#2aa198">&#10003;</text>
+  <text x="652" y="226" font-size="12" font-weight="bold" fill="#2aa198">MATCH</text>
+
+  <rect x="380" y="262" width="78" height="42" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="419" y="289" text-anchor="middle" font-size="16" font-family="monospace" fill="#073642">parent</text>
+  <rect x="458" y="262" width="78" height="42" rx="8" fill="#dc322f" fill-opacity="0.16" stroke="#dc322f" stroke-width="2.5"/>
+  <text x="497" y="289" text-anchor="middle" font-size="16" font-family="monospace" fill="#dc322f">delano</text>
+  <rect x="536" y="262" width="78" height="42" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="575" y="289" text-anchor="middle" font-size="16" font-family="monospace" fill="#657b83">herbert</text>
+  <text x="630" y="290" font-size="20" fill="#dc322f">&#10007;</text>
+  <text x="652" y="284" font-size="11" font-weight="bold" fill="#dc322f">NO</text>
+  <text x="652" y="297" font-size="11" font-weight="bold" fill="#dc322f">MATCH</text>
+
+  <rect x="380" y="314" width="78" height="42" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="419" y="341" text-anchor="middle" font-size="16" font-family="monospace" fill="#073642">parent</text>
+  <rect x="458" y="314" width="78" height="42" rx="8" fill="#dc322f" fill-opacity="0.16" stroke="#dc322f" stroke-width="2.5"/>
+  <text x="497" y="341" text-anchor="middle" font-size="16" font-family="monospace" fill="#dc322f">fillmore</text>
+  <rect x="536" y="314" width="78" height="42" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="575" y="341" text-anchor="middle" font-size="16" font-family="monospace" fill="#657b83">abraham</text>
+  <text x="630" y="342" font-size="20" fill="#dc322f">&#10007;</text>
+  <text x="652" y="336" font-size="11" font-weight="bold" fill="#dc322f">NO</text>
+  <text x="652" y="349" font-size="11" font-weight="bold" fill="#dc322f">MATCH</text>
+
+  <line x1="536" y1="169" x2="262" y2="98" stroke="#2aa198" stroke-width="2"/>
+  <polygon points="266,104 256,96 269,93" fill="#2aa198" transform="rotate(14.6 256 96)"/>
+  <text x="392" y="120" text-anchor="middle" font-size="13" font-family="monospace" fill="#2aa198">?child = barack</text>
+
+  <line x1="536" y1="221" x2="263" y2="106" stroke="#2aa198" stroke-width="2"/>
+  <polygon points="267,112 257,104 270,101" fill="#2aa198" transform="rotate(22.8 257 104)"/>
+  <text x="318" y="166" text-anchor="middle" font-size="13" font-family="monospace" fill="#2aa198">?child = clinton</text>
+
+  <text x="350" y="402" text-anchor="middle" font-size="13" fill="#93a1a1">Fixed tokens must line up exactly; the ?-variable absorbs whatever sits in its slot.</text>
+  <text x="350" y="422" text-anchor="middle" font-size="13" fill="#93a1a1">The interpreter keeps the facts that line up, binding ?child differently for each match.</text>
+  <text x="350" y="442" text-anchor="middle" font-size="13" fill="#93a1a1">The bottom two fail at the second column &#8212; before the variable even matters.</text>
+</svg>

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 332" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <text x="350" y="40" text-anchor="middle" font-size="17" font-weight="bold" fill="#073642">A web request: the client asks, the server answers</text>
+
+  <rect x="52" y="128" width="180" height="86" rx="12" fill="#fdf6e3" stroke="#93a1a1" stroke-width="1.5"/>
+  <rect x="46" y="122" width="180" height="86" rx="12" fill="#fdf6e3" stroke="#93a1a1" stroke-width="1.5"/>
+  <rect x="40" y="116" width="180" height="86" rx="12" fill="#fdf6e3" stroke="#073642" stroke-width="2"/>
+  <text x="130" y="152" text-anchor="middle" font-size="18" font-weight="bold" fill="#073642">Client</text>
+  <text x="130" y="176" text-anchor="middle" font-size="13" fill="#657b83">your browser</text>
+  <text x="130" y="194" text-anchor="middle" font-size="13" fill="#657b83">(one of many)</text>
+
+  <rect x="480" y="116" width="180" height="86" rx="12" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="570" y="152" text-anchor="middle" font-size="18" font-weight="bold" fill="#073642">Server</text>
+  <text x="570" y="176" text-anchor="middle" font-size="13" fill="#657b83">holds the page,</text>
+  <text x="570" y="194" text-anchor="middle" font-size="13" fill="#657b83">answers requests</text>
+
+  <line x1="232" y1="142" x2="466" y2="142" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="478,142 464,135 464,149" fill="#268bd2"/>
+  <text x="350" y="130" text-anchor="middle" font-size="14" font-weight="bold" fill="#268bd2">request</text>
+  <text x="350" y="160" text-anchor="middle" font-size="13" font-family="monospace" fill="#657b83">GET /page</text>
+
+  <line x1="468" y1="186" x2="234" y2="186" stroke="#2aa198" stroke-width="2.5" stroke-dasharray="7 5"/>
+  <polygon points="222,186 236,179 236,193" fill="#2aa198"/>
+  <text x="350" y="208" text-anchor="middle" font-size="14" font-weight="bold" fill="#2aa198">response</text>
+  <text x="350" y="226" text-anchor="middle" font-size="13" fill="#657b83">the page (HTML)</text>
+
+  <text x="350" y="300" text-anchor="middle" font-size="13" fill="#93a1a1">One server answers requests from many clients, one exchange at a time.</text>
+  <text x="350" y="318" text-anchor="middle" font-size="13" fill="#93a1a1">The client opens the connection; the server never calls the client first.</text>
+</svg>

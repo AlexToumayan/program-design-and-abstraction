@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 300" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- shared built-in request (the one name everyone writes) -->
+  <rect x="34" y="115" width="158" height="70" rx="16" fill="#fdf6e3" stroke="#073642" stroke-width="2.5"/>
+  <text x="113" y="150" text-anchor="middle" font-size="26" font-family="monospace" font-weight="bold" fill="#073642">len(x)</text>
+  <text x="113" y="172" text-anchor="middle" font-size="12" fill="#657b83">one built-in request</text>
+  <text x="113" y="206" text-anchor="middle" font-size="12" fill="#93a1a1">the shared name</text>
+
+  <!-- three blue arrows fanning out to the right -->
+  <!-- to the list (up) -->
+  <line x1="194" y1="142" x2="412" y2="64" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="404,57 416,62 408,72" fill="#268bd2"/>
+  <!-- to the string (straight) -->
+  <line x1="194" y1="150" x2="412" y2="150" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="410,144 422,150 410,156" fill="#268bd2"/>
+  <!-- to your object (down) -->
+  <line x1="194" y1="158" x2="412" y2="236" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="404,228 416,238 408,243" fill="#268bd2"/>
+
+  <!-- target 1: a list -->
+  <rect x="420" y="30" width="226" height="64" rx="14" fill="#ffffff" stroke="#2aa198" stroke-width="2"/>
+  <text x="533" y="55" text-anchor="middle" font-size="17" font-family="monospace" fill="#073642">a list</text>
+  <text x="533" y="80" text-anchor="middle" font-size="18" font-family="monospace" fill="#2aa198">list.__len__</text>
+
+  <!-- target 2: a string -->
+  <rect x="420" y="118" width="226" height="64" rx="14" fill="#ffffff" stroke="#2aa198" stroke-width="2"/>
+  <text x="533" y="143" text-anchor="middle" font-size="17" font-family="monospace" fill="#073642">a string</text>
+  <text x="533" y="168" text-anchor="middle" font-size="18" font-family="monospace" fill="#2aa198">str.__len__</text>
+
+  <!-- target 3: your object -->
+  <rect x="420" y="206" width="226" height="64" rx="14" fill="#ffffff" stroke="#2aa198" stroke-width="2"/>
+  <text x="533" y="231" text-anchor="middle" font-size="17" font-family="monospace" fill="#073642">your object</text>
+  <text x="533" y="256" text-anchor="middle" font-size="18" font-family="monospace" fill="#2aa198">MyClass.__len__</text>
+
+  <!-- caption -->
+  <text x="340" y="284" text-anchor="middle" font-size="12" fill="#93a1a1">built-in syntax and functions call the special method the object defines -</text>
+  <text x="340" y="298" text-anchor="middle" font-size="12" fill="#93a1a1">one shared name, each type supplies its own behavior.</text>
+</svg>

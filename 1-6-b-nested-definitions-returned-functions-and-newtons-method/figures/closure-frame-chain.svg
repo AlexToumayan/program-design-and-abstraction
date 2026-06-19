@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 322" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- TOP frame: make_adder -->
+  <rect x="150" y="20" width="290" height="92" rx="14" fill="#fdf6e3" stroke="#073642" stroke-width="2.5"/>
+  <text x="295" y="46" text-anchor="middle" font-size="16" font-family="monospace" font-weight="bold" fill="#073642">make_adder</text>
+  <line x1="166" y1="58" x2="424" y2="58" stroke="#93a1a1" stroke-width="1"/>
+  <text x="295" y="88" text-anchor="middle" font-size="22" font-family="monospace" fill="#073642">n &#8594; 3</text>
+  <text x="295" y="129" text-anchor="middle" font-size="12" fill="#93a1a1">the frame where the function was born</text>
+
+  <!-- BOTTOM frame: add_three(4) -->
+  <rect x="150" y="178" width="290" height="116" rx="14" fill="#fdf6e3" stroke="#073642" stroke-width="2.5"/>
+  <text x="295" y="204" text-anchor="middle" font-size="16" font-family="monospace" font-weight="bold" fill="#073642">add_three(4)</text>
+  <line x1="166" y1="216" x2="424" y2="216" stroke="#93a1a1" stroke-width="1"/>
+  <text x="295" y="245" text-anchor="middle" font-size="22" font-family="monospace" fill="#073642">k &#8594; 4</text>
+  <text x="220" y="278" text-anchor="start" font-size="18" font-family="monospace" fill="#073642">return k + </text>
+  <text x="349" y="278" text-anchor="start" font-size="18" font-family="monospace" fill="#2aa198">n</text>
+
+  <!-- parent arrow: UP from bottom frame to top frame -->
+  <line x1="120" y1="178" x2="120" y2="116" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="114,121 120,110 126,121" fill="#268bd2"/>
+  <text x="86" y="151" text-anchor="middle" font-size="13" font-family="monospace" fill="#268bd2">parent</text>
+
+  <!-- lookup trail: follow up to find n -> 3 (cyan, dashed) -->
+  <line x1="354" y1="266" x2="500" y2="266" stroke="#2aa198" stroke-width="2" stroke-dasharray="5 4"/>
+  <line x1="500" y1="266" x2="500" y2="84" stroke="#2aa198" stroke-width="2" stroke-dasharray="5 4"/>
+  <line x1="500" y1="84" x2="444" y2="84" stroke="#2aa198" stroke-width="2" stroke-dasharray="5 4"/>
+  <polygon points="449,78 438,84 449,90" fill="#2aa198"/>
+  <text x="556" y="171" text-anchor="middle" font-size="12" fill="#93a1a1">follow the parent</text>
+  <text x="556" y="187" text-anchor="middle" font-size="12" fill="#93a1a1">arrow up to find n</text>
+
+  <!-- bottom caption -->
+  <text x="340" y="313" text-anchor="middle" font-size="13" fill="#93a1a1">the returned function add_three still remembers n = 3 from the frame where it was born.</text>
+</svg>

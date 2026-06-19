@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 314" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- ===== panel titles ===== -->
+  <text x="168" y="34" text-anchor="middle" font-size="16" font-weight="bold" fill="#073642">BEFORE</text>
+  <text x="512" y="34" text-anchor="middle" font-size="16" font-weight="bold" fill="#073642">AFTER (radius = 11)</text>
+
+  <!-- divider between panels -->
+  <line x1="340" y1="20" x2="340" y2="262" stroke="#93a1a1" stroke-width="1.5" stroke-dasharray="4 5"/>
+
+  <!-- ================= BEFORE panel ================= -->
+  <!-- radius tag -->
+  <rect x="20" y="66" width="104" height="44" rx="12" fill="#fdf6e3" stroke="#073642" stroke-width="2"/>
+  <text x="72" y="94" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">radius</text>
+  <!-- radius -> 10 arrow -->
+  <line x1="126" y1="88" x2="210" y2="88" stroke="#073642" stroke-width="2.5"/>
+  <polygon points="208,82 219,88 208,94" fill="#073642"/>
+  <!-- value box 10 -->
+  <rect x="222" y="65" width="92" height="46" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="268" y="95" text-anchor="middle" font-size="22" font-family="monospace" fill="#073642">10</text>
+
+  <!-- area tag -->
+  <rect x="20" y="170" width="104" height="44" rx="12" fill="#fdf6e3" stroke="#073642" stroke-width="2"/>
+  <text x="72" y="198" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">area</text>
+  <!-- area -> value arrow -->
+  <line x1="126" y1="192" x2="210" y2="192" stroke="#073642" stroke-width="2.5"/>
+  <polygon points="208,186 219,192 208,198" fill="#073642"/>
+  <!-- value box 314.159... -->
+  <rect x="222" y="169" width="100" height="46" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="272" y="198" text-anchor="middle" font-size="17" font-family="monospace" fill="#073642">314.159…</text>
+
+  <!-- ================= AFTER panel ================= -->
+  <!-- radius tag -->
+  <rect x="364" y="66" width="104" height="44" rx="12" fill="#fdf6e3" stroke="#268bd2" stroke-width="2"/>
+  <text x="416" y="94" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">radius</text>
+  <!-- radius -> 11 arrow (MOVED, highlighted blue) -->
+  <line x1="470" y1="88" x2="556" y2="88" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="554,82 565,88 554,94" fill="#268bd2"/>
+  <!-- NEW value box 11 -->
+  <rect x="568" y="65" width="92" height="46" rx="10" fill="#ffffff" stroke="#268bd2" stroke-width="2"/>
+  <text x="614" y="95" text-anchor="middle" font-size="22" font-family="monospace" fill="#073642">11</text>
+  <text x="614" y="130" text-anchor="middle" font-size="12" fill="#93a1a1">new value</text>
+
+  <!-- area tag (unchanged) -->
+  <rect x="364" y="170" width="104" height="44" rx="12" fill="#fdf6e3" stroke="#073642" stroke-width="2"/>
+  <text x="416" y="198" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">area</text>
+  <!-- area -> same value arrow (unchanged, neutral) -->
+  <line x1="470" y1="192" x2="556" y2="192" stroke="#073642" stroke-width="2.5"/>
+  <polygon points="554,186 565,192 554,198" fill="#073642"/>
+  <!-- SAME value box 314.159... (pinned) -->
+  <rect x="568" y="169" width="100" height="46" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="618" y="198" text-anchor="middle" font-size="17" font-family="monospace" fill="#073642">314.159…</text>
+  <text x="618" y="233" text-anchor="middle" font-size="12" fill="#93a1a1">same as before</text>
+
+  <!-- ===== caption ===== -->
+  <text x="340" y="290" text-anchor="middle" font-size="13" fill="#93a1a1">rebinding radius moves only its tag;</text>
+  <text x="340" y="308" text-anchor="middle" font-size="13" fill="#93a1a1">area keeps the value it was already given.</text>
+</svg>

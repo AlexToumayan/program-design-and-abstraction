@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>1.7 · Recursive Functions — Coding Practice · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+
+</head>
+<body class='is-practice'>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/' class='active'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Practice</span><span class='dot'>/</span><span class='eb-sec'>Chapter 1 · Coding Practice</span></div><h1 class='lesson-title'>1.7 · Recursive Functions — Coding Practice</h1><div class='reading-meta'>&#9719; approx. 12 min read <span class='rm-sep'>&middot;</span> 30 worked examples</div></div><div class='lesson-grid'><div class='lesson-body'><p>These problems build fluency with recursion on integers: finding the base case, making each call smaller, taking the recursive leap of faith, printing on the way down versus the way up, splitting work across mutually recursive helpers, and counting with tree recursion.</p>
+<p>&gt; Work each problem from the starter signature first. Run your function against the Examples, then open the matching solution below to check your approach and its time and space cost.</p>
+<section id='easy' class='ls ls-default'>
+<h2 class='ls-h'><span>Easy</span></h2>
+<div class='ls-body'>
+<h3>1. Count the Digits</h3>
+<p>Return how many digits a non-negative integer <code>n</code> has. Use recursion: peel off one digit per call with <code>n // 10</code>, and stop when a single digit is left.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  count_digits(7)
+Output: 1
+Explanation: 7 is a single digit, the base case.
+
+Input:  count_digits(18117)
+Output: 5
+Explanation: 18117 has five digits; each call drops the last one.
+
+Input:  count_digits(0)
+Output: 1
+Explanation: 0 counts as one digit (0 &lt; 10 fires the base case).</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>n</code> is an integer with <code>0 &lt;= n</code>.</li>
+<li>Must use recursion (no <code>while</code> loop, no <code>str</code>).</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">count_digits</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>A number below 10 has exactly one digit; otherwise it has one more digit than <code>n // 10</code>.</p></details>
+<h3>2. Sum to N</h3>
+<p>Return the sum <code>0 + 1 + 2 + ... + n</code> of every integer from <code>0</code> up to a non-negative integer <code>n</code>, computed recursively.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  sum_to(5)
+Output: 15
+Explanation: 5 + 4 + 3 + 2 + 1 + 0 = 15.
+
+Input:  sum_to(1)
+Output: 1
+Explanation: 1 + 0 = 1.
+
+Input:  sum_to(100)
+Output: 5050
+Explanation: the classic 1..100 sum.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>n</code> is an integer with <code>0 &lt;= n</code>.</li>
+<li>Must use recursion; the base case is <code>n == 0</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">sum_to</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>The sum up to <code>n</code> is <code>n</code> plus the sum up to <code>n - 1</code>; stop at <code>0</code>.</p></details>
+<h3>3. Integer Power</h3>
+<p>Return <code>base</code> raised to a non-negative integer <code>exp</code>, computed recursively. Do not use the <code>**</code> operator.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  power(2, 10)
+Output: 1024
+Explanation: 2 multiplied by itself 10 times.
+
+Input:  power(5, 3)
+Output: 125
+Explanation: 5 * 5 * 5 = 125.
+
+Input:  power(2, 0)
+Output: 1
+Explanation: any base to the 0 power is 1, the base case.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>base</code> is an integer, <code>exp</code> is an integer with <code>0 &lt;= exp</code>.</li>
+<li>Must use recursion; do not use <code>**</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">power</span><span style="color: #657b83">(base,</span> <span style="color: #657b83">exp):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>base ** exp</code> is <code>base</code> times <code>base ** (exp - 1)</code>, and <code>base ** 0</code> is <code>1</code>.</p></details>
+<h3>4. Count Down, Then Up</h3>
+<p>Write a function that prints <code>n</code>, then <code>n - 1</code>, all the way down to <code>0</code>, and then back up to <code>n</code> — so the single line <code>0</code> sits alone at the fold in the middle. The function prints as a side effect and returns <code>None</code>. Place one <code>print</code> before the recursive call and one after it.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  count_down_up(3)
+Output:
+3
+2
+1
+0
+1
+2
+3
+Explanation: the print before the call runs on the way down; the print after runs on the way back up.
+
+Input:  count_down_up(1)
+Output:
+1
+0
+1
+Explanation: 0 is the fold and prints once.
+
+Input:  count_down_up(0)
+Output:
+0
+Explanation: the base case prints once and never recurses.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>n</code> is an integer with <code>0 &lt;= n</code>.</li>
+<li>Must use recursion and <code>print</code>; the function returns <code>None</code>.</li>
+</ul>
+<details class='hint'><summary>Hint</summary><p>Like <code>cascade</code>, sandwich the recursive call between a <code>print</code> that runs on the way down and a <code>print</code> that runs on the way up.</p></details>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">count_down_up</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+</div></section>
+<section id='medium' class='ls ls-default'>
+<h2 class='ls-h'><span>Medium</span></h2>
+<div class='ls-body'>
+<h3>5. Product of the Digits</h3>
+<p>Return the product of the digits of a non-negative integer <code>n</code>, computed recursively. If any digit is <code>0</code>, the whole product is <code>0</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  digit_product(234)
+Output: 24
+Explanation: 2 * 3 * 4 = 24.
+
+Input:  digit_product(405)
+Output: 0
+Explanation: the digit 0 makes the entire product 0.
+
+Input:  digit_product(99999)
+Output: 59049
+Explanation: 9 multiplied five times.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>n</code> is an integer with <code>0 &lt;= n</code>.</li>
+<li>Must use recursion; combine the last digit <code>n % 10</code> with the product of the rest.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">digit_product</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>The product of <code>n</code>&#x27;s digits is <code>(n % 10)</code> times the product of the digits of <code>n // 10</code>; a single digit is its own product.</p></details>
+<h3>6. Reverse a Number</h3>
+<p>Return the integer formed by reversing the digits of a non-negative integer <code>n</code>. Leading zeros simply disappear (reversing <code>100</code> gives <code>1</code>). Use recursion with an accumulator helper.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  reverse_num(1234)
+Output: 4321
+Explanation: the digits are reversed.
+
+Input:  reverse_num(2013)
+Output: 3102
+Explanation: 2013 reversed is 3102.
+
+Input:  reverse_num(100)
+Output: 1
+Explanation: reversing 100 gives 001, which is the integer 1.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>n</code> is an integer with <code>0 &lt;= n</code>.</li>
+<li>Must use recursion. A nested helper carrying an accumulator is the clean way.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">reverse_num</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Carry the answer built so far in an accumulator: each step does <code>acc * 10 + (last digit)</code> and recurses on <code>n // 10</code>.</p></details>
+<h3>7. Count Multiples of Three</h3>
+<p>Return how many integers in the range <code>1, 2, ..., n</code> are multiples of <code>3</code>. Decide &quot;is this number a multiple of 3?&quot; with a helper that recurses by subtracting <code>3</code> (no <code>%</code>), and count with a second recursive function that walks <code>n</code> down to <code>0</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  count_multiples_of_3(10)
+Output: 3
+Explanation: 3, 6, and 9 are the multiples of 3 up to 10.
+
+Input:  count_multiples_of_3(30)
+Output: 10
+Explanation: 3, 6, ..., 30 — ten of them.
+
+Input:  count_multiples_of_3(3)
+Output: 1
+Explanation: only 3 itself.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>n</code> is an integer with <code>0 &lt;= n</code>.</li>
+<li>Must use recursion. Write <code>is_multiple_of_3</code> by repeatedly subtracting <code>3</code> (do not use <code>n % 3</code>).</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">is_multiple_of_3</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">count_multiples_of_3</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>is_multiple_of_3(n)</code> peels off <code>3</code> until <code>n &lt; 3</code>, where the answer is <code>n == 0</code>; the counter adds <code>1</code> when the current <code>n</code> is a multiple and recurses on <code>n - 1</code>.</p></details>
+<h3>8. Climb the Stairs</h3>
+<p>You climb a staircase of <code>n</code> steps, taking either <code>1</code> or <code>2</code> steps at a time. Return how many distinct ordered ways there are to reach the top. This is tree recursion: from <code>n</code> you either take a single step (leaving <code>n - 1</code>) or a double step (leaving <code>n - 2</code>), and the two counts add.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  climb_stairs(3)
+Output: 3
+Explanation: 1+1+1, 1+2, and 2+1.
+
+Input:  climb_stairs(5)
+Output: 8
+Explanation: eight distinct step sequences reach the top.
+
+Input:  climb_stairs(0)
+Output: 1
+Explanation: there is exactly one way to stand at the top having taken no steps.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>n</code> is an integer with <code>0 &lt;= n</code>.</li>
+<li>Must use tree recursion (two recursive calls added together). No loops.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">climb_stairs</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Split on the size of the next step: <code>climb_stairs(n - 1) + climb_stairs(n - 2)</code>. Reaching exactly <code>0</code> is one success; overshooting below <code>0</code> is <code>0</code>.</p></details>
+</div></section>
+<section id='hard' class='ls ls-default'>
+<h2 class='ls-h'><span>Hard</span></h2>
+<div class='ls-body'>
+<h3>9. Partitions into Distinct Parts</h3>
+<p>Return the number of ways to write a positive integer <code>n</code> as a sum of <strong>distinct</strong> positive parts, each part no larger than <code>m</code>. Distinct means no part size repeats. For example, <code>6</code> has the partitions <code>6</code>, <code>1 + 5</code>, <code>2 + 4</code>, and <code>1 + 2 + 3</code> — four of them. Use the same two-choice split as <code>count_partitions</code>, but because parts must be distinct, once you use a part of size <code>m</code> the next largest allowed part drops to <code>m - 1</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  count_distinct_partitions(6, 6)
+Output: 4
+Explanation: 6; 1+5; 2+4; 1+2+3.
+
+Input:  count_distinct_partitions(5, 5)
+Output: 3
+Explanation: 5; 1+4; 2+3.
+
+Input:  count_distinct_partitions(7, 4)
+Output: 2
+Explanation: 3+4 and 1+2+4 are the only ones with no part above 4.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>n</code> and <code>m</code> are integers with <code>0 &lt;= n</code> and <code>0 &lt;= m</code>.</li>
+<li>Must use tree recursion. Parts must be distinct (each size used at most once).</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">count_distinct_partitions</span><span style="color: #657b83">(n,</span> <span style="color: #657b83">m):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Either use a part of size <code>m</code> — then count <code>count_distinct_partitions(n - m, m - 1)</code> (the part is now spent) — or skip it and count <code>count_distinct_partitions(n, m - 1)</code>. The base cases match <code>count_partitions</code>: <code>n == 0</code> is <code>1</code>, <code>n &lt; 0</code> is <code>0</code>, <code>m == 0</code> is <code>0</code>.</p></details>
+<h3>10. Largest Digit</h3>
+<p>Return the largest digit of a non-negative integer <code>n</code>, computed recursively. Compare the last digit <code>n % 10</code> against the largest digit of the rest of the number.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  largest_digit(18117)
+Output: 8
+Explanation: the digits are 1, 8, 1, 1, 7; the biggest is 8.
+
+Input:  largest_digit(9437184)
+Output: 9
+Explanation: 9 is the largest digit present.
+
+Input:  largest_digit(120)
+Output: 2
+Explanation: among digits 1, 2, 0 the largest is 2.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>n</code> is an integer with <code>0 &lt;= n</code>.</li>
+<li>Must use recursion (no <code>max</code> over a list, no <code>str</code>).</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">largest_digit</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>A single digit is its own largest. Otherwise recurse on <code>n // 10</code>, then return whichever is bigger: that result or the last digit <code>n % 10</code>.</p></details>
+</div></section>
+<section id='solutions' class='ls ls-default'>
+<h2 class='ls-h'><span>Solutions</span></h2>
+<div class='ls-body'>
+<h3>1. Count the Digits</h3>
+<p><strong>Approach — peel one digit, add one.</strong> This is the <code>sum_digits</code> skeleton from this section, but instead of adding the digit&#x27;s value we add <code>1</code> for each digit. The base case <code>n &lt; 10</code> is a single-digit number, which contributes one digit; every other call strips the last digit with <code>n // 10</code> and adds <code>1</code>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">count_digits</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">10</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">1</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">count_digits(n</span> <span style="color: #93a1a1">//</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span>
+</code></pre>
+<p><strong>Why it works.</strong> Every call removes exactly one digit, so the count grows by <code>1</code> per call until the recursion bottoms out on the leading single digit, which contributes its own <code>1</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mclose">)</span></span></span></span></span> for <code>d</code> digits — one frame per digit.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">count_digits(</span><span style="color: #2aa198">7</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_digits(</span><span style="color: #2aa198">18117</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">5</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_digits(</span><span style="color: #2aa198">9437184</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">7</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_digits(</span><span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+</code></pre>
+<h3>2. Sum to N</h3>
+<p><strong>Approach — linear recursion with <code>n == 0</code> base case.</strong> Mirror the factorial shape: the sum up to <code>n</code> is <code>n</code> plus the sum up to <code>n - 1</code>. Each call is strictly smaller, so it marches down to the base case <code>n == 0</code>, which returns <code>0</code>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">sum_to</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">sum_to(n</span> <span style="color: #93a1a1">-</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+</code></pre>
+<p><strong>Why it works.</strong> By the recursive leap of faith, assume <code>sum_to(n - 1)</code> returns the sum <code>0..n-1</code>; adding <code>n</code> gives the sum <code>0..n</code>. The base case <code>sum_to(0) == 0</code> anchors the induction.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> — one frame per value from <code>n</code> down to <code>0</code>.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">sum_to(</span><span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">sum_to(</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">sum_to(</span><span style="color: #2aa198">5</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">15</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">sum_to(</span><span style="color: #2aa198">100</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">5050</span>
+</code></pre>
+<h3>3. Integer Power</h3>
+<p><strong>Approach — repeated multiplication via recursion.</strong> The identity <code>base ** exp = base * base ** (exp - 1)</code> is already a recursive case, and <code>base ** 0 = 1</code> is the base case. Each call lowers <code>exp</code> by one until it reaches <code>0</code>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">power</span><span style="color: #657b83">(base,</span> <span style="color: #657b83">exp):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">exp</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">base</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">power(base,</span> <span style="color: #657b83">exp</span> <span style="color: #93a1a1">-</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+</code></pre>
+<p><strong>Why it works.</strong> Assuming <code>power(base, exp - 1)</code> is <code>base</code> multiplied <code>exp - 1</code> times, multiplying by one more <code>base</code> yields <code>base</code> multiplied <code>exp</code> times. The base case returns the empty product <code>1</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord text"><span class="mord">exp</span></span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord text"><span class="mord">exp</span></span><span class="mclose">)</span></span></span></span></span> — one frame per remaining exponent.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">power(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">power(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1024</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">power(</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">125</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">power(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">81</span>
+</code></pre>
+<h3>4. Count Down, Then Up</h3>
+<p><strong>Approach — recursive printing, sandwiched call.</strong> This is exactly the <code>cascade</code> pattern: a <code>print</code> before the recursive call runs while the stack grows (the descent), and a <code>print</code> after it runs while the stack unwinds (the ascent). The base case <code>n == 0</code> prints once and never recurses, so <code>0</code> sits alone in the middle.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">count_down_up</span><span style="color: #657b83">(n):</span>
+    <span style="color: #268bd2">print</span><span style="color: #657b83">(n)</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">count_down_up(n</span> <span style="color: #93a1a1">-</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+        <span style="color: #268bd2">print</span><span style="color: #657b83">(n)</span>
+</code></pre>
+<p><strong>Why it works.</strong> The first <code>print(n)</code> fires on every call as frames are created, producing <code>n, n-1, ..., 0</code>. The second <code>print(n)</code> is paused inside each multi-step frame and fires as frames return, producing <code>1, ..., n</code>. The base case has no second print waiting after it.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> — <code>n + 1</code> stacked frames at the deepest point.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># count_down_up prints as a side effect and returns None.</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_down_up(</span><span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #859900">is</span> <span style="color: #2aa198">None</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_down_up(</span><span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #859900">is</span> <span style="color: #2aa198">None</span>
+</code></pre>
+<h3>5. Product of the Digits</h3>
+<p><strong>Approach — <code>sum_digits</code> shape with multiplication.</strong> Same peel-the-last-digit structure, but combine with <code>*</code> instead of <code>+</code>. The base case <code>n &lt; 10</code> returns the lone digit; otherwise multiply the last digit <code>n % 10</code> by the product of the remaining digits <code>n // 10</code>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">digit_product</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">10</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">n</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">(n</span> <span style="color: #93a1a1">%</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">digit_product(n</span> <span style="color: #93a1a1">//</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span>
+</code></pre>
+<p><strong>Why it works.</strong> Each call contributes exactly one digit factor; trusting the recursive call to return the product of the leading digits, multiplying by the last digit completes the product. A <code>0</code> digit zeroes the whole result, as it should.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mclose">)</span></span></span></span></span> for <code>d</code> digits.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">digit_product(</span><span style="color: #2aa198">7</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">7</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">digit_product(</span><span style="color: #2aa198">234</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">24</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">digit_product(</span><span style="color: #2aa198">405</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">digit_product(</span><span style="color: #2aa198">111</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">digit_product(</span><span style="color: #2aa198">99999</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">59049</span>
+</code></pre>
+<h3>6. Reverse a Number</h3>
+<p><strong>Approach — accumulator helper.</strong> A nested helper carries the reversed value built so far in <code>acc</code>. On each step it appends the current last digit to <code>acc</code> with <code>acc * 10 + n % 10</code> and recurses on <code>n // 10</code>; at the final single digit it folds that digit in and returns. This is the recursion-as-state idea: the accumulator replaces the explicit <code>total</code> an iterative version would keep.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">reverse_num</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">helper</span><span style="color: #657b83">(n,</span> <span style="color: #657b83">acc):</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">10</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">acc</span> <span style="color: #93a1a1">*</span> <span style="color: #2aa198">10</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">n</span>
+        <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">helper(n</span> <span style="color: #93a1a1">//</span> <span style="color: #2aa198">10</span><span style="color: #657b83">,</span> <span style="color: #657b83">acc</span> <span style="color: #93a1a1">*</span> <span style="color: #2aa198">10</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">%</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">helper(n,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span>
+</code></pre>
+<p><strong>Why it works.</strong> Reading digits from least significant to most and shifting <code>acc</code> left by one place each time reconstructs the number in reverse. Leading zeros vanish naturally because they become trailing positions that contribute nothing to an integer.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mclose">)</span></span></span></span></span> for <code>d</code> digits — one helper frame per digit.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">reverse_num(</span><span style="color: #2aa198">5</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">5</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">reverse_num(</span><span style="color: #2aa198">1234</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">4321</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">reverse_num(</span><span style="color: #2aa198">100</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">reverse_num(</span><span style="color: #2aa198">2013</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3102</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">reverse_num(</span><span style="color: #2aa198">1000</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+</code></pre>
+<h3>7. Count Multiples of Three</h3>
+<p><strong>Approach — mutual-style helper plus a counting recursion.</strong> <code>is_multiple_of_3</code> answers a single yes/no question by subtracting <code>3</code> until the value drops below <code>3</code>, where being a multiple means landing exactly on <code>0</code>. The counter <code>count_multiples_of_3</code> walks <code>n</code> down to <code>0</code>, adding <code>1</code> whenever the current value passes the test.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">is_multiple_of_3</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">3</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">is_multiple_of_3(n</span> <span style="color: #93a1a1">-</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">count_multiples_of_3</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">is_multiple_of_3(n):</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">1</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">count_multiples_of_3(n</span> <span style="color: #93a1a1">-</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">count_multiples_of_3(n</span> <span style="color: #93a1a1">-</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+</code></pre>
+<p><strong>Why it works.</strong> Subtracting <code>3</code> repeatedly reaches <code>0</code> exactly when <code>n</code> was divisible by <code>3</code>, and otherwise lands on <code>1</code> or <code>2</code>. The counter visits every integer from <code>n</code> down to <code>1</code> once, contributing <code>1</code> per multiple, so the total is the count of multiples in range.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> — the counter makes <code>n</code> calls and each tests divisibility in <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> subtractions.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">count_multiples_of_3(</span><span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_multiples_of_3(</span><span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_multiples_of_3(</span><span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_multiples_of_3(</span><span style="color: #2aa198">30</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">10</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">is_multiple_of_3(</span><span style="color: #2aa198">27</span><span style="color: #657b83">)</span> <span style="color: #859900">is</span> <span style="color: #2aa198">True</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">is_multiple_of_3(</span><span style="color: #2aa198">28</span><span style="color: #657b83">)</span> <span style="color: #859900">is</span> <span style="color: #2aa198">False</span>
+</code></pre>
+<h3>8. Climb the Stairs</h3>
+<p><strong>Approach — tree recursion on the next step.</strong> This is the Fibonacci branching shape with counting base cases. Every way to reach the top either starts with a single step (then there are <code>climb_stairs(n - 1)</code> ways) or a double step (then <code>climb_stairs(n - 2)</code> ways). The two groups are non-overlapping, so add them. Reaching exactly <code>0</code> is one completed climb; dropping below <code>0</code> overshot and counts as <code>0</code>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">climb_stairs</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">climb_stairs(n</span> <span style="color: #93a1a1">-</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">climb_stairs(n</span> <span style="color: #93a1a1">-</span> <span style="color: #2aa198">2</span><span style="color: #657b83">)</span>
+</code></pre>
+<p><strong>Why it works.</strong> Splitting on the first step&#x27;s size partitions every climb into exactly one of two groups, and each branch counts its group recursively. The base cases distinguish a perfect landing (<code>1</code>) from an overshoot (<code>0</code>), so only valid step sequences are counted.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">ϕ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span> (exponential, like naive <code>fib</code>), Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> for the deepest branch of the call tree.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">climb_stairs(</span><span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">climb_stairs(</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">climb_stairs(</span><span style="color: #2aa198">2</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">2</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">climb_stairs(</span><span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">climb_stairs(</span><span style="color: #2aa198">5</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">8</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">climb_stairs(</span><span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">89</span>
+</code></pre>
+<h3>9. Partitions into Distinct Parts</h3>
+<p><strong>Approach — two-choice split with a spent part.</strong> This is <code>count_partitions</code> adapted so each part size is used at most once. The single decision is still &quot;use a part of size <code>m</code> or not.&quot; If we use it, we subtract <code>m</code> and the next largest allowed part drops to <code>m - 1</code> because <code>m</code> is now spent — <code>count_distinct_partitions(n - m, m - 1)</code>. If we skip it, the largest allowed part is <code>m - 1</code> — <code>count_distinct_partitions(n, m - 1)</code>. The three base cases are identical to <code>count_partitions</code>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">count_distinct_partitions</span><span style="color: #657b83">(n,</span> <span style="color: #657b83">m):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">m</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">count_distinct_partitions(n</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">m,</span> <span style="color: #657b83">m</span> <span style="color: #93a1a1">-</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">count_distinct_partitions(n,</span> <span style="color: #657b83">m</span> <span style="color: #93a1a1">-</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+</code></pre>
+<p><strong>Why it works.</strong> Every distinct partition either contains <code>m</code> or does not, and the two branches cover those cases without overlap. Forcing the &quot;use <code>m</code>&quot; branch to drop to <code>m - 1</code> guarantees no size repeats. <code>n == 0</code> is checked first so an exact completion counts as one success even when <code>m</code> has also reached <code>0</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">m</span><span class="mclose">)</span></span></span></span></span> distinct subproblems but exponential without memoization, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">m</span><span class="mclose">)</span></span></span></span></span> for recursion depth.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">count_distinct_partitions(</span><span style="color: #2aa198">6</span><span style="color: #657b83">,</span> <span style="color: #2aa198">6</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">4</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_distinct_partitions(</span><span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_distinct_partitions(</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_distinct_partitions(</span><span style="color: #2aa198">10</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">10</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_distinct_partitions(</span><span style="color: #2aa198">7</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">2</span>
+</code></pre>
+<h3>10. Largest Digit</h3>
+<p><strong>Approach — recurse, then compare the last digit.</strong> A single digit is its own largest. Otherwise compute the largest digit of the rest of the number (<code>n // 10</code>), then return whichever is bigger: that result or the current last digit <code>n % 10</code>. The comparison happens on the way back up, after the recursive call returns.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">largest_digit</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">10</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">n</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">rest</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">largest_digit(n</span> <span style="color: #93a1a1">//</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span>
+        <span style="color: #657b83">last</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">%</span> <span style="color: #2aa198">10</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">last</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #657b83">rest:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">last</span>
+        <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">rest</span>
+</code></pre>
+<p><strong>Why it works.</strong> Taking the recursive leap of faith, <code>largest_digit(n // 10)</code> is the largest digit among all but the last. The maximum digit of the whole number is therefore the larger of that value and the last digit, which the conditional returns.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mclose">)</span></span></span></span></span> for <code>d</code> digits — one frame per digit.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">largest_digit(</span><span style="color: #2aa198">7</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">7</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">largest_digit(</span><span style="color: #2aa198">18117</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">8</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">largest_digit(</span><span style="color: #2aa198">9437184</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">9</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">largest_digit(</span><span style="color: #2aa198">120</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">2</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">largest_digit(</span><span style="color: #2aa198">54321</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">5</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">largest_digit(</span><span style="color: #2aa198">1000000</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+</code></pre>
+</div></section><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+
+</body>
+</html>

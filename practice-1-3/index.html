@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>1.3 · Defining New Functions — Coding Practice · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+
+</head>
+<body class='is-practice'>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/' class='active'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Practice</span><span class='dot'>/</span><span class='eb-sec'>Chapter 1 · Coding Practice</span></div><h1 class='lesson-title'>1.3 · Defining New Functions — Coding Practice</h1><div class='reading-meta'>&#9719; approx. 10 min read <span class='rm-sep'>&middot;</span> 31 worked examples</div></div><div class='lesson-grid'><div class='lesson-body'><p>These problems drill the core moves of Section 1.3: writing <code>def</code> statements, binding arguments to formal parameters, introducing local names inside a body, treating operators as ordinary functions (<code>add</code>, <code>sub</code>, <code>mul</code>, <code>truediv</code>, <code>floordiv</code>), and composing several small functions into a larger one. No conditionals, loops, or recursion are needed — every solution is a short composition of calls.</p>
+<p>&gt; Work each problem from the starter signature first. Run your function against the Examples, then open the matching solution below to check your approach and its time and space cost.</p>
+<section id='easy' class='ls ls-default'>
+<h2 class='ls-h'><span>Easy</span></h2>
+<div class='ls-body'>
+<h3>1. Square and Cube</h3>
+<p>Define <code>square(x)</code> that returns <code>x</code> times itself, then define <code>cube(x)</code> that returns <code>x</code> cubed by <em>reusing</em> <code>square</code> inside its body. The point is that once a function has a name, you can call it from inside another definition just like you call <code>mul</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  square(5)
+Output: 25
+Explanation: 5 * 5 = 25.</code></pre>
+<pre class='code text'><code>Input:  cube(2)
+Output: 8
+Explanation: square(2) = 4, then 4 * 2 = 8.</code></pre>
+<pre class='code text'><code>Input:  cube(square(2))
+Output: 64
+Explanation: square(2) = 4 first, then cube(4) = 64.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>x</code> is any number.</li>
+<li>Build <code>cube</code> out of <code>square</code>; do not write <code>x * x * x</code> directly.</li>
+<li>Use the <code>mul</code> operator function for the multiplications.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">square</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">mul(x,</span> <span style="color: #657b83">x)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">cube</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>cube(x)</code> is <code>square(x)</code> multiplied by one more <code>x</code>.</p></details>
+<h3>2. Sum of Squares</h3>
+<p>Define <code>sum_of_squares(x, y)</code> that returns the sum of the squares of its two arguments. Call <code>square</code> twice and feed both results to <code>add</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  sum_of_squares(3, 4)
+Output: 25
+Explanation: square(3) = 9, square(4) = 16, and 9 + 16 = 25.</code></pre>
+<pre class='code text'><code>Input:  sum_of_squares(5, 12)
+Output: 169
+Explanation: 25 + 144 = 169.</code></pre>
+<pre class='code text'><code>Input:  sum_of_squares(0, 7)
+Output: 49
+Explanation: 0 + 49 = 49.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>x</code> and <code>y</code> are numbers.</li>
+<li>Reuse <code>square</code> from Problem 1; do not multiply inline.</li>
+<li>Use the <code>add</code> operator function to combine the two squares.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">sum_of_squares</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Two <code>square</code> calls become the two arguments to a single <code>add</code> call.</p></details>
+<h3>3. Average of Two</h3>
+<p>Define <code>average(a, b)</code> that returns the arithmetic mean of <code>a</code> and <code>b</code>. Because the result should be a true average, divide with <code>truediv</code> (the function behind <code>/</code>), which always returns a float.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  average(4, 6)
+Output: 5.0
+Explanation: (4 + 6) / 2 = 5.0; true division returns a float.</code></pre>
+<pre class='code text'><code>Input:  average(3, 4)
+Output: 3.5
+Explanation: (3 + 4) / 2 = 3.5.</code></pre>
+<pre class='code text'><code>Input:  average(-2, 8)
+Output: 3.0
+Explanation: (-2 + 8) / 2 = 3.0.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>a</code> and <code>b</code> are numbers.</li>
+<li>Use <code>truediv</code>, not <code>floordiv</code>: the answer must be a float even when it divides evenly (so <code>average(4, 6)</code> is <code>5.0</code>, not <code>5</code>).</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">average</span><span style="color: #657b83">(a,</span> <span style="color: #657b83">b):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Add the two numbers first, then divide that sum by <code>2</code>.</p></details>
+<h3>4. Absolute Gap</h3>
+<p>Define <code>gap(a, b)</code> that returns how far apart <code>a</code> and <code>b</code> are, as a non-negative number, regardless of which one is larger. Subtract with <code>sub</code> and wrap the result in <code>abs</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  gap(10, 4)
+Output: 6
+Explanation: 10 - 4 = 6, and abs(6) = 6.</code></pre>
+<pre class='code text'><code>Input:  gap(4, 10)
+Output: 6
+Explanation: 4 - 10 = -6, and abs(-6) = 6; order does not matter.</code></pre>
+<pre class='code text'><code>Input:  gap(-3, 3)
+Output: 6
+Explanation: abs(-3 - 3) = abs(-6) = 6.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>a</code> and <code>b</code> are numbers.</li>
+<li>The answer must never be negative.</li>
+<li>Use <code>sub</code> for the subtraction and <code>abs</code> to drop the sign.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">gap</span><span style="color: #657b83">(a,</span> <span style="color: #657b83">b):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Compute the difference first, then take its absolute value so the order of the arguments cannot matter.</p></details>
+</div></section>
+<section id='medium' class='ls ls-default'>
+<h2 class='ls-h'><span>Medium</span></h2>
+<div class='ls-body'>
+<h3>5. Bill With Tip</h3>
+<p>Define <code>bill_with_tip(meal_cost, tip_rate)</code> that returns the total a diner pays: the meal cost plus a tip of <code>tip_rate</code> times that cost. Introduce a <strong>local name</strong> <code>gratuity</code> inside the body to hold the tip amount, then use it in the return expression — exactly the helper-name pattern from the lesson.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  bill_with_tip(80, 0.2)
+Output: 96.0
+Explanation: gratuity = 80 * 0.2 = 16.0, and 80 + 16.0 = 96.0.</code></pre>
+<pre class='code text'><code>Input:  bill_with_tip(50, 0.18)
+Output: 59.0
+Explanation: gratuity = 50 * 0.18 = 9.0, and 50 + 9.0 = 59.0.</code></pre>
+<pre class='code text'><code>Input:  bill_with_tip(60, 0.0)
+Output: 60.0
+Explanation: gratuity = 0.0, so the total is just the meal cost, 60.0.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>meal_cost</code> and <code>tip_rate</code> are numbers; <code>tip_rate</code> is a fraction such as <code>0.2</code>.</li>
+<li>Bind a local name <code>gratuity</code> in the body and reuse it in the return expression.</li>
+<li>Use the <code>mul</code> and <code>add</code> operator functions.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">bill_with_tip</span><span style="color: #657b83">(meal_cost,</span> <span style="color: #657b83">tip_rate):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>The local name <code>gratuity</code> lives only while this call runs; compute <code>meal_cost * tip_rate</code> on its own line, then add it to <code>meal_cost</code>.</p></details>
+<h3>6. Distance Between Two Points</h3>
+<p>Define <code>distance(x1, y1, x2, y2)</code> that returns the straight-line distance between the points <code>(x1, y1)</code> and <code>(x2, y2)</code>. Reuse <code>sum_of_squares</code> on the coordinate differences, then take the square root with <code>sqrt</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  distance(0, 0, 3, 4)
+Output: 5.0
+Explanation: differences are 3 and 4; sum_of_squares(3, 4) = 25; sqrt(25) = 5.0.</code></pre>
+<pre class='code text'><code>Input:  distance(1, 1, 4, 5)
+Output: 5.0
+Explanation: differences are 3 and 4 again; sqrt(25) = 5.0.</code></pre>
+<pre class='code text'><code>Input:  distance(2, 3, 2, 3)
+Output: 0.0
+Explanation: a point is distance 0.0 from itself.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>All four coordinates are numbers.</li>
+<li>Reuse <code>sum_of_squares</code> from Problem 2 on the two coordinate differences.</li>
+<li>Use <code>sub</code> for the differences and <code>sqrt</code> for the final root.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">distance</span><span style="color: #657b83">(x1,</span> <span style="color: #657b83">y1,</span> <span style="color: #657b83">x2,</span> <span style="color: #657b83">y2):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>The two differences <code>x2 - x1</code> and <code>y2 - y1</code> are exactly the two arguments <code>sum_of_squares</code> wants.</p></details>
+<h3>7. Clamp Into Range</h3>
+<p>Define <code>clamp(value, low, high)</code> that pushes <code>value</code> back into the closed range <code>[low, high]</code>: anything below <code>low</code> becomes <code>low</code>, anything above <code>high</code> becomes <code>high</code>, and anything in between is unchanged. Do it with <code>min</code> and <code>max</code> composed together — no conditionals.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  clamp(5, 0, 10)
+Output: 5
+Explanation: 5 is already inside [0, 10], so it is unchanged.</code></pre>
+<pre class='code text'><code>Input:  clamp(-3, 0, 10)
+Output: 0
+Explanation: -3 is below 0, so it is pulled up to the low bound 0.</code></pre>
+<pre class='code text'><code>Input:  clamp(42, 0, 10)
+Output: 10
+Explanation: 42 is above 10, so it is pushed down to the high bound 10.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>value</code>, <code>low</code>, and <code>high</code> are numbers with <code>low &lt;= high</code>.</li>
+<li>Use only <code>min</code> and <code>max</code>; do not use <code>if</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">clamp</span><span style="color: #657b83">(value,</span> <span style="color: #657b83">low,</span> <span style="color: #657b83">high):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>max(value, low)</code> lifts anything too small up to <code>low</code>; wrapping that in <code>min(..., high)</code> then caps anything too large.</p></details>
+<h3>8. Cents to Dollars and Change</h3>
+<p>Given an amount in whole cents, define two functions: <code>whole_dollars(cents)</code> returns how many whole dollars it contains (using floor division), and <code>leftover_cents(cents)</code> returns the change left over after removing those whole dollars. Build <code>leftover_cents</code> on top of <code>whole_dollars</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  whole_dollars(250)
+Output: 2
+Explanation: 250 // 100 = 2 whole dollars.</code></pre>
+<pre class='code text'><code>Input:  leftover_cents(250)
+Output: 50
+Explanation: 250 - 2 * 100 = 50 cents of change.</code></pre>
+<pre class='code text'><code>Input:  leftover_cents(1234)
+Output: 34
+Explanation: 12 whole dollars use 1200 cents, leaving 1234 - 1200 = 34.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>cents</code> is a non-negative integer.</li>
+<li><code>whole_dollars</code> must use <code>floordiv</code>.</li>
+<li><code>leftover_cents</code> must call <code>whole_dollars</code> rather than recomputing the floor division; subtract the dollar amount (times 100) from the total.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">whole_dollars</span><span style="color: #657b83">(cents):</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">leftover_cents</span><span style="color: #657b83">(cents):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Once you know the whole-dollar count, the leftover is <code>cents</code> minus that count times <code>100</code>.</p></details>
+</div></section>
+<section id='hard' class='ls ls-default'>
+<h2 class='ls-h'><span>Hard</span></h2>
+<div class='ls-body'>
+<h3>9. Quadratic Mean</h3>
+<p>The quadratic mean (root-mean-square) of two numbers is the square root of the average of their squares. Define <code>mean_square(x, y)</code> (the average of the two squares) and then <code>quadratic_mean(x, y)</code> that takes its square root. This layers four of your earlier helpers: <code>square</code>, <code>average</code>, and <code>sqrt</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  mean_square(3, 4)
+Output: 12.5
+Explanation: square(3) = 9, square(4) = 16, average(9, 16) = 12.5.</code></pre>
+<pre class='code text'><code>Input:  quadratic_mean(3, 4)
+Output: 3.5355339059327378
+Explanation: sqrt(12.5) = 3.5355339059327378.</code></pre>
+<pre class='code text'><code>Input:  quadratic_mean(6, 8)
+Output: 7.0710678118654755
+Explanation: average of 36 and 64 is 50.0; sqrt(50.0) = 7.0710678118654755.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>x</code> and <code>y</code> are numbers.</li>
+<li>Reuse <code>square</code> and <code>average</code>; <code>mean_square</code> should be the average of the two squares.</li>
+<li><code>quadratic_mean</code> should call <code>mean_square</code> and <code>sqrt</code>; do not inline the whole formula.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">mean_square</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">quadratic_mean</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Build the answer in two named steps — first the mean of the squares, then its square root — so each function reads as one clear idea.</p></details>
+<h3>10. Larger Root of a Quadratic</h3>
+<p>For the quadratic <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span></span></span></span></span>, the two roots add up to <code>s</code> and multiply to <code>p</code>, so they are <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.24em;vertical-align:-0.2822em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9578em;"><span class="svg-align" style="top:-3.2em;"><span class="pstrut" style="height:3.2em;"></span><span class="mord" style="padding-left:1em;"><span class="mord"><span class="mord mathnormal">s</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7401em;"><span style="top:-2.989em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">4</span><span class="mord mathnormal">p</span></span></span><span style="top:-2.9178em;"><span class="pstrut" style="height:3.2em;"></span><span class="hide-tail" style="min-width:1.02em;height:1.28em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.28em" viewBox="0 0 400000 1296" preserveAspectRatio="xMinYMin slice"><path d="M263,681c0.7,0,18,39.7,52,119
+c34,79.3,68.167,158.7,102.5,238c34.3,79.3,51.8,119.3,52.5,120
+c340,-704.7,510.7,-1060.3,512,-1067
+l0 -0
+c4.7,-7.3,11,-11,19,-11
+H40000v40H1012.3
+s-271.3,567,-271.3,567c-38.7,80.7,-84,175,-136,283c-52,108,-89.167,185.3,-111.5,232
+c-22.3,46.7,-33.8,70.3,-34.5,71c-4.7,4.7,-12.3,7,-23,7s-12,-1,-12,-1
+s-109,-253,-109,-253c-72.7,-168,-109.3,-252,-110,-252c-10.7,8,-22,16.7,-34,26
+c-22,17.3,-33.3,26,-34,26s-26,-26,-26,-26s76,-59,76,-59s76,-60,76,-60z
+M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2822em;"><span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">/</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">2</span></span></span></span></span>. Define <code>discriminant(s, p)</code> returning <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord mathnormal">s</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord">4</span><span class="mord mathnormal">p</span></span></span></span></span>, then <code>larger_root(s, p)</code> returning the larger of the two roots (the one with the <code>+</code>). Reuse <code>square</code> for <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">s</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  larger_root(5, 6)
+Output: 3.0
+Explanation: x^2 - 5x + 6 factors as (x-2)(x-3); the larger root is 3.0.</code></pre>
+<pre class='code text'><code>Input:  larger_root(7, 12)
+Output: 4.0
+Explanation: roots are 3 and 4; the larger is 4.0.</code></pre>
+<pre class='code text'><code>Input:  larger_root(4, 4)
+Output: 2.0
+Explanation: x^2 - 4x + 4 = (x-2)^2 has a double root at 2.0.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>s</code> and <code>p</code> are numbers with <code>s*s - 4*p &gt;= 0</code> (real roots).</li>
+<li>Reuse <code>square</code> inside <code>discriminant</code>.</li>
+<li><code>larger_root</code> should call <code>discriminant</code> and <code>sqrt</code>; use the <code>+</code> branch of the formula for the larger root.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">discriminant</span><span style="color: #657b83">(s,</span> <span style="color: #657b83">p):</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">larger_root</span><span style="color: #657b83">(s,</span> <span style="color: #657b83">p):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Add <code>s</code> to <code>sqrt(discriminant(s, p))</code> and divide the whole thing by <code>2</code>.</p></details>
+</div></section>
+<section id='solutions' class='ls ls-default'>
+<h2 class='ls-h'><span>Solutions</span></h2>
+<div class='ls-body'>
+<h3>Setup</h3>
+<p>Every solution below assumes these imports and this float-comparison helper are already in scope (the harness defines them once at the top):</p>
+<pre class='code python'><code><span style="color: #cb4b16">from</span> <span style="color: #268bd2">operator</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">add,</span> <span style="color: #657b83">sub,</span> <span style="color: #657b83">mul,</span> <span style="color: #657b83">truediv,</span> <span style="color: #657b83">floordiv</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">math</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">sqrt</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">approx_eq</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y,</span> <span style="color: #657b83">tolerance</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">1e-9</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">return</span> <span style="color: #268bd2">abs</span><span style="color: #657b83">(x</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">y)</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #657b83">tolerance</span>
+</code></pre>
+<h3>1. Square and Cube</h3>
+<p><strong>Approach — build a function out of another function.</strong> Section 1.3 shows that once <code>square</code> has a name, you can call it inside a new definition exactly the way you call <code>mul</code>. <code>cube(x)</code> is <code>square(x)</code> (which is <code>x</code> twice) multiplied by one more <code>x</code>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">square</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">mul(x,</span> <span style="color: #657b83">x)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">cube</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">mul(square(x),</span> <span style="color: #657b83">x)</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>square(x)</code> returns <code>x * x</code>; multiplying that by <code>x</code> gives <code>x * x * x</code>. The composition <code>cube(square(2))</code> first squares <code>2</code> to <code>4</code>, then cubes <code>4</code>, evaluating inside-out just like nested call expressions in the lesson.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. A fixed number of multiplications and one extra local frame per call.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">square(</span><span style="color: #2aa198">5</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">25</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">square(</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">9</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">cube(</span><span style="color: #2aa198">2</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">8</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">cube(</span><span style="color: #2aa198">4</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">64</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">cube(square(</span><span style="color: #2aa198">2</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">64</span>
+</code></pre>
+<h3>2. Sum of Squares</h3>
+<p><strong>Approach — compose <code>square</code> inside a two-parameter function.</strong> This is the lesson&#x27;s own <code>sum_squares</code> example: each <code>square(...)</code> opens its own local frame, runs, and returns, and the two returned values become the arguments to <code>add</code>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">sum_of_squares</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">add(square(x),</span> <span style="color: #657b83">square(y))</span>
+</code></pre>
+<p><strong>Why it works.</strong> Both operands of <code>add</code> must be evaluated before <code>add</code> runs, so Python computes <code>square(x)</code> and <code>square(y)</code> first, then adds them. With <code>x = 3</code>, <code>y = 4</code> that is <code>9 + 16 = 25</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. Two <code>square</code> frames open and close in sequence inside one call.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">sum_of_squares(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">25</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">sum_of_squares(</span><span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">7</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">49</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">sum_of_squares(</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">12</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">169</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">sum_of_squares(</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">2</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">8</span>
+</code></pre>
+<h3>3. Average of Two</h3>
+<p><strong>Approach — true division returns a float.</strong> The lesson stresses that <code>/</code> (and its function form <code>truediv</code>) always hands back a float, even when the division comes out even. Adding first and dividing by <code>2</code> gives the mean.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">average</span><span style="color: #657b83">(a,</span> <span style="color: #657b83">b):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">truediv(add(a,</span> <span style="color: #657b83">b),</span> <span style="color: #2aa198">2</span><span style="color: #657b83">)</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>add(a, b)</code> produces the sum, and <code>truediv(sum, 2)</code> divides it by two as a float — so <code>average(4, 6)</code> is <code>5.0</code>, not <code>5</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. One addition and one division.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">average(</span><span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">6</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">5.0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">average(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3.5</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">average(</span><span style="color: #2aa198">10</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">10.0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">average(</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">8</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3.0</span>
+</code></pre>
+<h3>4. Absolute Gap</h3>
+<p><strong>Approach — operator-as-function plus <code>abs</code>.</strong> Subtraction is just the <code>sub</code> function; wrapping its result in <code>abs</code> makes the answer non-negative no matter which argument is larger, so the order of <code>a</code> and <code>b</code> cannot change the result.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">gap</span><span style="color: #657b83">(a,</span> <span style="color: #657b83">b):</span>
+    <span style="color: #859900">return</span> <span style="color: #268bd2">abs</span><span style="color: #657b83">(sub(a,</span> <span style="color: #657b83">b))</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>sub(a, b)</code> may be positive or negative, but <code>abs</code> collapses both <code>6</code> and <code>-6</code> to <code>6</code>, so <code>gap(10, 4)</code> and <code>gap(4, 10)</code> agree.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. One subtraction and one absolute value.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">gap(</span><span style="color: #2aa198">10</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">6</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">gap(</span><span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">6</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">gap(</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">6</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">gap(</span><span style="color: #2aa198">7</span><span style="color: #657b83">,</span> <span style="color: #2aa198">7</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+</code></pre>
+<h3>5. Bill With Tip</h3>
+<p><strong>Approach — a local name inside the body.</strong> Straight from the lesson: introduce a local helper <code>gratuity</code> to hold the tip amount, then reuse it in the return expression. <code>gratuity</code> lives only in this call&#x27;s local frame and goes out of scope when the call returns.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">bill_with_tip</span><span style="color: #657b83">(meal_cost,</span> <span style="color: #657b83">tip_rate):</span>
+    <span style="color: #657b83">gratuity</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">mul(meal_cost,</span> <span style="color: #657b83">tip_rate)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">add(meal_cost,</span> <span style="color: #657b83">gratuity)</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>gratuity</code> is <code>meal_cost * tip_rate</code>, the dollar value of the tip. Adding it back to <code>meal_cost</code> gives the grand total; because <code>tip_rate</code> is a float, the result is a float (so <code>bill_with_tip(80, 0.2)</code> is <code>96.0</code>).</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. One extra local binding and a fixed number of operations.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">approx_eq(bill_with_tip(</span><span style="color: #2aa198">80</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0.2</span><span style="color: #657b83">),</span> <span style="color: #2aa198">96.0</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">approx_eq(bill_with_tip(</span><span style="color: #2aa198">50</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0.18</span><span style="color: #657b83">),</span> <span style="color: #2aa198">59.0</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">approx_eq(bill_with_tip(</span><span style="color: #2aa198">120</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0.15</span><span style="color: #657b83">),</span> <span style="color: #2aa198">138.0</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">approx_eq(bill_with_tip(</span><span style="color: #2aa198">60</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0.0</span><span style="color: #657b83">),</span> <span style="color: #2aa198">60.0</span><span style="color: #657b83">)</span>
+</code></pre>
+<h3>6. Distance Between Two Points</h3>
+<p><strong>Approach — compose <code>sum_of_squares</code> with <code>sqrt</code>.</strong> The squared distance is the sum of the squared coordinate differences, which is exactly what <code>sum_of_squares</code> computes; <code>sqrt</code> finishes the job. Reusing a named helper keeps the formula readable.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">distance</span><span style="color: #657b83">(x1,</span> <span style="color: #657b83">y1,</span> <span style="color: #657b83">x2,</span> <span style="color: #657b83">y2):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">sqrt(sum_of_squares(sub(x2,</span> <span style="color: #657b83">x1),</span> <span style="color: #657b83">sub(y2,</span> <span style="color: #657b83">y1)))</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>sub</code> gives the two coordinate differences, <code>sum_of_squares</code> squares and adds them, and <code>sqrt</code> takes the root — the Pythagorean distance. For <code>(0,0)</code> to <code>(3,4)</code> that is <code>sqrt(25) = 5.0</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. A constant chain of calls, with <code>sum_of_squares</code> opening its own frames inside.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">approx_eq(distance(</span><span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">),</span> <span style="color: #2aa198">5.0</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">approx_eq(distance(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">),</span> <span style="color: #2aa198">5.0</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">approx_eq(distance(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">),</span> <span style="color: #2aa198">0.0</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">approx_eq(distance(</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">),</span> <span style="color: #2aa198">5.0</span><span style="color: #657b83">)</span>
+</code></pre>
+<h3>7. Clamp Into Range</h3>
+<p><strong>Approach — compose <code>min</code> and <code>max</code>.</strong> No conditionals are available yet, but <code>max</code> and <code>min</code> already encode &quot;at least&quot; and &quot;at most.&quot; <code>max(value, low)</code> lifts anything below <code>low</code> up to <code>low</code>; feeding that into <code>min(..., high)</code> caps anything above <code>high</code>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">clamp</span><span style="color: #657b83">(value,</span> <span style="color: #657b83">low,</span> <span style="color: #657b83">high):</span>
+    <span style="color: #859900">return</span> <span style="color: #268bd2">min</span><span style="color: #657b83">(</span><span style="color: #268bd2">max</span><span style="color: #657b83">(value,</span> <span style="color: #657b83">low),</span> <span style="color: #657b83">high)</span>
+</code></pre>
+<p><strong>Why it works.</strong> After <code>max(value, low)</code>, the result is never below <code>low</code>; after the surrounding <code>min(..., high)</code>, it is never above <code>high</code>; and a value already inside the range passes through both untouched.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. Two built-in comparisons.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">clamp(</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">5</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">clamp(</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">clamp(</span><span style="color: #2aa198">42</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">10</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">clamp(</span><span style="color: #2aa198">10</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">10</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">clamp(</span><span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+</code></pre>
+<h3>8. Cents to Dollars and Change</h3>
+<p><strong>Approach — floor division, then build the second function on the first.</strong> <code>whole_dollars</code> uses <code>floordiv</code> to drop to whole dollars. <code>leftover_cents</code> reuses <code>whole_dollars</code> rather than recomputing it, then subtracts the dollar amount (times 100) from the total — composition over duplication.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">whole_dollars</span><span style="color: #657b83">(cents):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">floordiv(cents,</span> <span style="color: #2aa198">100</span><span style="color: #657b83">)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">leftover_cents</span><span style="color: #657b83">(cents):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">sub(cents,</span> <span style="color: #657b83">mul(whole_dollars(cents),</span> <span style="color: #2aa198">100</span><span style="color: #657b83">))</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>floordiv(cents, 100)</code> is the number of whole dollars; multiplying that back by <code>100</code> and subtracting from <code>cents</code> leaves exactly the change. For <code>1234</code>, that is <code>1234 - 12 * 100 = 34</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. A constant number of arithmetic operations per call.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">whole_dollars(</span><span style="color: #2aa198">250</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">2</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">leftover_cents(</span><span style="color: #2aa198">250</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">50</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">whole_dollars(</span><span style="color: #2aa198">99</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">leftover_cents(</span><span style="color: #2aa198">99</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">99</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">whole_dollars(</span><span style="color: #2aa198">100</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">leftover_cents(</span><span style="color: #2aa198">100</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">leftover_cents(</span><span style="color: #2aa198">1234</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">34</span>
+</code></pre>
+<h3>9. Quadratic Mean</h3>
+<p><strong>Approach — layered composition of named helpers.</strong> The root-mean-square is <code>sqrt(average(square(x), square(y)))</code>. Splitting it into <code>mean_square</code> (the average of the squares) and <code>quadratic_mean</code> (its root) means each function carries one clear idea, and each reuses <code>square</code>, <code>average</code>, and <code>sqrt</code> from earlier.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">mean_square</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">average(square(x),</span> <span style="color: #657b83">square(y))</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">quadratic_mean</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">sqrt(mean_square(x,</span> <span style="color: #657b83">y))</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>mean_square(3, 4)</code> averages <code>9</code> and <code>16</code> to <code>12.5</code>; <code>quadratic_mean</code> takes <code>sqrt(12.5)</code>, which is <code>3.5355339059327378</code>. Each layer is a single, verifiable step.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. A fixed chain of calls; several small frames open and close.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">mean_square(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">12.5</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">approx_eq(quadratic_mean(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">),</span> <span style="color: #2aa198">3.5355339059327378</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">approx_eq(quadratic_mean(</span><span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">),</span> <span style="color: #2aa198">0.0</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">approx_eq(quadratic_mean(</span><span style="color: #2aa198">6</span><span style="color: #657b83">,</span> <span style="color: #2aa198">8</span><span style="color: #657b83">),</span> <span style="color: #2aa198">7.0710678118654755</span><span style="color: #657b83">)</span>
+</code></pre>
+<h3>10. Larger Root of a Quadratic</h3>
+<p><strong>Approach — name the discriminant, then compose.</strong> Splitting out <code>discriminant(s, p)</code> (which reuses <code>square</code> for <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">s</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span>) keeps <code>larger_root</code> short and readable, then <code>larger_root</code> plugs that into the <code>+</code> branch of the quadratic formula and divides by <code>2</code>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">discriminant</span><span style="color: #657b83">(s,</span> <span style="color: #657b83">p):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">sub(square(s),</span> <span style="color: #657b83">mul(</span><span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #657b83">p))</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">larger_root</span><span style="color: #657b83">(s,</span> <span style="color: #657b83">p):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">truediv(add(s,</span> <span style="color: #657b83">sqrt(discriminant(s,</span> <span style="color: #657b83">p))),</span> <span style="color: #2aa198">2</span><span style="color: #657b83">)</span>
+</code></pre>
+<p><strong>Why it works.</strong> The roots of <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span></span></span></span></span> are <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.24em;vertical-align:-0.2822em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9578em;"><span class="svg-align" style="top:-3.2em;"><span class="pstrut" style="height:3.2em;"></span><span class="mord" style="padding-left:1em;"><span class="mord"><span class="mord mathnormal">s</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7401em;"><span style="top:-2.989em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">4</span><span class="mord mathnormal">p</span></span></span><span style="top:-2.9178em;"><span class="pstrut" style="height:3.2em;"></span><span class="hide-tail" style="min-width:1.02em;height:1.28em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.28em" viewBox="0 0 400000 1296" preserveAspectRatio="xMinYMin slice"><path d="M263,681c0.7,0,18,39.7,52,119
+c34,79.3,68.167,158.7,102.5,238c34.3,79.3,51.8,119.3,52.5,120
+c340,-704.7,510.7,-1060.3,512,-1067
+l0 -0
+c4.7,-7.3,11,-11,19,-11
+H40000v40H1012.3
+s-271.3,567,-271.3,567c-38.7,80.7,-84,175,-136,283c-52,108,-89.167,185.3,-111.5,232
+c-22.3,46.7,-33.8,70.3,-34.5,71c-4.7,4.7,-12.3,7,-23,7s-12,-1,-12,-1
+s-109,-253,-109,-253c-72.7,-168,-109.3,-252,-110,-252c-10.7,8,-22,16.7,-34,26
+c-22,17.3,-33.3,26,-34,26s-26,-26,-26,-26s76,-59,76,-59s76,-60,76,-60z
+M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2822em;"><span></span></span></span></span></span><span class="mclose">)</span><span class="mord">/2</span></span></span></span></span>; the larger one uses <code>+</code>. For <code>s = 5, p = 6</code>, the discriminant is <code>1</code>, and <code>(5 + 1) / 2 = 3.0</code>. A double root (discriminant <code>0</code>) returns the single value, as with <code>larger_root(4, 4) = 2.0</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. A constant chain of calls plus one <code>sqrt</code>.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">approx_eq(larger_root(</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">6</span><span style="color: #657b83">),</span> <span style="color: #2aa198">3.0</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">approx_eq(larger_root(</span><span style="color: #2aa198">7</span><span style="color: #657b83">,</span> <span style="color: #2aa198">12</span><span style="color: #657b83">),</span> <span style="color: #2aa198">4.0</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">approx_eq(larger_root(</span><span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">),</span> <span style="color: #2aa198">2.0</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">approx_eq(larger_root(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">3</span><span style="color: #657b83">),</span> <span style="color: #2aa198">3.0</span><span style="color: #657b83">)</span>
+</code></pre>
+</div></section><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+
+</body>
+</html>

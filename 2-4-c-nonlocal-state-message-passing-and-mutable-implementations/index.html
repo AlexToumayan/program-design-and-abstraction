@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>2.4 Nonlocal State, Message Passing, and Mutable Implementations · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/' class='active'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 2</span><span class='dot'>/</span><span class='eb-sec'>2.4 Mutable Data</span></div><h1 class='lesson-title'>2.4 Nonlocal State, Message Passing, and Mutable Implementations</h1><div class='reading-meta'>&#9719; approx. 20 min read <span class='rm-sep'>&middot;</span> 17 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>You already know that an inner function can keep a private value alive across calls by rebinding it with <code>nonlocal</code>. This lesson asks what that ability buys you, what it costs you, and how far it can take you. By the end you will be able to explain why two functions built from the same constructor have completely separate memories, why giving one of those functions a second name is dangerous, and how a single function can act like a whole object by reading a <strong>message</strong> and choosing its own behavior. You will then use exactly that idea to build a mutable linked list, a dictionary, and a bank account, all out of nothing but functions and local state, before this course ever shows you the <code>class</code> keyword.</p>
+<p>The thread running through all of it is one habit: when state is involved, stop reading code as a list of values and start tracking which frame each name lives in. A value that changes over time has an identity that outlives its current contents, and identity is the thing you have to keep your eye on.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='separate-tellers-separate-drawers' class='ls ls-default'>
+<h2 class='ls-h'><span>Separate Tellers, Separate Drawers</span></h2>
+<div class='ls-body'>
+<p>Picture a bank with a row of tellers. Each teller has a private cash drawer that only they can open. When you walk up to a teller and ask to withdraw money, that teller reaches into their own drawer, hands you cash, and the drawer now holds less. The teller two windows down is completely unaffected; their drawer never moved.</p>
+<p>That is exactly the situation a constructor function creates. A function that builds and returns another function is like a hiring office that, each time it runs, sets up a fresh teller with a fresh drawer. Two tellers hired on two separate visits share nothing. But if you simply write a second name on the same teller&#x27;s nameplate, you have not hired anyone new, you have just given one teller two names, and both names reach into the same drawer.</p>
+<p>Later in the lesson the metaphor shifts. A <strong>dispatch function</strong> is less like a teller and more like a front desk that takes a written request, reads the first word to decide what you want, and carries out the matching task. That single front desk can answer many different kinds of request, which is the whole point of organizing a program around messages.</p>
+</div></section>
+<section id='a-state-keeping-function-reviewed' class='ls ls-default'>
+<h2 class='ls-h'><span>A State-Keeping Function, Reviewed</span></h2>
+<div class='ls-body'>
+<p>The constructor we keep returning to builds a <code>withdraw</code> function around a private <code>balance</code>. Here it is exactly as the original text writes it, including its docstring:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">make_withdraw</span><span style="color: #657b83">(balance):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return a withdraw function that draws down balance with each call.&quot;&quot;&quot;</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">withdraw</span><span style="color: #657b83">(amount):</span>
+        <span style="color: #859900">nonlocal</span> <span style="color: #657b83">balance</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">amount</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #657b83">balance:</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;Insufficient funds&#39;</span>
+        <span style="color: #657b83">balance</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">balance</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">amount</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">balance</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">withdraw</span>
+</code></pre>
+<p>Each time you call <code>make_withdraw</code>, Python builds a new frame for that call, and the <code>balance</code> parameter lives in that frame. The inner <code>withdraw</code> function carries a reference back to whichever frame it was born in. So the saved <code>balance</code> is not stored on the <code>withdraw</code> function as a public attribute; it sits in the parent frame, reachable by <code>withdraw</code> and by nothing else in the program.</p>
+<p>Calling the returned function repeatedly walks the balance down, and because the same call returns a different number the second time, this is not a pure function:</p>
+<pre class='code text'><code>&gt;&gt;&gt; withdraw = make_withdraw(100)
+&gt;&gt;&gt; withdraw(25)
+75
+&gt;&gt;&gt; withdraw(25)
+50
+&gt;&gt;&gt; withdraw(60)
+&#x27;Insufficient funds&#x27;
+&gt;&gt;&gt; withdraw(15)
+35</code></pre>
+<p>The <code>nonlocal balance</code> line is the hinge that makes this work. Read it on its own:</p>
+<pre class='code anatomy'><code>nonlocal balance
+├─ nonlocal ........ a declaration about the name that follows
+├─ balance ......... the name being declared
+└─ states that      assignments to balance rebind the balance in the
+                    enclosing make_withdraw frame, instead of creating
+                    a new local balance inside withdraw</code></pre>
+<p>Without that declaration, the assignment <code>balance = balance - amount</code> would make <code>balance</code> a brand-new local name, and the persistent drawer would never change. With it, the assignment reaches outward into the frame where the money is actually kept.</p>
+</div></section>
+<section id='the-benefit-separate-calls-build-separate-state' class='ls ls-default'>
+<h2 class='ls-h'><span>The Benefit: Separate Calls Build Separate State</span></h2>
+<div class='ls-body'>
+<p>Here is the payoff of all that frame machinery. Because every call to <code>make_withdraw</code> builds its own frame, two functions made from two separate calls maintain two separate balances. The original text extends the example to make this concrete, binding a second result to <code>wd2</code>:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">make_withdraw</span><span style="color: #657b83">(balance):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">withdraw</span><span style="color: #657b83">(amount):</span>
+        <span style="color: #859900">nonlocal</span> <span style="color: #657b83">balance</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">amount</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #657b83">balance:</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;Insufficient funds&#39;</span>
+        <span style="color: #657b83">balance</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">balance</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">amount</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">balance</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">withdraw</span>
+
+<span style="color: #657b83">wd</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">make_withdraw(</span><span style="color: #2aa198">20</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">wd2</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">make_withdraw(</span><span style="color: #2aa198">7</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">wd2(</span><span style="color: #2aa198">6</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">wd(</span><span style="color: #2aa198">8</span><span style="color: #657b83">)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/5a43e590df8b.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>The two mutating calls at the bottom produce, in order:</p>
+<pre class='code text'><code>1
+12</code></pre>
+<p>The reason is that <code>wd</code> and <code>wd2</code> have different parent frames. The name <code>wd</code> is bound to a function whose drawer started at <code>20</code>; the name <code>wd2</code> is bound to a different function whose drawer started at <code>7</code>.</p>
+<pre class='code text'><code>wd  -&gt; withdraw function whose parent frame has balance = 20
+wd2 -&gt; withdraw function whose parent frame has balance = 7</code></pre>
+<p>Calling <code>wd2(6)</code> lowers <code>wd2</code>&#x27;s private balance from <code>7</code> to <code>1</code> and returns <code>1</code>. That change touches nothing belonging to <code>wd</code>. So when <code>wd(8)</code> runs next, it works against the untouched balance of <code>20</code>, lowers it to <code>12</code>, and returns <code>12</code>. Each instance of <code>withdraw</code> manages its own internal state, hidden from every other function in the program. That is the abstraction of a bank account: a thing that changes over time according to its own private history.</p>
+<h3>Tracing the Two Drawers by Hand</h3>
+<p>You can verify the two return values without a computer by tracking each drawer separately:</p>
+<pre class='code text'><code>Step 1  make_withdraw(20) builds frame f1 with balance = 20; wd points to its withdraw.
+Step 2  make_withdraw(7) builds a separate frame f2 with balance = 7; wd2 points to its withdraw.
+Step 3  wd2(6): amount is 6, 6 is not greater than 7, so f2&#x27;s balance drops 7 -&gt; 1; returns 1.
+Step 4  wd(8): amount is 8, 8 is not greater than 20, so f1&#x27;s balance drops 20 -&gt; 12; returns 12.</code></pre>
+<p>Nothing in Step 3 can reach <code>f1</code>, and nothing in Step 4 can reach <code>f2</code>. Separate calls, separate frames, separate memories.</p>
+</div></section>
+<section id='the-cost-a-second-name-is-not-a-second-account' class='ls ls-default'>
+<h2 class='ls-h'><span>The Cost: A Second Name Is Not a Second Account</span></h2>
+<div class='ls-body'>
+<p>Now change one line and the meaning changes completely. Instead of calling the constructor a second time, the next program copies the function into a second name:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">make_withdraw</span><span style="color: #657b83">(balance):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">withdraw</span><span style="color: #657b83">(amount):</span>
+        <span style="color: #859900">nonlocal</span> <span style="color: #657b83">balance</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">amount</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #657b83">balance:</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;Insufficient funds&#39;</span>
+        <span style="color: #657b83">balance</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">balance</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">amount</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">balance</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">withdraw</span>
+
+<span style="color: #657b83">wd</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">make_withdraw(</span><span style="color: #2aa198">12</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">wd2</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">wd</span>
+<span style="color: #657b83">wd2(</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">wd(</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/59f6eb2105c7.json' data-mount='st1'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st1' hidden></div></figure>
+<p>The two mutating calls now produce:</p>
+<pre class='code text'><code>11
+10</code></pre>
+<p>The assignment <code>wd2 = wd</code> does not run <code>make_withdraw</code> again, so no new frame is born. It writes a second name on the existing function. Both names point at one <code>withdraw</code>, and that one <code>withdraw</code> reaches into one drawer.</p>
+<pre class='code text'><code>wd  ----+
+        |
+        v
+     one withdraw function whose parent frame has balance = 12
+        ^
+        |
+wd2 ----+</code></pre>
+<p>So <code>wd2(1)</code> lowers the shared balance from <code>12</code> to <code>11</code>, and the very next call <code>wd(1)</code> sees that already-lowered <code>11</code> and brings it to <code>10</code>. Calling the function through either name changes the single value that both names observe.</p>
+<h3>Why This Breaks Easy Reasoning</h3>
+<p>Before mutation entered the picture, you could replace an expression with its value and the program meant the same thing. An expression built only from pure calls is <strong>referentially transparent</strong>: substituting any subexpression with the value it computes does not change anything. Rebinding operations break that property, because they do more than return a value, they change the environment.</p>
+<p>Concretely, suppose <code>wd = make_withdraw(12)</code>. The expression <code>wd(1)</code> returns <code>11</code> the first time you evaluate it, but it also lowers the hidden balance, so the same expression returns <code>10</code> the next time. You can no longer treat <code>wd(1)</code> as a fixed stand-in for <code>11</code>. The key rule for analyzing code like this is short: only evaluating a call expression (a function call) introduces a new frame, and assignment always changes a binding in an existing frame. Unless <code>make_withdraw</code> was actually called twice, there is exactly one <code>balance</code> to talk about.</p>
+</div></section>
+<section id='identity-outlives-the-pieces' class='ls ls-default'>
+<h2 class='ls-h'><span>Identity Outlives the Pieces</span></h2>
+<div class='ls-body'>
+<p>These subtleties force a question that pure values let you ignore: what does it mean for two things to be &quot;the same&quot;? With unchanging values, equal is as good as identical:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (4)</span>
+<span style="color: #657b83">a</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">4</span>
+<span style="color: #657b83">b</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">4</span>
+</code></pre>
+<p>It does not matter whether <code>a</code> and <code>b</code> point at &quot;the same <code>4</code>&quot; or two different fours, because <code>4</code> will never change. You can treat a compound value built only from immutable pieces as nothing more than the totality of those pieces; a rational number simply is its numerator and denominator.</p>
+<p>State breaks that view. Once a value can change, it gains an identity separate from its current contents:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (5)</span>
+<span style="color: #657b83">first_account</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">make_withdraw(</span><span style="color: #2aa198">10</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">second_account</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">make_withdraw(</span><span style="color: #2aa198">10</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">alias</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">first_account</span>
+</code></pre>
+<p>Here <code>first_account</code> and <code>second_account</code> start with equal balances, but they are different accounts; lowering one leaves the other alone. Meanwhile <code>alias</code> and <code>first_account</code> are two names for the same account, so a withdrawal through either one is visible through the other. A bank account stays &quot;the same&quot; account after you change its balance, and two accounts can share a balance yet remain distinct objects. Holding identity and contents apart in your head is the mental shift that the rest of this lesson depends on.</p>
+</div></section>
+<section id='building-mutable-data-out-of-functions' class='ls ls-default'>
+<h2 class='ls-h'><span>Building Mutable Data Out of Functions</span></h2>
+<div class='ls-body'>
+<p>Despite the care it demands, nonlocal assignment is powerful: different parts of a program, living in different frames, can evolve independently. In fact, functions with local state are enough to implement mutable data types that behave like the built-in <code>list</code> and <code>dict</code>. Python does not expose how lists are implemented internally, only the sequence abstraction and the mutation methods, so to see how mutation could work underneath, we will build a mutable linked list ourselves.</p>
+<p>We need the linked-list toolkit from the sequences chapter. None of this is new; it is the substrate the mutable list will store and operate on:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (6)</span>
+<span style="color: #657b83">empty</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">&#39;empty&#39;</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">link</span><span style="color: #657b83">(first,</span> <span style="color: #657b83">rest</span><span style="color: #93a1a1">=</span><span style="color: #657b83">empty):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">[first,</span> <span style="color: #657b83">rest]</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">first</span><span style="color: #657b83">(s):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">s[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">rest</span><span style="color: #657b83">(s):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">s[</span><span style="color: #2aa198">1</span><span style="color: #657b83">]</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">len_link</span><span style="color: #657b83">(s):</span>
+    <span style="color: #657b83">length</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">s</span> <span style="color: #93a1a1">!=</span> <span style="color: #657b83">empty:</span>
+        <span style="color: #657b83">length</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">length</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+        <span style="color: #657b83">s</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">rest(s)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">length</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">getitem_link</span><span style="color: #657b83">(s,</span> <span style="color: #657b83">i):</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">i</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">s</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">rest(s)</span>
+        <span style="color: #657b83">i</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">i</span> <span style="color: #93a1a1">-</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">first(s)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">join_link</span><span style="color: #657b83">(s,</span> <span style="color: #657b83">separator):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">s</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">empty:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;&#39;</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">rest(s)</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">empty:</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(first(s))</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(first(s))</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">separator</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">join_link(rest(s),</span> <span style="color: #657b83">separator)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/74c01a272103.json' data-mount='st2'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st2' hidden></div></figure>
+<p>A mutable linked list needs an identity, like any mutable value. We cannot use <code>None</code> for an empty mutable list, because two empty lists must be distinguishable (appending to one must not append to the other), yet <code>None is None</code>. Two different functions that each hold <code>empty</code> as their local state solve this: they are distinct objects even when both are logically empty.</p>
+</div></section>
+<section id='the-dispatch-function' class='ls ls-default'>
+<h2 class='ls-h'><span>The Dispatch Function</span></h2>
+<div class='ls-body'>
+<p>If a mutable list is going to be a single function, what arguments does it take? The answer is a pattern you will reuse constantly. The function is a <strong>dispatch function</strong>: its first argument is a <strong>message</strong>, a string naming what to do, followed by any extra arguments that the chosen behavior needs. One dispatch function is effectively many functions bundled together, with the message selecting which one runs.</p>
+<p>Before the official version, build the intuition on a tiny dispatch function you can evaluate in your head. This one keeps a private counter and understands two messages:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (7)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">make_counter</span><span style="color: #657b83">():</span>
+    <span style="color: #657b83">count</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">dispatch</span><span style="color: #657b83">(message):</span>
+        <span style="color: #859900">nonlocal</span> <span style="color: #657b83">count</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">message</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;increment&#39;</span><span style="color: #657b83">:</span>
+            <span style="color: #657b83">count</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">count</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">count</span>
+        <span style="color: #859900">elif</span> <span style="color: #657b83">message</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;reset&#39;</span><span style="color: #657b83">:</span>
+            <span style="color: #657b83">count</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">dispatch</span>
+</code></pre>
+<p>Trace it: <code>c = make_counter()</code> hands back the inner <code>dispatch</code>. Then <code>c(&#x27;increment&#x27;)</code> returns <code>1</code>, <code>c(&#x27;increment&#x27;)</code> returns <code>2</code>, <code>c(&#x27;reset&#x27;)</code> returns <code>None</code> (and quietly sets the count back to <code>0</code>), and a following <code>c(&#x27;increment&#x27;)</code> returns <code>1</code> again. The string you pass in steers the behavior; the private <code>count</code> survives between calls. That is the entire idea, just smaller.</p>
+<p>Now the official mutable linked list. It answers five messages: <code>len</code>, <code>getitem</code>, <code>push_first</code>, <code>pop_first</code>, and <code>str</code>. Reproduced verbatim:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (8)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">mutable_link</span><span style="color: #657b83">():</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return a functional implementation of a mutable linked list.&quot;&quot;&quot;</span>
+    <span style="color: #657b83">contents</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">empty</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">dispatch</span><span style="color: #657b83">(message,</span> <span style="color: #657b83">value</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">None</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">nonlocal</span> <span style="color: #657b83">contents</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">message</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;len&#39;</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">len_link(contents)</span>
+        <span style="color: #859900">elif</span> <span style="color: #657b83">message</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;getitem&#39;</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">getitem_link(contents,</span> <span style="color: #657b83">value)</span>
+        <span style="color: #859900">elif</span> <span style="color: #657b83">message</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;push_first&#39;</span><span style="color: #657b83">:</span>
+            <span style="color: #657b83">contents</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">link(value,</span> <span style="color: #657b83">contents)</span>
+        <span style="color: #859900">elif</span> <span style="color: #657b83">message</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;pop_first&#39;</span><span style="color: #657b83">:</span>
+            <span style="color: #657b83">f</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">first(contents)</span>
+            <span style="color: #657b83">contents</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">rest(contents)</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">f</span>
+        <span style="color: #859900">elif</span> <span style="color: #657b83">message</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;str&#39;</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">join_link(contents,</span> <span style="color: #2aa198">&quot;, &quot;</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">dispatch</span>
+</code></pre>
+<p>The local name <code>contents</code> is the hidden state, and it starts as <code>empty</code>. The header line that makes this a dispatch function deserves a careful reading:</p>
+<pre class='code anatomy'><code>def dispatch(message, value=None):
+├─ def ............. begins a function definition
+├─ dispatch ........ the name of the inner function, the one that gets returned
+├─ ( ............... begins the parameter list
+├─ message ......... required first parameter: the string that selects a behavior
+├─ , ............... separates the parameters
+├─ value=None ...... optional second parameter; defaults to None when no extra
+│                    argument is supplied, so messages like &#x27;len&#x27; need no value
+├─ ) ............... ends the parameter list
+└─ defines          a single function that performs different work depending on
+                    the message it receives</code></pre>
+<p>The five-way <code>if</code>/<code>elif</code> chain is the menu. Two messages (<code>len</code>, <code>getitem</code>) implement the sequence abstraction; two (<code>push_first</code>, <code>pop_first</code>) add or remove the front element; the last (<code>str</code>) renders the whole list as text. Here is the menu as a quick reference:</p>
+<pre class='code text'><code>&#x27;len&#x27;         return the length
+&#x27;getitem&#x27;     return the element at an index
+&#x27;push_first&#x27;  add a value to the front (mutates; returns None)
+&#x27;pop_first&#x27;   remove and return the first value (mutates)
+&#x27;str&#x27;         return a readable string</code></pre>
+</div></section>
+<section id='building-a-mutable-link-from-a-sequence' class='ls ls-default'>
+<h2 class='ls-h'><span>Building a Mutable Link From a Sequence</span></h2>
+<div class='ls-body'>
+<p>A convenience constructor turns any built-in sequence into one of these functional lists by pushing each element onto the front in reverse order. The <code>reversed</code> function gives back the elements of <code>source</code> in reverse order, last element first, which is why the loop visits them back to front:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (9)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">to_mutable_link</span><span style="color: #657b83">(source):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return a functional list with the same contents as source.&quot;&quot;&quot;</span>
+    <span style="color: #657b83">s</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">mutable_link()</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">element</span> <span style="color: #859900">in</span> <span style="color: #268bd2">reversed</span><span style="color: #657b83">(source):</span>
+        <span style="color: #657b83">s(</span><span style="color: #2aa198">&#39;push_first&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">element)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">s</span>
+</code></pre>
+<p>The reversal is the subtle part. Because <code>push_first</code> always adds to the front, pushing the elements in their original order would flip them. Walking <code>source</code> from its last element to its first lays them down so that the final list reads in the original order.</p>
+</div></section>
+<section id='using-the-mutable-link' class='ls ls-default'>
+<h2 class='ls-h'><span>Using the Mutable Link</span></h2>
+<div class='ls-body'>
+<p>Now construct one and interact with it by sending messages. The linked list itself is a function, which <code>type</code> confirms:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (10)</span>
+<span style="color: #657b83">suits</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[</span><span style="color: #2aa198">&#39;heart&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;diamond&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;spade&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;club&#39;</span><span style="color: #657b83">]</span>
+<span style="color: #657b83">s</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">to_mutable_link(suits)</span>
+<span style="color: #268bd2">type</span><span style="color: #657b83">(s)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(s(</span><span style="color: #2aa198">&#39;str&#39;</span><span style="color: #657b83">))</span>
+</code></pre>
+<p>The results, in order:</p>
+<pre class='code text'><code>&lt;class &#x27;function&#x27;&gt;
+heart, diamond, spade, club</code></pre>
+<p>You can also pass messages that change the contents. Removing the first element returns it and shortens the list:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (11)</span>
+<span style="color: #657b83">s(</span><span style="color: #2aa198">&#39;pop_first&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(s(</span><span style="color: #2aa198">&#39;str&#39;</span><span style="color: #657b83">))</span>
+</code></pre>
+<p>The results:</p>
+<pre class='code text'><code>&#x27;heart&#x27;
+diamond, spade, club</code></pre>
+<p>Notice what did not happen: <code>s</code> is the same function object it always was. The <code>pop_first</code> message did not replace <code>s</code>; it changed the hidden <code>contents</code> that <code>s</code> carries. In principle <code>push_first</code> and <code>pop_first</code> alone are enough to make any change at all, since you could empty the list and rebuild it.</p>
+<h3>Reading a Message-Passing Call</h3>
+<p>The expression <code>s(&#x27;getitem&#x27;, 1)</code> is easy to skim past, so slow it down with a follow-the-line reading:</p>
+<pre class='code anatomy'><code>s(&#x27;getitem&#x27;, 1)
+├─ s ............... evaluates to the dispatch function that to_mutable_link returned
+├─ ( ............... begins the call, which runs the dispatch body
+├─ &#x27;getitem&#x27; ....... the message: tells dispatch which behavior to run
+├─ , ............... separates the message from the extra argument
+├─ 1 ............... the extra information for this message, here the index
+├─ ) ............... ends the call
+└─ evaluates to     the element stored at index 1 of contents</code></pre>
+<p>The punctuation is load-bearing: the parenthesis launches a call, the first argument is the message, the comma separates the message from the index, and the closing parenthesis tells Python to run the body now. Inside <code>dispatch</code>, the clause <code>elif message == &#x27;getitem&#x27;:</code> ends in a colon because it opens a controlled block; the indented <code>return getitem_link(contents, value)</code> belongs to that branch and runs only when the message matches.</p>
+<h3>Tracing the Call, Frame by Frame</h3>
+<p>When the message arrives, Python does the ordinary thing it does for any call, and the dispatch logic falls out of it:</p>
+<pre class='code text'><code>Step 1  Look up the name s; it is the dispatch function object.
+Step 2  Open a new local frame for dispatch.
+Step 3  Bind message to &#x27;getitem&#x27; in that frame.
+Step 4  Bind value to 1 in that frame.
+Step 5  Run the if/elif chain; the &#x27;getitem&#x27; branch matches.
+Step 6  Return getitem_link(contents, 1), reading the hidden contents.</code></pre>
+<p>This is a preview of object-oriented programming. Soon, class-based objects will reach their behaviors through dot notation, but the underlying idea is the one you are using now: a value receives a request and decides how to respond.</p>
+</div></section>
+<section id='message-passing-as-a-discipline' class='ls ls-default'>
+<h2 class='ls-h'><span>Message Passing as a Discipline</span></h2>
+<div class='ls-body'>
+<p>The approach you just used has a name. <strong>Message passing</strong> is the discipline of putting all the operations on a data value inside one function that responds to different messages, and organizing a program by passing those message strings as the first argument. Had you wanted more list operations like <code>extend</code> or <code>insert</code>, you had two honest choices: write them as outside functions that lean on <code>push_first</code> and <code>pop_first</code>, or add more <code>elif</code> clauses inside <code>dispatch</code> that change <code>contents</code> directly. Either way, the operations live with the data they operate on. Here is the message vocabulary of <code>s</code>, summarized:</p>
+<pre class='code text'><code>s(&#x27;len&#x27;)              ask for a length
+s(&#x27;getitem&#x27;, 1)       ask for an item by index
+s(&#x27;push_first&#x27;, &#x27;x&#x27;)  request a mutation
+s(&#x27;pop_first&#x27;)        request a mutation and get the removed value back
+s(&#x27;str&#x27;)              ask for a string representation</code></pre>
+</div></section>
+<section id='implementing-a-dictionary-by-message-passing' class='ls ls-default'>
+<h2 class='ls-h'><span>Implementing a Dictionary by Message Passing</span></h2>
+<div class='ls-body'>
+<p>The same technique implements something that behaves like a dictionary. The contents are stored as a list of key-value records, each record a two-element list. Before the official version, here is the data shape it maintains, so the filtering logic reads clearly:</p>
+<pre class='code text'><code>records = [[3, 9], [4, 16]]</code></pre>
+<p>The official implementation supports two messages, <code>getitem</code> and <code>setitem</code>, reproduced verbatim:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (12)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">dictionary</span><span style="color: #657b83">():</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return a functional implementation of a dictionary.&quot;&quot;&quot;</span>
+    <span style="color: #657b83">records</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[]</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">getitem</span><span style="color: #657b83">(key):</span>
+        <span style="color: #657b83">matches</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[r</span> <span style="color: #859900">for</span> <span style="color: #657b83">r</span> <span style="color: #859900">in</span> <span style="color: #657b83">records</span> <span style="color: #859900">if</span> <span style="color: #657b83">r[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">key]</span>
+        <span style="color: #859900">if</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(matches)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span><span style="color: #657b83">:</span>
+            <span style="color: #657b83">key,</span> <span style="color: #657b83">value</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">matches[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">value</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">setitem</span><span style="color: #657b83">(key,</span> <span style="color: #657b83">value):</span>
+        <span style="color: #859900">nonlocal</span> <span style="color: #657b83">records</span>
+        <span style="color: #657b83">non_matches</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[r</span> <span style="color: #859900">for</span> <span style="color: #657b83">r</span> <span style="color: #859900">in</span> <span style="color: #657b83">records</span> <span style="color: #859900">if</span> <span style="color: #657b83">r[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span> <span style="color: #93a1a1">!=</span> <span style="color: #657b83">key]</span>
+        <span style="color: #657b83">records</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">non_matches</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">[[key,</span> <span style="color: #657b83">value]]</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">dispatch</span><span style="color: #657b83">(message,</span> <span style="color: #657b83">key</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">None</span><span style="color: #657b83">,</span> <span style="color: #657b83">value</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">None</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">message</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;getitem&#39;</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">getitem(key)</span>
+        <span style="color: #859900">elif</span> <span style="color: #657b83">message</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;setitem&#39;</span><span style="color: #657b83">:</span>
+            <span style="color: #657b83">setitem(key,</span> <span style="color: #657b83">value)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">dispatch</span>
+</code></pre>
+<p>Storing a value filters out any existing record that already uses that key, then appends one fresh record, which guarantees each key appears at most once. Looking up a value filters for the single record whose key matches and returns its value. Both helpers share the hidden <code>records</code> through the enclosing frame, and <code>setitem</code> declares <code>nonlocal records</code> because it rebinds the list to a brand-new list rather than mutating it in place.</p>
+</div></section>
+<section id='using-the-functional-dictionary' class='ls ls-default'>
+<h2 class='ls-h'><span>Using the Functional Dictionary</span></h2>
+<div class='ls-body'>
+<p>Store two entries and read them back:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (13)</span>
+<span style="color: #657b83">d</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">dictionary()</span>
+<span style="color: #657b83">d(</span><span style="color: #2aa198">&#39;setitem&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">9</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">d(</span><span style="color: #2aa198">&#39;setitem&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">16</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">d(</span><span style="color: #2aa198">&#39;getitem&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">d(</span><span style="color: #2aa198">&#39;getitem&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>The two lookups at the end produce:</p>
+<pre class='code text'><code>9
+16</code></pre>
+<p>The three-part <code>setitem</code> call follows the same message-passing shape as before, now carrying both a key and a value:</p>
+<pre class='code anatomy'><code>d(&#x27;setitem&#x27;, 3, 9)
+├─ d ............... evaluates to the dispatch function returned by dictionary()
+├─ ( ............... begins the call
+├─ &#x27;setitem&#x27; ....... the message: store a value under a key
+├─ 3 ............... the key to store it under
+├─ 9 ............... the value to store
+├─ ) ............... ends the call
+└─ performs         the setitem behavior, replacing records with a list that
+                    holds the record [3, 9] and no other record keyed 3</code></pre>
+<p>It helps to picture the frame that each call builds. When <code>d(&#x27;setitem&#x27;, 3, 9)</code> runs, the <code>dispatch</code> frame binds:</p>
+<pre class='code text'><code>message -&gt; &#x27;setitem&#x27;
+key     -&gt; 3
+value   -&gt; 9</code></pre>
+<p>That frame selects the <code>setitem</code> branch, which rebuilds the hidden <code>records</code>. Later, when <code>d(&#x27;getitem&#x27;, 3)</code> runs, the call supplies no third argument, so the frame binds:</p>
+<pre class='code text'><code>message -&gt; &#x27;getitem&#x27;
+key     -&gt; 3
+value   -&gt; None</code></pre>
+<p>The <code>value</code> parameter falls back to <code>None</code> precisely because the call left it out, which is why <code>def dispatch(message, key=None, value=None):</code> gives the extra parameters defaults: not every message needs the same number of inputs. This dictionary is not built for speed; every lookup filters through all records, while the built-in <code>dict</code> is far more efficient. Ours is for understanding the mechanism, not for performance.</p>
+</div></section>
+<section id='dispatch-dictionaries' class='ls ls-default'>
+<h2 class='ls-h'><span>Dispatch Dictionaries</span></h2>
+<div class='ls-body'>
+<p>So far, dispatch has compared the message against a fixed set of strings using <code>if</code> and <code>elif</code>. But Python already has a general tool for looking up a value by a key: the dictionary. So instead of a conditional chain, you can dispatch by storing the behaviors in a dictionary whose keys are message names. Strikingly, the same dictionary can also hold the object&#x27;s state right next to its behaviors.</p>
+<p>The original text implements a bank account this way. The constructor <code>account</code> builds a dictionary <code>dispatch</code> that maps <code>&#x27;deposit&#x27;</code> and <code>&#x27;withdraw&#x27;</code> to functions and maps <code>&#x27;balance&#x27;</code> to a number. Note that there are two functions named <code>deposit</code> here: the inner one built inside <code>account</code>, and the outer helper just below. They share a name but are different functions; the same is true of <code>withdraw</code>. Reproduced verbatim:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (14)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">account</span><span style="color: #657b83">(initial_balance):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">deposit</span><span style="color: #657b83">(amount):</span>
+        <span style="color: #657b83">dispatch[</span><span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">]</span> <span style="color: #93a1a1">+=</span> <span style="color: #657b83">amount</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">dispatch[</span><span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">]</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">withdraw</span><span style="color: #657b83">(amount):</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">amount</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #657b83">dispatch[</span><span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">]:</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;Insufficient funds&#39;</span>
+        <span style="color: #657b83">dispatch[</span><span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">]</span> <span style="color: #93a1a1">-=</span> <span style="color: #657b83">amount</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">dispatch[</span><span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">]</span>
+    <span style="color: #657b83">dispatch</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">{</span><span style="color: #2aa198">&#39;deposit&#39;</span><span style="color: #657b83">:</span>   <span style="color: #657b83">deposit,</span>
+                <span style="color: #2aa198">&#39;withdraw&#39;</span><span style="color: #657b83">:</span>  <span style="color: #657b83">withdraw,</span>
+                <span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">:</span>   <span style="color: #657b83">initial_balance}</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">dispatch</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">withdraw</span><span style="color: #657b83">(account,</span> <span style="color: #657b83">amount):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">account[</span><span style="color: #2aa198">&#39;withdraw&#39;</span><span style="color: #657b83">](amount)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">deposit</span><span style="color: #657b83">(account,</span> <span style="color: #657b83">amount):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">account[</span><span style="color: #2aa198">&#39;deposit&#39;</span><span style="color: #657b83">](amount)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">check_balance</span><span style="color: #657b83">(account):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">account[</span><span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">]</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/f9b22bfe52ed.json' data-mount='st3'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st3' hidden></div></figure>
+<p>The account object is just a dictionary, holding two functions and one number side by side:</p>
+<pre class='code text'><code>{
+    &#x27;deposit&#x27;:  deposit function,
+    &#x27;withdraw&#x27;: withdraw function,
+    &#x27;balance&#x27;:  current number
+}</code></pre>
+<p>Notice that <code>deposit</code> and <code>withdraw</code> mention <code>dispatch</code> even though <code>dispatch</code> is defined a few lines below them. That is fine: the bodies of <code>deposit</code> and <code>withdraw</code> do not run when <code>account</code> is defined, only later when they are called, and by then <code>dispatch</code> exists. Because <code>deposit</code> and <code>withdraw</code> close over the name <code>dispatch</code>, they can both read and rewrite <code>dispatch[&#x27;balance&#x27;]</code>. Storing the balance inside the dictionary, rather than as a plain name in the <code>account</code> frame, is what lets these functions skip the <code>nonlocal</code> statement: they never rebind a local name called <code>balance</code>, they mutate a dictionary entry.</p>
+<h3>Reading a Lookup-Then-Call</h3>
+<p>The helper <code>withdraw(account, amount)</code> packs a call expression inside a dictionary lookup, and unpacking that is the key to dispatch dictionaries:</p>
+<pre class='code anatomy'><code>return account[&#x27;withdraw&#x27;](amount)
+├─ account ............. the account dictionary passed into the helper
+├─ [&#x27;withdraw&#x27;] ........ a dictionary lookup using the key &#x27;withdraw&#x27;, returning the stored withdraw function
+├─ (amount) ............ calls that returned function on amount
+└─ evaluates to         whatever the stored withdraw function returns</code></pre>
+<p>Python runs this in two phases, and seeing the seam between them is the whole lesson:</p>
+<pre class='code text'><code>Step 1  Evaluate account[&#x27;withdraw&#x27;]; the lookup returns the withdraw function in the dictionary.
+Step 2  Call that returned function on amount.
+Step 3  Inside the stored withdraw function, read and update dispatch[&#x27;balance&#x27;].
+Step 4  Return the updated balance.</code></pre>
+<p>This is what makes dispatch dictionaries powerful: a dictionary entry can hold a plain number like the balance, but it can equally hold a function. Looking up a function-valued entry hands Python something it can immediately call, so a single lookup picks the behavior and the very next pair of parentheses runs it.</p>
+</div></section>
+<section id='using-the-account' class='ls ls-default'>
+<h2 class='ls-h'><span>Using the Account</span></h2>
+<div class='ls-body'>
+<p>Drive the account through its helper functions:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (15)</span>
+<span style="color: #657b83">a</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">account(</span><span style="color: #2aa198">20</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">deposit(a,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">withdraw(a,</span> <span style="color: #2aa198">17</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">check_balance(a)</span>
+</code></pre>
+<p>The return values, in order:</p>
+<pre class='code text'><code>25
+8
+8</code></pre>
+<p><code>deposit(a, 5)</code> raises the stored balance from <code>20</code> to <code>25</code> and returns it. <code>withdraw(a, 17)</code> checks that <code>17</code> does not exceed <code>25</code>, lowers the balance to <code>8</code>, and returns it. <code>check_balance(a)</code> simply reads <code>a[&#x27;balance&#x27;]</code>, which is now <code>8</code>. No line here needed <code>nonlocal</code>, because the changing value never lived in a frame as a bare name; it lived in a mutable dictionary the whole time.</p>
+</div></section>
+<section id='augmented-assignment' class='ls ls-default'>
+<h2 class='ls-h'><span>Augmented Assignment</span></h2>
+<div class='ls-body'>
+<p>The lines inside <code>deposit</code> and <code>withdraw</code> used <code>+=</code> and <code>-=</code>, which are Python shorthand (shared by many languages) for a combined lookup and re-assignment. The last two statements below are equivalent:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (16)</span>
+<span style="color: #657b83">a</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">2</span>
+<span style="color: #657b83">a</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">a</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+<span style="color: #657b83">a</span> <span style="color: #93a1a1">+=</span> <span style="color: #2aa198">1</span>
+</code></pre>
+<p>After all three run, <code>a</code> is:</p>
+<pre class='code text'><code>4</code></pre>
+<p>Walk <code>a += 1</code> one token at a time:</p>
+<pre class='code anatomy'><code>a += 1
+├─ a ............... the name whose current value is read, then re-bound
+├─ += .............. add-and-reassign: combine the left value with the right, store back into a
+├─ 1 ............... the value added to a&#x27;s current value
+└─ re-binds         a to its old value plus 1, here 3 plus 1, giving 4</code></pre>
+<p>For a mutable container, the lookup half and the write half can both touch the same object, as in <code>dispatch[&#x27;balance&#x27;] += amount</code>: Python reads <code>dispatch[&#x27;balance&#x27;]</code>, adds <code>amount</code>, and writes the sum back into that same dictionary entry, all in one statement. That compactness is exactly why the dispatch-dictionary account reads so cleanly.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<p>The first trap is thinking <code>wd2 = wd</code> opens a new account. It does not. It writes a second name on the same <code>withdraw</code> function, and both names share one balance.</p>
+<p>The second trap is treating a dispatch function as mysterious machinery. It is just a function that checks its message argument and picks a branch; the counter in code (7) is the entire idea in miniature.</p>
+<p>The third trap is forgetting that a mutation message such as <code>s(&#x27;push_first&#x27;, value)</code> changes hidden state and returns <code>None</code>. An operation that exists to change something often has no useful value to hand back.</p>
+<p>The fourth trap is assuming the functional dictionary is fast. Every lookup filters the whole list of records, so it slows down as the dictionary grows; the built-in <code>dict</code> does not work this way.</p>
+<p>The fifth trap is expecting <code>nonlocal</code> everywhere state changes. The dispatch-dictionary account changes its balance with no <code>nonlocal</code> at all, because it mutates a dictionary entry instead of rebinding a local name. <code>nonlocal</code> is only required when you reassign a name that lives in an enclosing frame.</p>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>Why do <code>wd = make_withdraw(20)</code> and <code>wd2 = make_withdraw(7)</code> keep independent balances?</li>
+<li>Why does <code>wd2 = wd</code> not create an independent balance?</li>
+<li>What does referential transparency mean, and why does <code>make_withdraw</code> break it?</li>
+<li>What hidden state does <code>mutable_link</code> keep, and why does <code>to_mutable_link</code> use <code>reversed(source)</code>?</li>
+<li>In the dispatch-dictionary account, where is the balance stored, and why is no <code>nonlocal</code> statement needed?</li>
+<li>Using the functional <code>dictionary</code> from code (12), suppose you run <code>d = dictionary()</code>, then <code>d(&#x27;setitem&#x27;, 3, 9)</code>, then <code>d(&#x27;setitem&#x27;, 3, 99)</code>, then <code>d(&#x27;getitem&#x27;, 3)</code>, and finally <code>d(&#x27;getitem&#x27;, 7)</code>. What do the two <code>getitem</code> calls return, in order?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li>Each call to <code>make_withdraw</code> builds a fresh parent frame with its own <code>balance</code>, and the returned function remembers that frame. Two calls means two frames means two balances.</li>
+<li><code>wd2 = wd</code> copies the function reference, not the saved balance. Both names now point at the same <code>withdraw</code> function and therefore the same hidden state.</li>
+<li>An expression is referentially transparent if you can replace any subexpression with the value it computes without changing the program. <code>make_withdraw</code> breaks it because calling the returned function changes the hidden balance, so the same call expression can return a different value next time.</li>
+<li>It keeps the current <code>contents</code> of the linked list in an enclosed name that its <code>dispatch</code> function reads or replaces. <code>to_mutable_link</code> reverses the source because <code>push_first</code> adds to the front, so laying elements down back to front leaves the list in the original order.</li>
+<li>The balance is stored as the <code>&#x27;balance&#x27;</code> entry of the <code>dispatch</code> dictionary that <code>account</code> returns. No <code>nonlocal</code> is needed because <code>deposit</code> and <code>withdraw</code> mutate a dictionary entry rather than rebind a local name.</li>
+<li><code>d(&#x27;getitem&#x27;, 3)</code> returns <code>99</code>, and <code>d(&#x27;getitem&#x27;, 7)</code> returns <code>None</code>. The second <code>setitem</code> filters out the existing record keyed <code>3</code> and appends <code>[3, 99]</code>, so the key still holds exactly one record, now with value <code>99</code>. The lookup for key <code>7</code> finds no matching record, so <code>getitem</code>&#x27;s <code>len(matches) == 1</code> guard is false and the function falls off the end, returning <code>None</code>.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>Nonlocal assignment lets a function keep private state, and that single ability carries you a long way. Its benefit is independence: separate calls to a constructor build separate frames, so two functions made the same way evolve separately. Its cost is that identity now matters; copying a stateful function into a second name shares one hidden value through both names, and the program is no longer referentially transparent. A <strong>dispatch function</strong> turns this state into an object by reading a <strong>message</strong> and choosing a behavior, which is the discipline of <strong>message passing</strong>. Using only functions, local state, and dispatch, you implemented a mutable linked list, a dictionary, and a bank account, the last as a <strong>dispatch dictionary</strong> that stores its behaviors and its balance together. Every one of these is something you will soon rebuild with classes, but you now understand the machinery that classes are built on top of.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>The block below is the lesson&#x27;s capstone: the account constructor, its helpers, one account, and the calls that change it. Stepping through it draws the <strong>environment diagram</strong> the machine is really building: calling <code>account(20)</code> opens a frame whose <code>dispatch</code> dictionary holds the <code>deposit</code> and <code>withdraw</code> closures alongside a <code>&#x27;balance&#x27;</code> entry, and each <code>deposit(a, 5)</code> or <code>withdraw(a, 17)</code> opens a helper frame that does a select-then-call, so a second frame for the stored function appears with no <code>nonlocal</code> in sight while the <code>&#x27;balance&#x27;</code> value mutates in place inside the one dictionary on the heap. Before you step through it, write down two predictions: how many local frames will open over the whole run, and how many frames named <code>deposit</code> will be open at the same moment partway through the line <code>deposit(a, 5)</code>.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (17)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">account</span><span style="color: #657b83">(initial_balance):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">deposit</span><span style="color: #657b83">(amount):</span>
+        <span style="color: #657b83">dispatch[</span><span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">]</span> <span style="color: #93a1a1">+=</span> <span style="color: #657b83">amount</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">dispatch[</span><span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">]</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">withdraw</span><span style="color: #657b83">(amount):</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">amount</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #657b83">dispatch[</span><span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">]:</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;Insufficient funds&#39;</span>
+        <span style="color: #657b83">dispatch[</span><span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">]</span> <span style="color: #93a1a1">-=</span> <span style="color: #657b83">amount</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">dispatch[</span><span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">]</span>
+    <span style="color: #657b83">dispatch</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">{</span><span style="color: #2aa198">&#39;deposit&#39;</span><span style="color: #657b83">:</span>   <span style="color: #657b83">deposit,</span>
+                <span style="color: #2aa198">&#39;withdraw&#39;</span><span style="color: #657b83">:</span>  <span style="color: #657b83">withdraw,</span>
+                <span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">:</span>   <span style="color: #657b83">initial_balance}</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">dispatch</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">withdraw</span><span style="color: #657b83">(account,</span> <span style="color: #657b83">amount):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">account[</span><span style="color: #2aa198">&#39;withdraw&#39;</span><span style="color: #657b83">](amount)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">deposit</span><span style="color: #657b83">(account,</span> <span style="color: #657b83">amount):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">account[</span><span style="color: #2aa198">&#39;deposit&#39;</span><span style="color: #657b83">](amount)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">check_balance</span><span style="color: #657b83">(account):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">account[</span><span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">]</span>
+
+<span style="color: #657b83">a</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">account(</span><span style="color: #2aa198">20</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">deposit(a,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">withdraw(a,</span> <span style="color: #2aa198">17</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">check_balance(a)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/f52d647b1e16.json' data-mount='st4'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st4' hidden></div></figure>
+<p>Check both as the frames appear. Six local frames open in all, and partway through <code>deposit(a, 5)</code> two frames named <code>deposit</code> are open at once: the helper, and inside it the stored function that the lookup <code>account[&#x27;deposit&#x27;]</code> returned. Each helper binds <code>account</code> to the dictionary itself, whose <code>&#x27;balance&#x27;</code> entry rises to <code>25</code> and falls to <code>8</code> as the frames come and go. No frame ever holds a bare <code>balance</code> name.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</span></a><a class='pg pg-next' href='/program-design-and-abstraction/2-4-d-propagating-constraints/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>2.4-D Propagating Constraints</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#separate-tellers-separate-drawers'>Separate Tellers, Separate Drawers</a></li><li><a href='#a-state-keeping-function-reviewed'>A State-Keeping Function, Reviewed</a></li><li><a href='#the-benefit-separate-calls-build-separate-state'>The Benefit: Separate Calls Build Separate State</a></li><li><a href='#the-cost-a-second-name-is-not-a-second-account'>The Cost: A Second Name Is Not a Second Account</a></li><li><a href='#identity-outlives-the-pieces'>Identity Outlives the Pieces</a></li><li><a href='#building-mutable-data-out-of-functions'>Building Mutable Data Out of Functions</a></li><li><a href='#the-dispatch-function'>The Dispatch Function</a></li><li><a href='#building-a-mutable-link-from-a-sequence'>Building a Mutable Link From a Sequence</a></li><li><a href='#using-the-mutable-link'>Using the Mutable Link</a></li><li><a href='#message-passing-as-a-discipline'>Message Passing as a Discipline</a></li><li><a href='#implementing-a-dictionary-by-message-passing'>Implementing a Dictionary by Message Passing</a></li><li><a href='#using-the-functional-dictionary'>Using the Functional Dictionary</a></li><li><a href='#dispatch-dictionaries'>Dispatch Dictionaries</a></li><li><a href='#using-the-account'>Using the Account</a></li><li><a href='#augmented-assignment'>Augmented Assignment</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

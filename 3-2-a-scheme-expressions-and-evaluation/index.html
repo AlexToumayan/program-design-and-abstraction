@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>3.2 Scheme Expressions and Evaluation · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/' class='active'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 3</span><span class='dot'>/</span><span class='eb-sec'>3.2 Functional Programming</span></div><h1 class='lesson-title'>3.2 Scheme Expressions and Evaluation</h1><div class='reading-meta'>&#9719; approx. 16 min read <span class='rm-sep'>&middot;</span> 2 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>Chapter 3 changes the question you ask about a program. Until now a program was something you wrote and ran. From here on, a program is also a piece of data that another program can read, take apart, and evaluate. To study that idea cleanly, we switch to a small language from the Lisp family called Scheme.</p>
+<p>By the end of this lesson you will be able to do four things. You will read a Scheme <strong>call expression</strong> written in prefix notation, where the operator comes first. You will trace a nested expression from the inside out, using parentheses rather than precedence to find the boundaries. You will explain why <code>if</code>, <code>and</code>, and <code>or</code> are <strong>special forms</strong> that do not follow the normal call rule. And you will write the most basic <code>define</code>, both to name a value and to name a procedure.</p>
+<p>Scheme looks strange at first because almost every expression is wrapped in parentheses and the operator leads. That strangeness is the point. Scheme has fewer surface rules than Python, so the machinery of evaluation is easier to watch.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='requests-written-in-a-new-grammar' class='ls ls-default'>
+<h2 class='ls-h'><span>Requests Written in a New Grammar</span></h2>
+<div class='ls-body'>
+<p>Suppose you are used to ordering food by saying:</p>
+<pre class='code text'><code>two tacos, please</code></pre>
+<p>Then you walk into a place where every request has to be written on a card in this shape:</p>
+<pre class='code text'><code>(order tacos 2)</code></pre>
+<p>The request is not harder. The grammar is different. The verb comes first, then the things it acts on, and the whole request is wrapped so the kitchen knows exactly where it starts and stops. Scheme works this way for ideas you already know: numbers, arithmetic, function calls, choices, and names.</p>
+<p>In Python you write addition with the operator sitting between the numbers:</p>
+<pre class='code text'><code>2 + 3</code></pre>
+<p>In Scheme the operator goes in front, and the whole thing is wrapped in parentheses:</p>
+<pre class='code scheme'><code>(+ 2 3)</code></pre>
+<p>You read that as &quot;call <code>+</code> on <code>2</code> and <code>3</code>.&quot; Placing the operator before its operands is called <strong>prefix notation</strong>, and once you accept it, a great deal of guesswork disappears.</p>
+</div></section>
+<section id='why-scheme-belongs-in-this-course' class='ls ls-default'>
+<h2 class='ls-h'><span>Why Scheme Belongs in This Course</span></h2>
+<div class='ls-body'>
+<p>The original text introduces Scheme as a high-level language that encourages a <strong>functional</strong> style of programming. We are not switching because Python is weak. We are switching because a smaller language makes the rules of interpretation visible, which is exactly what Chapter 3 is about.</p>
+<p>The subset of Scheme in this chapter has three properties worth naming up front.</p>
+<div class='table-wrap'><table><thead><tr>
+<th>Property</th>
+<th>What it means here</th>
+</tr></thead><tbody>
+<tr>
+<td>Built from expressions</td>
+<td>Nearly every piece of code computes a value; there is almost nothing that only performs an action.</td>
+</tr>
+<tr>
+<td>Symbolic computation</td>
+<td>The language is comfortable treating symbols and lists as data, which is why programs can later be treated as data.</td>
+</tr>
+<tr>
+<td>Immutable values</td>
+<td>Once a value such as a number or a list is built, we make new values rather than changing the old one in place.</td>
+</tr>
+</tbody></table></div>
+<p>Contrast that with Python, which mixes two kinds of code:</p>
+<pre class='code text'><code>expression:  2 + 3
+statement:   x = 2 + 3</code></pre>
+<p>An expression computes a value. A statement carries out an action, such as binding a name. The Scheme in this chapter leans almost entirely on the expression side, and that lean is what keeps the evaluation rules small enough to study.</p>
+</div></section>
+<section id='the-shape-of-a-call-expression' class='ls ls-default'>
+<h2 class='ls-h'><span>The Shape of a Call Expression</span></h2>
+<div class='ls-body'>
+<p>A Scheme call expression, which the original text also calls a <strong>combination</strong>, has this general shape:</p>
+<pre class='code scheme'><code>(operator operand-1 operand-2 ...)</code></pre>
+<p>The opening parenthesis tells the interpreter that a combination is beginning. The first expression after it is the <strong>operator</strong>, which should evaluate to a procedure, Scheme&#x27;s word for a function-like value. The remaining expressions are the <strong>operands</strong>, which are evaluated to produce argument values. The closing parenthesis tells the interpreter where the combination ends.</p>
+<p>The rule for evaluating one of these is the same core rule you learned for Python calls: first the operator and operand expressions are evaluated, and then the procedure that is the value of the operator is applied to the arguments that are the values of the operands.</p>
+<p>Here is the first official example, integer division:</p>
+<pre class='code scheme'><code>(quotient 10 2)</code></pre>
+<p>Walk the tokens of that one line.</p>
+<pre class='code anatomy'><code>(quotient 10 2)
+├─ ( ............ begins the combination
+├─ quotient .... operator: names the built-in integer-division procedure
+├─ 10 .......... first operand: evaluates to the number ten
+├─ 2 ........... second operand: evaluates to the number two
+├─ ) ........... ends the combination
+└─ evaluates to  5</code></pre>
+<p>The procedure named <code>quotient</code> receives the arguments <code>10</code> and <code>2</code>, and integer division of ten by two is five.</p>
+</div></section>
+<section id='a-warm-up-before-the-nesting-gets-deep' class='ls ls-default'>
+<h2 class='ls-h'><span>A Warm-Up Before the Nesting Gets Deep</span></h2>
+<div class='ls-body'>
+<p>Before the official nested example, build the habit on something tiny. In Python you would write:</p>
+<pre class='code text'><code>2 + 3 * 4</code></pre>
+<p>and rely on the rule that multiplication happens before addition. Scheme refuses to make you remember precedence. You say exactly what you mean by where you put the parentheses:</p>
+<pre class='code scheme'><code>(+ 2 (* 3 4))</code></pre>
+<p>Walk the tokens.</p>
+<pre class='code anatomy'><code>(+ 2 (* 3 4))
+├─ ( ........... begins the outer combination
+├─ + ........... operator: the addition procedure
+├─ 2 ........... first operand: the number two
+├─ (* 3 4) ..... second operand: an inner combination, twelve
+├─ ) ........... ends the outer combination
+└─ evaluates to  14</code></pre>
+<p>The operand <code>(* 3 4)</code> is itself a call expression, so it must be evaluated first, to <code>12</code>, before the outer <code>+</code> can add <code>2</code> and <code>12</code>. Notice that you never consulted a precedence table. The parentheses did that job.</p>
+</div></section>
+<section id='prefix-notation-as-a-tree' class='ls ls-default'>
+<h2 class='ls-h'><span>Prefix Notation as a Tree</span></h2>
+<div class='ls-body'>
+<p>Now the official example. In Python the expression below leans on precedence and on a pair of parentheses to fix the order:</p>
+<pre class='code text'><code>3 * 5 + (10 - 6)</code></pre>
+<p>Scheme writes the same computation with every operator&#x27;s operands made explicit:</p>
+<pre class='code scheme'><code>(+ (* 3 5) (- 10 6))</code></pre>
+<p>Walk the tokens of the outer line.</p>
+<pre class='code anatomy'><code>(+ (* 3 5) (- 10 6))
+├─ ( ........... begins the outer combination
+├─ + ........... operator: the addition procedure
+├─ (* 3 5) ..... first operand: an inner combination, fifteen
+├─ (- 10 6) .... second operand: an inner combination, four
+├─ ) ........... ends the outer combination
+└─ evaluates to  19</code></pre>
+<p>Each operand is itself a combination, so the structure is really a tree. The outer operator <code>+</code> sits at the top, and its two operands hang below it as their own little trees:</p>
+<pre class='code text'><code>          +
+        /   \
+       *     -
+      / \   / \
+     3   5 10  6</code></pre>
+<p>The interpreter works from the inside out:</p>
+<pre class='code text'><code>(* 3 5)    -&gt; 15
+(- 10 6)   -&gt; 4
+(+ 15 4)   -&gt; 19</code></pre>
+<p>The mental model that matters is that parentheses mark exact sub-expression boundaries. The interpreter never has to guess where the multiplication ends and the addition begins. The parentheses show it.</p>
+</div></section>
+<section id='expressions-can-span-several-lines' class='ls ls-default'>
+<h2 class='ls-h'><span>Expressions Can Span Several Lines</span></h2>
+<div class='ls-body'>
+<p>A combination does not end until its parentheses close, so the interpreter ignores line breaks inside it. That lets a long expression be laid out in a readable vertical shape. Here is the nested example from the original text, with its exact indentation:</p>
+<p>The figure below traces this deeply nested expression as it collapses from the inside out to 57.</p>
+<p><img class="figure" src="figures/expression-tree-eval.svg" alt="Expression tree for the deeply nested Scheme combination, showing each subexpression collapsing inside-out to the final value of 57"></p>
+<pre class='code scheme'><code>(+ (* 3
+      (+ (* 2 4)
+         (+ 3 5)))
+   (+ (- 10 7)
+      6))</code></pre>
+<p>Do not try to read it all at once. Read the outermost layer first. It is an addition of two operands:</p>
+<pre class='code text'><code>(+ left-part right-part)</code></pre>
+<p>The left part is everything in the first big group:</p>
+<pre class='code text'><code>(* 3 (+ (* 2 4) (+ 3 5)))</code></pre>
+<p>The right part is the second group:</p>
+<pre class='code text'><code>(+ (- 10 7) 6)</code></pre>
+<p>Now collapse the small pieces from the inside out:</p>
+<pre class='code text'><code>(* 2 4)        -&gt; 8
+(+ 3 5)        -&gt; 8
+(+ 8 8)        -&gt; 16
+(* 3 16)       -&gt; 48
+(- 10 7)       -&gt; 3
+(+ 3 6)        -&gt; 9
+(+ 48 9)       -&gt; 57</code></pre>
+<p>That slow collapse is the skill this section is really teaching. Find the matching parentheses, identify the operator, evaluate each operand, and only then apply the operator. Indentation helps a human eye, but the parentheses are what determine the grouping.</p>
+</div></section>
+<section id='primitive-and-combined-expressions' class='ls ls-default'>
+<h2 class='ls-h'><span>Primitive and Combined Expressions</span></h2>
+<div class='ls-body'>
+<p>Scheme expressions come in two kinds. A <strong>primitive</strong> expression is already a basic value or name and needs no further breaking down:</p>
+<pre class='code scheme'><code>3</code></pre>
+<p>A <strong>combined</strong> expression is built from smaller expressions inside parentheses:</p>
+<pre class='code scheme'><code>(+ 1 2)</code></pre>
+<p>For the combined case, the normal call rule applies, and it is exactly the rule stated earlier.</p>
+<pre class='code text'><code>1. Evaluate the operator expression.
+2. Evaluate the operand expressions.
+3. Apply the operator&#x27;s value to the operands&#x27; values.</code></pre>
+<p>For <code>(+ 1 2)</code>, the operator <code>+</code> evaluates to the addition procedure, the operands <code>1</code> and <code>2</code> evaluate to the numbers one and two, and applying addition to them produces <code>3</code>.</p>
+</div></section>
+<section id='comparisons-and-boolean-values' class='ls ls-default'>
+<h2 class='ls-h'><span>Comparisons and Boolean Values</span></h2>
+<div class='ls-body'>
+<p>Comparison operators also use prefix notation. Here is the official comparison example:</p>
+<pre class='code scheme'><code>(&gt;= 2 1)</code></pre>
+<p>Walk the tokens.</p>
+<pre class='code anatomy'><code>(&gt;= 2 1)
+├─ ( ........... begins the combination
+├─ &gt;= .......... operator: the &quot;greater than or equal&quot; comparison
+├─ 2 ........... first operand
+├─ 1 ........... second operand
+├─ ) ........... ends the combination
+└─ evaluates to  #t</code></pre>
+<p>Two is greater than or equal to one, so the result is the boolean true. Scheme writes the two boolean values like this:</p>
+<pre class='code text'><code>#t    or    true
+#f    or    false</code></pre>
+<p>You will use comparisons constantly as the test inside an <code>if</code>, so it helps to read them out loud: <code>(&gt;= 2 1)</code> is &quot;is two greater than or equal to one,&quot; and the answer is yes.</p>
+</div></section>
+<section id='special-forms-when-the-normal-rule-does-not-apply' class='ls ls-default'>
+<h2 class='ls-h'><span>Special Forms: When the Normal Rule Does Not Apply</span></h2>
+<div class='ls-body'>
+<p>Some expressions are written like combinations but deliberately break the normal call rule. The original text calls these <strong>special forms</strong>. The defining trait is that a special form does not have to evaluate all of its sub-expressions. It has its own rule.</p>
+<p>The first special form is <code>if</code>, whose general shape is:</p>
+<pre class='code scheme'><code>(if &lt;predicate&gt; &lt;consequent&gt; &lt;alternative&gt;)</code></pre>
+<p>The words in angle brackets are placeholders, not literal Scheme you type. The <code>&lt;predicate&gt;</code> is the test. If it evaluates to a true value, the interpreter evaluates the <code>&lt;consequent&gt;</code> and returns its value; otherwise it evaluates the <code>&lt;alternative&gt;</code> and returns that. The crucial part is that only one of the two branches is ever evaluated.</p>
+<p>Here is a concrete <code>if</code>. Walk its tokens.</p>
+<pre class='code scheme'><code>(if (&gt; 5 2) 10 20)</code></pre>
+<pre class='code anatomy'><code>(if (&gt; 5 2) 10 20)
+├─ if .......... special form: choose one branch by a test
+├─ (&gt; 5 2) ..... predicate: evaluates to #t
+├─ 10 .......... consequent: evaluated only when the predicate is true
+├─ 20 .......... alternative: skipped when the predicate is true
+└─ evaluates to  10</code></pre>
+<p>Because the predicate is true, the interpreter evaluates <code>10</code> and never touches <code>20</code>. If <code>if</code> were an ordinary call, it would evaluate all three of <code>(&gt; 5 2)</code>, <code>10</code>, and <code>20</code> before deciding, and that eagerness would wreck many programs you will write later. In a recursive procedure the unused branch often contains a recursive call that must not run once the base case is reached. The special-form rule for <code>if</code> is what keeps that recursive call from firing.</p>
+<p>The boolean operators <code>and</code> and <code>or</code> are also special forms, and <code>not</code> is an ordinary procedure-like operator on a single value. Their general shapes are:</p>
+<pre class='code scheme'><code>(and &lt;e1&gt; ... &lt;en&gt;)
+(or &lt;e1&gt; ... &lt;en&gt;)
+(not &lt;e&gt;)</code></pre>
+<p>What makes <code>and</code> and <code>or</code> special is <strong>short-circuit evaluation</strong>. They check their expressions from left to right and stop as soon as the answer is settled. For <code>and</code>, if any expression evaluates to false, the whole <code>and</code> is false and the remaining expressions are not evaluated. For <code>or</code>, if any expression evaluates to a true value, that value is returned as the value of the whole <code>or</code> and the remaining expressions are not evaluated.</p>
+<p>Here is an <code>and</code> over two comparisons. Walk its tokens.</p>
+<pre class='code scheme'><code>(and (&gt; 4 2) (&lt; 3 5))</code></pre>
+<pre class='code anatomy'><code>(and (&gt; 4 2) (&lt; 3 5))
+├─ and ......... special form: true only if every operand is true
+├─ (&gt; 4 2) ..... first operand: #t, so keep checking
+├─ (&lt; 3 5) ..... second operand: #t, the last operand
+└─ evaluates to  #t</code></pre>
+<p>Here is an <code>or</code>, which can stop after the first true operand.</p>
+<pre class='code scheme'><code>(or (= 3 4) (&gt; 10 2))</code></pre>
+<pre class='code anatomy'><code>(or (= 3 4) (&gt; 10 2))
+├─ or .......... special form: true if any operand is true
+├─ (= 3 4) ..... first operand: #f, so keep checking
+├─ (&gt; 10 2) .... second operand: #t, so stop here and return it
+└─ evaluates to  #t</code></pre>
+<p>And <code>not</code>, which simply flips a single truth value.</p>
+<pre class='code scheme'><code>(not (= 3 4))</code></pre>
+<pre class='code anatomy'><code>(not (= 3 4))
+├─ not ......... flips its single operand&#x27;s truth value
+├─ (= 3 4) ..... operand: three is not four, so #f
+└─ evaluates to  #t</code></pre>
+</div></section>
+<section id='the-basics-of-define' class='ls ls-default'>
+<h2 class='ls-h'><span>The Basics of define</span></h2>
+<div class='ls-body'>
+<p>So far every expression has computed a value and thrown it away. To keep a value around and reuse it, you give it a name with the <code>define</code> special form. In its simplest shape, <code>define</code> binds a name to a value:</p>
+<pre class='code scheme'><code>(define &lt;name&gt; &lt;value&gt;)</code></pre>
+<p>This is a special form, not a normal call, because the <code>&lt;name&gt;</code> must not be evaluated. You are not asking for the current value of <code>pi</code>; you are declaring what <code>pi</code> should mean. Here is the official example.</p>
+<pre class='code scheme'><code>(define pi 3.14)</code></pre>
+<p>Walk its tokens. The final row gives the action, because a definition performs an action rather than producing a value to print.</p>
+<pre class='code anatomy'><code>(define pi 3.14)
+├─ define ...... special form: bind a name to a value
+├─ pi .......... the name being defined (not evaluated)
+├─ 3.14 ........ the value expression, evaluated to 3.14
+└─ action: binds the name pi to 3.14 in the current environment</code></pre>
+<p>Once a name is bound, you can use it like any other expression. Using <code>pi</code> in a combination evaluates to the value it was bound to:</p>
+<pre class='code scheme'><code>(* pi 2)</code></pre>
+<pre class='code anatomy'><code>(* pi 2)
+├─ ( ........... begins the combination
+├─ * ........... operator: the multiplication procedure
+├─ pi .......... first operand: looks up pi, finds 3.14
+├─ 2 ........... second operand: the number two
+├─ ) ........... ends the combination
+└─ evaluates to  6.28</code></pre>
+<p>The name <code>pi</code> is not the value. It is a label that points to <code>3.14</code>, and when <code>pi</code> appears as an operand the interpreter looks up that binding and uses the value it finds.</p>
+<p><code>define</code> has a second shape that creates a <strong>procedure</strong> in one step. This is the form you will use constantly once Scheme procedures arrive in full. The next packet in this section goes much deeper into defining procedures; here the two procedures below are a gentle preview, not a mastery target, and the goal is only that you can bind a name to a procedure and read a body that uses <code>if</code>.</p>
+<pre class='code scheme'><code>(define (&lt;name&gt; &lt;formal parameters&gt;) &lt;body&gt;)</code></pre>
+<p>Here the thing right after <code>define</code> is itself a parenthesized list: the procedure&#x27;s name followed by its parameter names. The <code>&lt;body&gt;</code> is the expression that runs when the procedure is called, with the parameters standing in for the arguments. The official absolute-value procedure uses this shape together with the <code>if</code> special form:</p>
+<pre class='code scheme'><code>(define (abs x)
+    (if (&lt; x 0)
+        (- x)
+        x))</code></pre>
+<p>Read it as a definition whose body is a single <code>if</code>. The parameter is <code>x</code>. The predicate <code>(&lt; x 0)</code> asks whether <code>x</code> is negative. If it is, the consequent <code>(- x)</code> negates <code>x</code> to make it positive; otherwise the alternative is just <code>x</code> itself. Once this is defined, the original text shows the call:</p>
+<pre class='code text'><code>&gt; (abs -3)
+3</code></pre>
+<p>Tracing that call shows both the procedure form and the <code>if</code> special form working together. Applying <code>abs</code> to <code>-3</code> binds <code>x</code> to <code>-3</code>, then evaluates the body:</p>
+<pre class='code text'><code>(&lt; x 0)   -&gt;   (&lt; -3 0)   -&gt;   #t       predicate is true
+(- x)     -&gt;   (- -3)     -&gt;   3        evaluate the consequent only
+(abs -3)             -&gt;     3           the call returns 3</code></pre>
+<p>The alternative branch <code>x</code> is never evaluated, which is exactly the special-form behavior of <code>if</code>.</p>
+<p>A second official procedure, <code>average</code>, uses the same definition shape with two parameters and no <code>if</code>:</p>
+<pre class='code scheme'><code>(define (average x y)
+  (/ (+ x y) 2))</code></pre>
+<p>The body divides the sum of <code>x</code> and <code>y</code> by <code>2</code>. The original text shows the call:</p>
+<pre class='code text'><code>&gt; (average 1 3)
+2</code></pre>
+<p>Tracing it, the arguments bind <code>x</code> to <code>1</code> and <code>y</code> to <code>3</code>, and the body computes from the inside out:</p>
+<pre class='code text'><code>(+ x y)            -&gt;   (+ 1 3)   -&gt;   4
+(/ 4 2)                            -&gt;   2
+(average 1 3)                      -&gt;   2</code></pre>
+<p>These two procedures are your first complete <code>define</code> examples. The next packet in this section goes much deeper into defining procedures, lambda, and scope; here the goal is only that you can bind a name to a value, bind a name to a procedure, and read a body that uses <code>if</code>.</p>
+</div></section>
+<section id='a-short-modeling-aside' class='ls ls-default'>
+<h2 class='ls-h'><span>A Short Modeling Aside</span></h2>
+<div class='ls-body'>
+<p>Short-circuit evaluation is not unique to Scheme. Python&#x27;s <code>and</code> and <code>or</code> stop early in the same way, which makes Python a convenient place to watch the behavior. The next block is a Python <strong>model</strong> of the idea, not Scheme. It is here only to make the left-to-right stopping rule concrete.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">record</span><span style="color: #657b83">(value,</span> <span style="color: #657b83">label):</span>
+    <span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #2aa198">&quot;checking&quot;</span><span style="color: #657b83">,</span> <span style="color: #657b83">label)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">value</span>
+
+
+<span style="color: #268bd2">print</span><span style="color: #657b83">(record(</span><span style="color: #2aa198">False</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;first&quot;</span><span style="color: #657b83">)</span> <span style="color: #859900">and</span> <span style="color: #657b83">record(</span><span style="color: #2aa198">True</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;second&quot;</span><span style="color: #657b83">))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(record(</span><span style="color: #2aa198">True</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;third&quot;</span><span style="color: #657b83">)</span> <span style="color: #859900">or</span> <span style="color: #657b83">record(</span><span style="color: #2aa198">False</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;fourth&quot;</span><span style="color: #657b83">))</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/e6bea6e53d04.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>The expected output is:</p>
+<pre class='code text'><code>checking first
+False
+checking third
+True</code></pre>
+<p>The skipped labels are the lesson. In the first line, Python never checks <code>&quot;second&quot;</code> because <code>and</code> already knows the result is false once the first operand is false. In the second line, Python never checks <code>&quot;fourth&quot;</code> because <code>or</code> already knows the result is true once the first operand is true. Scheme&#x27;s <code>and</code> and <code>or</code> follow the same left-to-right stopping rule, and so does the way <code>if</code> evaluates only its chosen branch.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<p>Reading Scheme left to right like English. In <code>(+ (* 3 5) (- 10 6))</code> the first visible symbol is <code>+</code>, but the multiplication and subtraction operands have to be evaluated before the outer addition can happen. Read the tree, not the line.</p>
+<p>Treating every parenthesized expression as a normal call. <code>if</code>, <code>and</code>, <code>or</code>, and <code>define</code> are special forms with their own rules. Most importantly, they do not promise to evaluate every sub-expression. If you assume <code>if</code> evaluates all three sub-expressions, you expect the unused branch to run, and in a recursive procedure that means the base case never stops the recursion.</p>
+<p>Forgetting that the operator comes first. Python writes <code>2 + 3</code>. Scheme writes <code>(+ 2 3)</code>. When you translate, move the operator to the front and wrap the whole call in parentheses.</p>
+<p>Expecting a <code>define</code> to print a value. A definition performs an action, binding a name. It does not produce a value the way <code>(* pi 2)</code> does.</p>
+<p>Losing track of matching parentheses. Indentation is for human readers. The parentheses are what determine the grouping, so when an expression misbehaves, count them.</p>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>In <code>(quotient 10 2)</code>, which token is the operator, and what does it name?</li>
+<li>Evaluate <code>(* (+ 2 4) (- 8 3))</code> from the inside out. What value does each inner combination produce, and what is the final value?</li>
+<li>In <code>(+ (* 3 5) (- 10 6))</code>, which expressions must be evaluated before the outer <code>+</code> can be applied, and what is the final value?</li>
+<li>Why is <code>if</code> a special form rather than an ordinary call expression?</li>
+<li>What does it mean for <code>and</code> or <code>or</code> to short-circuit, and what does each one return when it stops?</li>
+<li>What is the difference between <code>(define pi 3.14)</code> and <code>(* pi 2)</code> in terms of what each one does?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li>The operator is <code>quotient</code>; it names the built-in integer-division procedure that is applied to <code>10</code> and <code>2</code>, giving <code>5</code>.</li>
+<li>The inner combination <code>(+ 2 4)</code> produces <code>6</code> and <code>(- 8 3)</code> produces <code>5</code>; the outer <code>*</code> then multiplies them to <code>30</code>.</li>
+<li>Both <code>(* 3 5)</code> and <code>(- 10 6)</code> must be evaluated first, to <code>15</code> and <code>4</code>; the outer <code>+</code> then adds them to <code>19</code>.</li>
+<li>Because <code>if</code> evaluates only the selected branch. An ordinary call would evaluate all of its operands before applying the operator, which would defeat the purpose of choosing a branch.</li>
+<li>It means the form stops as soon as the result is settled, checking operands left to right. <code>and</code> returns false at the first false operand; <code>or</code> returns the first true value it finds.</li>
+<li><code>(define pi 3.14)</code> performs an action: it binds the name <code>pi</code> to the value <code>3.14</code> and prints nothing. <code>(* pi 2)</code> is an expression: it looks up <code>pi</code>, multiplies by <code>2</code>, and evaluates to <code>6.28</code>.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>Scheme programs are built from expressions. A primitive expression is already a value or a name; a combined expression, or combination, is written in prefix notation with the operator first, then its operands, all inside parentheses. The interpreter evaluates a normal combination by evaluating the operator and the operands and then applying the operator&#x27;s procedure to the operands&#x27; values, which means nested expressions are read from the inside out along the tree the parentheses define. Special forms break that rule on purpose: <code>if</code> evaluates only the branch its predicate selects, and <code>and</code> and <code>or</code> stop as soon as the result is known. The <code>define</code> special form binds a name, either to a value with <code>(define &lt;name&gt; &lt;value&gt;)</code> or to a procedure with <code>(define (&lt;name&gt; &lt;formal parameters&gt;) &lt;body&gt;)</code>. The central skill for this section is to stop reading Scheme as a flat line of text and start reading it as a tree of expressions whose boundaries the parentheses make exact.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>The block below is a self-contained Python <strong>model</strong> of the lesson&#x27;s core idea: an interpreter evaluating a small expression tree, with names bound in an environment and <code>if</code> handled as a special form. This model uses a couple of tools you have not formally met yet (a function that calls itself, and <code>lambda</code>); you do not need to understand how they work to follow the trace. Just watch which expressions get evaluated and which get skipped. Stepping through it draws the <strong>environment diagram</strong> the recursion builds: the interpreter calls <code>scheme_eval</code> once for each node of the tree (each call is one running copy of the function), every copy points at the single global <code>env</code> dictionary mapping <code>&#x27;pi&#x27;</code> to <code>3.14</code>, and the <code>PROCEDURES</code> table holds the lambda objects that each combination (operator) node applies, while leaf calls just return a number or look up a name in <code>env</code> and apply no procedure at all. Before you step through it, write down three predictions: how many <code>scheme_eval</code> frames open while the second <code>print</code> line runs, whether <code>100</code> ever gets a frame of its own, and what the last line prints.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">scheme_eval</span><span style="color: #657b83">(expr,</span> <span style="color: #657b83">env):</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(expr,</span> <span style="color: #657b83">(</span><span style="color: #268bd2">int</span><span style="color: #657b83">,</span> <span style="color: #268bd2">float</span><span style="color: #657b83">)):</span>     <span style="color: #93a1a1; font-style: italic"># a primitive number</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">expr</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(expr,</span> <span style="color: #268bd2">str</span><span style="color: #657b83">):</span>              <span style="color: #93a1a1; font-style: italic"># a name: look it up</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">env[expr]</span>
+    <span style="color: #657b83">operator</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">expr[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">operator</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;if&#39;</span><span style="color: #657b83">:</span>                   <span style="color: #93a1a1; font-style: italic"># special form: one branch only</span>
+        <span style="color: #657b83">_,</span> <span style="color: #657b83">predicate,</span> <span style="color: #657b83">consequent,</span> <span style="color: #657b83">alternative</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">expr</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">scheme_eval(predicate,</span> <span style="color: #657b83">env):</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">scheme_eval(consequent,</span> <span style="color: #657b83">env)</span>
+        <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">scheme_eval(alternative,</span> <span style="color: #657b83">env)</span>
+    <span style="color: #657b83">args</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[scheme_eval(operand,</span> <span style="color: #657b83">env)</span> <span style="color: #859900">for</span> <span style="color: #657b83">operand</span> <span style="color: #859900">in</span> <span style="color: #657b83">expr[</span><span style="color: #2aa198">1</span><span style="color: #657b83">:]]</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">PROCEDURES[operator](</span><span style="color: #93a1a1">*</span><span style="color: #657b83">args)</span>     <span style="color: #93a1a1; font-style: italic"># normal call: apply to args</span>
+
+
+<span style="color: #657b83">PROCEDURES</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">{</span>
+    <span style="color: #2aa198">&#39;+&#39;</span><span style="color: #657b83">:</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">a,</span> <span style="color: #657b83">b:</span> <span style="color: #657b83">a</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">b,</span>
+    <span style="color: #2aa198">&#39;*&#39;</span><span style="color: #657b83">:</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">a,</span> <span style="color: #657b83">b:</span> <span style="color: #657b83">a</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">b,</span>
+    <span style="color: #2aa198">&#39;-&#39;</span><span style="color: #657b83">:</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">a,</span> <span style="color: #657b83">b:</span> <span style="color: #657b83">a</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">b,</span>
+    <span style="color: #2aa198">&#39;&lt;&#39;</span><span style="color: #657b83">:</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">a,</span> <span style="color: #657b83">b:</span> <span style="color: #657b83">a</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #657b83">b,</span>
+<span style="color: #657b83">}</span>
+
+<span style="color: #657b83">env</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">{</span><span style="color: #2aa198">&#39;pi&#39;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">3.14</span><span style="color: #657b83">}</span>
+
+<span style="color: #268bd2">print</span><span style="color: #657b83">(scheme_eval([</span><span style="color: #2aa198">&#39;*&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;pi&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">],</span> <span style="color: #657b83">env))</span>                      <span style="color: #93a1a1; font-style: italic"># models (* pi 2)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(scheme_eval([</span><span style="color: #2aa198">&#39;+&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">[</span><span style="color: #2aa198">&#39;*&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">],</span> <span style="color: #657b83">[</span><span style="color: #2aa198">&#39;-&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">,</span> <span style="color: #2aa198">6</span><span style="color: #657b83">]],</span> <span style="color: #657b83">env))</span>    <span style="color: #93a1a1; font-style: italic"># models (+ (* 3 5) (- 10 6))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(scheme_eval([</span><span style="color: #2aa198">&#39;if&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">[</span><span style="color: #2aa198">&#39;&lt;&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">],</span> <span style="color: #2aa198">100</span><span style="color: #657b83">,</span> <span style="color: #2aa198">200</span><span style="color: #657b83">],</span> <span style="color: #657b83">env))</span>       <span style="color: #93a1a1; font-style: italic"># models an if</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/812d4870d47a.json' data-mount='st1'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st1' hidden></div></figure>
+<p>Step through it one line at a time and check each prediction as the frames appear. You should see <code>scheme_eval</code> open one frame per node of the tree, seven in all for the second line, with the name <code>pi</code> resolved by looking it up in <code>env</code>. On the last line the predicate is false, so the <code>if</code> case evaluates only the alternative: <code>100</code> never gets a frame, and the line prints <code>200</code>. The unused branch is never touched, which is exactly the special-form behavior this lesson is about.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>3.1-A Programs, Languages, and Interpreters</span></a><a class='pg pg-next' href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>3.2-B Definitions, Procedures, and Lexical Scope</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#requests-written-in-a-new-grammar'>Requests Written in a New Grammar</a></li><li><a href='#why-scheme-belongs-in-this-course'>Why Scheme Belongs in This Course</a></li><li><a href='#the-shape-of-a-call-expression'>The Shape of a Call Expression</a></li><li><a href='#a-warm-up-before-the-nesting-gets-deep'>A Warm-Up Before the Nesting Gets Deep</a></li><li><a href='#prefix-notation-as-a-tree'>Prefix Notation as a Tree</a></li><li><a href='#expressions-can-span-several-lines'>Expressions Can Span Several Lines</a></li><li><a href='#primitive-and-combined-expressions'>Primitive and Combined Expressions</a></li><li><a href='#comparisons-and-boolean-values'>Comparisons and Boolean Values</a></li><li><a href='#special-forms-when-the-normal-rule-does-not-apply'>Special Forms: When the Normal Rule Does Not Apply</a></li><li><a href='#the-basics-of-define'>The Basics of define</a></li><li><a href='#a-short-modeling-aside'>A Short Modeling Aside</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

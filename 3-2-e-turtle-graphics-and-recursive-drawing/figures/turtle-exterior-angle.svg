@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 360" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- ===== First solid side: the turtle travels east into the vertex ===== -->
+  <line x1="110" y1="95" x2="360" y2="95" stroke="#073642" stroke-width="2.5"/>
+
+  <!-- turtle heading: blue arrowhead riding on the first side, pointing toward the vertex -->
+  <polygon points="250,95 238,89 238,101" fill="#268bd2"/>
+  <text x="238" y="77" text-anchor="middle" font-size="13" fill="#268bd2">heading</text>
+
+  <!-- ===== Dashed continuation: the straight path if the turtle did not turn ===== -->
+  <line x1="360" y1="95" x2="545" y2="95" stroke="#93a1a1" stroke-width="2" stroke-dasharray="7 6"/>
+  <polygon points="557,95 548,89 548,101" fill="#93a1a1"/>
+  <text x="466" y="70" text-anchor="start" font-size="12" fill="#93a1a1">if it did not turn,</text>
+  <text x="466" y="86" text-anchor="start" font-size="12" fill="#93a1a1">it keeps going straight</text>
+
+  <!-- ===== Second solid side: after turning right by the exterior angle ===== -->
+  <line x1="360" y1="95" x2="411" y2="252" stroke="#073642" stroke-width="2.5"/>
+
+  <!-- vertex (the corner) -->
+  <circle cx="360" cy="95" r="4" fill="#073642"/>
+
+  <!-- ===== Interior angle: faint arc inside the shape, flagged as the trap ===== -->
+  <path d="M 377.3 148.3 A 56 56 0 0 1 304 95" fill="none" stroke="#93a1a1" stroke-width="2"/>
+  <line x1="327" y1="141" x2="262" y2="194" stroke="#93a1a1" stroke-width="1.5"/>
+  <text x="150" y="200" text-anchor="start" font-size="13" fill="#dc322f">interior angle</text>
+  <text x="150" y="218" text-anchor="start" font-size="12" fill="#93a1a1">(not what you turn by)</text>
+
+  <!-- ===== Exterior angle: the turn, the change in heading (the result, cyan) ===== -->
+  <path d="M 432 95 A 72 72 0 0 1 382.2 163.5" fill="none" stroke="#2aa198" stroke-width="2.5"/>
+  <line x1="419" y1="137" x2="486" y2="150" stroke="#2aa198" stroke-width="2"/>
+  <text x="490" y="146" text-anchor="start" font-size="13" fill="#2aa198">exterior angle =</text>
+  <text x="490" y="164" text-anchor="start" font-size="13" fill="#2aa198">how much the heading turns</text>
+
+  <!-- shape note -->
+  <text x="470" y="250" text-anchor="start" font-size="12" fill="#93a1a1">one corner of a regular polygon</text>
+
+  <!-- ===== Caption ===== -->
+  <text x="350" y="326" text-anchor="middle" font-size="13" fill="#93a1a1">the turtle turns by the EXTERIOR angle - the change in its heading -</text>
+  <text x="350" y="344" text-anchor="middle" font-size="13" fill="#93a1a1">not the interior angle of the shape.</text>
+</svg>

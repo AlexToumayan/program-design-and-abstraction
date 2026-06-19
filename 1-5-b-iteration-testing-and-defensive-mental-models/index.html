@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>1.5 Control: Iteration, Testing, and Defensive Mental Models · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/' class='active'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 1</span><span class='dot'>/</span><span class='eb-sec'>1.5 Control</span></div><h1 class='lesson-title'>1.5 Control: Iteration, Testing, and Defensive Mental Models</h1><div class='reading-meta'>&#9719; approx. 17 min read <span class='rm-sep'>&middot;</span> 16 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>By the end of this lesson you will be able to do four things: write a <code>while</code> loop that repeats work and reliably stops, build the Fibonacci sequence with a small two-number window, trace a loop by hand so you can predict its result before you run it, and turn your expectations about a function into checks the machine performs for you using assertions and doctests.</p>
+<p>The unifying habit is defensive: a loop or a test is only trustworthy if you can say, out loud, why it does what you claim. We will keep separating each loop into its smallest moving parts and asking the same two questions every time: what changes on each pass, and why will the loop eventually finish?</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='repetition-gives-computers-their-power' class='ls ls-default'>
+<h2 class='ls-h'><span>Repetition Gives Computers Their Power</span></h2>
+<div class='ls-body'>
+<p>If every line of code could run only once, a computer would be little more than a fast calculator. The real leverage comes from repetition: a small set of instructions carried out many times, without fatigue and without drift. You have already met one form of repetition, since a function written once can be called again and again. A loop is the other form. It runs the same statements many times inside a single call.</p>
+<p>A <code>while</code> loop expresses one plain idea:</p>
+<pre class='code text'><code>As long as this condition is true, keep running this suite.</code></pre>
+<p>So a loop always needs two cooperating pieces:</p>
+<ul>
+<li>a condition that decides whether the loop keeps going</li>
+<li>a body that makes progress toward making that condition false</li>
+</ul>
+<p>Drop the second piece and the loop never ends.</p>
+<p>A loop is like a turnstile with a question posted above it. Every time the program arrives back at the top of the loop, it asks the question again. If the answer is yes, it passes through the turnstile and runs the body once more. If the answer is no, it leaves the loop and moves on.</p>
+<p>That picture rules out a common misreading. A loop is not a one-time <code>if</code>. The condition is re-checked after every pass, not just once at the start. For the answer to ever change, the body has to change the program&#x27;s state, so that the same question can eventually get a different answer.</p>
+</div></section>
+<section id='the-anatomy-of-while' class='ls ls-default'>
+<h2 class='ls-h'><span>The Anatomy of while</span></h2>
+<div class='ls-body'>
+<p>In Composing Programs, a <code>while</code> clause is described as a header expression followed by a suite. The general form is:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #859900">while</span> <span style="color: #93a1a1">&lt;</span><span style="color: #657b83">expression</span><span style="color: #93a1a1">&gt;</span><span style="color: #657b83">:</span>
+    <span style="color: #93a1a1">&lt;</span><span style="color: #657b83">suite</span><span style="color: #93a1a1">&gt;</span>
+</code></pre>
+<p>Follow the line and name what each part does:</p>
+<pre class='code anatomy'><code>while &lt;expression&gt;:
+├─ while ......... begins a loop that may repeat its suite many times
+├─ &lt;expression&gt; .. the condition, tested before every pass
+├─ : ............. ends the header and announces the indented suite
+├─ &lt;suite&gt; ....... the statements that run on each pass
+└─ performs ...... runs the suite repeatedly until the condition is false</code></pre>
+<p>The execution rule from the text is just two steps, with an implied return to the top:</p>
+<pre class='code text'><code>1. Evaluate the header&#x27;s expression.
+2. If it is a true value, execute the suite, then return to step 1.</code></pre>
+<p>Two consequences of that rule are worth fixing in your mind now. First, the entire suite of the <code>while</code> clause is executed before the header expression is evaluated again; Python does not re-check the condition in the middle of a pass. Second, to keep the suite from running forever, the suite should always change some binding on each pass. A <code>while</code> statement that never finishes is called an infinite loop, and you can force Python to stop it by pressing Control-C.</p>
+<p>Drawn as a flowchart, that implied return to the top becomes a visible loop: the condition is checked, the body runs, and control travels right back up to check the condition again.</p>
+<p><img class="figure" src="figures/while-loop-flow.svg" alt="A flowchart of a while loop. A diamond labeled condition true asks the question. A blue True arrow leads down to a box labeled run the body, and a thick blue arrow loops from the body back up to the diamond to check the condition again. A cyan False arrow leads from the diamond to a box labeled continue after the loop."></p>
+</div></section>
+<section id='a-smaller-loop-before-fibonacci' class='ls ls-default'>
+<h2 class='ls-h'><span>A Smaller Loop Before Fibonacci</span></h2>
+<div class='ls-body'>
+<p>The Fibonacci loop juggles three changing names at once. Before taking that on, it helps to run a loop that changes only a single value, so the machine model stays small and you can watch one thing move.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">count_up_to</span><span style="color: #657b83">(n):</span>
+    <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">&lt;=</span> <span style="color: #657b83">n:</span>
+        <span style="color: #268bd2">print</span><span style="color: #657b83">(k)</span>
+        <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+</code></pre>
+<p>Calling it:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #657b83">count_up_to(</span><span style="color: #2aa198">4</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>displays:</p>
+<pre class='code text'><code>1
+2
+3
+4</code></pre>
+<p>When the call begins, the local frame holds:</p>
+<pre class='code text'><code>n -&gt; 4
+k -&gt; 1</code></pre>
+<p>Every pass asks the same question at the top of the loop:</p>
+<pre class='code text'><code>Is k &lt;= n?</code></pre>
+<p>If the answer is true, the body runs these two statements in order:</p>
+<pre class='code text'><code>print(k)
+k = k + 1</code></pre>
+<p>Trace it slowly, one pass per line:</p>
+<pre class='code text'><code>k = 1: 1 &lt;= 4 is true, print 1, k becomes 2
+k = 2: 2 &lt;= 4 is true, print 2, k becomes 3
+k = 3: 3 &lt;= 4 is true, print 3, k becomes 4
+k = 4: 4 &lt;= 4 is true, print 4, k becomes 5
+k = 5: 5 &lt;= 4 is false, stop</code></pre>
+<p>That is the simplest loop pattern there is:</p>
+<pre class='code text'><code>start a counter
+repeat while the counter is still in range
+change the counter so the loop can eventually stop</code></pre>
+<p>The third line is the one beginners forget, and it is exactly the binding-change the text insists every suite must make.</p>
+</div></section>
+<section id='adding-a-running-total' class='ls ls-default'>
+<h2 class='ls-h'><span>Adding a Running Total</span></h2>
+<div class='ls-body'>
+<p>Now add one more changing value alongside the counter. The counter still controls when to stop, and a second name accumulates a result.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (4)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">sum_first_n</span><span style="color: #657b83">(n):</span>
+    <span style="color: #657b83">total</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+    <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">&lt;=</span> <span style="color: #657b83">n:</span>
+        <span style="color: #657b83">total</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">total</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">k</span>
+        <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">total</span>
+</code></pre>
+<p>Calling:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (5)</span>
+<span style="color: #657b83">sum_first_n(</span><span style="color: #2aa198">4</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>computes:</p>
+<div class='math'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">4</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10</span></span></span></span></span></div>
+<p>Trace the local frame, watching both <code>total</code> and <code>k</code> move:</p>
+<pre class='code text'><code>Start:
+n -&gt; 4
+total -&gt; 0
+k -&gt; 1
+
+Pass 1:
+total = total + k -&gt; 0 + 1 -&gt; 1
+k = k + 1 -&gt; 2
+
+Pass 2:
+total = total + k -&gt; 1 + 2 -&gt; 3
+k = k + 1 -&gt; 3
+
+Pass 3:
+total = total + k -&gt; 3 + 3 -&gt; 6
+k = k + 1 -&gt; 4
+
+Pass 4:
+total = total + k -&gt; 6 + 4 -&gt; 10
+k = k + 1 -&gt; 5
+
+Stop because 5 &lt;= 4 is false.
+Return 10.</code></pre>
+<p>This is the on-ramp to Fibonacci, because Fibonacci also carries values forward across passes. The one difference is what it remembers: <code>sum_first_n</code> keeps a single running total, while Fibonacci needs the two most recent values.</p>
+<p>The running total also gives us our first loop invariant in plain language:</p>
+<pre class='code text'><code>After each pass, total holds the sum of the numbers already processed.</code></pre>
+<p>An invariant is a fact you expect to stay meaningfully true while the loop runs. For <code>sum_first_n</code>, the exact number stored in <code>total</code> changes every pass, but its meaning does not: it is always &quot;the sum so far.&quot; Fibonacci will rely on the same idea, giving stable meanings to its two carried values.</p>
+</div></section>
+<section id='the-fibonacci-sequence' class='ls ls-default'>
+<h2 class='ls-h'><span>The Fibonacci Sequence</span></h2>
+<div class='ls-body'>
+<p>Composing Programs introduces iteration through the Fibonacci numbers, in which each number is the sum of the preceding two:</p>
+<pre class='code text'><code>0, 1, 1, 2, 3, 5, 8, 13, 21, ...</code></pre>
+<p>Each value is built by repeatedly applying the sum-previous-two rule. The first and second values are fixed at 0 and 1. For instance, the eighth Fibonacci number is 13.</p>
+<p>If we number the sequence by position, in the style this function uses:</p>
+<pre class='code text'><code>Fib 1 -&gt; 0
+Fib 2 -&gt; 1
+Fib 3 -&gt; 1
+Fib 4 -&gt; 2
+Fib 5 -&gt; 3
+Fib 6 -&gt; 5
+Fib 7 -&gt; 8
+Fib 8 -&gt; 13</code></pre>
+<p>The name &quot;Fibonacci&quot; can make this feel more advanced than it is. At this stage, treat it as a rule for producing the next item in a list:</p>
+<pre class='code text'><code>next item = previous item + current item</code></pre>
+<p>The hard part is not the addition. The hard part is keeping straight which two values are currently playing the roles of previous and current. That bookkeeping is what the next section makes concrete before we return to code.</p>
+</div></section>
+<section id='a-two-number-rolling-window' class='ls ls-default'>
+<h2 class='ls-h'><span>A Two-Number Rolling Window</span></h2>
+<div class='ls-body'>
+<p>The trick that makes the code small is to never hold the whole sequence at once. You only ever keep a tiny moving window of two numbers and slide it forward.</p>
+<p>Picture reading a line of numbers with two fingers:</p>
+<pre class='code text'><code>0, 1, 1, 2, 3, 5, 8, 13
+^  ^</code></pre>
+<p>The left finger sits on the previous number; the right finger sits on the current number. To take a step, first compute the next number:</p>
+<pre class='code text'><code>next = previous + current</code></pre>
+<p>Then slide both fingers one place to the right:</p>
+<pre class='code text'><code>previous becomes current
+current becomes next</code></pre>
+<p>With actual numbers:</p>
+<pre class='code text'><code>previous = 0
+current = 1
+next = 0 + 1 = 1
+
+previous becomes 1
+current becomes 1</code></pre>
+<p>One more step:</p>
+<pre class='code text'><code>previous = 1
+current = 1
+next = 1 + 1 = 2
+
+previous becomes 1
+current becomes 2</code></pre>
+<p>In the function, these two fingers have names:</p>
+<pre class='code text'><code>pred -&gt; previous Fibonacci number
+curr -&gt; current Fibonacci number</code></pre>
+<p>So Fibonacci is not some exotic new kind of loop. It is a counter loop with a two-number rolling window riding along beside it.</p>
+</div></section>
+<section id='computing-fibonacci-with-while' class='ls ls-default'>
+<h2 class='ls-h'><span>Computing Fibonacci with while</span></h2>
+<div class='ls-body'>
+<p>Here is the iterative function exactly as it appears in the text. We track which Fibonacci number <code>curr</code> currently represents (<code>k</code>), the value at that position (<code>curr</code>), and the value just before it (<code>pred</code>).</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (6)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">fib</span><span style="color: #657b83">(n):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Compute the nth Fibonacci number, for n &gt;= 2.&quot;&quot;&quot;</span>
+    <span style="color: #657b83">pred,</span> <span style="color: #657b83">curr</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span>   <span style="color: #93a1a1; font-style: italic"># Fibonacci numbers 1 and 2</span>
+    <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">2</span>               <span style="color: #93a1a1; font-style: italic"># Which Fib number is curr?</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #657b83">n:</span>
+        <span style="color: #657b83">pred,</span> <span style="color: #657b83">curr</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">curr,</span> <span style="color: #657b83">pred</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">curr</span>
+        <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">curr</span>
+
+<span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">fib(</span><span style="color: #2aa198">8</span><span style="color: #657b83">)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/dd2eb922f63e.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>The function keeps three local names, and the comments tell you their roles:</p>
+<pre class='code text'><code>pred -&gt; the previous Fibonacci number
+curr -&gt; the current Fibonacci number
+k    -&gt; which Fibonacci number curr represents</code></pre>
+<p>At the start of the call:</p>
+<pre class='code text'><code>pred -&gt; 0
+curr -&gt; 1
+k    -&gt; 2</code></pre>
+<p>In meaning, that initial state reads:</p>
+<pre class='code text'><code>pred remembers Fib 1, which is 0
+curr remembers Fib 2, which is 1
+k remembers the position of curr, which is 2</code></pre>
+<p>The loop&#x27;s whole job is to slide that meaning forward until <code>curr</code> remembers Fib <code>n</code>. The condition <code>k &lt; n</code> keeps the loop going as long as <code>curr</code> has not yet reached the requested position. The code is far easier to trust once each name has a role to defend, not just a number inside it.</p>
+<p>Follow the line on the call that drives the example, and read off the value it produces:</p>
+<pre class='code anatomy'><code>result = fib(8)
+├─ fib ......... the function that computes a Fibonacci number
+├─ ( ........... begins the input
+├─ 8 ........... we want the 8th Fibonacci number
+├─ ) ........... ends the input
+├─ result = .... binds the returned value to the name result
+└─ evaluates to  13</code></pre>
+</div></section>
+<section id='the-anatomy-of-simultaneous-assignment' class='ls ls-default'>
+<h2 class='ls-h'><span>The Anatomy of Simultaneous Assignment</span></h2>
+<div class='ls-body'>
+<p>This single line is the engine of the loop, and it is also where the most expensive bug hides:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (7)</span>
+<span style="color: #657b83">pred,</span> <span style="color: #657b83">curr</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">curr,</span> <span style="color: #657b83">pred</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">curr</span>
+</code></pre>
+<p>The text states the rule plainly: this line rebinds <code>pred</code> to the value of <code>curr</code>, and simultaneously rebinds <code>curr</code> to the value of <code>pred + curr</code>. All of the expressions to the right of <code>=</code> are evaluated before any rebinding takes place. That order of events, evaluating everything on the right before updating any binding on the left, is essential for the correctness of this function.</p>
+<p>Follow the line as Python actually processes it, assuming <code>pred</code> is 3 and <code>curr</code> is 5:</p>
+<pre class='code anatomy'><code>pred, curr = curr, pred + curr
+├─ curr ........... right side, reads the old curr -&gt; 5
+├─ pred + curr .... right side, uses the old values -&gt; 3 + 5 -&gt; 8
+├─ (5, 8) ......... both right-side values, held before any rebinding
+├─ pred = 5 ....... left side, rebinds pred to the first value
+├─ curr = 8 ....... left side, rebinds curr to the second value
+└─ performs ....... slides the window forward to the next Fibonacci pair</code></pre>
+<p>Said as numbered steps, with <code>pred = 3</code> and <code>curr = 5</code>:</p>
+<pre class='code text'><code>Step 1: read old values
+  pred = 3
+  curr = 5
+
+Step 2: compute the whole right side using old values
+  curr, pred + curr -&gt; 5, 8
+
+Step 3: rebind the left side all at once
+  pred -&gt; 5
+  curr -&gt; 8</code></pre>
+<p>The reason this matters is that the obvious one-line-at-a-time rewrite is wrong:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (8)</span>
+<span style="color: #657b83">pred</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">curr</span>
+<span style="color: #657b83">curr</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">pred</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">curr</span>
+</code></pre>
+<p>With <code>pred = 3</code> and <code>curr = 5</code>, version (8) does:</p>
+<pre class='code text'><code>pred = curr      -&gt; pred becomes 5
+curr = pred+curr -&gt; curr becomes 5+5, which is 10</code></pre>
+<p>The first line overwrote <code>pred</code> before the second line could read its old value, so the second line added 5 to itself instead of to 3. Simultaneous assignment exists precisely to prevent this. Remember that commas separate multiple names and values on both sides of a single assignment statement.</p>
+</div></section>
+<section id='tracing-fib8-by-hand' class='ls ls-default'>
+<h2 class='ls-h'><span>Tracing fib(8) by Hand</span></h2>
+<div class='ls-body'>
+<p>Start the trace from the initial state:</p>
+<pre class='code text'><code>pred = 0
+curr = 1
+k = 2</code></pre>
+<p>Each pass first checks <code>k &lt; n</code>, then runs the simultaneous assignment, then increments <code>k</code>. Watch all three names move together:</p>
+<pre class='code text'><code>Before pass 1: k = 2, pred = 0, curr = 1
+After pass 1:  k = 3, pred = 1, curr = 1
+
+Before pass 2: k = 3, pred = 1, curr = 1
+After pass 2:  k = 4, pred = 1, curr = 2
+
+Before pass 3: k = 4, pred = 1, curr = 2
+After pass 3:  k = 5, pred = 2, curr = 3
+
+Before pass 4: k = 5, pred = 2, curr = 3
+After pass 4:  k = 6, pred = 3, curr = 5
+
+Before pass 5: k = 6, pred = 3, curr = 5
+After pass 5:  k = 7, pred = 5, curr = 8
+
+Before pass 6: k = 7, pred = 5, curr = 8
+After pass 6:  k = 8, pred = 8, curr = 13</code></pre>
+<p>Now the condition is checked one more time:</p>
+<pre class='code text'><code>k &lt; n
+8 &lt; 8
+False</code></pre>
+<p>The loop stops, and the function returns the value bound to <code>curr</code>:</p>
+<pre class='code text'><code>13</code></pre>
+</div></section>
+<section id='a-step-by-step-environment-trace-of-fib8' class='ls ls-default'>
+<h2 class='ls-h'><span>A Step-by-Step Environment Trace of fib(8)</span></h2>
+<div class='ls-body'>
+<p>The hand trace above tracks the three names as plain rows. The same run looks slightly different drawn as an environment diagram, which uses one frame for the whole call and writes each binding as a <code>name -&gt; value</code> row. The call to <code>fib(8)</code> opens one local frame, and every statement rewrites a binding inside it:</p>
+<pre class='code text'><code>fib(8) frame
+  n -&gt; 8
+  pred -&gt; 0
+  curr -&gt; 1
+  k -&gt; 2
+  ...
+  __return__ -&gt; 13</code></pre>
+<p>When you reach the return statement, the frame records the result with the special <code>__return__</code> row, the notation a diagram uses for the value the call hands back. Step the <code>fib(8)</code> block above one statement at a time and watch this single frame: <code>pred</code>, <code>curr</code>, and <code>k</code> are overwritten in place pass after pass, and no second frame ever opens. That is exactly why the simultaneous-assignment rule matters so much: all the work happens by rewriting bindings inside one frame.</p>
+</div></section>
+<section id='infinite-loops' class='ls ls-default'>
+<h2 class='ls-h'><span>Infinite Loops</span></h2>
+<div class='ls-body'>
+<p>The text&#x27;s warning is concrete: to keep a suite from running forever, it must change some binding on each pass. Here is a loop that forgets to:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (9)</span>
+<span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">while</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">5</span><span style="color: #657b83">:</span>
+    <span style="color: #268bd2">print</span><span style="color: #657b83">(k)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/48d299658d9c.json' data-mount='st1'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st1' hidden></div></figure>
+<p>The condition <code>k &lt; 5</code> is true when <code>k</code> is 1, and the body never touches <code>k</code>, so the condition stays true on every recheck. The loop prints <code>1</code> endlessly. This is an infinite loop, and pressing Control-C forces Python to stop.</p>
+<p>The fix adds the missing binding-change:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (10)</span>
+<span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">while</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">5</span><span style="color: #657b83">:</span>
+    <span style="color: #268bd2">print</span><span style="color: #657b83">(k)</span>
+    <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/c659414f3d5c.json' data-mount='st2'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st2' hidden></div></figure>
+<p>Now the state moves toward the exit:</p>
+<pre class='code text'><code>k = 1 -&gt; print 1 -&gt; k becomes 2
+k = 2 -&gt; print 2 -&gt; k becomes 3
+k = 3 -&gt; print 3 -&gt; k becomes 4
+k = 4 -&gt; print 4 -&gt; k becomes 5
+k = 5 -&gt; condition is false -&gt; stop</code></pre>
+<p>When a loop will not stop, the cause is almost always the same: the body never changes the state that the condition depends on.</p>
+</div></section>
+<section id='testing-turning-expectations-into-checks' class='ls ls-default'>
+<h2 class='ls-h'><span>Testing: Turning Expectations Into Checks</span></h2>
+<div class='ls-body'>
+<p>Testing a function is the act of verifying that its behavior matches expectations. Our language of functions is now complex enough that we should start testing our implementations rather than eyeballing them.</p>
+<p>A test is a mechanism for performing that verification systematically. A test usually takes the form of another function containing one or more sample calls to the function being tested, whose returned values are then checked against expected results. Unlike most functions, which are meant to be general, a test deliberately selects specific argument values and validates the calls for exactly those values. Tests also double as documentation: they show how to call a function and which argument values make sense.</p>
+</div></section>
+<section id='assertions' class='ls ls-default'>
+<h2 class='ls-h'><span>Assertions</span></h2>
+<div class='ls-body'>
+<p>Programmers use <code>assert</code> statements to verify expectations, such as the output of a function being tested. An <code>assert</code> statement has an expression in a boolean context, followed by a quoted line of text (single or double quotes are both fine, as long as you stay consistent) that is displayed if the expression evaluates to a false value.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (11)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">fib(</span><span style="color: #2aa198">8</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">13</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;The 8th Fibonacci number should be 13&#39;</span>
+</code></pre>
+<p>Follow the line and name each part by what it does:</p>
+<pre class='code anatomy'><code>assert fib(8) == 13, &#x27;The 8th Fibonacci number should be 13&#x27;
+├─ assert .......... states a claim that must be true to continue
+├─ fib(8) == 13 .... the expression checked in a boolean context
+├─ , ............... separates the claim from the message
+├─ &#x27;...&#x27; ........... text shown only if the claim is false
+└─ performs ........ does nothing if true; halts with an error if false</code></pre>
+<p>When the asserted expression evaluates to a true value, executing the assert statement has no effect at all. When it evaluates to a false value, <code>assert</code> causes an error that halts execution. This is the key mental shift: an assertion is not output for a user and it is not a complaint after the fact. It is a precise, machine-checked statement of what you expect to be true at that point in the program.</p>
+</div></section>
+<section id='a-test-function' class='ls ls-default'>
+<h2 class='ls-h'><span>A Test Function</span></h2>
+<div class='ls-body'>
+<p>A test function for <code>fib</code> should test several arguments, including extreme values of <code>n</code>. Here is the one from the text, verbatim:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (12)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">fib_test</span><span style="color: #657b83">():</span>
+    <span style="color: #859900">assert</span> <span style="color: #657b83">fib(</span><span style="color: #2aa198">2</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;The 2nd Fibonacci number should be 1&#39;</span>
+    <span style="color: #859900">assert</span> <span style="color: #657b83">fib(</span><span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;The 3rd Fibonacci number should be 1&#39;</span>
+    <span style="color: #859900">assert</span> <span style="color: #657b83">fib(</span><span style="color: #2aa198">50</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">7778742049</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;Error at the 50th Fibonacci number&#39;</span>
+</code></pre>
+<p>Read what this set of checks is buying you:</p>
+<pre class='code text'><code>fib(2)  -&gt; 1            a small boundary value, right at the start
+fib(3)  -&gt; 1            the next small value
+fib(50) -&gt; 7778742049  a much larger value, deep into the loop</code></pre>
+<p>You are not expected to verify 7778742049 by hand; its only job is to be a value far enough into the sequence that a subtle rolling-window bug would have shown up by then. The large case earns its place: a mistake in the rolling-window logic might still produce correct early values and only diverge after many passes, and <code>fib(50)</code> is what catches it. When you write Python in files rather than typing directly into the interpreter, tests like this are usually placed in the same file or in a neighboring file whose name ends with the suffix <code>_test.py</code>.</p>
+</div></section>
+<section id='doctests' class='ls ls-default'>
+<h2 class='ls-h'><span>Doctests</span></h2>
+<div class='ls-body'>
+<p>Python also offers a convenient way to place simple tests directly in the docstring of a function. The convention is precise: the first line of a docstring should give a one-line description of the function, followed by a blank line, and then an optional longer description of the arguments and behavior. The docstring may also include a sample interactive session that calls the function, written exactly as it would look at the <code>&gt;&gt;&gt;</code> prompt.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (13)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">sum_naturals</span><span style="color: #657b83">(n):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return the sum of the first n natural numbers.</span>
+
+<span style="color: #93a1a1">    &gt;&gt;&gt; sum_naturals(10)</span>
+<span style="color: #93a1a1">    55</span>
+<span style="color: #93a1a1">    &gt;&gt;&gt; sum_naturals(100)</span>
+<span style="color: #93a1a1">    5050</span>
+<span style="color: #93a1a1">    &quot;&quot;&quot;</span>
+    <span style="color: #657b83">total,</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">&lt;=</span> <span style="color: #657b83">n:</span>
+        <span style="color: #657b83">total,</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">total</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">k,</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">total</span>
+</code></pre>
+<p>This function adds up the natural numbers:</p>
+<div class='math'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="minner">⋯</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span></span></div>
+<p>For <code>n = 10</code> the doctest claims the answer is 55:</p>
+<div class='math'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">4</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">5</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">6</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">7</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">8</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">9</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">55</span></span></span></span></span></div>
+<p>For <code>n = 100</code>, the doctest claims 5050, which matches the closed-form sum:</p>
+<div class='math'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="minner">⋯</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">100</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.0074em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">100</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">101</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">5050</span></span></span></span></span></div>
+<p>The value of a doctest is that it turns an explanation into a promise. The docstring no longer merely says &quot;this function adds natural numbers&quot;; it makes two checkable claims:</p>
+<pre class='code text'><code>If the input is 10, the output should be 55.
+If the input is 100, the output should be 5050.</code></pre>
+<p>That helps a beginner twice over. The examples teach the intended behavior by showing real calls and real answers, and the same examples become a safety net that protects that behavior when the code is edited later.</p>
+</div></section>
+<section id='running-doctests' class='ls ls-default'>
+<h2 class='ls-h'><span>Running Doctests</span></h2>
+<div class='ls-body'>
+<p>The interactions in a docstring can be verified with the doctest module. The <code>globals</code> function returns a representation of the global environment, which the interpreter needs in order to evaluate the example expressions. To run every doctest in the current module:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (14)</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">doctest</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">testmod</span>
+<span style="color: #657b83">testmod()</span>
+</code></pre>
+<p>If the examples pass, Python reports a small summary object:</p>
+<pre class='code text'><code>TestResults(failed=0, attempted=2)</code></pre>
+<p>To verify the doctest interactions for only a single function, use the doctest function <code>run_docstring_examples</code>. This function is, unfortunately, a bit fiddly to call. Its first argument is the function to test. The second should always be the result of the expression <code>globals()</code>, the built-in that returns the global environment. The third argument is <code>True</code>, asking for &quot;verbose&quot; output, which is a catalog of every test that ran.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (15)</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">doctest</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">run_docstring_examples</span>
+<span style="color: #657b83">run_docstring_examples(sum_naturals,</span> <span style="color: #268bd2">globals</span><span style="color: #657b83">(),</span> <span style="color: #2aa198">True</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>Follow the line so the three arguments stop looking like magic:</p>
+<pre class='code anatomy'><code>run_docstring_examples(sum_naturals, globals(), True)
+├─ run_docstring_examples .. runs the doctests found on one function
+├─ sum_naturals ............ the function whose docstring is examined
+├─ globals() ............... the global environment, so names resolve
+├─ True .................... ask for verbose output, listing each test
+└─ performs ................ runs each example and reports ok or failure</code></pre>
+<p>With verbose output on, Python narrates each example it finds, the value it expects, and whether the actual result matched:</p>
+<pre class='code text'><code>Finding tests in NoName
+Trying:
+    sum_naturals(10)
+Expecting:
+    55
+ok
+Trying:
+    sum_naturals(100)
+Expecting:
+    5050
+ok</code></pre>
+<p>When a function&#x27;s return value does not match the expected result, <code>run_docstring_examples</code> reports the mismatch as a test failure instead of printing <code>ok</code>.</p>
+<p>When you write Python in files, all the doctests in a file can be run at once by starting Python with the doctest command-line option:</p>
+<pre class='code bash'><code>python3 -m doctest &lt;python_source_file&gt;</code></pre>
+<p>Replace <code>&lt;python_source_file&gt;</code> with the path to your file.</p>
+<p>The key to effective testing is to write and run tests immediately after implementing a new function. It is even good practice to write some tests before you implement, so you have example inputs and outputs in mind as you work. A test that applies a single function is called a unit test, and exhaustive unit testing is a hallmark of good program design.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<div class='table-wrap'><table><thead><tr>
+<th>Mistake</th>
+<th>What Goes Wrong</th>
+<th>Safer Question</th>
+</tr></thead><tbody>
+<tr>
+<td>Forgetting to update the loop variable</td>
+<td>The <code>while</code> condition stays true forever and the loop runs without stopping until you press Control-C</td>
+<td>Which binding moves the loop toward stopping?</td>
+</tr>
+<tr>
+<td>Expecting the loop to stop the instant the condition flips mid-body</td>
+<td>The condition is re-checked only between full passes, so the rest of the suite still runs to completion before the next check</td>
+<td>Has a full pass finished before I expect the next condition check?</td>
+</tr>
+<tr>
+<td>Updating Fibonacci one variable at a time</td>
+<td>The old value needed for the second update is overwritten first, so <code>fib</code> returns a wrong, too-large number</td>
+<td>Should these names change simultaneously?</td>
+</tr>
+<tr>
+<td>Treating <code>assert</code> as normal program output</td>
+<td>Nothing prints on success, so the check looks like it did nothing</td>
+<td>What expectation is this line verifying?</td>
+</tr>
+<tr>
+<td>Mistyping an expected value in a doctest</td>
+<td>The doctest reports a failure even though the function is correct</td>
+<td>Does this expected output match what the function really returns?</td>
+</tr>
+<tr>
+<td>Reaching for a complex loop before a simple one</td>
+<td>Tracing several changing names at once gets confusing and hides the bug</td>
+<td>Can I rehearse this pattern on a one-value loop first?</td>
+</tr>
+<tr>
+<td>Testing only one happy path</td>
+<td>Bugs hide in boundary cases and larger inputs, where a rolling-window error only shows up after many passes</td>
+<td>What small, boundary, and larger cases should I test?</td>
+</tr>
+</tbody></table></div>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>What controls how long a <code>while</code> loop repeats, and when is that controlling condition re-checked?</li>
+<li>Trace <code>sum_first_n(5)</code> by hand: how many times does the loop body run, and what value does the function return?</li>
+<li>In the Fibonacci loop, why is <code>pred, curr = curr, pred + curr</code> safer than the two separate assignments <code>pred = curr</code> then <code>curr = pred + curr</code>?</li>
+<li>What does <code>assert fib(8) == 13, &#x27;The 8th Fibonacci number should be 13&#x27;</code> do when the expression is true, and what does it do when the expression is false?</li>
+<li>What do the <code>&gt;&gt;&gt;</code> lines inside the <code>sum_naturals</code> docstring let the doctest module do?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li>The loop repeats as long as its header expression is a true value. The condition is evaluated before each pass and only between passes, never partway through the suite.</li>
+<li>The body runs five times, once for each of <code>k</code> equal to 1, 2, 3, 4, and 5; on the sixth check <code>6 &lt;= 5</code> is false, so the loop stops and the function returns 15 (<span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">4</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">5</span></span></span></span></span>).</li>
+<li>Python evaluates both right-side expressions first, using the old <code>pred</code> and <code>curr</code>, then rebinds both names at once; the two-line version overwrites <code>pred</code> before the second line reads it, so it adds the new <code>curr</code> to itself.</li>
+<li>When <code>fib(8) == 13</code> is true, the assert statement has no effect. When it is false, <code>assert</code> raises an error that halts execution and displays the message.</li>
+<li>They are run as tests: doctest calls <code>sum_naturals(10)</code> and <code>sum_naturals(100)</code> and compares the actual results against the expected <code>55</code> and <code>5050</code>, reporting any mismatch as a failure.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>Iteration repeats a suite while a header condition is true, re-checking that condition only between full passes. Every loop lives or dies on two questions: what changes on each pass, and why will the condition eventually become false. The Fibonacci function answers both with a counter <code>k</code> and a two-number rolling window held in <code>pred</code> and <code>curr</code>, advanced by simultaneous assignment, whose evaluate-the-whole-right-side-first rule is what keeps the update correct. Testing then converts your expectations into checks the machine performs: <code>assert</code> states a claim and halts if it is broken, and doctests embed runnable examples in a docstring that <code>testmod</code> and <code>run_docstring_examples</code> can verify. Writing and running those tests right after, or even before, you implement a function is what the text calls a hallmark of good program design.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>This block is the lesson&#x27;s capstone: the full iterative <code>fib</code> on a fresh argument. Before you step through it, write down three predictions: how many times the loop body runs, what <code>k</code> holds when the loop stops, and what <code>pred</code> and <code>curr</code> hold at the <code>return</code> line.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (16)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">fib</span><span style="color: #657b83">(n):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Compute the nth Fibonacci number, for n &gt;= 2.&quot;&quot;&quot;</span>
+    <span style="color: #657b83">pred,</span> <span style="color: #657b83">curr</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span>   <span style="color: #93a1a1; font-style: italic"># Fibonacci numbers 1 and 2</span>
+    <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">2</span>               <span style="color: #93a1a1; font-style: italic"># Which Fib number is curr?</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #657b83">n:</span>
+        <span style="color: #657b83">pred,</span> <span style="color: #657b83">curr</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">curr,</span> <span style="color: #657b83">pred</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">curr</span>
+        <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">curr</span>
+
+<span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">fib(</span><span style="color: #2aa198">6</span><span style="color: #657b83">)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/901b4c988f81.json' data-mount='st3'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st3' hidden></div></figure>
+<p>Step through it one pass at a time and check each prediction. The loop never opens a second frame, rewriting <code>pred</code>, <code>curr</code>, and <code>k</code> in place inside the one call. The body runs four times, the check <code>6 &lt; 6</code> ends the loop with <code>pred</code> at 3 and <code>curr</code> at 5, and the last line binds <code>result</code> to 5.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</span></a><a class='pg pg-next' href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>1.6-A Functions as Arguments, Summation, and General Methods</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#repetition-gives-computers-their-power'>Repetition Gives Computers Their Power</a></li><li><a href='#the-anatomy-of-while'>The Anatomy of while</a></li><li><a href='#a-smaller-loop-before-fibonacci'>A Smaller Loop Before Fibonacci</a></li><li><a href='#adding-a-running-total'>Adding a Running Total</a></li><li><a href='#the-fibonacci-sequence'>The Fibonacci Sequence</a></li><li><a href='#a-two-number-rolling-window'>A Two-Number Rolling Window</a></li><li><a href='#computing-fibonacci-with-while'>Computing Fibonacci with while</a></li><li><a href='#the-anatomy-of-simultaneous-assignment'>The Anatomy of Simultaneous Assignment</a></li><li><a href='#tracing-fib8-by-hand'>Tracing fib(8) by Hand</a></li><li><a href='#a-step-by-step-environment-trace-of-fib8'>A Step-by-Step Environment Trace of fib(8)</a></li><li><a href='#infinite-loops'>Infinite Loops</a></li><li><a href='#testing-turning-expectations-into-checks'>Testing: Turning Expectations Into Checks</a></li><li><a href='#assertions'>Assertions</a></li><li><a href='#a-test-function'>A Test Function</a></li><li><a href='#doctests'>Doctests</a></li><li><a href='#running-doctests'>Running Doctests</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 308" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- ===== UPPER BAND: the user level ===== -->
+  <text x="340" y="26" text-anchor="middle" font-size="14" font-weight="bold" fill="#073642">User level &#8212; thinks in fractions</text>
+
+  <!-- four user-level operation boxes -->
+  <rect x="14" y="44" width="158" height="42" rx="10" fill="#ffffff" stroke="#268bd2" stroke-width="2"/>
+  <text x="93" y="70" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">add_rationals</text>
+
+  <rect x="180" y="44" width="158" height="42" rx="10" fill="#ffffff" stroke="#268bd2" stroke-width="2"/>
+  <text x="259" y="70" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">mul_rationals</text>
+
+  <rect x="346" y="44" width="158" height="42" rx="10" fill="#ffffff" stroke="#268bd2" stroke-width="2"/>
+  <text x="425" y="70" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">print_rational</text>
+
+  <rect x="512" y="44" width="158" height="42" rx="10" fill="#ffffff" stroke="#268bd2" stroke-width="2"/>
+  <text x="591" y="70" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">rationals_are_equal</text>
+
+  <!-- ===== THE THREE CROSSING ARROWS (drawn first, chips cover their middles) ===== -->
+  <!-- rational(n, d): constructor, points DOWN into the implementation -->
+  <line x1="120" y1="92" x2="120" y2="200" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="114,200 126,200 120,211" fill="#268bd2"/>
+
+  <!-- numer(x): selector, points UP to the user level -->
+  <line x1="300" y1="210" x2="300" y2="99" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="294,99 306,99 300,88" fill="#268bd2"/>
+
+  <!-- denom(x): selector, points UP to the user level -->
+  <line x1="480" y1="210" x2="480" y2="99" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="474,99 486,99 480,88" fill="#268bd2"/>
+
+  <!-- ===== THE ABSTRACTION BARRIER (one thick line) ===== -->
+  <line x1="20" y1="150" x2="660" y2="150" stroke="#073642" stroke-width="3.5"/>
+  <text x="656" y="143" text-anchor="end" font-size="12" font-style="italic" fill="#93a1a1">abstraction barrier</text>
+
+  <!-- ===== INTERFACE CHIPS, sitting on the barrier ===== -->
+  <!-- rational(n, d) chip -->
+  <rect x="45" y="128" width="150" height="44" rx="10" fill="#fdf6e3" stroke="#268bd2" stroke-width="2"/>
+  <text x="120" y="147" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">rational(n, d)</text>
+  <text x="120" y="164" text-anchor="middle" font-size="11" fill="#657b83">constructor</text>
+
+  <!-- numer(x) chip -->
+  <rect x="248" y="128" width="104" height="44" rx="10" fill="#fdf6e3" stroke="#268bd2" stroke-width="2"/>
+  <text x="300" y="147" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">numer(x)</text>
+  <text x="300" y="164" text-anchor="middle" font-size="11" fill="#657b83">selector</text>
+
+  <!-- denom(x) chip -->
+  <rect x="428" y="128" width="104" height="44" rx="10" fill="#fdf6e3" stroke="#268bd2" stroke-width="2"/>
+  <text x="480" y="147" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">denom(x)</text>
+  <text x="480" y="164" text-anchor="middle" font-size="11" fill="#657b83">selector</text>
+
+  <!-- ===== LOWER BAND: the hidden implementation ===== -->
+  <rect x="80" y="210" width="440" height="54" rx="14" fill="#ffffff" stroke="#93a1a1" stroke-width="2" stroke-dasharray="7 6"/>
+  <text x="300" y="234" text-anchor="middle" font-size="12" fill="#93a1a1">Implementation &#8212; how it is stored</text>
+  <text x="300" y="255" text-anchor="middle" font-size="14" font-family="monospace" fill="#93a1a1">a pair: numerator, denominator</text>
+
+  <!-- ===== CAPTION ===== -->
+  <text x="340" y="294" text-anchor="middle" font-size="13" fill="#93a1a1">the interface (constructor plus selectors) is the only way across the barrier.</text>
+</svg>

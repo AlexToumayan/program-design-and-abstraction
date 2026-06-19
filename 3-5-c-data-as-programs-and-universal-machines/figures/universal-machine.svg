@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 360" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- interchangeable program cards (the swappable input) -->
+  <text x="585" y="40" text-anchor="middle" font-size="12" fill="#93a1a1">any program you give it</text>
+  <rect x="495" y="50" width="190" height="34" rx="10" fill="#ffffff" stroke="#268bd2" stroke-width="2"/>
+  <text x="590" y="72" text-anchor="middle" font-size="15" font-family="monospace" fill="#073642">factorial</text>
+  <rect x="495" y="92" width="190" height="34" rx="10" fill="#ffffff" stroke="#268bd2" stroke-width="2"/>
+  <text x="590" y="114" text-anchor="middle" font-size="15" font-family="monospace" fill="#073642">a calculator</text>
+  <rect x="495" y="134" width="190" height="34" rx="10" fill="#ffffff" stroke="#268bd2" stroke-width="2"/>
+  <text x="590" y="156" text-anchor="middle" font-size="15" font-family="monospace" fill="#073642">your own language</text>
+
+  <!-- the card currently dropping into the slot -->
+  <rect x="275" y="56" width="140" height="40" rx="10" fill="#ffffff" stroke="#268bd2" stroke-width="2"/>
+  <text x="345" y="82" text-anchor="middle" font-size="17" font-family="monospace" fill="#073642">factorial</text>
+  <text x="345" y="118" text-anchor="middle" font-size="12" fill="#93a1a1">one drops in at a time</text>
+
+  <!-- blue arrow: the card entering the slot -->
+  <line x1="345" y1="128" x2="345" y2="164" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="339,162 345,174 351,162" fill="#268bd2"/>
+
+  <!-- the fixed machine box -->
+  <rect x="210" y="186" width="270" height="124" rx="16" fill="#fdf6e3" stroke="#073642" stroke-width="2.5"/>
+  <text x="345" y="258" text-anchor="middle" font-size="26" font-family="monospace" font-weight="bold" fill="#073642">the interpreter</text>
+  <text x="345" y="284" text-anchor="middle" font-size="12" fill="#657b83">one fixed machine, never changes</text>
+
+  <!-- the slot on the top edge (drawn over the box so it stays visible) -->
+  <rect x="270" y="177" width="150" height="18" rx="5" fill="#ffffff" stroke="#073642" stroke-width="2.5"/>
+  <text x="345" y="216" text-anchor="middle" font-size="12" fill="#657b83">a program (as data)</text>
+
+  <!-- cyan output arrow leaving the right side -->
+  <line x1="480" y1="248" x2="562" y2="248" stroke="#2aa198" stroke-width="2.5"/>
+  <polygon points="560,242 572,248 560,254" fill="#2aa198"/>
+  <text x="624" y="242" text-anchor="middle" font-size="13" fill="#2aa198">behaves like</text>
+  <text x="624" y="259" text-anchor="middle" font-size="13" fill="#2aa198">THAT program</text>
+
+  <!-- caption -->
+  <text x="350" y="334" text-anchor="middle" font-size="13" fill="#93a1a1">one fixed machine emulates many different machines, depending on the program</text>
+  <text x="350" y="351" text-anchor="middle" font-size="13" fill="#93a1a1">it reads - a universal machine.</text>
+</svg>

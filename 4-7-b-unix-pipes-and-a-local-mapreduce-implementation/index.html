@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>4.7.2 Unix Pipes and a Local MapReduce Implementation · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/' class='active'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 4</span><span class='dot'>/</span><span class='eb-sec'>4.7 Distributed Data Processing</span></div><h1 class='lesson-title'>4.7.2 Unix Pipes and a Local MapReduce Implementation</h1><div class='reading-meta'>&#9719; approx. 16 min read <span class='rm-sep'>&middot;</span> 4 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>You already know the shape of MapReduce: a <strong>map</strong> function turns input into key-value pairs, the framework groups those pairs by key, and a <strong>reduce</strong> function combines the values for each key. That description assumes a framework exists to do the grouping and coordination. This lesson builds the smallest such framework that actually runs, using nothing but tools that come with the Unix operating system.</p>
+<p>By the end you will be able to do five things: explain what <strong>standard input</strong> and <strong>standard output</strong> are, read a <strong>shebang</strong> line and say why it turns a Python file into a runnable program, describe what the <strong>pipe</strong> symbol does between two programs, read the local MapReduce command <code>cat input | ./mapper.py | sort | ./reducer.py</code> as an assembly line, and trace the vowel-counting pipeline from a three-line haiku all the way to its final counts.</p>
+<p>Nothing here requires you to have used a Unix shell before. It does require one habit: when a pipeline looks like a wall of symbols, you slow down and read it one program at a time, left to right.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='an-assembly-line-of-workers' class='ls ls-default'>
+<h2 class='ls-h'><span>An Assembly Line of Workers</span></h2>
+<div class='ls-body'>
+<p>Picture a small factory assembly line. Raw material arrives at the first station. A worker there does one job and slides the result to the next station. The second worker does one job and passes it on. No single worker understands the whole product. Each one only needs to know how to take what arrives, transform it, and hand off what leaves.</p>
+<p>Two things make this work. First, every station agrees on the same kind of conveyor belt, so any worker&#x27;s output physically fits as the next worker&#x27;s input. Second, each worker is replaceable: as long as a new worker reads from the belt and writes to the belt in the same format, you can swap it in without touching the others.</p>
+<p>Unix is built on exactly this idea. Each program is a worker. The conveyor belt is a stream of text lines. The power of the system, as you will see, comes less from any one program than from how easily you can chain them together.</p>
+</div></section>
+<section id='the-unix-abstraction-barrier' class='ls ls-default'>
+<h2 class='ls-h'><span>The Unix Abstraction Barrier</span></h2>
+<div class='ls-body'>
+<p>The Unix operating system sits between your programs and the raw hardware of the machine. One of the services it provides is a way for programs to communicate, in particular by letting one program consume the output of another. This is the conveyor belt made real.</p>
+<p>In their classic book on Unix programming, Kernighan and Pike put the point this way:</p>
+<pre class='code text'><code>&quot;The power of a system comes more from the relationships among programs
+than from the programs themselves.&quot;</code></pre>
+<p>That sentence is the whole design philosophy of this lesson. You will write two small, dull programs, a mapper and a reducer, and the interesting behavior will come entirely from how you connect them.</p>
+</div></section>
+<section id='standard-input-and-standard-output' class='ls ls-default'>
+<h2 class='ls-h'><span>Standard Input and Standard Output</span></h2>
+<div class='ls-body'>
+<p>To act as a station on the assembly line, every Unix program is given two streams to work with.</p>
+<pre class='code text'><code>standard input:  the stream of text a program reads from
+standard output: the stream of text a program writes to</code></pre>
+<p>In Python these streams are ordinary objects. Standard input is an iterable object accessed as <code>sys.stdin</code>; iterating over it yields the input one line at a time, each line a string. Standard output is accessed as <code>sys.stdout</code>, and the built-in <code>print</code> function writes a line of text to it.</p>
+<p>This is a data-processing <strong>abstraction barrier</strong>. A program does not need to know whether its input arrived from a file on disk, from your keyboard, or from another program upstream. It just reads lines from standard input and writes lines to standard output. That ignorance is the whole point: it is what makes any program freely swappable into any pipeline.</p>
+</div></section>
+<section id='turning-a-python-file-into-a-unix-program-the-shebang' class='ls ls-default'>
+<h2 class='ls-h'><span>Turning a Python File Into a Unix Program: The Shebang</span></h2>
+<div class='ls-body'>
+<p>A Python source file is not, by itself, a program the operating system knows how to launch. You can hand it to the interpreter by hand, but to make the file itself executable you add one special first line, called a <strong>shebang</strong>:</p>
+<pre class='code text'><code>#!/usr/bin/env python3</code></pre>
+<p>The name comes from the two characters that open it: the &quot;hash&quot; <code>#</code> and the &quot;bang&quot; <code>!</code>. When the operating system is asked to run the file directly, it reads this first line to learn which interpreter should run the rest. Follow the line one token at a time:</p>
+<pre class='code anatomy'><code>#!/usr/bin/env python3
+├─ #! ............... marks the line as an instruction for which interpreter to use
+├─ /usr/bin/env ..... a helper that locates a program on the system
+├─ python3 .......... the program to locate: the Python 3 interpreter
+└─ result ........... run the rest of this file with python3</code></pre>
+<p>Everything below the shebang is still ordinary Python. The shebang itself begins with <code>#</code>, so to Python it is just a comment and is ignored. It speaks only to the operating system, and only about how to execute the file.</p>
+</div></section>
+<section id='a-reversing-program' class='ls ls-default'>
+<h2 class='ls-h'><span>A Reversing Program</span></h2>
+<div class='ls-body'>
+<p>Here is the official first example: a complete Unix program that reads each line of its input and writes that line back out reversed.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #93a1a1; font-style: italic">#!/usr/bin/env python3</span>
+
+<span style="color: #cb4b16">import</span> <span style="color: #268bd2">sys</span>
+
+<span style="color: #859900">for</span> <span style="color: #657b83">line</span> <span style="color: #859900">in</span> <span style="color: #657b83">sys</span><span style="color: #93a1a1">.</span><span style="color: #657b83">stdin:</span>
+    <span style="color: #268bd2">print</span><span style="color: #657b83">(line</span><span style="color: #93a1a1">.</span><span style="color: #657b83">strip(</span><span style="color: #2aa198">&#39;\n&#39;</span><span style="color: #657b83">)[::</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span><span style="color: #657b83">])</span>
+</code></pre>
+<p>The source saves this to a file named <code>rev.py</code>. Read the body as a loop over the input stream: <code>for line in sys.stdin</code> walks the input one line at a time, and the single line inside the loop does all the work. Follow that inner line token by token:</p>
+<pre class='code anatomy'><code>print(line.strip(&#x27;\n&#x27;)[::-1])
+├─ line ............ one line of text read from standard input
+├─ .strip(&#x27;\n&#x27;) .... a copy of that line with the trailing newline removed
+├─ [::-1] .......... a reversed copy of the resulting string
+├─ print(...) ...... writes the reversed string to standard output
+└─ action .......... emit the input line, reversed, as one line of output</code></pre>
+<p>The <code>.strip(&#x27;\n&#x27;)</code> matters: each line that arrives from standard input still carries the newline character that ended it, and reversing without stripping it would put that newline at the front. The slice <code>[::-1]</code> is Python&#x27;s idiom for &quot;same string, back to front.&quot; Then <code>print</code> sends the result down the conveyor belt as one line of output.</p>
+<h3>Making the File Executable</h3>
+<p>Saving the file is not enough. Before the operating system will run <code>rev.py</code> as a program, you must mark the file executable. The source does this with <code>chmod</code>:</p>
+<pre class='code text'><code>$ chmod u+x rev.py</code></pre>
+<p>Read this as &quot;change the file mode: for the <strong>u</strong>ser who owns the file, add e<strong>x</strong>ecute permission to <code>rev.py</code>.&quot; After this command, the shell will let you launch the file directly as <code>./rev.py</code>. The leading <code>./</code> simply means &quot;the program named <code>rev.py</code> in the current directory.&quot;</p>
+</div></section>
+<section id='pipes-connecting-two-programs' class='ls ls-default'>
+<h2 class='ls-h'><span>Pipes: Connecting Two Programs</span></h2>
+<div class='ls-body'>
+<p>A single program reading from standard input and writing to standard output is one station. To build the assembly line, you connect stations so that one program&#x27;s output becomes the next program&#x27;s input. Unix writes that connection with the <strong>pipe</strong> symbol, <code>|</code>.</p>
+<pre class='code text'><code>$ first_program | second_program</code></pre>
+<p>The pipe channels the standard output of the program on its left into the standard input of the program on its right. Neither program is changed; the pipe just wires the belt from one to the next.</p>
+<h3>The Official Pipe Examples</h3>
+<p>The source first pipes the program <code>nslookup</code>, which reports the host name of an IP address (here, an address belonging to the New York Times), into <code>rev.py</code>:</p>
+<pre class='code text'><code>$ nslookup 170.149.172.130 | ./rev.py
+moc.semityn.www</code></pre>
+<p>This is fenced as plain shell text, not Python, because it is a shell session and because its first stage depends on a live network lookup. The stable lesson is the wiring: whatever host name <code>nslookup</code> prints, <code>rev.py</code> receives it as input and prints it reversed. Reading <code>moc.semityn.www</code> backwards spells out the host name <code>nslookup</code> produced.</p>
+<p>The second example pipes <code>cat</code>, a program that prints the contents of files, into <code>rev.py</code>. Here the file <code>cat</code> prints is <code>rev.py</code> itself, so the program ends up reversing its own source:</p>
+<pre class='code text'><code>$ cat rev.py | ./rev.py
+3nohtyp vne/nib/rsu/!#
+
+sys tropmi
+
+:nidts.sys ni enil rof
+)]1-::[)&#x27;n\&#x27;(pirts.enil(tnirp</code></pre>
+<p><code>cat</code> emits the five lines of <code>rev.py</code>, blank lines and all, and <code>rev.py</code> reverses each line it receives. The blank lines in the source file stay blank when reversed, which is why blank lines appear in the output too.</p>
+</div></section>
+<section id='a-local-mapreduce-pipeline' class='ls ls-default'>
+<h2 class='ls-h'><span>A Local MapReduce Pipeline</span></h2>
+<div class='ls-body'>
+<p>Those two ideas, a program that reads and writes line-by-line and a pipe that connects programs, are already enough to build a minimal MapReduce framework. This version is deliberately tiny: a single map task and a single reduce task, each a Unix program written in Python. The source runs an entire MapReduce application with one command:</p>
+<pre class='code text'><code>$ cat input | ./mapper.py | sort | ./reducer.py</code></pre>
+<p>Read it as a four-station assembly line:</p>
+<pre class='code text'><code>cat input       emits the lines of the input file
+mapper.py       turns each line into key-value pairs
+sort            puts lines with equal keys next to each other
+reducer.py      combines the values that share a key</code></pre>
+<p>The <code>sort</code> stage is the framework&#x27;s grouping phase in miniature. <code>sort</code> orders the mapper&#x27;s output lines, and because the key is at the front of each line, sorting lands all the pairs for a given key in one contiguous run. That adjacency is exactly what the reducer needs to process one key&#x27;s values together. This local version is not yet distributed, but it has the same conceptual shape as the full framework: map, group, reduce.</p>
+</div></section>
+<section id='the-vowel-mapper' class='ls ls-default'>
+<h2 class='ls-h'><span>The Vowel Mapper</span></h2>
+<div class='ls-body'>
+<p>To run the vowel-counting application from the previous lesson, the source supplies the map function as a Unix program named <code>count_vowels_mapper.py</code>:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #93a1a1; font-style: italic">#!/usr/bin/env python3</span>
+
+<span style="color: #cb4b16">import</span> <span style="color: #268bd2">sys</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">mr</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">emit</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">count_vowels</span><span style="color: #657b83">(line):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;A map function that counts the vowels in a line.&quot;&quot;&quot;</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">vowel</span> <span style="color: #859900">in</span> <span style="color: #2aa198">&#39;aeiou&#39;</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">count</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">line</span><span style="color: #93a1a1">.</span><span style="color: #657b83">count(vowel)</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">count</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+            <span style="color: #657b83">emit(vowel,</span> <span style="color: #657b83">count)</span>
+
+<span style="color: #859900">for</span> <span style="color: #657b83">line</span> <span style="color: #859900">in</span> <span style="color: #657b83">sys</span><span style="color: #93a1a1">.</span><span style="color: #657b83">stdin:</span>
+    <span style="color: #657b83">count_vowels(line)</span>
+</code></pre>
+<p>The function <code>emit</code> is imported from the companion <code>mr</code> module; conceptually it writes one key-value pair to standard output in the format the reducer expects. Inside <code>count_vowels</code>, the loop checks each of the five vowels and emits a pair only when that vowel actually appears. Follow the <code>emit</code> call token by token:</p>
+<pre class='code anatomy'><code>emit(vowel, count)
+├─ emit ............ the helper that writes one key-value pair to output
+├─ vowel ........... the key: the vowel being counted, such as &#x27;a&#x27;
+├─ count ........... the value: how many times that vowel appeared in this line
+└─ action .......... write one (vowel, count) pair to standard output</code></pre>
+<p>The guard <code>if count &gt; 0</code> is doing real work: a vowel that never appears in a line emits nothing at all. The map function does not produce a row of zeros; it produces pairs only for vowels that are present. The last two lines are the bridge from Unix to MapReduce:</p>
+<pre class='code text'><code>for line in sys.stdin:
+    count_vowels(line)</code></pre>
+<p>Every line read from standard input becomes exactly one call to the map function. The framework feeds lines in; the mapper turns each one into zero or more key-value pairs.</p>
+</div></section>
+<section id='the-sum-reducer' class='ls ls-default'>
+<h2 class='ls-h'><span>The Sum Reducer</span></h2>
+<div class='ls-body'>
+<p>The reduce function is supplied as a second Unix program named <code>sum_reducer.py</code>:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #93a1a1; font-style: italic">#!/usr/bin/env python3</span>
+
+<span style="color: #cb4b16">import</span> <span style="color: #268bd2">sys</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">mr</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">values_by_key,</span> <span style="color: #657b83">emit</span>
+
+<span style="color: #859900">for</span> <span style="color: #657b83">key,</span> <span style="color: #657b83">value_iterator</span> <span style="color: #859900">in</span> <span style="color: #657b83">values_by_key(sys</span><span style="color: #93a1a1">.</span><span style="color: #657b83">stdin):</span>
+    <span style="color: #657b83">emit(key,</span> <span style="color: #268bd2">sum</span><span style="color: #657b83">(value_iterator))</span>
+</code></pre>
+<p>This reducer is almost entirely about reading grouped input. The helper <code>values_by_key</code> consumes the sorted mapper output from standard input and yields one key at a time, paired with an iterator over all of that key&#x27;s values. The reducer then emits the key together with the built-in <code>sum</code> of those values. Follow the loop header token by token:</p>
+<pre class='code anatomy'><code>for key, value_iterator in values_by_key(sys.stdin):
+├─ key ................. the next distinct key from the sorted input
+├─ value_iterator ...... an iterator over every value recorded for that key
+├─ values_by_key(...) .. reads sorted mapper output and groups it by key
+├─ sys.stdin ........... the grouped key-value stream arriving from sort
+└─ action .............. give the loop body one key and all of its values</code></pre>
+<p>Notice what the reducer does not do: it never counts a vowel itself. By the time data reaches the reducer, the counting is finished and the framework has grouped the pairs; the reducer only sums the values that already share a key. The built-in <code>sum</code> is the entire reduction.</p>
+<p>The reducer relies on a helper named <code>values_by_key</code> from the <code>mr</code> module. Whatever it is called, its job is simple: it reads the sorted stream and hands the reducer one key at a time along with that key&#x27;s values. We use the name that appears in the runnable code, <code>values_by_key</code>, throughout this lesson.</p>
+</div></section>
+<section id='running-the-haiku-example' class='ls ls-default'>
+<h2 class='ls-h'><span>Running the Haiku Example</span></h2>
+<div class='ls-body'>
+<p>To exercise the pipeline end to end, the source provides a three-line input file named <code>haiku.txt</code>:</p>
+<pre class='code text'><code>Google MapReduce
+Is a Big Data framework
+For batch processing</code></pre>
+<p>Running the local pipeline on this file produces the count of each vowel across the whole haiku:</p>
+<pre class='code text'><code>$ cat haiku.txt | ./count_vowels_mapper.py | sort | ./sum_reducer.py
+&#x27;a&#x27;   6
+&#x27;e&#x27;   5
+&#x27;i&#x27;   2
+&#x27;o&#x27;   5
+&#x27;u&#x27;   1</code></pre>
+<p>Each output line is one final key-value result. The key is a vowel, printed in quotes, and the value is the total number of times that vowel appears across all three input lines.</p>
+<h3>Tracing the Pipeline Stage by Stage</h3>
+<p>To see why those totals come out, watch the data change shape at each station. The trace below is worked out directly from the haiku and the mapper code above; the source prints only the first and last stages, so the intermediate stages here are derived, not quoted.</p>
+<p>First, <code>cat haiku.txt</code> emits the three input lines unchanged. Then each line goes to <code>count_vowels_mapper.py</code>. The mapper checks each vowel against the raw line and emits a pair only when the count is above zero. Counting by hand, line by line:</p>
+<div class='table-wrap'><table><thead><tr>
+<th>Input line</th>
+<th>Pairs emitted by the mapper</th>
+</tr></thead><tbody>
+<tr>
+<td><code>Google MapReduce</code></td>
+<td><code>(&#x27;a&#x27;, 1)</code>, <code>(&#x27;e&#x27;, 3)</code>, <code>(&#x27;o&#x27;, 2)</code>, <code>(&#x27;u&#x27;, 1)</code></td>
+</tr>
+<tr>
+<td><code>Is a Big Data framework</code></td>
+<td><code>(&#x27;a&#x27;, 4)</code>, <code>(&#x27;e&#x27;, 1)</code>, <code>(&#x27;i&#x27;, 1)</code>, <code>(&#x27;o&#x27;, 1)</code></td>
+</tr>
+<tr>
+<td><code>For batch processing</code></td>
+<td><code>(&#x27;a&#x27;, 1)</code>, <code>(&#x27;e&#x27;, 1)</code>, <code>(&#x27;i&#x27;, 1)</code>, <code>(&#x27;o&#x27;, 2)</code></td>
+</tr>
+</tbody></table></div>
+<p>The mapper emits one pair per vowel per line, where the value is that vowel&#x27;s count within the line, not one pair per individual letter. The counts are case sensitive: the loop tests only the lowercase vowels in <code>&#x27;aeiou&#x27;</code>, so the capital letters that begin words contribute nothing. That is why the capital <code>I</code> in <code>Is</code> and the capital <code>O</code> in <code>Google</code> and <code>For</code> are not counted.</p>
+<p>Next, <code>sort</code> orders all of those emitted lines so that equal keys sit together. Grouped by key, the values lined up for each vowel are:</p>
+<div class='table-wrap'><table><thead><tr>
+<th>Key</th>
+<th>Values arriving at the reducer, grouped by sort</th>
+</tr></thead><tbody>
+<tr>
+<td><code>&#x27;a&#x27;</code></td>
+<td><code>1, 4, 1</code></td>
+</tr>
+<tr>
+<td><code>&#x27;e&#x27;</code></td>
+<td><code>3, 1, 1</code></td>
+</tr>
+<tr>
+<td><code>&#x27;i&#x27;</code></td>
+<td><code>1, 1</code></td>
+</tr>
+<tr>
+<td><code>&#x27;o&#x27;</code></td>
+<td><code>2, 1, 2</code></td>
+</tr>
+<tr>
+<td><code>&#x27;u&#x27;</code></td>
+<td><code>1</code></td>
+</tr>
+</tbody></table></div>
+<p>Finally, <code>sum_reducer.py</code> sums each key&#x27;s values and emits one line per key:</p>
+<div class='table-wrap'><table><thead><tr>
+<th>Key</th>
+<th>Sum of its values</th>
+<th>Total</th>
+</tr></thead><tbody>
+<tr>
+<td><code>&#x27;a&#x27;</code></td>
+<td><code>1 + 4 + 1</code></td>
+<td><code>6</code></td>
+</tr>
+<tr>
+<td><code>&#x27;e&#x27;</code></td>
+<td><code>3 + 1 + 1</code></td>
+<td><code>5</code></td>
+</tr>
+<tr>
+<td><code>&#x27;i&#x27;</code></td>
+<td><code>1 + 1</code></td>
+<td><code>2</code></td>
+</tr>
+<tr>
+<td><code>&#x27;o&#x27;</code></td>
+<td><code>2 + 1 + 2</code></td>
+<td><code>5</code></td>
+</tr>
+<tr>
+<td><code>&#x27;u&#x27;</code></td>
+<td><code>1</code></td>
+<td><code>1</code></td>
+</tr>
+</tbody></table></div>
+<p>Those five totals are exactly the published output, <code>&#x27;a&#x27; 6</code>, <code>&#x27;e&#x27; 5</code>, <code>&#x27;i&#x27; 2</code>, <code>&#x27;o&#x27; 5</code>, <code>&#x27;u&#x27; 1</code>. The pipeline turned a stream of text lines into key-value pairs, sorted them so equal keys were adjacent, and summed each group, the map, group, reduce shape, built from <code>cat</code>, a mapper, <code>sort</code>, and a reducer.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<ul>
+<li><strong>Thinking a pipe sends Python objects.</strong> A pipe carries a stream of text lines, not live Python lists, tuples, or dictionaries. Every stage reads strings and writes strings.</li>
+<li><strong>Confusing the Unix <code>cat</code> with concatenation.</strong> Here <code>cat</code> is a Unix program that prints the contents of a file to standard output. It is not Python string concatenation.</li>
+<li><strong>Forgetting executable permission.</strong> A file can have a correct shebang and still refuse to run as <code>./rev.py</code> until you mark it executable with <code>chmod u+x</code>.</li>
+<li><strong>Believing <code>sort</code> is optional.</strong> The reducer assumes that all values for one key arrive together. Remove <code>sort</code> and that assumption breaks, so the reducer can split one key across several partial sums.</li>
+<li><strong>Expecting the mapper to emit zeros.</strong> The guard <code>if count &gt; 0</code> means a vowel that never appears in a line produces no pair at all. Absent keys are simply missing, not present with a value of zero.</li>
+<li><strong>Assuming the count is case insensitive.</strong> The mapper tests only the lowercase letters in <code>&#x27;aeiou&#x27;</code>, so capital vowels are not counted.</li>
+<li><strong>Mixing up the two jobs.</strong> The mapper produces partial, per-line facts; the reducer combines already-grouped values. The mapper never sums across lines, and the reducer never counts vowels.</li>
+</ul>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>What are standard input and standard output, and how does a Python program reach each one?</li>
+<li>What does the shebang line <code>#!/usr/bin/env python3</code> tell the operating system, and why does Python ignore it?</li>
+<li>Suppose <code>count_vowels_mapper.py</code> reads the single input line <code>Open Source</code>. Which <code>(vowel, count)</code> pairs does it emit, and in what order?</li>
+<li>Why does the local MapReduce command include a <code>sort</code> stage between the mapper and the reducer?</li>
+<li>For each input line, what does <code>count_vowels_mapper.py</code> emit, and why does a vowel that appears twice in a line, such as the <code>o</code> in <code>For batch processing</code>, still produce only a single <code>(vowel, count)</code> pair rather than one pair per occurrence?</li>
+<li>What does <code>sum_reducer.py</code> do for each key, and what does it deliberately not do?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li>Standard input is the stream of text a program reads from, reached in Python as the iterable <code>sys.stdin</code>, which yields one line at a time. Standard output is the stream a program writes to, reached as <code>sys.stdout</code>; the built-in <code>print</code> writes a line to it.</li>
+<li>It tells the operating system to run the rest of the file with the Python 3 interpreter, located via <code>/usr/bin/env</code>. Python ignores it because the line begins with <code>#</code>, so to Python it is just a comment.</li>
+<li>It emits <code>(&#x27;e&#x27;, 2)</code>, then <code>(&#x27;o&#x27;, 1)</code>, then <code>(&#x27;u&#x27;, 1)</code>. The loop tests vowels in the order <code>&#x27;aeiou&#x27;</code> and emits only those with a count above zero: <code>e</code> appears twice (in <code>Open</code> and <code>Source</code>), the lowercase <code>o</code> once (in <code>Source</code>), and <code>u</code> once. The capital <code>O</code> is not counted because the mapper tests only lowercase letters, and <code>a</code> and <code>i</code> never appear, so they produce no pair.</li>
+<li>The reducer processes one key&#x27;s values together and assumes they arrive as a contiguous run. Because each key is at the front of its line, <code>sort</code> places all lines with equal keys next to each other, which is the grouping the reducer depends on.</li>
+<li>For each line it emits one <code>(vowel, count)</code> pair for every lowercase vowel whose count in that line is greater than zero. The value is that vowel&#x27;s count within the line, so a single pair such as <code>(&#x27;o&#x27;, 2)</code> already records both occurrences of <code>o</code> at once.</li>
+<li>For each key it emits the key paired with the <code>sum</code> of that key&#x27;s grouped values. It deliberately does not count vowels itself; the counting happened in the mapper, and the reducer only combines values that already share a key.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>Unix pipes give you a working, local version of the MapReduce idea built entirely from operating-system tools. Programs read from standard input (<code>sys.stdin</code>) and write to standard output (<code>sys.stdout</code>), and a shebang line plus <code>chmod u+x</code> turns a Python file into a launchable program. The pipe symbol connects programs so that one&#x27;s output becomes the next one&#x27;s input, which is the conveyor belt that makes the assembly line possible, and as Kernighan and Pike note, the system&#x27;s power lives in those relationships more than in any single program. The local vowel-counting pipeline wires four stations together, <code>cat | ./count_vowels_mapper.py | sort | ./sum_reducer.py</code>: the mapper turns each line into per-line vowel counts, <code>sort</code> groups equal keys, and the reducer sums each group, producing the final totals <code>&#x27;a&#x27; 6</code>, <code>&#x27;e&#x27; 5</code>, <code>&#x27;i&#x27; 2</code>, <code>&#x27;o&#x27; 5</code>, <code>&#x27;u&#x27; 1</code> for the haiku.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>A real Unix pipeline moves text between separate processes, which a single stepped run cannot show. So this model simulates the same four stations with plain Python: each stage is a function that consumes the previous stage&#x27;s output and produces the next stage&#x27;s input. Stepping through it draws the <strong>environment diagram</strong> of the pipeline: <code>mapper</code>, <code>sort_pairs</code>, and <code>reducer</code> each open and close their own frame, and you can watch the data hop from one heap object to the next as <code>stage1</code>&#x27;s list of haiku lines becomes <code>stage2</code>&#x27;s list of <code>(vowel, count)</code> pairs, then <code>stage3</code>&#x27;s sorted list, and finally the <code>totals</code> dictionary that <code>reducer</code> builds key by key. Before you step through the block below, write down two predictions: which stage first turns the lines into <code>(vowel, count)</code> pairs, and the dictionary that <code>stage4</code> will print.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (4)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">cat</span><span style="color: #657b83">(lines):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">lines</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">mapper</span><span style="color: #657b83">(lines):</span>
+    <span style="color: #657b83">pairs</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[]</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">line</span> <span style="color: #859900">in</span> <span style="color: #657b83">lines:</span>
+        <span style="color: #859900">for</span> <span style="color: #657b83">vowel</span> <span style="color: #859900">in</span> <span style="color: #2aa198">&#39;aeiou&#39;</span><span style="color: #657b83">:</span>
+            <span style="color: #657b83">count</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">line</span><span style="color: #93a1a1">.</span><span style="color: #657b83">count(vowel)</span>
+            <span style="color: #859900">if</span> <span style="color: #657b83">count</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+                <span style="color: #657b83">pairs</span><span style="color: #93a1a1">.</span><span style="color: #657b83">append((vowel,</span> <span style="color: #657b83">count))</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">pairs</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">sort_pairs</span><span style="color: #657b83">(pairs):</span>
+    <span style="color: #859900">return</span> <span style="color: #268bd2">sorted</span><span style="color: #657b83">(pairs)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">reducer</span><span style="color: #657b83">(sorted_pairs):</span>
+    <span style="color: #657b83">totals</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">{}</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">key,</span> <span style="color: #657b83">value</span> <span style="color: #859900">in</span> <span style="color: #657b83">sorted_pairs:</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">key</span> <span style="color: #859900">not</span> <span style="color: #859900">in</span> <span style="color: #657b83">totals:</span>
+            <span style="color: #657b83">totals[key]</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+        <span style="color: #657b83">totals[key]</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">totals[key]</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">value</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">totals</span>
+
+<span style="color: #657b83">haiku</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[</span><span style="color: #2aa198">&#39;Google MapReduce&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;Is a Big Data framework&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;For batch processing&#39;</span><span style="color: #657b83">]</span>
+<span style="color: #657b83">stage1</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">cat(haiku)</span>
+<span style="color: #657b83">stage2</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">mapper(stage1)</span>
+<span style="color: #657b83">stage3</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">sort_pairs(stage2)</span>
+<span style="color: #657b83">stage4</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">reducer(stage3)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(stage4)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/7fa359506aa8.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>Step through it and check your predictions. Each name holds the output of one station. <code>stage1</code> is the raw haiku lines, <code>stage2</code> is the list of <code>(vowel, count)</code> pairs the mapper emitted, <code>stage3</code> is that same list sorted so equal keys are adjacent, and <code>stage4</code> is the dictionary of vowel totals. The printed result, <code>{&#x27;a&#x27;: 6, &#x27;e&#x27;: 5, &#x27;i&#x27;: 2, &#x27;o&#x27;: 5, &#x27;u&#x27;: 1}</code>, holds the same five counts the real pipeline prints.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</span></a><a class='pg pg-next' href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#an-assembly-line-of-workers'>An Assembly Line of Workers</a></li><li><a href='#the-unix-abstraction-barrier'>The Unix Abstraction Barrier</a></li><li><a href='#standard-input-and-standard-output'>Standard Input and Standard Output</a></li><li><a href='#turning-a-python-file-into-a-unix-program-the-shebang'>Turning a Python File Into a Unix Program: The Shebang</a></li><li><a href='#a-reversing-program'>A Reversing Program</a></li><li><a href='#pipes-connecting-two-programs'>Pipes: Connecting Two Programs</a></li><li><a href='#a-local-mapreduce-pipeline'>A Local MapReduce Pipeline</a></li><li><a href='#the-vowel-mapper'>The Vowel Mapper</a></li><li><a href='#the-sum-reducer'>The Sum Reducer</a></li><li><a href='#running-the-haiku-example'>Running the Haiku Example</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>Recursion and Tree Recursion Practice Guide · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/' class='active'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 1</span><span class='dot'>/</span><span class='eb-sec'>1.7 Recursive Functions</span></div><h1 class='lesson-title'>Recursion and Tree Recursion Practice Guide</h1><div class='reading-meta'>&#9719; approx. 3 min read <span class='rm-sep'>&middot;</span> 5 worked examples</div></div><div class='lesson-grid'><div class='lesson-body'><section id='easy' class='ls ls-default'>
+<h2 class='ls-h'><span>Easy</span></h2>
+<div class='ls-body'>
+<h3>Problem 1: Count a Digit</h3>
+<p>Write <code>count_digit(n, digit)</code> that returns how many times <code>digit</code> appears in the positive integer <code>n</code>.</p>
+<p>Constraints:</p>
+<ul>
+<li>Use recursion.</li>
+<li>Do not use strings.</li>
+<li>Assume <code>0 &lt;= digit &lt;= 9</code>.</li>
+</ul>
+<p>Hint: Compare <code>n % 10</code> to <code>digit</code>, then recurse on <code>n // 10</code>.</p>
+<h3>Problem 2: Product of Digits</h3>
+<p>Write <code>product_digits(n)</code> that returns the product of all digits in positive integer <code>n</code>.</p>
+<p>Constraints:</p>
+<ul>
+<li>Use recursion.</li>
+<li>Do not use loops or strings.</li>
+</ul>
+<p>Hint: The base case is a one-digit number.</p>
+</div></section>
+<section id='medium' class='ls ls-default'>
+<h2 class='ls-h'><span>Medium</span></h2>
+<div class='ls-body'>
+<h3>Problem 3: Ping-Pong Direction</h3>
+<p>Explain why the ping-pong sequence changes direction at numbers that are multiples of <code>8</code> or contain the digit <code>8</code>.</p>
+<p>Then write a helper-based recursive solution for <code>pingpong(n)</code>.</p>
+<p>Constraints:</p>
+<ul>
+<li>Do not use assignment statements inside <code>pingpong</code>.</li>
+<li>A helper function may carry the current index, value, and direction.</li>
+</ul>
+<p>Hint: The direction is part of the state. Recursive helper parameters can replace local mutation.</p>
+<h3>Problem 4: Count Coins</h3>
+<p>Write <code>count_coins(change)</code> that counts the ways to make change using coins worth <code>1</code>, <code>5</code>, <code>10</code>, and <code>25</code>.</p>
+<p>Constraints:</p>
+<ul>
+<li>Use recursion.</li>
+<li>Do not use <code>for</code> or <code>while</code>.</li>
+</ul>
+<p>Hint: Split into two choices: use the current coin, or stop using the current coin.</p>
+</div></section>
+<section id='hard' class='ls ls-default'>
+<h2 class='ls-h'><span>Hard</span></h2>
+<div class='ls-body'>
+<h3>Problem 5: Trace Before You Code</h3>
+<p>Trace <code>count_partitions(5, 3)</code> as a tree. Mark each branch as:</p>
+<ul>
+<li>success: <code>n == 0</code></li>
+<li>failure by overshoot: <code>n &lt; 0</code></li>
+<li>failure by no parts: <code>m == 0</code></li>
+</ul>
+<p>Then compute the final return value.</p>
+<p>Hint: Draw the two branches as <code>use 3</code> and <code>skip 3</code>, then repeat.</p>
+</div></section>
+<section id='detailed-solutions' class='ls ls-default'>
+<h2 class='ls-h'><span>Detailed Solutions</span></h2>
+<div class='ls-body'>
+<h3>Solution 1</h3>
+<p>Base case: if <code>n &lt; 10</code>, the number has one digit. Return <code>1</code> if it matches <code>digit</code>; otherwise return <code>0</code>.</p>
+<p>Recursive step: remove the last digit with <code>n // 10</code>.</p>
+<p>Recombination step: add the match count for the last digit to the count from the rest.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">count_digit</span><span style="color: #657b83">(n,</span> <span style="color: #657b83">digit):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">10</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">digit:</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">1</span>
+        <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">last_matches</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">1</span> <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">%</span> <span style="color: #2aa198">10</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">digit</span> <span style="color: #859900">else</span> <span style="color: #2aa198">0</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">count_digit(n</span> <span style="color: #93a1a1">//</span> <span style="color: #2aa198">10</span><span style="color: #657b83">,</span> <span style="color: #657b83">digit)</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">last_matches</span>
+</code></pre>
+<p>Trace for <code>count_digit(3838, 8)</code>:</p>
+<pre class='code text'><code>count_digit(3838, 8)
+= count_digit(383, 8) + 1
+= (count_digit(38, 8) + 0) + 1
+= ((count_digit(3, 8) + 1) + 0) + 1
+= ((0 + 1) + 0) + 1
+= 2</code></pre>
+<p>Final result: <strong>2</strong>.</p>
+<h3>Solution 2</h3>
+<p>Base case: if <code>n &lt; 10</code>, return <code>n</code>.</p>
+<p>Recursive step: solve the product for all but the last digit.</p>
+<p>Recombination step: multiply by the last digit.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">product_digits</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">10</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">n</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">product_digits(n</span> <span style="color: #93a1a1">//</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">(n</span> <span style="color: #93a1a1">%</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>Trace for <code>product_digits(234)</code>:</p>
+<pre class='code text'><code>product_digits(234)
+= product_digits(23) * 4
+= (product_digits(2) * 3) * 4
+= (2 * 3) * 4
+= 24</code></pre>
+<p>Final result: <strong>24</strong>.</p>
+<h3>Solution 3</h3>
+<p>The ping-pong sequence changes direction when the current index is special. The special index test is:</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">has_eight</span><span style="color: #657b83">(k):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">False</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">%</span> <span style="color: #2aa198">10</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">8</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">True</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">has_eight(k</span> <span style="color: #93a1a1">//</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>Helper-state plan:</p>
+<ul>
+<li><code>index</code> tells us which position we are currently on.</li>
+<li><code>value</code> tells us the ping-pong value at that index.</li>
+<li><code>direction</code> is either <code>1</code> or <code>-1</code>.</li>
+</ul>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">pingpong</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">helper</span><span style="color: #657b83">(index,</span> <span style="color: #657b83">value,</span> <span style="color: #657b83">direction):</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">index</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">n:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">value</span>
+        <span style="color: #859900">elif</span> <span style="color: #657b83">index</span> <span style="color: #93a1a1">%</span> <span style="color: #2aa198">8</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span> <span style="color: #859900">or</span> <span style="color: #657b83">has_eight(index):</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">helper(index</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #657b83">value</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">direction,</span> <span style="color: #93a1a1">-</span><span style="color: #657b83">direction)</span>
+        <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">helper(index</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #657b83">value</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">direction,</span> <span style="color: #657b83">direction)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">helper(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>Trace around the first turn:</p>
+<pre class='code text'><code>helper(1, 1, 1)
+helper(2, 2, 1)
+helper(3, 3, 1)
+...
+helper(8, 8, 1)
+index 8 is special, so next direction is -1
+helper(9, 7, -1)
+helper(10, 6, -1)</code></pre>
+<p>Final check: <code>pingpong(10)</code> returns <strong>6</strong>.</p>
+<h3>Solution 4</h3>
+<p>Base cases:</p>
+<ul>
+<li>If <code>change == 0</code>, we found one valid way.</li>
+<li>If <code>change &lt; 0</code>, this branch overshot.</li>
+<li>If there are no more coins, this branch failed.</li>
+</ul>
+<p>Recursive step:</p>
+<ul>
+<li>Use the current coin: reduce <code>change</code>.</li>
+<li>Skip the current coin: move to the next smaller coin.</li>
+</ul>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">next_smaller_coin</span><span style="color: #657b83">(coin):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">coin</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">25</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">10</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">coin</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">10</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">5</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">coin</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">5</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">1</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">count_coins</span><span style="color: #657b83">(change):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">count_with_coin</span><span style="color: #657b83">(remaining,</span> <span style="color: #657b83">coin):</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">remaining</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">1</span>
+        <span style="color: #859900">elif</span> <span style="color: #657b83">remaining</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">0</span>
+        <span style="color: #859900">elif</span> <span style="color: #657b83">coin</span> <span style="color: #859900">is</span> <span style="color: #2aa198">None</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">0</span>
+        <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+            <span style="color: #657b83">use_it</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">count_with_coin(remaining</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">coin,</span> <span style="color: #657b83">coin)</span>
+            <span style="color: #657b83">skip_it</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">count_with_coin(remaining,</span> <span style="color: #657b83">next_smaller_coin(coin))</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">use_it</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">skip_it</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">count_with_coin(change,</span> <span style="color: #2aa198">25</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>Trace for <code>count_coins(10)</code>:</p>
+<pre class='code text'><code>Using coins up to 25:
+  use 25 -&gt; remaining -15 -&gt; 0 ways
+  skip 25 -&gt; use coins up to 10
+
+Using coins up to 10:
+  use 10 -&gt; remaining 0 -&gt; 1 way
+  skip 10 -&gt; use coins up to 5
+
+Using coins up to 5:
+  use 5 -&gt; count ways for 5 with 5s and 1s
+  skip 5 -&gt; all ones</code></pre>
+<p>The valid combinations are:</p>
+<pre class='code text'><code>10
+5 + 5
+5 + 1 + 1 + 1 + 1 + 1
+1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1</code></pre>
+<p>Final result: <strong>4</strong>.</p>
+<h3>Solution 5</h3>
+<p>For <code>count_partitions(5, 3)</code>, split into:</p>
+<pre class='code text'><code>use 3:  count_partitions(2, 3)
+skip 3: count_partitions(5, 2)</code></pre>
+<p>The successful partitions are:</p>
+<pre class='code text'><code>2 + 3
+1 + 1 + 3
+1 + 2 + 2
+1 + 1 + 1 + 2
+1 + 1 + 1 + 1 + 1</code></pre>
+<p>Final result: <strong>5</strong>.</p>
+<p>The important reasoning is not the final number alone. The important reasoning is that every partition either uses a <code>3</code> or does not use a <code>3</code>, and those two groups do not overlap.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</span></a><a class='pg pg-next' href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>2.1 Introduction and Native Data Types</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#easy'>Easy</a></li><li><a href='#medium'>Medium</a></li><li><a href='#hard'>Hard</a></li><li><a href='#detailed-solutions'>Detailed Solutions</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 300" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- STAGE 1: raw source text -->
+  <rect x="16" y="92" width="120" height="56" rx="12" fill="#fdf6e3" stroke="#073642" stroke-width="2.5"/>
+  <text x="76" y="128" text-anchor="middle" font-size="22" font-family="monospace" fill="#073642">(+ 1 2)</text>
+  <text x="76" y="170" text-anchor="middle" font-size="12" fill="#93a1a1">source text</text>
+  <text x="76" y="186" text-anchor="middle" font-size="12" fill="#93a1a1">(one string)</text>
+
+  <!-- arrow: tokenize -->
+  <text x="186" y="108" text-anchor="middle" font-size="13" font-style="italic" fill="#657b83">tokenize</text>
+  <line x1="142" y1="120" x2="232" y2="120" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="230,114 241,120 230,126" fill="#268bd2"/>
+
+  <!-- STAGE 2: five token chips -->
+  <rect x="247" y="98" width="36" height="44" rx="10" fill="#ffffff" stroke="#268bd2" stroke-width="2"/>
+  <text x="265" y="127" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">(</text>
+  <rect x="289" y="98" width="36" height="44" rx="10" fill="#ffffff" stroke="#268bd2" stroke-width="2"/>
+  <text x="307" y="127" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">+</text>
+  <rect x="331" y="98" width="36" height="44" rx="10" fill="#ffffff" stroke="#268bd2" stroke-width="2"/>
+  <text x="349" y="127" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">1</text>
+  <rect x="373" y="98" width="36" height="44" rx="10" fill="#ffffff" stroke="#268bd2" stroke-width="2"/>
+  <text x="391" y="127" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">2</text>
+  <rect x="415" y="98" width="36" height="44" rx="10" fill="#ffffff" stroke="#268bd2" stroke-width="2"/>
+  <text x="433" y="127" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">)</text>
+  <text x="349" y="170" text-anchor="middle" font-size="12" fill="#93a1a1">tokens</text>
+
+  <!-- arrow: read into a tree -->
+  <text x="503" y="98" text-anchor="middle" font-size="13" font-style="italic" fill="#657b83">read into</text>
+  <text x="503" y="114" text-anchor="middle" font-size="13" font-style="italic" fill="#657b83">a tree</text>
+  <line x1="457" y1="120" x2="547" y2="120" stroke="#2aa198" stroke-width="2.5"/>
+  <polygon points="545,114 556,120 545,126" fill="#2aa198"/>
+
+  <!-- STAGE 3: expression tree -->
+  <!-- edges (plain lines, no arrowheads) -->
+  <line x1="613" y1="118" x2="583" y2="158" stroke="#073642" stroke-width="2"/>
+  <line x1="613" y1="118" x2="643" y2="158" stroke="#073642" stroke-width="2"/>
+  <!-- root node + -->
+  <circle cx="613" cy="100" r="20" fill="#fdf6e3" stroke="#2aa198" stroke-width="2.5"/>
+  <text x="613" y="108" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">+</text>
+  <!-- child 1 -->
+  <circle cx="575" cy="174" r="18" fill="#ffffff" stroke="#2aa198" stroke-width="2"/>
+  <text x="575" y="181" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">1</text>
+  <!-- child 2 -->
+  <circle cx="651" cy="174" r="18" fill="#ffffff" stroke="#2aa198" stroke-width="2"/>
+  <text x="651" y="181" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">2</text>
+  <text x="613" y="216" text-anchor="middle" font-size="12" fill="#93a1a1">expression tree</text>
+
+  <!-- overall caption -->
+  <text x="350" y="262" text-anchor="middle" font-size="13" fill="#93a1a1">parsing does two jobs: split the text into tokens,</text>
+  <text x="350" y="280" text-anchor="middle" font-size="13" fill="#93a1a1">then read the tokens into an expression tree.</text>
+</svg>

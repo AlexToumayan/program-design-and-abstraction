@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 320" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- ===================== LEFT PANEL: membership ===================== -->
+  <text x="172" y="32" text-anchor="middle" font-size="15" font-weight="bold" fill="#073642">membership = scan the whole list</text>
+
+  <!-- row of n boxes -->
+  <rect x="20" y="92" width="48" height="48" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="44" y="123" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">4</text>
+
+  <rect x="78" y="92" width="48" height="48" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="102" y="123" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">1</text>
+
+  <rect x="136" y="92" width="48" height="48" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="160" y="123" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">5</text>
+
+  <rect x="194" y="92" width="48" height="48" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="218" y="123" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">7</text>
+
+  <rect x="252" y="92" width="48" height="48" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="276" y="121" text-anchor="middle" font-size="20" font-family="monospace" fill="#657b83">&#8230;</text>
+
+  <!-- sweeping arrow across all boxes -->
+  <line x1="28" y1="72" x2="290" y2="72" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="288,66 300,72 288,78" fill="#268bd2"/>
+
+  <!-- left caption -->
+  <text x="160" y="172" text-anchor="middle" font-size="13" fill="#93a1a1">up to n checks</text>
+  <text x="160" y="190" text-anchor="middle" font-size="13" fill="#93a1a1">(Theta of n)</text>
+
+  <!-- ===================== divider ===================== -->
+  <line x1="340" y1="44" x2="340" y2="208" stroke="#93a1a1" stroke-width="1.5" stroke-dasharray="4 5"/>
+
+  <!-- ===================== RIGHT PANEL: intersection ===================== -->
+  <text x="510" y="32" text-anchor="middle" font-size="15" font-weight="bold" fill="#073642">intersection = a membership</text>
+  <text x="510" y="51" text-anchor="middle" font-size="15" font-weight="bold" fill="#073642">test for EVERY item</text>
+
+  <!-- top axis: columns are scanned items of set B -->
+  <text x="540" y="80" text-anchor="middle" font-size="12" font-family="monospace" fill="#2aa198">set B (scanned each time)</text>
+  <line x1="448" y1="88" x2="632" y2="88" stroke="#2aa198" stroke-width="2.5"/>
+  <polygon points="630,82 642,88 630,94" fill="#2aa198"/>
+
+  <!-- left axis: rows are items of set A -->
+  <text x="408" y="158" text-anchor="middle" font-size="12" font-family="monospace" fill="#268bd2" transform="rotate(-90 408 158)">set A (each item)</text>
+  <line x1="430" y1="100" x2="430" y2="200" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="424,198 430,210 436,198" fill="#268bd2"/>
+
+  <!-- n by n grid of dots: 4 rows (A) x 4 cols (B) -->
+  <!-- row 1 -->
+  <circle cx="460" cy="108" r="6" fill="#073642"/>
+  <circle cx="500" cy="108" r="6" fill="#073642"/>
+  <circle cx="540" cy="108" r="6" fill="#073642"/>
+  <circle cx="580" cy="108" r="6" fill="#073642"/>
+  <!-- row 2 -->
+  <circle cx="460" cy="138" r="6" fill="#073642"/>
+  <circle cx="500" cy="138" r="6" fill="#073642"/>
+  <circle cx="540" cy="138" r="6" fill="#073642"/>
+  <circle cx="580" cy="138" r="6" fill="#073642"/>
+  <!-- row 3 -->
+  <circle cx="460" cy="168" r="6" fill="#073642"/>
+  <circle cx="500" cy="168" r="6" fill="#073642"/>
+  <circle cx="540" cy="168" r="6" fill="#073642"/>
+  <circle cx="580" cy="168" r="6" fill="#073642"/>
+  <!-- row 4 -->
+  <circle cx="460" cy="198" r="6" fill="#073642"/>
+  <circle cx="500" cy="198" r="6" fill="#073642"/>
+  <circle cx="540" cy="198" r="6" fill="#073642"/>
+  <circle cx="580" cy="198" r="6" fill="#073642"/>
+
+  <!-- right caption -->
+  <text x="528" y="238" text-anchor="middle" font-size="13" fill="#93a1a1">n items times n checks each</text>
+  <text x="528" y="256" text-anchor="middle" font-size="13" fill="#93a1a1">= Theta of n squared</text>
+
+  <!-- ===================== bottom caption ===================== -->
+  <text x="340" y="298" text-anchor="middle" font-size="13" fill="#93a1a1">because each membership test is linear, intersecting two</text>
+  <text x="340" y="316" text-anchor="middle" font-size="13" fill="#93a1a1">unordered sets is quadratic.</text>
+</svg>

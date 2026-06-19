@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 348" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <text x="40" y="42" font-size="18" font-weight="bold" fill="#073642">Barrier: everyone reaches the line before phase 2</text>
+
+  <line x1="120" y1="306" x2="812" y2="306" stroke="#073642" stroke-width="2"/>
+  <polygon points="812,300 824,306 812,312" fill="#073642"/>
+  <text x="828" y="311" font-size="13" fill="#93a1a1">time</text>
+
+  <line x1="500" y1="82" x2="500" y2="298" stroke="#dc322f" stroke-width="3" stroke-dasharray="8 7"/>
+  <text x="500" y="74" text-anchor="middle" font-size="14" font-weight="bold" fill="#dc322f">barrier</text>
+
+  <text x="38" y="128" font-size="15" font-weight="bold" fill="#073642">Worker A</text>
+  <rect x="120" y="104" width="250" height="40" rx="10" fill="#e8eff7" stroke="#268bd2" stroke-width="2"/>
+  <rect x="370" y="104" width="130" height="40" rx="10" fill="#faf3df" stroke="#b58900" stroke-width="2"/>
+  <rect x="500" y="104" width="250" height="40" rx="10" fill="#e3f2ef" stroke="#2aa198" stroke-width="2"/>
+  <text x="245" y="129" text-anchor="middle" font-size="13" fill="#657b83">phase 1</text>
+  <text x="435" y="129" text-anchor="middle" font-size="13" fill="#657b83">wait</text>
+  <text x="625" y="129" text-anchor="middle" font-size="13" fill="#657b83">phase 2</text>
+
+  <text x="38" y="202" font-size="15" font-weight="bold" fill="#073642">Worker B</text>
+  <rect x="120" y="178" width="310" height="40" rx="10" fill="#e8eff7" stroke="#268bd2" stroke-width="2"/>
+  <rect x="430" y="178" width="70" height="40" rx="10" fill="#faf3df" stroke="#b58900" stroke-width="2"/>
+  <rect x="500" y="178" width="250" height="40" rx="10" fill="#e3f2ef" stroke="#2aa198" stroke-width="2"/>
+
+  <text x="38" y="276" font-size="15" font-weight="bold" fill="#073642">Worker C</text>
+  <rect x="120" y="252" width="380" height="40" rx="10" fill="#e8eff7" stroke="#268bd2" stroke-width="2"/>
+  <rect x="500" y="252" width="250" height="40" rx="10" fill="#e3f2ef" stroke="#2aa198" stroke-width="2"/>
+
+  <text x="436" y="330" text-anchor="middle" font-size="13" fill="#93a1a1">no worker starts phase 2 until the slowest worker reaches the barrier</text>
+</svg>

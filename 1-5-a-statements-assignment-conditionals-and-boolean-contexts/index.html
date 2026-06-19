@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>1.5 Control: Statements, Assignment, Conditionals, and Boolean Contexts · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/' class='active'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 1</span><span class='dot'>/</span><span class='eb-sec'>1.5 Control</span></div><h1 class='lesson-title'>1.5 Control: Statements, Assignment, Conditionals, and Boolean Contexts</h1><div class='reading-meta'>&#9719; approx. 19 min read <span class='rm-sep'>&middot;</span> 21 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>Up to now your programs have mostly been single expressions: you hand Python a calculation, it works out one value, and it shows you that value. This lesson is where programs grow a spine. By the end you will be able to do five things: tell a <strong>statement</strong> apart from an <strong>expression</strong> and say why a statement has no value, read a <strong>compound statement</strong> by finding its header, colon, and indented <strong>suite</strong>, create a named local value inside a function with an assignment statement, write an <code>if</code>/<code>elif</code>/<code>else</code> chain and predict exactly which branch runs, and explain why <code>and</code> and <code>or</code> sometimes never look at their right-hand side.</p>
+<p>The thread that ties all of this together is a single new idea: <strong>control</strong>. A program is no longer just a value to compute. It is a sequence of steps, and some of those steps decide which later steps are allowed to run at all.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='control-means-choosing-the-path' class='ls ls-default'>
+<h2 class='ls-h'><span>Control Means Choosing the Path</span></h2>
+<div class='ls-body'>
+<p>Picture following a recipe. Most of the time you do one step, then the next, then the next, straight down the card. But real recipes also branch. &quot;If the dough is too sticky, add a tablespoon of flour; otherwise, move on.&quot; You read the condition, you check the dough, and based on the answer you either do the extra step or skip it entirely. You never do both.</p>
+<p>That is exactly what control statements add to a program. So far the interpreter has walked straight down the page:</p>
+<pre class='code text'><code>run line 1
+run line 2
+run line 3</code></pre>
+<p>Control lets a program ask a question and then take one of several roads depending on the answer:</p>
+<pre class='code text'><code>run line 1
+ask a question
+if the answer is true, run this suite
+otherwise, skip it or run a different suite</code></pre>
+<p>A <strong>suite</strong> is a group of indented statements that some header line controls. The header asks the question; the suite is the work that runs only when the header says so. You can imagine the interpreter walking down a hallway of rooms, and a header is a guard standing at a doorway:</p>
+<pre class='code text'><code>ordinary statement -&gt; do it and keep walking
+if header          -&gt; check the condition before entering this room
+indented suite     -&gt; run these lines only if the header allows it</code></pre>
+<p>The colon and the indentation are not decoration. They are part of the machine&#x27;s map: they tell Python exactly which lines belong to the same controlled block.</p>
+</div></section>
+<section id='statements-have-no-value' class='ls ls-default'>
+<h2 class='ls-h'><span>Statements Have No Value</span></h2>
+<div class='ls-body'>
+<p>This is the first real break from everything before. An <strong>expression</strong> computes a value; <code>2 + 2</code> produces <code>4</code>. A <strong>statement</strong> does not produce a value at all. Instead Python <strong>executes</strong> a statement to change the state of the interpreter: it binds a name, defines a function, or returns from a call. You have already met three kinds of statement without dwelling on the distinction: assignment statements, <code>def</code> statements, and <code>return</code> statements. Each one contains expressions as parts, but the statement itself is not an expression and has no value.</p>
+<p>The flip side is also true and worth saying out loud, because it causes a classic beginner bug: an expression can sit on a line all by itself as a statement. When it does, Python evaluates it and then throws the value away. That is fine when the expression does something useful as a side effect, like calling <code>print</code>. It is a quiet disaster when you meant to keep the value.</p>
+<p>Here is the original cautionary example. Suppose you want a <code>square</code> function but you forget the word <code>return</code>:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #93a1a1">&gt;&gt;&gt;</span> <span style="color: #859900">def</span> <span style="color: #268bd2">square</span><span style="color: #657b83">(x):</span>
+        <span style="color: #657b83">mul(x,</span> <span style="color: #657b83">x)</span> <span style="color: #93a1a1; font-style: italic"># Watch out! This call doesn&#39;t return a value.</span>
+</code></pre>
+<p>This is valid Python, but almost certainly not what you wanted. The body is a single expression, <code>mul(x, x)</code>. An expression on its own is a legal statement, so Python accepts it. But the effect is only that <code>mul</code> is called and its result is immediately discarded. The function never sends a value back, so calling <code>square(3)</code> produces nothing useful. The fix is to make the body a <code>return</code> statement so the value actually leaves the function:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #93a1a1">&gt;&gt;&gt;</span> <span style="color: #859900">def</span> <span style="color: #268bd2">square</span><span style="color: #657b83">(x):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">mul(x,</span> <span style="color: #657b83">x)</span>
+</code></pre>
+<p>There is a legitimate time to use a bare function call as a statement: when you call a non-pure function for its side effect rather than its value. Printing is the standard case, because <code>print</code> does its job by drawing text on the screen, not by returning something you keep:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #93a1a1">&gt;&gt;&gt;</span> <span style="color: #859900">def</span> <span style="color: #268bd2">print_square</span><span style="color: #657b83">(x):</span>
+        <span style="color: #268bd2">print</span><span style="color: #657b83">(square(x))</span>
+</code></pre>
+<p>The rule to carry forward: if you want a value out of a function, the body needs <code>return</code>. A bare expression statement runs and then vanishes.</p>
+<h3>Following the line: an expression statement vs. a return statement</h3>
+<pre class='code anatomy'><code>mul(x, x)
+├─ mul ......... the multiplication function
+├─ (x, x) ...... call it on x and x
+├─ (statement) . evaluated, then the result is thrown away
+└─ does ........ computes x * x and discards it (function returns nothing)</code></pre>
+<pre class='code anatomy'><code>return mul(x, x)
+├─ return ...... hand a value back to the caller and stop the function
+├─ mul(x, x) ... compute x * x first
+└─ does ........ sends the value x * x back as the call&#x27;s result</code></pre>
+</div></section>
+<section id='statements-execute-in-order' class='ls ls-default'>
+<h2 class='ls-h'><span>Statements Execute in Order</span></h2>
+<div class='ls-body'>
+<p>A multi-line program is a sequence of statements, and the default behavior is the simplest possible: do the first one, then the next, and so on. The original text states the rule precisely: to execute a sequence of statements, execute the first statement; if that statement does not redirect control, then proceed to execute the rest of the sequence.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (4)</span>
+<span style="color: #657b83">x</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">2</span>
+<span style="color: #657b83">y</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">3</span>
+<span style="color: #657b83">z</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">y</span> <span style="color: #93a1a1">*</span> <span style="color: #2aa198">10</span>
+</code></pre>
+<p>Walking through it one statement at a time:</p>
+<pre class='code text'><code>x = 2       -&gt; bind x to 2
+y = x + 3   -&gt; look up x, compute 5, bind y to 5
+z = y * 10  -&gt; look up y, compute 50, bind z to 50</code></pre>
+<p>After all three run, the global frame holds:</p>
+<pre class='code text'><code>x -&gt; 2
+y -&gt; 5
+z -&gt; 50</code></pre>
+<p>Later statements can lean on earlier ones because each assignment leaves a binding behind in the environment. The phrase &quot;if that statement does not redirect control&quot; is a hint of what is coming: some statements, like <code>return</code>, or a chosen <code>if</code> branch, change which statement runs next instead of simply falling through to the line below.</p>
+</div></section>
+<section id='compound-statements-header-colon-suite' class='ls ls-default'>
+<h2 class='ls-h'><span>Compound Statements: Header, Colon, Suite</span></h2>
+<div class='ls-body'>
+<p>Python sorts statements into two shapes. A <strong>simple statement</strong> is a single line that does not end in a colon, like <code>x = 2</code> or <code>return x</code>. A <strong>compound statement</strong> is built out of other statements, so it spans several lines. It starts with a one-line <strong>header</strong> that ends in a colon and announces what kind of statement it is, followed by an indented <strong>suite</strong> of statements that the header controls. A header together with its suite is called a <strong>clause</strong>. A single compound statement can have several clauses stacked on top of each other.</p>
+<p>The general shape looks like this:</p>
+<pre class='code text'><code>&lt;header&gt;:
+    &lt;statement&gt;
+    &lt;statement&gt;
+    ...
+&lt;separating header&gt;:
+    &lt;statement&gt;
+    &lt;statement&gt;
+    ...
+...</code></pre>
+<h3>Following the line: the parts of a clause</h3>
+<pre class='code anatomy'><code>&lt;header&gt;:
+    &lt;statement&gt;
+├─ &lt;header&gt; .... the line that announces the clause (e.g. an if or def line)
+├─ : ........... ends the header and promises an indented suite below
+├─ indent ...... marks which lines belong to this header
+└─ &lt;statement&gt; . a member of the suite, run under the header&#x27;s control</code></pre>
+<p>The colon and the indentation together are how Python knows where a controlled block begins and ends. Miss the colon and Python cannot tell a suite is coming; misalign the indentation and a line silently lands in the wrong block.</p>
+</div></section>
+<section id='local-assignment-inside-a-function' class='ls ls-default'>
+<h2 class='ls-h'><span>Local Assignment Inside a Function</span></h2>
+<div class='ls-body'>
+<p>Assignment statements are not only for the top level of your program. They also work inside a function body, and that is where they earn their keep: a local assignment gives a name to an intermediate result so the calculation reads clearly. Whenever a user-defined function is applied, the suite of its definition runs in a <strong>local environment</strong> that begins with a fresh local frame created by that call. The effect of an assignment statement is to bind a name to a value in the first frame of the current environment — that is, the most local frame, the one this call just created — so inside a function that binding lands in the call&#x27;s local frame, not the global one.</p>
+<p>Here is the original example. It computes the percent difference between two numbers, using a local name <code>difference</code> to hold an intermediate quantity:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (5)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">percent_difference</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #657b83">difference</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">abs</span><span style="color: #657b83">(x</span><span style="color: #93a1a1">-</span><span style="color: #657b83">y)</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">100</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">difference</span> <span style="color: #93a1a1">/</span> <span style="color: #657b83">x</span>
+<span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">percent_difference(</span><span style="color: #2aa198">40</span><span style="color: #657b83">,</span> <span style="color: #2aa198">50</span><span style="color: #657b83">)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/b0ac02faf320.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>When <code>percent_difference(40, 50)</code> is called, Python builds a local frame for the call:</p>
+<pre class='code text'><code>Local frame for percent_difference
+x -&gt; 40
+y -&gt; 50</code></pre>
+<p>Then it executes the body in order. The assignment runs first and adds a third binding to that same local frame:</p>
+<pre class='code text'><code>difference = abs(x-y)
+           = abs(40 - 50)
+           = abs(-10)
+           = 10
+
+Local frame for percent_difference
+x          -&gt; 40
+y          -&gt; 50
+difference -&gt; 10</code></pre>
+<p>Then the <code>return</code> statement uses all three local names to compute the result:</p>
+<pre class='code text'><code>return 100 * difference / x
+       = 100 * 10 / 40
+       = 25.0</code></pre>
+<p>So the global binding left behind is:</p>
+<pre class='code text'><code>result -&gt; 25.0</code></pre>
+<p>The local name <code>difference</code> is a convenience, not a requirement. It exists only to make the calculation readable. The same function can be written as a single expression with no local assignment at all:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (6)</span>
+<span style="color: #93a1a1">&gt;&gt;&gt;</span> <span style="color: #859900">def</span> <span style="color: #268bd2">percent_difference</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">100</span> <span style="color: #93a1a1">*</span> <span style="color: #268bd2">abs</span><span style="color: #657b83">(x</span><span style="color: #93a1a1">-</span><span style="color: #657b83">y)</span> <span style="color: #93a1a1">/</span> <span style="color: #657b83">x</span>
+<span style="color: #93a1a1">&gt;&gt;&gt;</span> <span style="color: #657b83">percent_difference(</span><span style="color: #2aa198">40</span><span style="color: #657b83">,</span> <span style="color: #2aa198">50</span><span style="color: #657b83">)</span>
+<span style="color: #2aa198">25.0</span>
+</code></pre>
+<p>Both versions return the same value. Version (5) hands the reader a named intermediate quantity; version (6) is shorter. Choosing between them is a judgment call about clarity, and naming a meaningful intermediate is often worth the extra line.</p>
+</div></section>
+<section id='conditional-statements' class='ls ls-default'>
+<h2 class='ls-h'><span>Conditional Statements</span></h2>
+<div class='ls-body'>
+<p>Now the main event. A conditional statement is how a program asks a question and runs different code depending on the answer. The classic example reimplements something Python already gives you, the absolute value of a number, so you can see the control flow without any mystery in the math.</p>
+<p>Python already has a built-in <code>abs</code> function, and the quickest way to see what we are about to rebuild is to call it at the prompt:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (7)</span>
+<span style="color: #93a1a1">&gt;&gt;&gt;</span> <span style="color: #268bd2">abs</span><span style="color: #657b83">(</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">2</span><span style="color: #657b83">)</span>
+<span style="color: #2aa198">2</span>
+</code></pre>
+<p>The built-in takes <code>-2</code> and hands back <code>2</code>: it strips off the sign and keeps the magnitude. Our job now is to reimplement that behavior ourselves as <code>absolute_value</code>, so the control flow is fully visible instead of hidden inside a built-in.</p>
+<p>Here is the official implementation, verbatim:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (8)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">absolute_value</span><span style="color: #657b83">(x):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Compute abs(x).&quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">x</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #93a1a1">-</span><span style="color: #657b83">x</span>
+<span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">absolute_value(</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">2</span><span style="color: #657b83">)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/ba4b7135eaec.json' data-mount='st1'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st1' hidden></div></figure>
+<p>In plain English the function asks a chain of questions:</p>
+<pre class='code text'><code>Is x greater than 0?
+If yes, return x.
+If no, is x equal to 0?
+If yes, return 0.
+If no, return -x.</code></pre>
+<p>The key is that Python does not gather up every true clause. It checks the clauses in order and stops at the first one whose condition is a true value. The original text gives the exact procedure: evaluate the header&#x27;s expression; if it is a true value, execute that suite and then skip over all subsequent clauses in the conditional statement.</p>
+<h3>Tracing absolute_value(-2)</h3>
+<p>Start with the local frame for the call:</p>
+<pre class='code text'><code>Local frame for absolute_value
+x -&gt; -2</code></pre>
+<p>Now walk the clauses in order:</p>
+<pre class='code text'><code>Check x &gt; 0:
+-2 &gt; 0 is False
+skip the first suite
+
+Check x == 0:
+-2 == 0 is False
+skip the second suite
+
+else:
+no condition left to check, so run this suite
+return -x, which is -(-2) = 2</code></pre>
+<p>So the global binding is:</p>
+<pre class='code text'><code>result -&gt; 2</code></pre>
+<p>Think of the chain as a row of guarded doors. Python tries them strictly left to right and walks through the first one that opens:</p>
+<pre class='code text'><code>Door 1: x &gt; 0
+Door 2: x == 0
+Door 3: else</code></pre>
+<p>For <code>x = -2</code> the first two doors stay shut, so Python uses the <code>else</code> door. The instant a door opens, every later door in the chain is skipped. That is why the order of conditions can change what a program does.</p>
+<p>Here is the same flow as a picture: each condition is a diamond, a <code>True</code> answer turns aside to run a branch, and a <code>False</code> answer drops down to the next question, with the <code>else</code> at the bottom catching the leftover case.</p>
+<p><img class="figure" src="figures/if-elif-else-flow.svg" alt="A vertical flowchart of an if elif else chain. A diamond asks x greater than 0; a True arrow goes right to a box that returns x, and a False arrow drops down to a second diamond asking x equals 0; its True arrow goes right to a box that returns 0, and its False arrow drops down to a final box that returns negative x as the else case. A note says conditions are checked top to bottom and only the first True branch runs."></p>
+<h3>The Anatomy of if, elif, and else</h3>
+<p>The general form, exactly as the original text presents it:</p>
+<pre class='code text'><code>if &lt;expression&gt;:
+    &lt;suite&gt;
+elif &lt;expression&gt;:
+    &lt;suite&gt;
+else:
+    &lt;suite&gt;</code></pre>
+<h3>Following the line: the if statement keywords</h3>
+<pre class='code anatomy'><code>if &lt;expression&gt;:
+    &lt;suite&gt;
+elif &lt;expression&gt;:
+    &lt;suite&gt;
+else:
+    &lt;suite&gt;
+├─ if .......... begins the required first condition
+├─ elif ........ checked only if every condition above it was false
+├─ else ........ runs only if no condition above it was true
+├─ &lt;expression&gt; a header condition, evaluated in a boolean context
+├─ : ........... ends each header and announces its suite
+└─ runs ........ exactly one suite in the whole chain, or none if all are false and there is no else</code></pre>
+<p>A few rules fall out of this shape. Exactly one suite runs, never two. The <code>if</code> clause is required and comes first. You may have any number of <code>elif</code> clauses, including none. The <code>else</code> clause is optional, has no condition, and catches the leftover case. If every condition is false and there is no <code>else</code>, then no suite runs at all.</p>
+</div></section>
+<section id='boolean-contexts' class='ls ls-default'>
+<h2 class='ls-h'><span>Boolean Contexts</span></h2>
+<div class='ls-body'>
+<p>The expression after <code>if</code> or <code>elif</code> lives in a special situation the original text calls a <strong>boolean context</strong>: its truth value is what matters to control flow, but its value is not assigned or returned anywhere. Python only asks, &quot;does this count as true or false?&quot;</p>
+<p>So the condition does not have to literally be <code>True</code> or <code>False</code>. Python includes several false values: <code>0</code>, <code>None</code>, and the boolean value <code>False</code>. All other numbers are true values, and most other objects count as true as well.</p>
+<pre class='code text'><code>False
+0
+None</code></pre>
+<p>Because of this, a plain number can act as a condition:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (9)</span>
+<span style="color: #859900">if</span> <span style="color: #2aa198">3</span><span style="color: #657b83">:</span>
+    <span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">&quot;three counts as true&quot;</span>
+<span style="color: #859900">else</span><span style="color: #657b83">:</span>
+    <span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">&quot;this does not run&quot;</span>
+</code></pre>
+<p>The value <code>3</code> is not the boolean <code>True</code>, but in a boolean context it counts as true, so the first suite runs.</p>
+<p>For early Computer Science I work, lean toward explicit comparisons rather than relying on a value&#x27;s truthiness. The condition <code>if x &gt; 0:</code> shows the exact question on the page; <code>if x:</code> forces the reader to recall Python&#x27;s truthiness rules:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (10)</span>
+<span style="color: #859900">if</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">x</span>
+</code></pre>
+<p>The difference is about readability, not correctness:</p>
+<pre class='code text'><code>if x &gt; 0:     reader sees the exact question
+if x:         reader must remember Python&#x27;s truthiness rule</code></pre>
+<p>When you are learning, prefer the version that makes the question visible.</p>
+</div></section>
+<section id='comparison-operators' class='ls ls-default'>
+<h2 class='ls-h'><span>Comparison Operators</span></h2>
+<div class='ls-body'>
+<p>Comparison expressions are where boolean values usually come from. Each one asks a yes-or-no question and produces <code>True</code> or <code>False</code>.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (11)</span>
+<span style="color: #93a1a1">&gt;&gt;&gt;</span> <span style="color: #2aa198">4</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">2</span>
+<span style="color: #2aa198">False</span>
+</code></pre>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (12)</span>
+<span style="color: #93a1a1">&gt;&gt;&gt;</span> <span style="color: #2aa198">5</span> <span style="color: #93a1a1">&gt;=</span> <span style="color: #2aa198">5</span>
+<span style="color: #2aa198">True</span>
+</code></pre>
+<p><code>5 &gt;= 5</code> reads as &quot;5 is greater than or equal to 5,&quot; and it is true because <code>&gt;=</code> allows the two sides to be equal.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (13)</span>
+<span style="color: #93a1a1">&gt;&gt;&gt;</span> <span style="color: #2aa198">0</span> <span style="color: #93a1a1">==</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">0</span>
+<span style="color: #2aa198">True</span>
+</code></pre>
+<p>The double-equals <code>==</code> tests whether two values are equal. Python deliberately keeps it separate from the single <code>=</code> of assignment, and confusing the two is one of the most common early mistakes:</p>
+<pre class='code text'><code>=   assignment: bind a name to a value
+==  comparison: ask whether two values are equal</code></pre>
+<h3>Following the line: assignment vs. equality</h3>
+<pre class='code anatomy'><code>x == 0
+├─ x ........... the value currently bound to x
+├─ == .......... equality comparison (a question)
+├─ 0 ........... the value to compare against
+└─ evaluates to  True if x equals 0, otherwise False</code></pre>
+<pre class='code anatomy'><code>x = 0
+├─ x ........... the name being bound
+├─ = ........... assignment (an action)
+├─ 0 ........... the value to bind
+└─ does ........ binds the name x to 0 (no value, this is a statement)</code></pre>
+<p>Using <code>=</code> where a condition belongs is not just wrong in meaning; Python rejects it outright as a syntax error, because an assignment statement cannot serve as the condition of an <code>if</code>. The comparison you actually want is <code>==</code>:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (14)</span>
+<span style="color: #859900">if</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">0</span>
+</code></pre>
+</div></section>
+<section id='boolean-operators' class='ls ls-default'>
+<h2 class='ls-h'><span>Boolean Operators</span></h2>
+<div class='ls-body'>
+<p>Python has three operators for combining and inverting truth values: <code>and</code>, <code>or</code>, and <code>not</code>.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (15)</span>
+<span style="color: #93a1a1">&gt;&gt;&gt;</span> <span style="color: #2aa198">True</span> <span style="color: #859900">and</span> <span style="color: #2aa198">False</span>
+<span style="color: #2aa198">False</span>
+</code></pre>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (16)</span>
+<span style="color: #93a1a1">&gt;&gt;&gt;</span> <span style="color: #2aa198">True</span> <span style="color: #859900">or</span> <span style="color: #2aa198">False</span>
+<span style="color: #2aa198">True</span>
+</code></pre>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (17)</span>
+<span style="color: #93a1a1">&gt;&gt;&gt;</span> <span style="color: #859900">not</span> <span style="color: #2aa198">False</span>
+<span style="color: #2aa198">True</span>
+</code></pre>
+<p>In words: <code>and</code> is true only when both sides count as true; <code>or</code> is true when at least one side counts as true; <code>not</code> flips a truth value to its opposite. These let you build compound conditions out of simple comparisons. The original text notes a naming convention you will meet later in Python&#x27;s libraries: functions that perform comparisons and return boolean values are often named starting with <code>is</code>, as in <code>isfinite</code> or <code>isdigit</code> (you do not need these yet).</p>
+</div></section>
+<section id='short-circuiting' class='ls ls-default'>
+<h2 class='ls-h'><span>Short-Circuiting</span></h2>
+<div class='ls-body'>
+<p>There is a subtlety in how <code>and</code> and <code>or</code> actually evaluate, and it matters more than it first appears. Python does not always evaluate both sides. It evaluates the left side first, and if the left side already settles the outcome, Python returns a value without ever touching the right side. This is called <strong>short-circuiting</strong>.</p>
+<p>The original text gives the precise procedures. For <code>and</code>:</p>
+<pre class='code text'><code>To evaluate the expression &lt;left&gt; and &lt;right&gt;:
+1. Evaluate the subexpression &lt;left&gt;.
+2. If the result is a false value v, then the expression evaluates to v.
+3. Otherwise, the expression evaluates to the value of the subexpression &lt;right&gt;.</code></pre>
+<p>For <code>or</code>:</p>
+<pre class='code text'><code>To evaluate the expression &lt;left&gt; or &lt;right&gt;:
+1. Evaluate the subexpression &lt;left&gt;.
+2. If the result is a true value v, then the expression evaluates to v.
+3. Otherwise, the expression evaluates to the value of the subexpression &lt;right&gt;.</code></pre>
+<p>And <code>not</code>, which never short-circuits because it has only one operand:</p>
+<pre class='code text'><code>To evaluate the expression not &lt;exp&gt;:
+Evaluate &lt;exp&gt;; the value is True if the result is a false value, and False otherwise.</code></pre>
+<p>Read step 2 carefully in each case. The operator returns a value <code>v</code>, which is one of the operands themselves, not necessarily a literal <code>True</code> or <code>False</code>. For <code>and</code>, the moment the left side is false, that false value is the answer and the right side is skipped. For <code>or</code>, the moment the left side is true, that true value is the answer and the right side is skipped.</p>
+<h3>A bridge you can verify by hand</h3>
+<p>The procedures above are abstract, so here is a concrete consequence you can check yourself. Short-circuiting means the right side might contain something dangerous that simply never runs. Suppose <code>x</code> is <code>0</code> and you want to test a property of <code>10 / x</code> only when dividing is safe:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (18)</span>
+<span style="color: #657b83">x</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+<span style="color: #657b83">x</span> <span style="color: #93a1a1">!=</span> <span style="color: #2aa198">0</span> <span style="color: #859900">and</span> <span style="color: #2aa198">10</span> <span style="color: #93a1a1">/</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #2aa198">1</span>
+</code></pre>
+<p>Python evaluates the left side first:</p>
+<pre class='code text'><code>0 != 0 -&gt; False</code></pre>
+<p>By the <code>and</code> rule, a false left side is the answer, so Python returns <code>False</code> and never evaluates <code>10 / x</code>. Division by zero is avoided entirely, because Python already knew that one false side makes the whole <code>and</code> false. The right side could not rescue it, so there was no reason to run it.</p>
+<p>The same effect shows up in the smallest possible form, with an undefined name on the right:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (19)</span>
+<span style="color: #2aa198">False</span> <span style="color: #859900">and</span> <span style="color: #657b83">unknown_name</span>
+</code></pre>
+<p>This returns:</p>
+<pre class='code text'><code>False</code></pre>
+<p>Python never looks up <code>unknown_name</code>, because the false left side already determines the whole <code>and</code>. The <code>or</code> version is the mirror image:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (20)</span>
+<span style="color: #2aa198">True</span> <span style="color: #859900">or</span> <span style="color: #657b83">unknown_name</span>
+</code></pre>
+<p>This returns:</p>
+<pre class='code text'><code>True</code></pre>
+<p>Again <code>unknown_name</code> is never looked up, because the true left side already determines the whole <code>or</code>. The practical lesson is about order: put the cheap safety check on the left and the risky operation on the right, so the check runs first and the risky part runs only when it is safe. Written the other way around, with the division first, Python would attempt to divide by zero before it ever reached the guard.</p>
+<p>These values, rules, and operators give us a way to combine the results of comparisons, which is exactly what richer conditions are built from.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<div class='table-wrap'><table><thead><tr>
+<th>Mistake</th>
+<th>What Goes Wrong</th>
+<th>Safer Question</th>
+</tr></thead><tbody>
+<tr>
+<td>Writing a function body as a bare expression and forgetting <code>return</code></td>
+<td>The value is computed and discarded; the function hands nothing back</td>
+<td>Does this function need to return a value, and did I write <code>return</code>?</td>
+</tr>
+<tr>
+<td>Treating a statement as if it produced a value</td>
+<td>Statements have no value; trying to use one where a value belongs, like <code>y = (x = 5)</code>, raises a <code>SyntaxError</code></td>
+<td>Is this line carrying out an action or computing a value?</td>
+</tr>
+<tr>
+<td>Leaving out the colon after <code>if</code>, <code>elif</code>, <code>else</code>, or <code>def</code></td>
+<td>Python cannot tell that an indented suite is coming and raises a <code>SyntaxError</code></td>
+<td>Which header controls the next suite?</td>
+</tr>
+<tr>
+<td>Misaligning the indentation of a suite</td>
+<td>A line silently joins the wrong block</td>
+<td>Is this line indented under the header I intended?</td>
+</tr>
+<tr>
+<td>Using <code>=</code> instead of <code>==</code> in a condition</td>
+<td>Assignment is an action; equality is a question, and <code>=</code> is a syntax error here</td>
+<td>Am I binding a name or asking whether two values are equal?</td>
+</tr>
+<tr>
+<td>Expecting every true branch in a chain to run</td>
+<td>Only the first true clause runs; the rest are skipped</td>
+<td>Which condition is the first true one?</td>
+</tr>
+<tr>
+<td>Forgetting short-circuit behavior</td>
+<td>The right side of <code>and</code> or <code>or</code> may never be evaluated</td>
+<td>Does Python already know the result from the left side alone?</td>
+</tr>
+<tr>
+<td>Putting a risky operation to the left of its safety check</td>
+<td>The risky part runs before the guard can protect it</td>
+<td>Is the cheap check on the left and the risky part on the right?</td>
+</tr>
+</tbody></table></div>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>Why does a statement have no value, and what happens if you put a bare expression like <code>mul(x, x)</code> as a function body instead of <code>return mul(x, x)</code>?</li>
+<li>In a compound statement, what are the header, the colon, and the suite each responsible for?</li>
+<li>When you write <code>difference = abs(x-y)</code> inside <code>percent_difference</code>, which frame does the binding for <code>difference</code> go into?</li>
+<li>In an <code>if</code>/<code>elif</code>/<code>else</code> chain, how many suites run, and what determines which one?</li>
+<li>What is a boolean context, and which three values does Python treat as false?</li>
+<li>Using the short-circuit rules, what value does <code>0 or 5</code> evaluate to, and what value does <code>5 and 0</code> evaluate to?</li>
+<li>Given <code>x = 0</code>, why does <code>x != 0 and 10 / x &gt; 1</code> return <code>False</code> instead of raising a division error?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li>A statement is executed to change interpreter state, not to compute a value, so there is nothing to return; a bare expression body runs <code>mul(x, x)</code>, discards the result, and the function returns nothing useful, whereas <code>return mul(x, x)</code> actually hands the product back to the caller.</li>
+<li>The header announces the clause and ends in a colon; the colon promises an indented suite is coming; the suite is the group of indented statements the header controls.</li>
+<li>It goes into the local frame created for that call to <code>percent_difference</code>, because an assignment binds a name in the first frame of the current environment.</li>
+<li>At most one suite runs: the suite of the first clause whose condition is a true value, or the <code>else</code> suite if no condition is true. If all are false and there is no <code>else</code>, none run.</li>
+<li>A boolean context is a position, like an <code>if</code> or <code>elif</code> condition, where Python cares only about the truth value of an expression and does not assign or return it; the false values are <code>0</code>, <code>None</code>, and <code>False</code>.</li>
+<li><code>0 or 5</code> evaluates to <code>5</code>: the left side <code>0</code> is a false value, so <code>or</code> does not stop there and the whole expression takes the value of the right side, <code>5</code>. <code>5 and 0</code> evaluates to <code>0</code>: the left side <code>5</code> is a true value, so <code>and</code> does not stop there and the whole expression takes the value of the right side, <code>0</code>. In each case the result is one of the operands themselves, not the literal <code>True</code> or <code>False</code>.</li>
+<li>Python evaluates the left side <code>x != 0</code> first, which is <code>0 != 0</code>, or <code>False</code>; by the <code>and</code> short-circuit rule a false left side is the answer, so the right side <code>10 / x &gt; 1</code> is never evaluated and the division by zero never happens.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>Control is the shift from computing a single value to executing a sequence of steps, some of which decide what runs next. A <strong>statement</strong> is executed to change interpreter state and has no value, unlike an <strong>expression</strong>; a bare expression used as a statement runs and then discards its result, which is why returning a value requires <code>return</code>. <strong>Compound statements</strong> group work using a header, a colon, and an indented <strong>suite</strong>, and a header plus its suite is a <strong>clause</strong>. Local assignment binds a name inside a call&#x27;s own frame, letting you name intermediate results. Conditional statements use <code>if</code>/<code>elif</code>/<code>else</code> to run exactly one suite, chosen as the first clause whose condition is true in a <strong>boolean context</strong>, where <code>0</code>, <code>None</code>, and <code>False</code> are the false values. Comparison operators produce booleans and must use <code>==</code>, not <code>=</code>. The boolean operators <code>and</code>, <code>or</code>, and <code>not</code> combine truth values, and <code>and</code> and <code>or</code> <strong>short-circuit</strong>: they return a value from the left side whenever it already settles the outcome, which lets a cheap check on the left guard a risky operation on the right.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>This block is the lesson&#x27;s capstone: the official <code>absolute_value</code>, called three times. In an <strong>environment diagram</strong> each call opens its own local frame binding <code>x</code> to one argument, and you can watch which branch of the <code>if</code>/<code>elif</code>/<code>else</code> chain fires for <code>5</code>, <code>0</code>, and <code>-2</code> before that frame closes and hands its result back to <code>a</code>, <code>b</code>, or <code>c</code> in the global frame. Before you step through it, write down three predictions: how many local frames open over the whole run, which <code>return</code> line runs in the call with argument 0, and what <code>a</code> and <code>b</code> are bound to when the last line finishes.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (21)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">absolute_value</span><span style="color: #657b83">(x):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Compute abs(x).&quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">x</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #93a1a1">-</span><span style="color: #657b83">x</span>
+
+<span style="color: #657b83">a</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">absolute_value(</span><span style="color: #2aa198">5</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">b</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">absolute_value(</span><span style="color: #2aa198">0</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">c</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">absolute_value(</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">2</span><span style="color: #657b83">)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/17e03a4ceedb.json' data-mount='st2'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st2' hidden></div></figure>
+<p>Step through it one line at a time and check each prediction as the frames appear. Argument 5 passes <code>x &gt; 0</code> and returns 5; argument 0 fails that test but passes <code>x == 0</code>, so the <code>elif</code> suite returns 0; argument -2 falls through to <code>else</code> and returns 2. Three local frames open, one per call: the same body runs each time, but the argument chooses which suite executes.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>1.4 Function Design, Documentation, Comments, and Default Arguments</span></a><a class='pg pg-next' href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>1.5-B Iteration, Testing, and Defensive Mental Models</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#control-means-choosing-the-path'>Control Means Choosing the Path</a></li><li><a href='#statements-have-no-value'>Statements Have No Value</a></li><li><a href='#statements-execute-in-order'>Statements Execute in Order</a></li><li><a href='#compound-statements-header-colon-suite'>Compound Statements: Header, Colon, Suite</a></li><li><a href='#local-assignment-inside-a-function'>Local Assignment Inside a Function</a></li><li><a href='#conditional-statements'>Conditional Statements</a></li><li><a href='#boolean-contexts'>Boolean Contexts</a></li><li><a href='#comparison-operators'>Comparison Operators</a></li><li><a href='#boolean-operators'>Boolean Operators</a></li><li><a href='#short-circuiting'>Short-Circuiting</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

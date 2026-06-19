@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 478" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#073642">The Duplex Pipe Deadlock</text>
+  <text x="360" y="51" text-anchor="middle" font-size="13" fill="#93a1a1">Both processes call recv() first, so neither ever reaches its send().</text>
+
+  <rect x="20" y="76" width="232" height="150" rx="12" fill="#fdf6e3" stroke="#073642" stroke-width="2.5"/>
+  <text x="136" y="100" text-anchor="middle" font-size="15" font-weight="bold" fill="#073642">Parent</text>
+  <text x="36" y="130" font-size="13" font-family="monospace" fill="#073642">1 item = in_pipe.recv()</text>
+  <text x="36" y="150" font-size="12" font-family="monospace" fill="#dc322f">&#8592; stuck here</text>
+  <text x="36" y="178" font-size="13" font-family="monospace" fill="#93a1a1">2 print(...)   (never)</text>
+  <text x="36" y="204" font-size="13" font-family="monospace" fill="#93a1a1">3 out_pipe.send() (never)</text>
+
+  <rect x="468" y="76" width="232" height="150" rx="12" fill="#fdf6e3" stroke="#073642" stroke-width="2.5"/>
+  <text x="584" y="100" text-anchor="middle" font-size="15" font-weight="bold" fill="#073642">Child (other)</text>
+  <text x="484" y="130" font-size="13" font-family="monospace" fill="#073642">1 item = in_pipe.recv()</text>
+  <text x="484" y="150" font-size="12" font-family="monospace" fill="#dc322f">&#8592; stuck here</text>
+  <text x="484" y="178" font-size="13" font-family="monospace" fill="#93a1a1">2 print(...)   (never)</text>
+  <text x="484" y="204" font-size="13" font-family="monospace" fill="#93a1a1">3 out_pipe.send() (never)</text>
+
+  <rect x="288" y="92" width="144" height="40" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="360" y="117" text-anchor="middle" font-size="15" font-family="monospace" fill="#073642">pipe[0]</text>
+
+  <rect x="288" y="170" width="144" height="40" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="360" y="195" text-anchor="middle" font-size="15" font-family="monospace" fill="#073642">pipe[1]</text>
+
+  <text x="360" y="155" text-anchor="middle" font-size="11" fill="#93a1a1">one shared duplex pipe</text>
+
+  <line x1="252" y1="190" x2="282" y2="190" stroke="#073642" stroke-width="2.5"/>
+  <polygon points="280,184 291,190 280,196" fill="#073642"/>
+  <text x="200" y="240" text-anchor="middle" font-size="12" fill="#073642">recv (blocks)</text>
+
+  <line x1="468" y1="112" x2="438" y2="112" stroke="#073642" stroke-width="2.5"/>
+  <polygon points="440,106 429,112 440,118" fill="#073642"/>
+  <text x="520" y="240" text-anchor="middle" font-size="12" fill="#073642">recv (blocks)</text>
+
+  <line x1="252" y1="112" x2="282" y2="112" stroke="#93a1a1" stroke-width="2" stroke-dasharray="5 4"/>
+  <polygon points="280,106 291,112 280,118" fill="#93a1a1"/>
+  <text x="200" y="262" text-anchor="middle" font-size="12" fill="#93a1a1">send (never runs)</text>
+
+  <line x1="468" y1="190" x2="438" y2="190" stroke="#93a1a1" stroke-width="2" stroke-dasharray="5 4"/>
+  <polygon points="440,184 429,190 440,196" fill="#93a1a1"/>
+  <text x="520" y="262" text-anchor="middle" font-size="12" fill="#93a1a1">send (never runs)</text>
+
+  <rect x="120" y="300" width="480" height="64" rx="10" fill="#ffffff" stroke="#dc322f" stroke-width="2"/>
+  <text x="360" y="324" text-anchor="middle" font-size="13" fill="#073642">Parent's recv and Child's send both touch pipe[1];</text>
+  <text x="360" y="346" text-anchor="middle" font-size="13" fill="#073642">Child's recv and Parent's send both touch pipe[0].</text>
+
+  <text x="360" y="396" text-anchor="middle" font-size="13" fill="#93a1a1">Each recv waits for a send that sits behind the other recv.</text>
+  <text x="360" y="418" text-anchor="middle" font-size="13" fill="#93a1a1">So both block forever &#8212; that circular wait is the deadlock.</text>
+</svg>

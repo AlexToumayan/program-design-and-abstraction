@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>2.8 Measuring Efficiency · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/' class='active'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 2</span><span class='dot'>/</span><span class='eb-sec'>2.8 Efficiency</span></div><h1 class='lesson-title'>2.8 Measuring Efficiency</h1><div class='reading-meta'>&#9719; approx. 17 min read <span class='rm-sep'>&middot;</span> 7 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>By the end of this lesson you will be able to do four things: explain why &quot;how many seconds did it take?&quot; is a shaky way to measure a program, read the tree-recursive <code>fib</code> function and see why it does so much repeated work, wrap any function in a small counter so you can measure exactly how many calls it makes, and tell the difference between <strong>time</strong> (total work) and <strong>space</strong> (how much must stay in memory at once).</p>
+<p>This lesson assumes you already know how to define a function, how a recursive call works, and what an environment frame is. We are not learning recursion here. We are learning how to <strong>measure</strong> what a recursive program costs, and the example we measure is one you have likely seen before: Fibonacci.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='two-resources-time-and-space' class='ls ls-default'>
+<h2 class='ls-h'><span>Two Resources: Time and Space</span></h2>
+<div class='ls-body'>
+<p>Every program consumes resources while it runs. The two we care about first are:</p>
+<ul>
+<li><strong>time</strong>: how much work the program performs</li>
+<li><strong>space</strong>: how much memory the program must hold while it runs</li>
+</ul>
+<p>It is tempting to measure time with a stopwatch, but a wall clock lies to you. The same program runs faster on a newer laptop, slower when many other programs are open, and faster the second time because some work is already cached. None of those differences are about the program itself. They are about the room it happened to run in.</p>
+<p>So instead of asking only &quot;How many seconds did it take?&quot;, we ask a steadier question:</p>
+<pre class='code text'><code>As the input gets larger, how many important events happen?</code></pre>
+<p>An important event is something the machine actually does, that we can count exactly, the same way on every computer:</p>
+<ul>
+<li>one function call</li>
+<li>one loop iteration</li>
+<li>one list lookup</li>
+<li>one environment frame that must stay active</li>
+</ul>
+<p>Counting events instead of seconds gives us a measurement that does not change when you switch laptops. This lesson counts two of those events directly: total function calls (a stand-in for time) and maximum active frames (a stand-in for space).</p>
+</div></section>
+<section id='counting-work-like-counting-steps-in-a-recipe' class='ls ls-default'>
+<h2 class='ls-h'><span>Counting Work Like Counting Steps in a Recipe</span></h2>
+<div class='ls-body'>
+<p>Imagine two ways to make sandwiches.</p>
+<p>Recipe A says, plainly:</p>
+<pre class='code text'><code>Make 1 sandwich.
+Make 1 sandwich.
+Make 1 sandwich.</code></pre>
+<p>Recipe B sounds clever but hides a cost:</p>
+<pre class='code text'><code>Make 1 sandwich.
+Call two friends.
+Each friend makes sandwiches by calling two more friends.</code></pre>
+<p>Both recipes eventually produce sandwiches. But Recipe B branches: one instruction becomes two, those two become four, and the work fans out into a growing tree. The danger is never a single step. The danger is <strong>repeated branching</strong>, because branching multiplies the number of steps far faster than the answer grows.</p>
+<p>That is exactly why Fibonacci shows up in this section. Fibonacci is not here because number sequences are exciting. It is here because the obvious way to write it is a clean, honest example of a program that branches into the same work over and over.</p>
+</div></section>
+<section id='a-bridge-to-fibonacci' class='ls ls-default'>
+<h2 class='ls-h'><span>A Bridge to Fibonacci</span></h2>
+<div class='ls-body'>
+<p>The Fibonacci sequence begins:</p>
+<div class='math'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">3</span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">5</span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">8</span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">13</span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner">…</span></span></span></span></span></div>
+<p>Each number after the first two is the sum of the two before it:</p>
+<div class='math'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">fib</span></span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">fib</span></span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">fib</span></span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span></div>
+<p>with two base cases that stop the recursion:</p>
+<div class='math'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">fib</span></span><span class="mopen">(</span><span class="mord">0</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:2em;"></span><span class="mord"><span class="mord mathrm">fib</span></span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span></span></div>
+<p>You can compute a small value by hand. To get <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">fib</span></span><span class="mopen">(</span><span class="mord">5</span><span class="mclose">)</span></span></span></span></span>, build up from values you already know:</p>
+<pre class='code text'><code>fib(0) = 0
+fib(1) = 1
+fib(2) = fib(0) + fib(1) = 0 + 1 = 1
+fib(3) = fib(1) + fib(2) = 1 + 1 = 2
+fib(4) = fib(2) + fib(3) = 1 + 2 = 3
+fib(5) = fib(3) + fib(4) = 2 + 3 = 5</code></pre>
+<p>So <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">fib</span></span><span class="mopen">(</span><span class="mord">5</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">5</span></span></span></span></span>. Hold onto one observation: computing <code>fib(5)</code> did not require solving <strong>one</strong> smaller problem. It required solving <strong>two</strong> of them, <code>fib(3)</code> and <code>fib(4)</code>. Each of those, in turn, needed two more. That doubling is the whole story of this lesson.</p>
+</div></section>
+<section id='the-tree-recursive-fibonacci-program' class='ls ls-default'>
+<h2 class='ls-h'><span>The Tree-Recursive Fibonacci Program</span></h2>
+<div class='ls-body'>
+<p>Here is the Fibonacci function exactly as the original text writes it.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">fib</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">fib(n</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">2</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">fib(n</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+
+
+<span style="color: #268bd2">print</span><span style="color: #657b83">(fib(</span><span style="color: #2aa198">5</span><span style="color: #657b83">))</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/6f92f8b21b86.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>When you run it, Python prints:</p>
+<pre class='code text'><code>5</code></pre>
+<p>The two <code>if</code> statements are the <strong>base cases</strong>: when <code>n</code> is <code>0</code> or <code>1</code>, the function returns an answer directly without calling itself. Those are what keep the recursion from running forever.</p>
+<p>The last line is the <strong>recursive case</strong>, and it is the source of all the work. Read it one token at a time.</p>
+<pre class='code anatomy'><code>return fib(n-2) + fib(n-1)
+├─ return ...... hand a value back to whoever called this function
+├─ fib ......... the function we are inside of, called again
+├─ ( ........... begins the first recursive call&#x27;s argument
+├─ n-2 ......... two less than the current n
+├─ ) ........... ends the first call
+├─ + ........... add the two results together
+├─ fib ......... the same function, called a second time
+├─ ( ........... begins the second recursive call&#x27;s argument
+├─ n-1 ......... one less than the current n
+├─ ) ........... ends the second call
+└─ performs the recursive step: makes TWO smaller fib calls and returns their sum</code></pre>
+<p>The token-by-token view makes the cost visible: this one line launches <strong>two</strong> recursive calls, not one. A function whose recursive case calls itself more than once is called <strong>tree recursive</strong>, because the calls branch out like a tree. Linear recursion (one call per step) grows a straight chain. Tree recursion grows a fan.</p>
+</div></section>
+<section id='the-shape-of-the-computation' class='ls ls-default'>
+<h2 class='ls-h'><span>The Shape of the Computation</span></h2>
+<div class='ls-body'>
+<p>Watching <code>fib(6)</code> unfold shows why this gets expensive. Python starts at the top:</p>
+<pre class='code text'><code>fib(6)
+= fib(4) + fib(5)</code></pre>
+<p>To get those two answers it must expand each of them, and each expansion produces two more calls, and so on until it bottoms out at <code>fib(0)</code> and <code>fib(1)</code>. The full process forms a tree:</p>
+<pre class='code anatomy'><code>fib(6)
+├── fib(4)
+│   ├── fib(2)
+│   │   ├── fib(0)
+│   │   └── fib(1)
+│   └── fib(3)
+│       ├── fib(1)
+│       └── fib(2)
+│           ├── fib(0)
+│           └── fib(1)
+└── fib(5)
+    ├── fib(3)
+    │   ├── fib(1)
+    │   └── fib(2)
+    │       ├── fib(0)
+    │       └── fib(1)
+    └── fib(4)
+        ├── fib(2)
+        │   ├── fib(0)
+        │   └── fib(1)
+        └── fib(3)
+            ├── fib(1)
+            └── fib(2)
+                ├── fib(0)
+                └── fib(1)</code></pre>
+<p>Look at how many times the same subproblem appears. <code>fib(3)</code> is computed from scratch three times. <code>fib(2)</code> appears five times. The machine is <strong>not</strong> remembering that it already solved <code>fib(2)</code> a moment ago. It follows the definition of <code>fib</code> literally: the recursive line says to call <code>fib(n-2)</code> and <code>fib(n-1)</code>, so it calls them, every single time, no matter how often it has computed that exact value before. This redundant recomputation is the characteristic cost of tree recursion, and it is why this is a famously inefficient way to compute Fibonacci numbers.</p>
+</div></section>
+<section id='a-counter-for-function-calls' class='ls ls-default'>
+<h2 class='ls-h'><span>A Counter for Function Calls</span></h2>
+<div class='ls-body'>
+<p>We claimed <code>fib</code> does a lot of repeated work. Counting events is how we stop guessing and measure it. We want an exact count of how many times <code>fib</code> is called.</p>
+<p>Rather than editing <code>fib</code> itself, we use a <strong>higher-order function</strong>: a function that takes a function as input and returns a new function that behaves like the original but also keeps a tally. Here is the wrapper the original text uses.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">count</span><span style="color: #657b83">(f):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">counted</span><span style="color: #657b83">(</span><span style="color: #93a1a1">*</span><span style="color: #657b83">args):</span>
+        <span style="color: #657b83">counted</span><span style="color: #93a1a1">.</span><span style="color: #657b83">call_count</span> <span style="color: #93a1a1">+=</span> <span style="color: #2aa198">1</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">f(</span><span style="color: #93a1a1">*</span><span style="color: #657b83">args)</span>
+    <span style="color: #657b83">counted</span><span style="color: #93a1a1">.</span><span style="color: #657b83">call_count</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">counted</span>
+</code></pre>
+<p>Before reading the anatomy, two pieces of punctuation deserve attention.</p>
+<p>First, <code>*args</code> in the definition <code>def counted(*args)</code> means &quot;collect every positional argument into a single tuple named <code>args</code>.&quot; This lets <code>counted</code> stand in for a function that takes any number of arguments, which matters because <code>count</code> should work on <strong>any</strong> function, not just one-argument ones.</p>
+<p>Second, <code>*args</code> in the <strong>call</strong> <code>f(*args)</code> does the reverse: it &quot;unpacks&quot; that tuple back into separate arguments. The same star symbol packs on the way in and unpacks on the way out:</p>
+<pre class='code text'><code>counted(args)    passes the whole tuple as ONE argument
+counted(*args)   spreads the tuple back into separate arguments</code></pre>
+<p>Now read the definition of <code>counted</code> one line at a time. This is the heart of the wrapper.</p>
+<pre class='code anatomy'><code>def counted(*args):
+├─ def ......... begins a function definition
+├─ counted ..... the name of the new wrapper function
+├─ ( ........... begins the parameter list
+├─ *args ....... collect all positional arguments into one tuple
+├─ ) ........... ends the parameter list
+└─ defines the wrapper that will run instead of the original function</code></pre>
+<pre class='code anatomy'><code>counted.call_count += 1
+├─ counted ..... the wrapper function object itself
+├─ .call_count . an attribute stored on that function object
+├─ += .......... add to the current value and store it back
+├─ 1 ........... increase the tally by one
+└─ records that one more call has happened, before doing any real work</code></pre>
+<pre class='code anatomy'><code>return f(*args)
+├─ return ...... hand back whatever the original function produces
+├─ f ........... the original function that was passed to count
+├─ ( ........... begins the call
+├─ *args ....... unpack the collected tuple into separate arguments
+├─ ) ........... ends the call
+└─ evaluates to the original function&#x27;s result, leaving its behavior unchanged</code></pre>
+<p>The two lines after the inner definition finish the setup:</p>
+<pre class='code anatomy'><code>counted.call_count = 0
+├─ counted ..... the wrapper function object
+├─ .call_count . the attribute we will read later to see the total
+├─ = ........... bind it
+├─ 0 ........... start the tally at zero
+└─ initializes the counter before the wrapper is ever called</code></pre>
+<pre class='code anatomy'><code>return counted
+├─ return ...... hand a value back from count
+├─ counted ..... the finished wrapper function
+└─ evaluates to the wrapper, so the caller can use it in place of the original</code></pre>
+<p>The key idea is that <code>call_count</code> is an attribute attached to the <strong>function object</strong> <code>counted</code>, not a local variable inside any single call. Every call to <code>counted</code> reaches the same shared object and bumps the same shared number, which is exactly why the count survives across all the recursive calls.</p>
+</div></section>
+<section id='a-bridge-you-can-verify-by-hand' class='ls ls-default'>
+<h2 class='ls-h'><span>A Bridge You Can Verify by Hand</span></h2>
+<div class='ls-body'>
+<p>Before measuring <code>fib</code>, wrap something small enough to check by hand. The function <code>square</code> is called exactly once per call you make, so the count should be obvious.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">square</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">x</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">count</span><span style="color: #657b83">(f):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">counted</span><span style="color: #657b83">(</span><span style="color: #93a1a1">*</span><span style="color: #657b83">args):</span>
+        <span style="color: #657b83">counted</span><span style="color: #93a1a1">.</span><span style="color: #657b83">call_count</span> <span style="color: #93a1a1">+=</span> <span style="color: #2aa198">1</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">f(</span><span style="color: #93a1a1">*</span><span style="color: #657b83">args)</span>
+    <span style="color: #657b83">counted</span><span style="color: #93a1a1">.</span><span style="color: #657b83">call_count</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">counted</span>
+
+
+<span style="color: #657b83">square</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">count(square)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(square(</span><span style="color: #2aa198">3</span><span style="color: #657b83">))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(square(</span><span style="color: #2aa198">5</span><span style="color: #657b83">))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(square</span><span style="color: #93a1a1">.</span><span style="color: #657b83">call_count)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/28c8ecab7441.json' data-mount='st1'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st1' hidden></div></figure>
+<p>This prints:</p>
+<pre class='code text'><code>9
+25
+2</code></pre>
+<p>You called the wrapped <code>square</code> twice, so <code>square.call_count</code> is <code>2</code>. Trace why: the line <code>square = count(square)</code> replaces the name <code>square</code> with the wrapper, whose <code>call_count</code> starts at <code>0</code>. The first call <code>square(3)</code> runs <code>counted</code>, which bumps the count to <code>1</code> and then returns <code>3 * 3</code>. The second call <code>square(5)</code> bumps it to <code>2</code> and returns <code>5 * 5</code>. The counter is just a number on the wrapper object, ticking up once per call. Because you can predict <code>2</code> with certainty here, you can trust the same mechanism when the count is too large to follow by hand.</p>
+</div></section>
+<section id='measuring-calls-in-fibonacci' class='ls ls-default'>
+<h2 class='ls-h'><span>Measuring Calls in Fibonacci</span></h2>
+<div class='ls-body'>
+<p>Now point the same counter at <code>fib</code>. The wrapping line <code>fib = count(fib)</code> rebinds the name <code>fib</code> to the counted version, so when the recursive body calls <code>fib(n-2)</code> and <code>fib(n-1)</code>, those calls go through the counter too. Every node in that tree gets counted.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (4)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">fib</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">fib(n</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">2</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">fib(n</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">count</span><span style="color: #657b83">(f):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">counted</span><span style="color: #657b83">(</span><span style="color: #93a1a1">*</span><span style="color: #657b83">args):</span>
+        <span style="color: #657b83">counted</span><span style="color: #93a1a1">.</span><span style="color: #657b83">call_count</span> <span style="color: #93a1a1">+=</span> <span style="color: #2aa198">1</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">f(</span><span style="color: #93a1a1">*</span><span style="color: #657b83">args)</span>
+    <span style="color: #657b83">counted</span><span style="color: #93a1a1">.</span><span style="color: #657b83">call_count</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">counted</span>
+
+
+<span style="color: #657b83">fib</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">count(fib)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(fib(</span><span style="color: #2aa198">19</span><span style="color: #657b83">))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(fib</span><span style="color: #93a1a1">.</span><span style="color: #657b83">call_count)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/d269032b82cb.json' data-mount='st2'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st2' hidden></div></figure>
+<p>This prints:</p>
+<pre class='code text'><code>4181
+13529</code></pre>
+<p>This is the moment the lesson is built around. The answer to <code>fib(19)</code> is <code>4181</code>, a modest number. But producing it required <strong>13529</strong> calls to <code>fib</code>. The program did vastly more work than the size of its answer suggests, because every one of those duplicated subproblems in the tree was recomputed from scratch.</p>
+<p>To feel how fast that grows, here are the call counts for small inputs. You could verify the first few against the <code>fib(6)</code> tree above by counting its nodes.</p>
+<div class='table-wrap'><table><thead><tr>
+<th><code>n</code></th>
+<th><code>fib(n)</code></th>
+<th>total calls</th>
+</tr></thead><tbody>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>3</td>
+</tr>
+<tr>
+<td>3</td>
+<td>2</td>
+<td>5</td>
+</tr>
+<tr>
+<td>4</td>
+<td>3</td>
+<td>9</td>
+</tr>
+<tr>
+<td>5</td>
+<td>5</td>
+<td>15</td>
+</tr>
+<tr>
+<td>6</td>
+<td>8</td>
+<td>25</td>
+</tr>
+<tr>
+<td>19</td>
+<td>4181</td>
+<td>13529</td>
+</tr>
+</tbody></table></div>
+<p>The answers grow gently. The call counts explode. That gap between &quot;size of the answer&quot; and &quot;amount of work&quot; is precisely what measuring efficiency is meant to expose.</p>
+</div></section>
+<section id='the-machine-model-of-space' class='ls ls-default'>
+<h2 class='ls-h'><span>The Machine Model of Space</span></h2>
+<div class='ls-body'>
+<p>Time is only half the picture. A program also occupies memory while it runs, and we measure that with the <strong>environment model</strong> you already know:</p>
+<ul>
+<li>Evaluating a call expression (a function call) creates a new <strong>frame</strong>.</li>
+<li>A frame stores that call&#x27;s local names (for <code>fib</code>, just the parameter <code>n</code>). (Recall that the call counter lived on the function object, not in a frame; here we are counting the per-call frames themselves.)</li>
+<li>A frame stays <strong>active</strong> until its call returns.</li>
+<li>Once a call has returned and nothing still needs its frame, the interpreter can reclaim that memory.</li>
+</ul>
+<p>Here is the part that surprises people. The <code>fib(6)</code> tree has dozens of nodes, but the machine never holds all of them in memory at once. It walks the tree depth-first, computing one branch completely before starting the next. At any instant, the only frames that must stay active are the ones on the <strong>current path</strong> from the top call down to the call being worked on right now.</p>
+<p>For example, partway through evaluating <code>fib(6)</code>, the active frames might be just:</p>
+<pre class='code text'><code>fib(6) is waiting for its two smaller answers.
+fib(4) is waiting for its two smaller answers.
+fib(2) is currently being computed.</code></pre>
+<p>That is three active frames, even though many more calls will happen in total. As soon as <code>fib(2)</code> returns, its frame can be discarded before <code>fib(6)</code> moves on to compute <code>fib(5)</code>. The stack of active calls is far shorter than the total number of calls. In general, the space a tree-recursive function needs is proportional to the <strong>maximum depth</strong> of its tree, not to the total number of calls in it.</p>
+<p>This is the central contrast of the lesson: for tree-recursive <code>fib</code>, time grows enormously (every duplicated call costs work) while space grows only with depth (only one root-to-leaf path is alive at a time).</p>
+<p>The figure below shows both measurements on the same fib computation tree: time as the total number of call nodes, and space as the longest root-to-leaf path of frames active at once.</p>
+<p><img class="figure" src="figures/time-vs-space-tree.svg" alt="Fibonacci computation tree annotated to show time as the total count of call nodes and space as the maximum number of frames active along a single root-to-leaf path"></p>
+</div></section>
+<section id='counting-active-frames' class='ls ls-default'>
+<h2 class='ls-h'><span>Counting Active Frames</span></h2>
+<div class='ls-body'>
+<p>We measured time by counting calls. We can measure space the same way, by counting how many frames are active <strong>at the same time</strong> and remembering the largest such count. The original text uses this wrapper.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (5)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">count_frames</span><span style="color: #657b83">(f):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">counted</span><span style="color: #657b83">(</span><span style="color: #93a1a1">*</span><span style="color: #657b83">args):</span>
+        <span style="color: #657b83">counted</span><span style="color: #93a1a1">.</span><span style="color: #657b83">open_count</span> <span style="color: #93a1a1">+=</span> <span style="color: #2aa198">1</span>
+        <span style="color: #657b83">counted</span><span style="color: #93a1a1">.</span><span style="color: #657b83">max_count</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">max</span><span style="color: #657b83">(counted</span><span style="color: #93a1a1">.</span><span style="color: #657b83">max_count,</span> <span style="color: #657b83">counted</span><span style="color: #93a1a1">.</span><span style="color: #657b83">open_count)</span>
+        <span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">f(</span><span style="color: #93a1a1">*</span><span style="color: #657b83">args)</span>
+        <span style="color: #657b83">counted</span><span style="color: #93a1a1">.</span><span style="color: #657b83">open_count</span> <span style="color: #93a1a1">-=</span> <span style="color: #2aa198">1</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">result</span>
+    <span style="color: #657b83">counted</span><span style="color: #93a1a1">.</span><span style="color: #657b83">open_count</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+    <span style="color: #657b83">counted</span><span style="color: #93a1a1">.</span><span style="color: #657b83">max_count</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">counted</span>
+</code></pre>
+<p>The difference from <code>count</code> is the bookkeeping around the call. Read the body of <code>counted</code> line by line.</p>
+<pre class='code anatomy'><code>counted.open_count += 1
+├─ counted ..... the wrapper function object
+├─ .open_count . how many calls are active right now
+├─ += .......... add to it
+├─ 1 ........... one more call just opened
+└─ records that a new frame is now active, before the real work begins</code></pre>
+<pre class='code anatomy'><code>counted.max_count = max(counted.max_count, counted.open_count)
+├─ counted ............ the wrapper function object
+├─ .max_count ......... the largest open_count ever seen
+├─ = .................. store the result back
+├─ max ................ keep whichever is larger
+├─ ( .................. begins max&#x27;s arguments
+├─ counted.max_count .. the previous high-water mark
+├─ , .................. separates the arguments
+├─ counted.open_count . the count right now
+├─ ) .................. ends the arguments
+└─ updates the running maximum so it never forgets the busiest moment</code></pre>
+<pre class='code anatomy'><code>result = f(*args)
+├─ result ...... a local name for what the real call produces
+├─ = ........... bind it
+├─ f ........... the original function
+├─ ( ........... begins the call
+├─ *args ....... unpack the arguments
+├─ ) ........... ends the call
+└─ runs the real call; all of ITS nested calls open and close while we wait here</code></pre>
+<pre class='code anatomy'><code>counted.open_count -= 1
+├─ counted ..... the wrapper function object
+├─ .open_count . the active-call counter
+├─ -= .......... subtract from it
+├─ 1 ........... this call is finishing, so one frame closes
+└─ records that this frame is no longer active, now that the call has returned</code></pre>
+<pre class='code anatomy'><code>return result
+├─ return ...... hand the value back
+├─ result ...... the saved result from the real call
+└─ evaluates to the original function&#x27;s result, exactly as the caller expects</code></pre>
+<p>The trick is the pairing: <code>open_count</code> goes up the instant a call starts and back down the instant it returns, so at any moment it equals the number of frames currently on the stack. The <code>max(...)</code> line snapshots the peak. Because the increment happens <strong>before</strong> the recursive <code>f(*args)</code> and the decrement happens <strong>after</strong> it, the deepest nesting is always captured.</p>
+<p>Now run it on <code>fib</code>.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (6)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">fib</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">fib(n</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">2</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">fib(n</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">count_frames</span><span style="color: #657b83">(f):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">counted</span><span style="color: #657b83">(</span><span style="color: #93a1a1">*</span><span style="color: #657b83">args):</span>
+        <span style="color: #657b83">counted</span><span style="color: #93a1a1">.</span><span style="color: #657b83">open_count</span> <span style="color: #93a1a1">+=</span> <span style="color: #2aa198">1</span>
+        <span style="color: #657b83">counted</span><span style="color: #93a1a1">.</span><span style="color: #657b83">max_count</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">max</span><span style="color: #657b83">(counted</span><span style="color: #93a1a1">.</span><span style="color: #657b83">max_count,</span> <span style="color: #657b83">counted</span><span style="color: #93a1a1">.</span><span style="color: #657b83">open_count)</span>
+        <span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">f(</span><span style="color: #93a1a1">*</span><span style="color: #657b83">args)</span>
+        <span style="color: #657b83">counted</span><span style="color: #93a1a1">.</span><span style="color: #657b83">open_count</span> <span style="color: #93a1a1">-=</span> <span style="color: #2aa198">1</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">result</span>
+    <span style="color: #657b83">counted</span><span style="color: #93a1a1">.</span><span style="color: #657b83">open_count</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+    <span style="color: #657b83">counted</span><span style="color: #93a1a1">.</span><span style="color: #657b83">max_count</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">counted</span>
+
+
+<span style="color: #657b83">fib</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">count_frames(fib)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(fib(</span><span style="color: #2aa198">19</span><span style="color: #657b83">))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(fib</span><span style="color: #93a1a1">.</span><span style="color: #657b83">open_count)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(fib</span><span style="color: #93a1a1">.</span><span style="color: #657b83">max_count)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(fib(</span><span style="color: #2aa198">24</span><span style="color: #657b83">))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(fib</span><span style="color: #93a1a1">.</span><span style="color: #657b83">max_count)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/e61d5b894ad9.json' data-mount='st3'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st3' hidden></div></figure>
+<p>This prints:</p>
+<pre class='code text'><code>4181
+0
+19
+46368
+24</code></pre>
+<p>Read each line of output. <code>fib(19)</code> still returns <code>4181</code>, the correct answer. After it finishes, <code>open_count</code> is back to <code>0</code> because every frame that opened also closed. <code>max_count</code> is <code>19</code>: at the busiest instant, exactly nineteen <code>fib</code> frames were active at once. Then <code>fib(24)</code> returns <code>46368</code>, and <code>max_count</code> rises to <code>24</code>.</p>
+<p>Notice the pattern in the space measurement. The peak frame counts our wrapper reports track the input directly: <code>max_count</code> is <code>19</code> for <code>fib(19)</code> and <code>24</code> for <code>fib(24)</code>. The original text states the generalization this way:</p>
+<p>&gt; To summarize, the space requirement of the <code>fib</code> function, measured in active frames, is one less than the input, which tends to be small.</p>
+<p>There is a small accounting gap worth naming, because the wrapper&#x27;s number and the text&#x27;s &quot;one less than the input&quot; do not look identical at first. The deepest path the recursion ever stacks runs <code>fib(n)</code>, then <code>fib(n-1)</code>, then <code>fib(n-2)</code>, and so on down the left-most chain. Counting <em>every</em> live <code>fib</code> frame on that path, including the original <code>fib(n)</code> call at the top, gives <code>n</code> frames, which is exactly what <code>count_frames</code> reports: <code>19</code> and <code>24</code>. The text&#x27;s &quot;one less than the input&quot; counts instead the frames stacked <em>beneath</em> that first call, the extra depth the recursion adds on top of the call you started, which is <code>n - 1</code>. The two descriptions differ only by whether the root frame is included in the tally.</p>
+<p>What both descriptions agree on is the part that matters: space for tree-recursive <code>fib</code> grows <strong>linearly</strong> with the input. Whether you say <code>n</code> or <code>n - 1</code>, doubling the input only adds a fixed amount more memory. Compare that with the time measurement, where <code>fib(19)</code> already needed <code>13529</code> calls. Space grows gently and in step with the input (the depth of the tree), while time grows explosively (the size of the tree). Same function, two very different costs. We are describing this growth in plain words for now; the next section gives it a precise name and notation. You do not need that yet.</p>
+</div></section>
+<section id='a-closer-trace-fib2' class='ls ls-default'>
+<h2 class='ls-h'><span>A Closer Trace: fib(2)</span></h2>
+<div class='ls-body'>
+<p>To see frames opening and closing on a tree small enough to follow completely, trace <code>fib(2)</code>. The recursive line <code>fib(n-2) + fib(n-1)</code> evaluates left to right, so Python computes <code>fib(0)</code> first, then <code>fib(1)</code>.</p>
+<pre class='code text'><code>call fib(2)            frames active: fib(2)                     (max so far: 1)
+  evaluate fib(0)      frames active: fib(2), fib(0)             (max so far: 2)
+  fib(0) returns 0     frame fib(0) closes; value 0 kept
+  evaluate fib(1)      frames active: fib(2), fib(1)             (max so far: 2)
+  fib(1) returns 1     frame fib(1) closes; value 1 kept
+  fib(2) returns 0 + 1 = 1   frame fib(2) closes</code></pre>
+<p>Two things stand out. First, <code>fib(0)</code> and <code>fib(1)</code> are never alive at the same time: <code>fib(0)</code> finishes and its frame is reclaimed before <code>fib(1)</code> even starts, so the most frames ever active at once is <code>2</code>, not <code>3</code>, even though there were three calls in total. Second, when a frame closes, Python keeps only the <strong>value</strong> it returned (<code>0</code>, then <code>1</code>); it does not keep the frame. That is what &quot;reclaiming a finished frame&quot; means, and it is why space stays small while the tree of calls can be huge.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<p><strong>Trap 1: Judging efficiency by one small input.</strong> <code>fib(5)</code> returns instantly, so it feels free. <code>fib(35)</code> will make your computer pause noticeably. Efficiency is never about one input; it is about how the cost <em>changes</em> as the input grows.</p>
+<p><strong>Trap 2: Confusing total calls with active calls.</strong> Total calls (what <code>count</code> measures) is a time-like quantity: all the work, summed over the whole run. Active calls (what <code>count_frames</code> measures) is a space-like quantity: how much must be held at once. For <code>fib(19)</code> they are wildly different, <code>13529</code> versus <code>19</code>. They answer different questions.</p>
+<p><strong>Trap 3: Believing Python remembers repeated calls.</strong> Plain recursion has no memory. If the code says to compute <code>fib(3)</code> again, Python computes it again from scratch, even if it just finished computing <code>fib(3)</code> one branch over. Nothing is cached unless you write the caching yourself.</p>
+<p><strong>Trap 4: Treating <code>call_count</code> as a local variable.</strong> <code>counted.call_count</code> is an attribute on the function <em>object</em> named <code>counted</code>. There is exactly one such object, so all calls share one counter. If it were a local variable inside <code>counted</code>, it would reset to its starting value on every call and could never accumulate a total.</p>
+<p><strong>Trap 5: Forgetting why the wrapper uses <code>*args</code>.</strong> Writing the inner function as <code>def counted(*args)</code> and calling <code>f(*args)</code> is what lets <code>count</code> and <code>count_frames</code> wrap a function with any number of parameters. Hard-coding <code>def counted(n)</code> would raise <code>TypeError: counted() takes 1 positional argument but 2 were given</code> the moment you tried to count a two-argument function.</p>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>Why is <code>fib</code> called tree recursive rather than linearly recursive?</li>
+<li>The call-count table stops at <code>fib(6)</code> (25 calls). Using the same counting rule the table follows, how many calls would <code>fib(7)</code> make under <code>count</code>?</li>
+<li><code>fib(19)</code> returns <code>4181</code> but <code>fib.call_count</code> is <code>13529</code>. Why is the call count so much larger than the answer?</li>
+<li>What does <code>count_frames</code> measure that <code>count</code> does not, and why does that correspond to space rather than time?</li>
+<li>After <code>fib(19)</code> finishes under <code>count_frames</code>, why is <code>open_count</code> back to <code>0</code> while <code>max_count</code> is <code>19</code>?</li>
+<li>Why can a finished <code>fib(0)</code> frame be reclaimed before <code>fib(1)</code> runs?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li>Because its recursive case calls itself <strong>twice</strong> (<code>fib(n-2)</code> and <code>fib(n-1)</code>), so the calls branch out like a tree. A linearly recursive function makes only one recursive call per step and forms a straight chain.</li>
+<li><code>41</code> calls. The total for any <code>n</code> is one (the current call) plus the totals for <code>fib(n-2)</code> and <code>fib(n-1)</code>, so <code>fib(7)</code> makes <code>1 + 15 + 25 = 41</code> calls, reusing the <code>fib(5)</code> and <code>fib(6)</code> rows of the table. (For reference, <code>fib(7)</code> itself is <code>13</code>.)</li>
+<li>Tree-recursive <code>fib</code> recomputes the same subproblems many times. <code>fib(3)</code>, <code>fib(2)</code>, and others are each calculated repeatedly throughout the tree, so the total number of calls grows far faster than the value being computed.</li>
+<li><code>count_frames</code> measures the maximum number of frames active at the same time (<code>max_count</code>). That is a space measurement because each active frame occupies memory simultaneously, whereas <code>count</code>&#x27;s total reflects work accumulated over time.</li>
+<li><code>open_count</code> returns to <code>0</code> because every call that incremented it on the way in also decremented it on the way out, so all frames have closed. <code>max_count</code> is <code>19</code> because it permanently records the deepest the active stack ever got; counting every live <code>fib</code> frame on the deepest chain, including the root call, that peak is <code>19</code> for <code>fib(19)</code>. (The original text describes the same linear growth as &quot;one less than the input,&quot; counting only the frames stacked beneath the first call; the difference is just whether the root frame is included.)</li>
+<li>Once <code>fib(0)</code> returns, nothing still needs its frame; Python keeps only the returned value <code>0</code> and reclaims the frame. <code>fib(1)</code> then runs and reuses that space, so the two never need to be active at once.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>Measuring efficiency means counting stable events instead of trusting a wall clock, because event counts do not change when you switch machines. The tree-recursive <code>fib</code> function is the perfect teaching example: its recursive case calls itself twice, so its process fans out into a tree that recomputes the same subproblems again and again. By wrapping <code>fib</code> in the higher-order function <code>count</code>, we measured time as total calls and found that <code>fib(19)</code> returns <code>4181</code> but takes <code>13529</code> calls. By wrapping it in <code>count_frames</code>, we measured space as the maximum number of simultaneously active frames and found it grows linearly with the input; as the original text puts it, the space requirement of <code>fib</code> &quot;is one less than the input, which tends to be small.&quot; The lasting lesson is that time and space are separate costs: for this <code>fib</code>, time grows explosively while space grows only with the depth of the recursion.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>This block is the lesson in miniature: it defines <code>fib</code>, then calls <code>fib(3)</code>, small enough to watch completely but large enough to branch. Stepping through it draws the <strong>environment diagram</strong> behind the call tree: each <code>fib</code> call opens its own frame holding its <code>n</code>, the frames stack only along the single root-to-leaf path the machine is currently on, and each one disappears the instant its call returns a value, so you see the same <code>fib(1)</code> frame open, vanish, and open again rather than the whole tree sitting in memory at once. Before you step through the block below, write down three predictions: what value <code>n</code> holds in the second frame that opens, how many separate frames open for <code>fib(1)</code> over the whole run, and the most <code>fib</code> frames active at any one moment.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (7)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">fib</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">fib(n</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">2</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">fib(n</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+
+
+<span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">fib(</span><span style="color: #2aa198">3</span><span style="color: #657b83">)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/04ffde3e5c95.json' data-mount='st4'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st4' hidden></div></figure>
+<p>Step through it one line at a time and check each prediction as the frames appear. The second frame to open holds <code>n</code> bound to <code>1</code>, because the <code>n-2</code> call goes first, and <code>fib(1)</code>&#x27;s frame opens twice in total, the second time inside <code>fib(2)</code>: plain recursion recomputes what it just finished. No more than three <code>fib</code> frames are ever active together, <code>fib(0)</code> and the second <code>fib(1)</code> are never alive at the same instant, and each returned value is kept while its frame disappears.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/2-7-d-generic-functions/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>2.7-D Generic Functions</span></a><a class='pg pg-next' href='/program-design-and-abstraction/2-8-b-memoization/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>2.8-B Memoization</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#two-resources-time-and-space'>Two Resources: Time and Space</a></li><li><a href='#counting-work-like-counting-steps-in-a-recipe'>Counting Work Like Counting Steps in a Recipe</a></li><li><a href='#a-bridge-to-fibonacci'>A Bridge to Fibonacci</a></li><li><a href='#the-tree-recursive-fibonacci-program'>The Tree-Recursive Fibonacci Program</a></li><li><a href='#the-shape-of-the-computation'>The Shape of the Computation</a></li><li><a href='#a-counter-for-function-calls'>A Counter for Function Calls</a></li><li><a href='#a-bridge-you-can-verify-by-hand'>A Bridge You Can Verify by Hand</a></li><li><a href='#measuring-calls-in-fibonacci'>Measuring Calls in Fibonacci</a></li><li><a href='#the-machine-model-of-space'>The Machine Model of Space</a></li><li><a href='#counting-active-frames'>Counting Active Frames</a></li><li><a href='#a-closer-trace-fib2'>A Closer Trace: fib(2)</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

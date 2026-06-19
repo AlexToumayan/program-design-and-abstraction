@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>4.3.5 Recursive Select Statements · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/' class='active'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 4</span><span class='dot'>/</span><span class='eb-sec'>4.3 Declarative Programming</span></div><h1 class='lesson-title'>4.3.5 Recursive Select Statements</h1><div class='reading-meta'>&#9719; approx. 12 min read <span class='rm-sep'>&middot;</span> 1 worked example</div><div class='lead'>
+<p>So far every query you have written has read from tables that already existed. By the end of this lesson you will be able to do four things: define a temporary table that lives only for the length of one query using the <strong>with</strong> clause, write a <strong>recursive</strong> table whose later rows are computed from its own earlier rows, design a row that carries enough state to compute the next row (the trick behind the Fibonacci query), and build strings and sentences inside SQL with the <strong>||</strong> operator.</p>
+<p>The big idea is that recursion is not only a Python technique. The same base-case-plus-recursive-case shape you used in Section 1.7 to write functions that call themselves now appears at the language level: a SQL table can be defined in terms of the rows it has already produced. You do not write a loop and you do not write a <code>return</code>. You describe the first row, describe how each later row follows from an earlier one, and let the database build the whole table.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='a-margin-table-in-a-math-notebook' class='ls ls-default'>
+<h2 class='ls-h'><span>A Margin Table in a Math Notebook</span></h2>
+<div class='ls-body'>
+<p>Picture working a long problem by hand in a notebook. Off in the margin you jot a small helper table, something like a short list of cities and the state each one is in. You never intend to keep that margin table. It exists only to make the main problem easier, and once the problem is solved you turn the page and it is gone.</p>
+<p>The SQL <strong>with</strong> clause is exactly that margin table. It lets you define one or more named tables that exist only for the single query that follows, and then it throws them away. Nothing is stored permanently, no <code>create table</code> is involved, and the helper names do not leak into later queries. You get a private scratch space, scoped to one query, where you can stage intermediate results and even define a table that refers to itself.</p>
+</div></section>
+<section id='the-shape-of-a-with-clause' class='ls ls-default'>
+<h2 class='ls-h'><span>The Shape of a <code>with</code> Clause</span></h2>
+<div class='ls-body'>
+<p>A select statement may begin with a <strong>with</strong> clause that generates and names additional tables, which the rest of the statement then uses to compute its final result. Setting unions aside, the full shape of a select statement is:</p>
+<pre class='code sql'><code>with [tables] select [columns] from [names] where [condition] order by [order]</code></pre>
+<p>You already know what goes in <code>[columns]</code> and <code>[names]</code>, and <code>[condition]</code> and <code>[order]</code> are expressions evaluated for each input row. The new part is <code>[tables]</code>: a comma-separated list of table descriptions, where each description has this shape:</p>
+<pre class='code sql'><code>[table name]([column names]) as ([select statement])</code></pre>
+<p>Any select statement at all can describe a table here. You name the table, name its columns in parentheses, and after <code>as</code> you give a parenthesized select statement that produces the rows. Read the anatomy one token at a time:</p>
+<pre class='code anatomy'><code>states(city, state) as ( ... )
+├─ states .......... the name of the temporary table being defined
+├─ ( ............... begins the list of column names
+├─ city ............ first column of the temporary table
+├─ , ............... separates the column names
+├─ state ........... second column of the temporary table
+├─ ) ............... ends the list of column names
+├─ as .............. introduces the rows that fill the table
+├─ ( ............... begins the select statement that produces the rows
+├─ ... ............. a select statement whose result rows become this table
+├─ ) ............... ends the select statement
+└─ defines a temporary table states(city, state) usable only in this query</code></pre>
+</div></section>
+<section id='a-local-table-inside-with' class='ls ls-default'>
+<h2 class='ls-h'><span>A Local Table Inside <code>with</code></span></h2>
+<div class='ls-body'>
+<p>Before adding recursion, look at a <strong>with</strong> clause that simply stages a helper table. The clause below declares a table <code>states</code> holding cities and the state each city is in. The select statement that follows computes pairs of cities that fall within the same state.</p>
+<p>Here is a warm-up first, so the join is not a surprise. Suppose you only had the two California cities:</p>
+<pre class='code sql'><code>with
+  states(city, state) as (
+    select &quot;Berkeley&quot;, &quot;California&quot; union
+    select &quot;Pasadena&quot;, &quot;California&quot;
+  )
+select a.city, b.city, a.state from states as a, states as b
+       where a.state = b.state and a.city &lt; b.city;</code></pre>
+<p>This joins <code>states</code> with itself, keeps the row pairs that share a state, and uses <code>a.city &lt; b.city</code> to keep only one ordering of each pair. With just Berkeley and Pasadena it returns a single row:</p>
+<div class='table-wrap'><table><thead><tr>
+<th>a.city</th>
+<th>b.city</th>
+<th>a.state</th>
+</tr></thead><tbody>
+<tr>
+<td>Berkeley</td>
+<td>Pasadena</td>
+<td>California</td>
+</tr>
+</tbody></table></div>
+<p>Now the official version, with five cities across three states:</p>
+<pre class='code text'><code>sqlite&gt; with
+   ...&gt;   states(city, state) as (
+   ...&gt;     select &quot;Berkeley&quot;,  &quot;California&quot;    union
+   ...&gt;     select &quot;Boston&quot;,    &quot;Massachusetts&quot; union
+   ...&gt;     select &quot;Cambridge&quot;, &quot;Massachusetts&quot; union
+   ...&gt;     select &quot;Chicago&quot;,   &quot;Illinois&quot;      union
+   ...&gt;     select &quot;Pasadena&quot;,  &quot;California&quot;
+   ...&gt;   )
+   ...&gt; select a.city, b.city, a.state from states as a, states as b
+   ...&gt;        where a.state = b.state and a.city &lt; b.city;
+Berkeley|Pasadena|California
+Boston|Cambridge|Massachusetts</code></pre>
+<p>Walk the final select line token by token to see why those two rows come out:</p>
+<pre class='code anatomy'><code>select a.city, b.city, a.state from states as a, states as b
+├─ select .......... begins a query over the joined rows
+├─ a.city .......... the city from the first copy of states
+├─ b.city .......... the city from the second copy of states
+├─ a.state ......... the shared state, taken from the first copy
+├─ from ............ names the tables being joined
+├─ states as a ..... one copy of the temporary table, aliased a
+├─ states as b ..... a second copy of the same table, aliased b
+└─ returns one row per surviving (a, b) pair: the chosen city columns</code></pre>
+<p>The <code>where</code> clause does the filtering. <code>a.state = b.state</code> keeps only pairs in the same state (note SQL uses a single <code>=</code> for equality), and <code>a.city &lt; b.city</code> discards mirror-image duplicates and self-pairs by demanding the first city sort before the second. Only Berkeley/Pasadena and Boston/Cambridge survive, because Chicago is alone in Illinois and so has no same-state partner.</p>
+</div></section>
+<section id='a-recursive-local-table' class='ls ls-default'>
+<h2 class='ls-h'><span>A Recursive Local Table</span></h2>
+<div class='ls-body'>
+<p>Now the central idea. A table defined inside a <strong>with</strong> clause may include one <strong>recursive case</strong>: a select statement that reads from the very table being defined. That gives you a base row plus a rule for producing more rows from rows you already have, which is enough to build a sequence.</p>
+<p>The clause below defines a table of integers from 5 to 15. The final query then keeps the odd values and squares them.</p>
+<pre class='code text'><code>sqlite&gt; with
+   ...&gt;   ints(n) as (
+   ...&gt;     select 5 union
+   ...&gt;     select n+1 from ints where n &lt; 15
+   ...&gt;   )
+   ...&gt; select n, n*n from ints where n % 2 = 1;
+5|25
+7|49
+9|81
+11|121
+13|169
+15|225</code></pre>
+<p>The table definition has two pieces joined by <code>union</code>:</p>
+<pre class='code anatomy'><code>select 5 union select n+1 from ints where n &lt; 15
+├─ select 5 ............... the base row: the single starting value 5
+├─ union .................. combines the base row with the recursive rows
+├─ select n+1 ............. each new row is one more than an existing n
+├─ from ints .............. read from the table currently being built
+├─ where n &lt; 15 ........... only extend from rows whose n is below 15
+└─ builds the rows 5, 6, 7, ..., 15, then stops</code></pre>
+<p>It helps to trace the table as it grows. Start from the base row, and each pass adds <code>n+1</code> for every current row whose <code>n</code> is still below 15:</p>
+<div class='table-wrap'><table><thead><tr>
+<th>Step</th>
+<th>New row added</th>
+<th>Reason</th>
+</tr></thead><tbody>
+<tr>
+<td>start</td>
+<td>5</td>
+<td>the base row</td>
+</tr>
+<tr>
+<td>then</td>
+<td>6</td>
+<td>5 &lt; 15, so add 5 + 1</td>
+</tr>
+<tr>
+<td>then</td>
+<td>7</td>
+<td>6 &lt; 15, so add 6 + 1</td>
+</tr>
+<tr>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<td>then</td>
+<td>15</td>
+<td>14 &lt; 15, so add 14 + 1</td>
+</tr>
+<tr>
+<td>stop</td>
+<td>(nothing)</td>
+<td>15 &lt; 15 is false, so no new row</td>
+</tr>
+</tbody></table></div>
+<p>The recursion stops because the condition <code>n &lt; 15</code> eventually fails: once <code>n</code> reaches 15, no row qualifies to extend, so the table stops growing. The final select is a separate step over the finished <code>ints</code> table; <code>n % 2 = 1</code> keeps the odd values and <code>n*n</code> squares each one, giving the six rows shown.</p>
+</div></section>
+<section id='pythagorean-triples' class='ls ls-default'>
+<h2 class='ls-h'><span>Pythagorean Triples</span></h2>
+<div class='ls-body'>
+<p>Multiple tables can be defined in one <strong>with</strong> clause, separated by commas, and later tables may read from earlier ones. The example below finds every Pythagorean triple built from the integers up to 20. A Pythagorean triple is three integers <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">a</span></span></span></span></span>, <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">b</span></span></span></span></span>, and <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">c</span></span></span></span></span> with</p>
+<div class='math'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9474em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8641em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8641em;"></span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span></div>
+<p>The two shorter numbers <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">a</span></span></span></span></span> and <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">b</span></span></span></span></span> are called the legs and the longest, <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">c</span></span></span></span></span>, is the hypotenuse — think of the two sides and the long diagonal of a right-angled corner. (In the query below, this third integer <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">c</span></span></span></span></span> shows up as the column <code>x</code>.)</p>
+<p>The strategy is to stage three helper tables: the integers, each integer paired with its square, and every pair of squares together with their sum. A match occurs when a sum of two squares equals some third square.</p>
+<pre class='code text'><code>sqlite&gt; with
+   ...&gt;   ints(n) as (
+   ...&gt;     select 1 union select n+1 from ints where n &lt; 20
+   ...&gt;   ),
+   ...&gt;   squares(x, xx) as (
+   ...&gt;     select n, n*n from ints
+   ...&gt;   ),
+   ...&gt;   sum_of_squares(a, b, sum) as (
+   ...&gt;     select a.x, b.x, a.xx + b.xx
+   ...&gt;            from squares as a, squares as b where a.x &lt; b.x
+   ...&gt;   )
+   ...&gt; select a, b, x from squares, sum_of_squares where sum = xx;
+3|4|5
+6|8|10
+5|12|13
+9|12|15
+8|15|17
+12|16|20</code></pre>
+<p>The three helper tables each do one job:</p>
+<div class='table-wrap'><table><thead><tr>
+<th>Table</th>
+<th>Columns</th>
+<th>What it holds</th>
+</tr></thead><tbody>
+<tr>
+<td><code>ints</code></td>
+<td><code>n</code></td>
+<td>the integers 1 through 20 (recursive, like before)</td>
+</tr>
+<tr>
+<td><code>squares</code></td>
+<td><code>x, xx</code></td>
+<td>each integer <code>x</code> paired with its square <code>xx</code></td>
+</tr>
+<tr>
+<td><code>sum_of_squares</code></td>
+<td><code>a, b, sum</code></td>
+<td>each pair <code>a &lt; b</code> with <code>sum</code> equal to <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span></td>
+</tr>
+</tbody></table></div>
+<p>Walk the final select line token by token:</p>
+<pre class='code anatomy'><code>select a, b, x from squares, sum_of_squares where sum = xx
+├─ select .............. begins the query over the joined rows
+├─ a ................... the smaller leg, from sum_of_squares
+├─ b ................... the larger leg, from sum_of_squares
+├─ x ................... the integer whose square matches, from squares
+├─ from ................ names the two tables being joined
+├─ squares ............. provides a candidate hypotenuse x and its square xx
+├─ sum_of_squares ...... provides legs a, b and their squared sum
+└─ returns each triple (a, b, x) where a^2 + b^2 equals x^2</code></pre>
+<p>The <code>where sum = xx</code> clause is the heart of it: it keeps only the joined rows where the sum of two squares equals a square already in <code>squares</code>. That square&#x27;s root <code>x</code> is the hypotenuse, so each surviving row reports the triple. For example, <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">4</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">9</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">16</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">25</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">5</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span>, which produces the first row <code>3|4|5</code>.</p>
+</div></section>
+<section id='fibonacci-numbers-with-state-in-each-row' class='ls ls-default'>
+<h2 class='ls-h'><span>Fibonacci Numbers With State in Each Row</span></h2>
+<div class='ls-body'>
+<p>Designing a recursive query is mostly about making sure each input row carries enough information to compute the next row. The Fibonacci sequence makes this concrete: the next number is the sum of the previous two, so a single column holding just the current value is not enough. The row must remember the previous value too:</p>
+<div class='math'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord text"><span class="mord">next</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8623em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">previous</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord text"><span class="mord">current</span></span></span></span></span></span></div>
+<p>So each row stores a pair, and the recursive case shifts that pair forward by one position. The query below keeps both <code>previous</code> and <code>current</code> in every row.</p>
+<pre class='code text'><code>sqlite&gt; with
+   ...&gt;   fib(previous, current) as (
+   ...&gt;     select 0, 1 union
+   ...&gt;     select current, previous+current from fib
+   ...&gt;     where current &lt;= 100
+   ...&gt;   )
+   ...&gt; select previous from fib;
+0
+1
+1
+2
+3
+5
+8
+13
+21
+34
+55
+89</code></pre>
+<p>The recursive case is the row-shifting rule. Read it as a transformation of the pair:</p>
+<pre class='code anatomy'><code>select current, previous+current from fib where current &lt;= 100
+├─ select ................ produces the next row of the table
+├─ current ............... the old current becomes the new previous
+├─ previous+current ...... their sum becomes the new current
+├─ from fib .............. read the pair from a row already in fib
+├─ where current &lt;= 100 .. only extend while current has not passed 100
+└─ shifts each pair (previous, current) -&gt; (current, previous + current)</code></pre>
+<p>Trace how the pair marches forward, which is just like a Python frame holding enough state to compute the next step:</p>
+<div class='table-wrap'><table><thead><tr>
+<th>previous</th>
+<th>current</th>
+<th>next pair</th>
+</tr></thead><tbody>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>(1, 1)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>(1, 2)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>(2, 3)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3</td>
+<td>(3, 5)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>5</td>
+<td>(5, 8)</td>
+</tr>
+<tr>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+</tbody></table></div>
+<p>The final query asks only for the <code>previous</code> column, which is why the printed values are the familiar Fibonacci sequence. These examples together show that recursion is a powerful means of combination, even in a declarative language.</p>
+</div></section>
+<section id='building-strings' class='ls ls-default'>
+<h2 class='ls-h'><span>Building Strings</span></h2>
+<div class='ls-body'>
+<p>Two strings can be concatenated into one longer string using the <strong>||</strong> operator in SQL. The recursive table below names three integers, and the final query glues each one onto the text <code>&quot; bottles&quot;</code>. Notice that the continuation prompt in this transcript is written as <code>....&gt;</code>, exactly as the original shows it.</p>
+<pre class='code text'><code>sqlite&gt; with wall(n) as (
+  ....&gt;   select 99 union select 98 union select 97
+  ....&gt; )
+  ....&gt; select n || &quot; bottles&quot; from wall;
+99 bottles
+98 bottles
+97 bottles</code></pre>
+<p>The expression in the select clause is what does the work:</p>
+<pre class='code anatomy'><code>n || &quot; bottles&quot;
+├─ n .............. a number-valued column from the wall table
+├─ || ............. the SQL string-concatenation operator
+├─ &quot; bottles&quot; ..... the literal text to attach on the right
+└─ evaluates to a string like &quot;99 bottles&quot; for each row</code></pre>
+<p>SQL converts the number-like value on the left into text and joins it to the string on the right, producing one combined string per row.</p>
+</div></section>
+<section id='sentence-construction' class='ls ls-default'>
+<h2 class='ls-h'><span>Sentence Construction</span></h2>
+<div class='ls-body'>
+<p>Because <strong>||</strong> builds strings, you can use it to assemble sentences from phrases. One way to build an English sentence is to concatenate a subject noun phrase, a verb, and an object noun phrase. The example below first creates a small <code>nouns</code> table of phrases, then joins it with itself so that every phrase can serve as both subject and object.</p>
+<pre class='code text'><code>sqlite&gt; create table nouns as
+  ....&gt;   select &quot;the dog&quot; as phrase union
+  ....&gt;   select &quot;the cat&quot;           union
+  ....&gt;   select &quot;the bird&quot;;
+sqlite&gt; select subject.phrase || &quot; chased &quot; || object.phrase
+  ....&gt;        from nouns as subject, nouns as object
+  ....&gt;        where subject.phrase != object.phrase;
+the bird chased the cat
+the bird chased the dog
+the cat chased the bird
+the cat chased the dog
+the dog chased the bird
+the dog chased the cat</code></pre>
+<p>Walk the select expression token by token to see each sentence take shape:</p>
+<pre class='code anatomy'><code>subject.phrase || &quot; chased &quot; || object.phrase
+├─ subject.phrase ... the phrase from the first copy of nouns
+├─ || ............... concatenates onto the right
+├─ &quot; chased &quot; ....... the connecting verb, with spaces on both sides
+├─ || ............... concatenates again
+├─ object.phrase .... the phrase from the second copy of nouns
+└─ evaluates to a sentence like &quot;the dog chased the cat&quot; for each pair</code></pre>
+<p>This is a self-join over the <code>nouns</code> table: <code>nouns as subject</code> and <code>nouns as object</code> are two copies, so every phrase can pair with every phrase. The <code>where subject.phrase != object.phrase</code> clause throws out the pairs where a phrase would chase itself, leaving the six sensible sentences. (SQL uses <code>!=</code> for &quot;not equal,&quot; matching Python here.) As an exercise, you can use a recursive local table to generate longer sentences such as, &quot;the dog that chased the cat that chased the bird also chased the bird.&quot;</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<ul>
+<li>Thinking a <strong>with</strong> table is permanent. It exists only for the single query that follows; there is no stored table afterward, unlike <code>create table</code>. Referencing its name in a later query raises <code>no such table</code>.</li>
+<li>Forgetting the base case. A recursive table needs a starting row before the recursive case has anything to extend; without one the database reports a <code>circular reference</code> error instead of building the table.</li>
+<li>Forgetting the stopping condition, such as <code>where n &lt; 15</code> or <code>where current &lt;= 100</code>. Without it, the recursive case keeps producing rows forever.</li>
+<li>Assuming recursion belongs only to Python functions. A select statement inside <strong>with</strong> can define a table in terms of its own earlier rows.</li>
+<li>Trying to compute Fibonacci with a single column. Each row must carry both <code>previous</code> and <code>current</code>, or there is not enough state to compute the next value.</li>
+<li>Writing <code>==</code> for equality in SQL. SQL uses a single <code>=</code> to compare values; <code>||</code> concatenates strings rather than meaning &quot;or.&quot;</li>
+</ul>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>What does a <strong>with</strong> clause create, and how long does it last?</li>
+<li>In the <code>ints(n)</code> table built from 5 to 15, what is the base row, and what condition stops the table from growing forever?</li>
+<li>Why does the Fibonacci query keep two columns, <code>previous</code> and <code>current</code>, instead of one?</li>
+<li>Given <code>with wall(n) as (select 3 union select 2 union select 1) select n || &quot; green bottles&quot; from wall;</code>, what three rows does the query print?</li>
+<li>In the sentence example, why is <code>where subject.phrase != object.phrase</code> needed?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li>A <strong>with</strong> clause creates one or more temporary, named tables that exist only for the single select statement attached to it. They are not stored and cannot be used by later queries.</li>
+<li>The base row is <code>select 5</code>, the single starting value. The recursive case <code>select n+1 from ints where n &lt; 15</code> stops adding rows once <code>n</code> reaches 15, because <code>n &lt; 15</code> is then false and no row qualifies to be extended.</li>
+<li>Each Fibonacci value is the sum of the two values before it, so a row needs both the previous and the current value to compute the next one. With only the current value, there is not enough state to continue.</li>
+<li><code>1 green bottles</code>, <code>2 green bottles</code>, and <code>3 green bottles</code>. The <code>||</code> operator joins each number-like <code>n</code> (converted to text) onto the literal <code>&quot; green bottles&quot;</code>, producing one combined string per row.</li>
+<li>Without it, the self-join would pair each phrase with itself, producing sentences like &quot;the dog chased the dog.&quot; The condition removes those self-pairs.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>A <strong>with</strong> clause defines temporary, query-local tables of the form <code>[table name]([column names]) as ([select statement])</code>, used by the select statement that follows and then discarded. A query-local table may include one recursive case, a select statement that reads from the table being defined, giving you a base row plus a rule for deriving later rows. That single mechanism generates integer ranges, Pythagorean triples (by staging <code>ints</code>, <code>squares</code>, and <code>sum_of_squares</code>), and Fibonacci numbers (by keeping <code>previous</code> and <code>current</code> in each row). The <code>||</code> operator concatenates strings, so recursive tables and self-joins can also build text such as bottle counts and full sentences. Recursion, in short, is a powerful means of combination even in a declarative language.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>The block below models the recursive <code>ints</code> table as a concrete process: a base row, a rule deriving new rows from existing ones, then a filter over the finished list. Stepping through it draws the <strong>environment diagram</strong> of that build: the global frame holds <code>n</code> and a single <code>ints</code> list on the heap, and each <code>while</code> pass rebinds <code>n</code> to <code>n + 1</code> and appends it to that same growing list before the <code>odd_squares</code> comprehension reads the finished list in a separate pass. Before you step through it, write down two predictions: how many times the loop body runs, and how many values <code>ints</code> holds when <code>n &lt; 15</code> fails.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #657b83">ints</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[</span><span style="color: #2aa198">5</span><span style="color: #657b83">]</span>
+<span style="color: #657b83">n</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">5</span>
+
+<span style="color: #859900">while</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">15</span><span style="color: #657b83">:</span>
+    <span style="color: #657b83">n</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+    <span style="color: #657b83">ints</span><span style="color: #93a1a1">.</span><span style="color: #657b83">append(n)</span>
+
+<span style="color: #657b83">odd_squares</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[(value,</span> <span style="color: #657b83">value</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">value)</span> <span style="color: #859900">for</span> <span style="color: #657b83">value</span> <span style="color: #859900">in</span> <span style="color: #657b83">ints</span> <span style="color: #859900">if</span> <span style="color: #657b83">value</span> <span style="color: #93a1a1">%</span> <span style="color: #2aa198">2</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span><span style="color: #657b83">]</span>
+
+<span style="color: #268bd2">print</span><span style="color: #657b83">(odd_squares)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/79f2ff379771.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>Step through it and check both counts. The base row <code>5</code> appears first and each later value is computed from the one before it, exactly as the database builds the table; the comprehension then binds six pairs in a separate pass over the finished list.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>4.3-D Interpreting SQL with Python</span></a><a class='pg pg-next' href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>4.3-F Aggregation and Grouping</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#a-margin-table-in-a-math-notebook'>A Margin Table in a Math Notebook</a></li><li><a href='#the-shape-of-a-with-clause'>The Shape of a with Clause</a></li><li><a href='#a-local-table-inside-with'>A Local Table Inside with</a></li><li><a href='#a-recursive-local-table'>A Recursive Local Table</a></li><li><a href='#pythagorean-triples'>Pythagorean Triples</a></li><li><a href='#fibonacci-numbers-with-state-in-each-row'>Fibonacci Numbers With State in Each Row</a></li><li><a href='#building-strings'>Building Strings</a></li><li><a href='#sentence-construction'>Sentence Construction</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

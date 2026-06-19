@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>3.2 Pairs, Lists, and Recursive Sequence Processing · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/' class='active'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 3</span><span class='dot'>/</span><span class='eb-sec'>3.2 Functional Programming</span></div><h1 class='lesson-title'>3.2 Pairs, Lists, and Recursive Sequence Processing</h1><div class='reading-meta'>&#9719; approx. 16 min read <span class='rm-sep'>&middot;</span> 1 worked example <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>So far Scheme has computed with single values: numbers, booleans, the result of a procedure call. This lesson is about gluing values together. By the end of it you will be able to do four things: build a two-part compound value with <code>cons</code>, pull either part back out with <code>car</code> and <code>cdr</code>, recognize that a Scheme list is just a chain of those two-part values ending in <code>nil</code>, and write recursive procedures that walk such a list one element at a time.</p>
+<p>Everything here rests on one small idea: a single container that holds exactly two things. Once that container is solid, lists stop being mysterious, because a list is nothing more than that container used over and over.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='two-connected-boxes' class='ls ls-default'>
+<h2 class='ls-h'><span>Two Connected Boxes</span></h2>
+<div class='ls-body'>
+<p>Think about a chain of train cars. Each car has two couplers: one holds a piece of cargo, and the other latches onto the next car. Latch enough cars together and you have a whole train, but the only thing you ever built was one car with two attachment points.</p>
+<p>Scheme&#x27;s basic glue works the same way. It gives you one container with exactly two slots. The left slot holds a value. The right slot holds whatever comes next. That container is called a <strong>pair</strong>, and you build it with the built-in procedure <code>cons</code>.</p>
+<pre class='code scheme'><code>;; build a pair whose first part is 1 and whose second part is 2
+(cons 1 2)</code></pre>
+<p>A pair holds its two parts side by side:</p>
+<pre class='code text'><code>+---+---+
+| 1 | 2 |
++---+---+</code></pre>
+<p>The left slot is the <strong>first</strong> part. The right slot is the <strong>rest</strong> part. That naming will matter the moment we start building lists, because the rest slot is exactly where the next train car latches on.</p>
+</div></section>
+<section id='follow-the-line-building-a-pair' class='ls ls-default'>
+<h2 class='ls-h'><span>Follow the Line: Building a Pair</span></h2>
+<div class='ls-body'>
+<p>Read <code>(cons 1 2)</code> one token at a time. Each branch row below annotates one token of the line, and the final row gives the value the whole line produces.</p>
+<pre class='code anatomy'><code>(cons 1 2)
+├─ ( ........... begins a call expression
+├─ cons ........ the pair constructor
+├─ 1 ........... the value for the first part
+├─ 2 ........... the value for the second part
+├─ ) ........... ends the call
+└─ evaluates to  a pair whose parts are 1 and 2</code></pre>
+<p>Scheme prints that pair using <strong>dotted-pair notation</strong>, with a dot between the two parts:</p>
+<pre class='code text'><code>(1 . 2)</code></pre>
+<p>The dot is your signal that you are looking at a raw pair whose second part is an ordinary value, not the start of a longer list. Hold onto that detail; it is the difference between a lone pair and a list, and beginners mix the two up constantly.</p>
+</div></section>
+<section id='selecting-parts-of-a-pair' class='ls ls-default'>
+<h2 class='ls-h'><span>Selecting Parts of a Pair</span></h2>
+<div class='ls-body'>
+<p>A constructor that you cannot take apart is useless. Scheme gives you two selector procedures, one for each slot.</p>
+<ul>
+<li><code>car</code> returns the <strong>first</strong> part.</li>
+<li><code>cdr</code> returns the <strong>rest</strong> part.</li>
+</ul>
+<p>The names are historical, inherited from the hardware of the first Lisp machines, and they are not going to change. For now lean on a plain memory hook:</p>
+<pre class='code text'><code>car -&gt; first part
+cdr -&gt; rest part</code></pre>
+<p>Here are the two selectors applied to a freshly built pair.</p>
+<pre class='code scheme'><code>;; select the first part
+(car (cons 1 2))</code></pre>
+<pre class='code scheme'><code>;; select the rest part
+(cdr (cons 1 2))</code></pre>
+<p>The first call produces <code>1</code>; the second produces <code>2</code>.</p>
+</div></section>
+<section id='follow-the-line-a-selector-on-a-constructed-pair' class='ls ls-default'>
+<h2 class='ls-h'><span>Follow the Line: A Selector on a Constructed Pair</span></h2>
+<div class='ls-body'>
+<p>The trickier reading skill is a selector wrapped around a constructor, because two things happen on one line. Walk the tokens of <code>(car (cons 1 2))</code>.</p>
+<pre class='code anatomy'><code>(car (cons 1 2))
+├─ ( ............... begins the outer call
+├─ car ............. the selector for the first part
+├─ (cons 1 2) ...... the operand: a call that builds the pair (1 . 2)
+├─ ) ............... ends the outer call
+└─ evaluates to  1</code></pre>
+<p>The inner parentheses are not decoration. They tell Scheme that the entire pair-building expression <code>(cons 1 2)</code> is the single argument handed to <code>car</code>. Scheme evaluates that inner call first, producing the pair <code>(1 . 2)</code>, and only then does <code>car</code> reach in and lift out the first part. Reverse the order in your head and the line stops making sense, so always evaluate the inside before the outside.</p>
+</div></section>
+<section id='the-source-pair-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>The Source Pair Checkpoint</span></h2>
+<div class='ls-body'>
+<p>The original text introduces pairs by binding one to a name and then inspecting it. We reproduce that exact sequence, because reading Scheme&#x27;s printed pair and list output is a skill the original deliberately drills.</p>
+<pre class='code scheme'><code>(define x (cons 1 2))
+x
+(car x)
+(cdr x)</code></pre>
+<p>After the definition runs, the environment holds one binding:</p>
+<pre class='code text'><code>Global frame
+  x -&gt; (1 . 2)</code></pre>
+<p>Evaluating the name <code>x</code> by itself prints the whole pair, <code>(1 . 2)</code>. Then <code>(car x)</code> evaluates to <code>1</code>, and <code>(cdr x)</code> evaluates to <code>2</code>. Nothing was changed by selecting; <code>x</code> still names the same pair after both selections. An interactive session looks like this:</p>
+<pre class='code text'><code>scm&gt; (define x (cons 1 2))
+x
+scm&gt; x
+(1 . 2)
+scm&gt; (car x)
+1
+scm&gt; (cdr x)
+2</code></pre>
+<p>The first response line, the bare <code>x</code>, is the interpreter echoing the name it just bound. The lines with no prompt below each later expression are the values Scheme printed.</p>
+</div></section>
+<section id='lists-as-chains-of-pairs' class='ls ls-default'>
+<h2 class='ls-h'><span>Lists as Chains of Pairs</span></h2>
+<div class='ls-body'>
+<p>Here is where the train-car picture pays off. A Scheme <strong>list</strong> is a chain of pairs in which each pair&#x27;s rest part points to the next pair, and the very last rest part points at a special empty-list marker. That marker is written <code>nil</code>, and it can also be written as <code>&#x27;()</code> (the leading quote mark is explained when we reach quotation; this lesson always uses <code>nil</code>).</p>
+<pre class='code scheme'><code>;; the empty list
+nil</code></pre>
+<p><code>nil</code> is the train with no cars: the place where the chain stops. Every list you build eventually ends in it.</p>
+<p>Build a one-element list by putting <code>nil</code> in the rest slot, which says &quot;after this one value, nothing follows.&quot;</p>
+<pre class='code scheme'><code>;; a one-element list
+(cons 1 nil)</code></pre>
+<pre class='code text'><code>+---+-----+
+| 1 | nil |
++---+-----+</code></pre>
+<p>To get more elements, nest the calls so each pair&#x27;s rest slot holds the next pair. The original text builds a four-element list this way, laid out across several lines so the nesting is visible:</p>
+<pre class='code scheme'><code>(cons 1
+      (cons 2
+            (cons 3
+                  (cons 4 nil))))</code></pre>
+<p>Read it from the inside out. <code>(cons 4 nil)</code> is the list containing just <code>4</code>. Wrapping it in <code>(cons 3 ...)</code> produces the list <code>3, 4</code>. Wrapping that in <code>(cons 2 ...)</code> produces <code>2, 3, 4</code>. The outermost <code>(cons 1 ...)</code> produces the full list <code>1, 2, 3, 4</code>. As a chain of boxes:</p>
+<pre class='code text'><code>+---+---+    +---+---+    +---+---+    +---+-----+
+| 1 | --+--&gt; | 2 | --+--&gt; | 3 | --+--&gt; | 4 | nil |
++---+---+    +---+---+    +---+---+    +---+-----+</code></pre>
+<p>The first box holds <code>1</code>; its rest points to the list <code>2, 3, 4</code>. That list&#x27;s first box holds <code>2</code>; its rest points to <code>3, 4</code>. And so on, until the final box&#x27;s rest is <code>nil</code>. Notice there is no dot in the printed form of a proper list. Scheme prints this chain as <code>(1 2 3 4)</code>, reserving the dot for a pair whose rest is not itself a list.</p>
+</div></section>
+<section id='the-list-procedure' class='ls ls-default'>
+<h2 class='ls-h'><span>The List Procedure</span></h2>
+<div class='ls-body'>
+<p>Writing four nested <code>cons</code> calls to build a four-element list is fine for understanding the structure, but nobody wants to type that every time. Scheme provides <code>list</code>, which takes any number of arguments and builds the same pair chain for you.</p>
+<pre class='code scheme'><code>(list 1 2 3 4)</code></pre>
+<p>This evaluates to the list <code>(1 2 3 4)</code>, identical to the nested <code>cons</code> version above. <code>list</code> is convenience, not a new kind of data: under the surface it is still pairs all the way down, ending in <code>nil</code>.</p>
+<p>The original text binds this list to a name so it can be reused.</p>
+<pre class='code scheme'><code>(define one-through-four (list 1 2 3 4))</code></pre>
+<p>After the definition, the environment holds:</p>
+<pre class='code text'><code>Global frame
+  one-through-four -&gt; (1 2 3 4)</code></pre>
+</div></section>
+<section id='follow-the-line-building-a-named-list' class='ls ls-default'>
+<h2 class='ls-h'><span>Follow the Line: Building a Named List</span></h2>
+<div class='ls-body'>
+<p>Walk the definition <code>(define one-through-four (list 1 2 3 4))</code> token by token. A <code>define</code> line performs an action rather than producing a value, so the final row names the action instead of saying &quot;evaluates to.&quot;</p>
+<pre class='code anatomy'><code>(define one-through-four (list 1 2 3 4))
+├─ ( ........................ begins the define special form
+├─ define ................... marks this as a definition, not a call
+├─ one-through-four ......... the name to bind
+├─ (list 1 2 3 4) ........... the value expression: builds the list (1 2 3 4)
+├─ ) ........................ ends the definition
+└─ binds one-through-four to the list (1 2 3 4)</code></pre>
+</div></section>
+<section id='taking-a-list-apart' class='ls ls-default'>
+<h2 class='ls-h'><span>Taking a List Apart</span></h2>
+<div class='ls-body'>
+<p>Once a list has a name, the same two selectors inspect it. The <code>car</code> of a list is its first element. The <code>cdr</code> of a list is the rest of the list, which is itself a list.</p>
+<pre class='code scheme'><code>(car one-through-four)
+(cdr one-through-four)
+(car (cdr one-through-four))</code></pre>
+<p><code>(car one-through-four)</code> evaluates to <code>1</code>. <code>(cdr one-through-four)</code> evaluates to the list <code>(2 3 4)</code>. And <code>(car (cdr one-through-four))</code> reaches into that rest and pulls out its first element, <code>2</code>. The third line is worth tracing, because chaining <code>car</code> and <code>cdr</code> is how you reach any element you want:</p>
+<pre class='code text'><code>(cdr one-through-four)        -&gt; (2 3 4)
+(car (2 3 4))                 -&gt; 2</code></pre>
+<p>A full session reads:</p>
+<pre class='code text'><code>scm&gt; (car one-through-four)
+1
+scm&gt; (cdr one-through-four)
+(2 3 4)
+scm&gt; (car (cdr one-through-four))
+2</code></pre>
+<p>Notice the difference in what comes back. <code>(car one-through-four)</code> returns a bare number, <code>1</code>. <code>(cdr one-through-four)</code> returns a list, <code>(2 3 4)</code>, printed with parentheses and no dot, because the rest of a proper list is always another proper list.</p>
+</div></section>
+<section id='adding-to-the-front-of-a-list' class='ls ls-default'>
+<h2 class='ls-h'><span>Adding to the Front of a List</span></h2>
+<div class='ls-body'>
+<p>Because the rest slot of a pair can point at an existing list, <code>cons</code> is also the natural way to put a new element on the front of a list. You give <code>cons</code> the new first element and the existing list as its rest.</p>
+<p>The figure below shows <code>cons</code> building one new pair whose rest slot points straight at the existing list, so nothing in the original chain is copied.</p>
+<p><img class="figure" src="figures/cons-structure-sharing.svg" alt="Diagram showing cons creating a single new pair whose first slot holds the new element and whose rest slot points to the existing unchanged list, illustrating structure sharing where no part of the original list is copied"></p>
+<pre class='code scheme'><code>(cons 10 one-through-four)
+(cons 5 one-through-four)</code></pre>
+<p><code>(cons 10 one-through-four)</code> evaluates to <code>(10 1 2 3 4)</code>, and <code>(cons 5 one-through-four)</code> evaluates to <code>(5 1 2 3 4)</code>.</p>
+<pre class='code text'><code>scm&gt; (cons 10 one-through-four)
+(10 1 2 3 4)
+scm&gt; (cons 5 one-through-four)
+(5 1 2 3 4)</code></pre>
+<p>Here is the crucial functional-programming point. Neither call disturbs <code>one-through-four</code>. Each <code>cons</code> builds a brand-new front pair whose rest slot points at the original, unchanged list. You can keep <code>cons</code>-ing new fronts forever and the original four-element list keeps sitting there intact. Construction is not modification.</p>
+</div></section>
+<section id='the-recursive-shape-of-a-list' class='ls ls-default'>
+<h2 class='ls-h'><span>The Recursive Shape of a List</span></h2>
+<div class='ls-body'>
+<p>Look again at the box chain and notice something that makes lists special. The rest of a non-empty list is itself a list. A list is therefore defined in terms of a smaller list, which is the textbook definition of a recursive structure.</p>
+<p>That self-similar shape suggests a standard plan for any procedure that processes a list:</p>
+<pre class='code text'><code>If the list is empty:
+    return the base answer.
+Otherwise:
+    use the first element (its car)
+    recursively process the rest (its cdr)
+    combine the two results.</code></pre>
+<p>The predicate <code>null?</code> is what tests the empty case: <code>(null? items)</code> is true exactly when <code>items</code> is the empty list. Every recursive list procedure that follows uses <code>null?</code> (or a numeric check) to know when to stop and the <code>car</code>/<code>cdr</code> pair to take one step. This is the same recursion you used on Python sequences and linked lists in earlier chapters, now expressed in Scheme.</p>
+</div></section>
+<section id='computing-length' class='ls ls-default'>
+<h2 class='ls-h'><span>Computing Length</span></h2>
+<div class='ls-body'>
+<p>The original text defines a <code>length</code> procedure that counts the elements of a list.</p>
+<pre class='code scheme'><code>(define (length items)
+  (if (null? items)
+      0
+      (+ 1 (length (cdr items)))))</code></pre>
+<p>The base case comes first: an empty list has length <code>0</code>. The recursive case counts the first element as <code>1</code> and adds the length of the rest. Because the rest is a shorter list, each recursive call shrinks the problem until it reaches <code>nil</code>.</p>
+<p>Trace <code>(length one-through-four)</code>. Each line peels one element off the front and asks for the length of what remains:</p>
+<pre class='code text'><code>(length (1 2 3 4))  -&gt;  1 + (length (2 3 4))
+(length (2 3 4))    -&gt;  1 + (length (3 4))
+(length (3 4))      -&gt;  1 + (length (4))
+(length (4))        -&gt;  1 + (length ())
+(length ())         -&gt;  0</code></pre>
+<p>Now unwind from the bottom, substituting each returned value back into the call above it:</p>
+<div class='math'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">4</span></span></span></span></span></div>
+<p>So <code>(length one-through-four)</code> evaluates to <code>4</code>.</p>
+</div></section>
+<section id='getting-an-item-by-index' class='ls ls-default'>
+<h2 class='ls-h'><span>Getting an Item by Index</span></h2>
+<div class='ls-body'>
+<p>The original text also defines <code>getitem</code>, which returns the element at a numeric position, counting from <code>0</code>.</p>
+<pre class='code scheme'><code>(define (getitem items n)
+  (if (= n 0)
+      (car items)
+      (getitem (cdr items) (- n 1))))</code></pre>
+<p>Index <code>0</code> means &quot;the front element,&quot; so the base case returns <code>(car items)</code>. When <code>n</code> is not <code>0</code>, the element you want is not at the front, so the procedure walks one step into the rest with <code>(cdr items)</code> and decreases the index with <code>(- n 1)</code>. Each step moves one pair deeper while the index counts down toward <code>0</code>. When the two meet, you are sitting on the element you asked for.</p>
+<p>Trace <code>(getitem one-through-four 2)</code>:</p>
+<pre class='code text'><code>(getitem (1 2 3 4) 2)
+(getitem (2 3 4) 1)
+(getitem (3 4) 0)
+(car (3 4))           -&gt; 3</code></pre>
+<p>So <code>(getitem one-through-four 2)</code> evaluates to <code>3</code>, the third element of the list.</p>
+</div></section>
+<section id='mapping-over-a-list' class='ls ls-default'>
+<h2 class='ls-h'><span>Mapping Over a List</span></h2>
+<div class='ls-body'>
+<p>The two procedures above reduce a list to a single answer. Often you instead want a new list, with each element transformed. A natural example squares every element. The original text uses a <code>squares</code> procedure for exactly this.</p>
+<pre class='code scheme'><code>(define (squares s)
+  (if (null? s)
+      nil
+      (cons (* (car s) (car s))
+            (squares (cdr s)))))</code></pre>
+<p>Same recursive skeleton, but the combine step is different. The base case returns <code>nil</code>, the empty list, because squaring nothing yields nothing. The recursive case squares the first element with <code>(* (car s) (car s))</code>, recursively squares the rest with <code>(squares (cdr s))</code>, and then <code>cons</code>es the squared first element onto the front of the squared rest. The result is a fresh list of squares.</p>
+<p>Applied to our running example:</p>
+<pre class='code scheme'><code>(squares one-through-four)</code></pre>
+<p>This evaluates to:</p>
+<pre class='code text'><code>(1 4 9 16)</code></pre>
+<p>Read the construction from the recursion&#x27;s base outward. The deepest call returns <code>nil</code>. Then <code>4</code> squared, <code>16</code>, is <code>cons</code>ed on, giving <code>(16)</code>. Then <code>3</code> squared, <code>9</code>, gives <code>(9 16)</code>. Then <code>2</code> squared gives <code>(4 9 16)</code>. Finally <code>1</code> squared gives <code>(1 4 9 16)</code>. Crucially, <code>squares</code> never touches <code>one-through-four</code>; it builds an entirely new list, which is the functional style at work.</p>
+</div></section>
+<section id='the-source-list-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>The Source List Checkpoint</span></h2>
+<div class='ls-body'>
+<p>The original text closes this material with a short interactive sequence that reuses the recursive utilities on a concrete five-element list. It binds the name <code>squares</code> to a literal list of square numbers.</p>
+<pre class='code scheme'><code>(define squares (list 1 4 9 16 25))
+(length squares)
+(getitem squares 3)</code></pre>
+<p>One thing to flag honestly: this <code>squares</code> is a <strong>list</strong>, while the <code>squares</code> defined earlier was a <strong>procedure</strong>. In a real session, reusing the same name simply replaces the earlier binding, and a name always refers to its most recent binding. The original transcript reuses the name, so we keep it, and it doubles as a reminder that names in an environment can be rebound.</p>
+<p><code>(length squares)</code> walks all five elements and evaluates to <code>5</code>. <code>(getitem squares 3)</code> asks for index <code>3</code>, the fourth element, and evaluates to <code>16</code>.</p>
+<pre class='code text'><code>scm&gt; (define squares (list 1 4 9 16 25))
+squares
+scm&gt; (length squares)
+5
+scm&gt; (getitem squares 3)
+16</code></pre>
+<p>The list in play is:</p>
+<pre class='code text'><code>(1 4 9 16 25)</code></pre>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<p><strong>Trap 1: Reading <code>(1 . 2)</code> and <code>(1 2)</code> as the same thing.</strong> The dot means a raw pair whose rest is an ordinary value. No dot, with parentheses, means a proper list whose rest is another list. <code>(cons 1 2)</code> prints <code>(1 . 2)</code>; <code>(cons 1 nil)</code> prints <code>(1)</code>. The difference is whether the rest slot ends in <code>nil</code>.</p>
+<p><strong>Trap 2: Thinking <code>cdr</code> returns one value.</strong> For a proper list, <code>cdr</code> returns the entire rest of the list, not just the second element. <code>(cdr one-through-four)</code> is the list <code>(2 3 4)</code>, not the number <code>2</code>. To get the second element you take the <code>car</code> of the <code>cdr</code>.</p>
+<p><strong>Trap 3: Forgetting the empty-list base case.</strong> Every recursive list procedure must stop when the list runs out. If <code>length</code> or <code>squares</code> never checked <code>null?</code>, the recursion on <code>(cdr s)</code> would run off the end of the list and eventually call <code>cdr</code> on the empty list, which raises an error rather than returning a result. The base case is not optional.</p>
+<p><strong>Trap 4: Believing <code>cons</code> changes the original list.</strong> <code>cons</code> builds a new front pair whose rest points at the existing list. The original list is untouched. <code>(cons 10 one-through-four)</code> does not make <code>one-through-four</code> longer.</p>
+<p><strong>Trap 5: Treating <code>list</code> as a different kind of data from <code>cons</code>.</strong> <code>list</code> is shorthand. <code>(list 1 2 3 4)</code> produces exactly the same pair chain as four nested <code>cons</code> calls ending in <code>nil</code>. There is only one underlying structure here.</p>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>What are the two parts of <code>(cons 1 2)</code>, and how does Scheme print that pair?</li>
+<li>What does <code>(car (cons 1 2))</code> produce, and why must Scheme evaluate the inner <code>(cons 1 2)</code> first?</li>
+<li>What does <code>(cdr one-through-four)</code> evaluate to, and is it a number or a list?</li>
+<li>What does <code>(getitem (cdr one-through-four) 0)</code> evaluate to?</li>
+<li>In <code>getitem</code>, why does the recursive call use <code>(- n 1)</code>?</li>
+<li>After evaluating <code>(cons 10 one-through-four)</code>, what is <code>one-through-four</code>?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li>The first part is <code>1</code> and the second part is <code>2</code>. Scheme prints it in dotted-pair notation as <code>(1 . 2)</code>, because the rest part is an ordinary value rather than a list.</li>
+<li>It produces <code>1</code>, the first part of the pair. Scheme must build the pair before <code>car</code> has anything to select from, so the inner <code>(cons 1 2)</code> is evaluated to the pair <code>(1 . 2)</code> first, and then <code>car</code> lifts out its first part.</li>
+<li>It evaluates to the list <code>(2 3 4)</code>. It is a list, not a number, because the rest of a proper list is always another proper list.</li>
+<li>It evaluates to <code>2</code>. <code>(cdr one-through-four)</code> is the list <code>(2 3 4)</code>, and <code>getitem</code> with index <code>0</code> returns the <code>car</code> of that list, which is <code>2</code>.</li>
+<li>After moving from the current pair into the rest of the list with <code>(cdr items)</code>, the element you want is now one position closer to the front, so the target index shrinks by one to match.</li>
+<li>It is still the list <code>(1 2 3 4)</code>. <code>cons</code> builds a new pair on the front and leaves the original list unchanged.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>A Scheme pair is a single container with two slots, built by <code>cons</code> and taken apart by <code>car</code> (first part) and <code>cdr</code> (rest part). A list is a chain of pairs whose final rest slot is <code>nil</code>, and Scheme prints a proper list with parentheses and no dot, reserving the dot for a lone pair whose rest is an ordinary value. Because the rest of a non-empty list is itself a list, lists are recursive, and list procedures follow one recurring plan: handle the empty list as the base case, use the <code>car</code> of the first element, recurse on the <code>cdr</code>, and combine. <code>length</code> and <code>getitem</code> reduce a list to a single answer; <code>squares</code> builds a brand-new list without disturbing the original, which is the functional style in miniature.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>Scheme cannot be stepped line by line here, so this checkpoint uses a small Python <strong>model</strong> of the same first/rest chain. The block below is a model of the Scheme idea, not the real Scheme implementation: it represents a pair as a two-element Python tuple, <code>nil</code> as <code>None</code>, and reuses the names from this lesson. Stepping through it draws the <strong>environment diagram</strong> alongside the heap: <code>one_through_four</code> binds to a nested chain of tuple objects ending in <code>None</code>, and you can watch each <code>length</code> and <code>getitem</code> frame follow <code>cdr</code> one tuple deeper into that structure before unwinding. Before you step through it, write down three predictions:</p>
+<ol>
+<li>what value the global frame ends up binding to <code>one_through_four</code>;</li>
+<li>whether <code>cons</code>, <code>car</code>, and <code>cdr</code> each open frames of their own as the program runs;</li>
+<li>whether any <code>getitem</code> frame changes the value the deepest call returns on its way back up.</li>
+</ol>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #657b83">nil</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">None</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">cons</span><span style="color: #657b83">(first,</span> <span style="color: #657b83">rest):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">(first,</span> <span style="color: #657b83">rest)</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">car</span><span style="color: #657b83">(pair):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">pair[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">cdr</span><span style="color: #657b83">(pair):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">pair[</span><span style="color: #2aa198">1</span><span style="color: #657b83">]</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">length</span><span style="color: #657b83">(items):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">items</span> <span style="color: #859900">is</span> <span style="color: #657b83">nil:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">1</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">length(cdr(items))</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">getitem</span><span style="color: #657b83">(items,</span> <span style="color: #657b83">n):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">car(items)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">getitem(cdr(items),</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">-</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+
+
+<span style="color: #657b83">one_through_four</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">cons(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #657b83">cons(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #657b83">cons(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #657b83">cons(</span><span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #657b83">nil))))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(length(one_through_four))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(getitem(one_through_four,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">))</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/a2ddb4ac7dd3.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>Step through it one line at a time and check each prediction as the frames appear. The global frame binds <code>one_through_four</code> to <code>(1, (2, (3, (4, None))))</code>, with <code>None</code> closing the chain, and building it costs four <code>cons</code> frames, one per pair. In real Scheme these three are primitives, but in this model they are ordinary functions, so <code>car</code> and <code>cdr</code> also earn a frame every time <code>length</code> and <code>getitem</code> call them. The first print shows <code>4</code>, assembled as each enclosing <code>length</code> frame adds <code>1</code> to the <code>0</code> returned at the empty-list base. Then three <code>getitem</code> frames open, each one pair deeper as the index counts down to <code>0</code>, where <code>car</code> finally returns <code>3</code>, and every <code>getitem</code> frame passes that <code>3</code> back up untouched. The detail to watch is not the tuple syntax but the shrinking call stack; that same shape is what the Scheme <code>getitem</code> does to <code>(1 2 3 4)</code>.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>3.2-B Definitions, Procedures, and Lexical Scope</span></a><a class='pg pg-next' href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>3.2-D Quotation and Symbolic Data</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#two-connected-boxes'>Two Connected Boxes</a></li><li><a href='#follow-the-line-building-a-pair'>Follow the Line: Building a Pair</a></li><li><a href='#selecting-parts-of-a-pair'>Selecting Parts of a Pair</a></li><li><a href='#follow-the-line-a-selector-on-a-constructed-pair'>Follow the Line: A Selector on a Constructed Pair</a></li><li><a href='#the-source-pair-checkpoint'>The Source Pair Checkpoint</a></li><li><a href='#lists-as-chains-of-pairs'>Lists as Chains of Pairs</a></li><li><a href='#the-list-procedure'>The List Procedure</a></li><li><a href='#follow-the-line-building-a-named-list'>Follow the Line: Building a Named List</a></li><li><a href='#taking-a-list-apart'>Taking a List Apart</a></li><li><a href='#adding-to-the-front-of-a-list'>Adding to the Front of a List</a></li><li><a href='#the-recursive-shape-of-a-list'>The Recursive Shape of a List</a></li><li><a href='#computing-length'>Computing Length</a></li><li><a href='#getting-an-item-by-index'>Getting an Item by Index</a></li><li><a href='#mapping-over-a-list'>Mapping Over a List</a></li><li><a href='#the-source-list-checkpoint'>The Source List Checkpoint</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

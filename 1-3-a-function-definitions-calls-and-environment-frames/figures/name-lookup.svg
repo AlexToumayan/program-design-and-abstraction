@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 330" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- expression being evaluated -->
+  <text x="340" y="30" text-anchor="middle" font-size="13" fill="#657b83">while evaluating</text>
+  <text x="340" y="54" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">mul(x, x)</text>
+
+  <!-- Local frame (TOP) -->
+  <rect x="278" y="78" width="240" height="86" rx="14" fill="#fdf6e3" stroke="#073642" stroke-width="2.5"/>
+  <text x="398" y="104" text-anchor="middle" font-size="14" font-weight="bold" fill="#073642">Local frame (square)</text>
+  <line x1="298" y1="116" x2="498" y2="116" stroke="#93a1a1" stroke-width="1"/>
+  <text x="398" y="143" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">x &#8594; 5</text>
+
+  <!-- Global frame (BOTTOM) -->
+  <rect x="278" y="200" width="240" height="104" rx="14" fill="#ffffff" stroke="#073642" stroke-width="2.5"/>
+  <text x="398" y="226" text-anchor="middle" font-size="14" font-weight="bold" fill="#073642">Global frame</text>
+  <line x1="298" y1="238" x2="498" y2="238" stroke="#93a1a1" stroke-width="1"/>
+  <text x="398" y="263" text-anchor="middle" font-size="17" font-family="monospace" fill="#073642">mul &#8594; function</text>
+  <text x="398" y="289" text-anchor="middle" font-size="17" font-family="monospace" fill="#073642">square &#8594; function</text>
+
+  <!-- Arrow 1: look up x, found in the local frame -->
+  <line x1="150" y1="121" x2="271" y2="121" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="269,115 280,121 269,127" fill="#268bd2"/>
+  <circle cx="120" cy="121" r="14" fill="#268bd2"/>
+  <text x="120" y="126" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">1</text>
+  <text x="120" y="156" text-anchor="middle" font-size="12" fill="#93a1a1">look up x</text>
+  <text x="195" y="103" text-anchor="middle" font-size="12" fill="#2aa198">found here</text>
+
+  <!-- Arrow 2: look up mul, not in local, fall DOWN to global -->
+  <circle cx="600" cy="121" r="14" fill="#268bd2"/>
+  <text x="600" y="126" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">2</text>
+  <text x="582" y="156" text-anchor="end" font-size="12" fill="#93a1a1">look up mul</text>
+  <!-- arrow points at local frame first -->
+  <line x1="586" y1="121" x2="525" y2="121" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="527,115 516,121 527,127" fill="#268bd2"/>
+  <text x="582" y="184" text-anchor="end" font-size="12" fill="#93a1a1">not here</text>
+  <!-- falls DOWN into the global frame -->
+  <line x1="600" y1="135" x2="600" y2="250" stroke="#268bd2" stroke-width="2.5"/>
+  <line x1="600" y1="250" x2="525" y2="250" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="527,244 516,250 527,256" fill="#268bd2"/>
+
+  <!-- caption -->
+  <text x="340" y="324" text-anchor="middle" font-size="13" fill="#93a1a1">a name is looked up in the local frame first, then the global frame.</text>
+</svg>

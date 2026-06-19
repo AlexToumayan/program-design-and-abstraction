@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>4.2.6-4.2.8 Iterable and Iterator Interfaces · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/' class='active'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 4</span><span class='dot'>/</span><span class='eb-sec'>4.2 Implicit Sequences</span></div><h1 class='lesson-title'>4.2.6-4.2.8 Iterable and Iterator Interfaces</h1><div class='reading-meta'>&#9719; approx. 17 min read <span class='rm-sep'>&middot;</span> 14 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>By the end of this lesson you will be able to build your own objects that work with a <code>for</code> loop, just like a list does. You already know that <code>for</code> works on lists, strings, and dictionaries. Now you will learn the two-method contract that makes that possible, so you can put your own classes on the other side of <code>for</code>.</p>
+<p>There are exactly two special methods to understand: <code>__next__</code>, which hands back one value at a time, and <code>__iter__</code>, which hands back something that has a <code>__next__</code>. Most confusion in this topic comes from blurring two roles that sound alike: the <strong>iterator</strong> (the thing being consumed) and the <strong>iterable</strong> (the thing that can produce a fresh iterator). Keeping those two apart is the whole game, and we will keep returning to that distinction.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='a-ticket-dispenser-and-a-roll-of-tickets' class='ls ls-default'>
+<h2 class='ls-h'><span>A Ticket Dispenser and a Roll of Tickets</span></h2>
+<div class='ls-body'>
+<p>Picture a deli counter. On the wall is a <strong>dispenser</strong> that gives out numbered tickets. Each time you pull, you get the next number: 41, then 42, then 43. The dispenser has a position built into it; it remembers what it handed out last, and it only ever moves forward. When the roll runs out, pulling gives you nothing more.</p>
+<p>That dispenser is an <strong>iterator</strong>. Its one job is to answer the question &quot;what is the next value?&quot; and each answer advances its internal position. Once a number is pulled, it is gone; you cannot pull 41 again from the same dispenser.</p>
+<p>Now picture the <strong>roll of tickets</strong> sitting in the stock room. The roll is not a dispenser. You cannot pull a number directly from the roll. But the roll is what you load into a dispenser, and you could load a fresh dispenser from the same kind of roll tomorrow and start again at the beginning.</p>
+<p>That roll is an <strong>iterable</strong>. Its job is not to dispense values itself, but to <strong>produce a dispenser on demand</strong>. Ask it for one, and you get a brand-new iterator positioned at the start.</p>
+<p>In Python these two roles map onto two methods. Asking an iterable for a dispenser is <code>__iter__</code>. Asking a dispenser for its next value is <code>__next__</code>. Hold the deli picture in mind: a dispenser gets used up, a roll can fill many dispensers.</p>
+</div></section>
+<section id='the-contract-between-objects-and-for' class='ls ls-default'>
+<h2 class='ls-h'><span>The Contract Between Objects and <code>for</code></span></h2>
+<div class='ls-body'>
+<p>A <code>for</code> statement does not require a list. It requires an object that follows the <strong>iterable interface</strong>: an object that can hand back an iterator when asked. That is the only thing <code>for</code> needs, which is why we can teach our own objects to cooperate with it.</p>
+<p>The interaction has two layers:</p>
+<div class='table-wrap'><table><thead><tr>
+<th>Method</th>
+<th>Who defines it</th>
+<th>What it returns</th>
+</tr></thead><tbody>
+<tr>
+<td><code>__iter__</code></td>
+<td>the iterable</td>
+<td>an iterator (a fresh dispenser)</td>
+</tr>
+<tr>
+<td><code>__next__</code></td>
+<td>the iterator</td>
+<td>the next value, or raises <code>StopIteration</code></td>
+</tr>
+</tbody></table></div>
+<p>Two built-in functions are the polite front doors to these methods. The built-in <code>iter(obj)</code> calls <code>obj.__iter__()</code>. The built-in <code>next(it)</code> calls <code>it.__next__()</code>. You can call the dunder methods directly, but <code>iter</code> and <code>next</code> are the usual way, and the official examples below use both forms on purpose so you see they are interchangeable.</p>
+<p>When you write <code>for x in obj</code>, Python does this once and then loops: it calls <code>iter(obj)</code> a single time to get an iterator, then it calls <code>next</code> on that iterator over and over, binding each result to <code>x</code>, until <code>next</code> raises <code>StopIteration</code>, which ends the loop quietly.</p>
+</div></section>
+<section id='the-iterator-interface-next' class='ls ls-default'>
+<h2 class='ls-h'><span>The Iterator Interface: <code>__next__</code></span></h2>
+<div class='ls-body'>
+<p>We start with the dispenser, because it is the lower-level piece. The <strong>iterator interface</strong> is defined by a single method, <code>__next__</code>, which returns the next element of the underlying series. Each call to <code>__next__</code> may do real work to retrieve or compute that element, and each call makes a mutating change: it advances the iterator&#x27;s position so the next call returns the following value.</p>
+<p>Here is the official iterator from the source, an iterator over letters of the alphabet in ASCII order. It walks from <code>start</code> up to but not including <code>end</code>.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #859900">class</span> <span style="color: #268bd2">LetterIter</span><span style="color: #657b83">:</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;An iterator over letters of the alphabet in ASCII order.&quot;&quot;&quot;</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">start</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">&#39;a&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">end</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">&#39;e&#39;</span><span style="color: #657b83">):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_letter</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">start</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">end</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">end</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__next__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">if</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_letter</span> <span style="color: #93a1a1">==</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">end:</span>
+            <span style="color: #859900">raise</span> <span style="color: #268bd2">StopIteration</span>
+        <span style="color: #657b83">letter</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_letter</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_letter</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">chr</span><span style="color: #657b83">(</span><span style="color: #268bd2">ord</span><span style="color: #657b83">(letter)</span><span style="color: #93a1a1">+</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">letter</span>
+</code></pre>
+<p>Two attributes carry all the state. The attribute <code>self.next_letter</code> holds the letter that the next call to <code>__next__</code> will return; it is the dispenser&#x27;s current position. The attribute <code>self.end</code> holds the stopping value, the first letter we do not return. The line <code>self.next_letter = chr(ord(letter)+1)</code> is how the position advances: <code>ord</code> turns a one-character string into its integer code point, adding <code>1</code> moves to the next code point, and <code>chr</code> turns that integer back into a character. So <code>&#x27;a&#x27;</code> becomes <code>&#x27;b&#x27;</code>, <code>&#x27;b&#x27;</code> becomes <code>&#x27;c&#x27;</code>, and so on.</p>
+<p>Let us read the advancing line one token at a time, because it is the heart of the class.</p>
+<pre class='code anatomy'><code>self.next_letter = chr(ord(letter)+1)
+├─ self.next_letter ... the attribute holding the position to return next
+├─ = .................. assignment: rebind that attribute
+├─ chr ............... built-in: integer code point to its character
+├─ ( .................. begins chr&#x27;s input
+├─ ord ............... built-in: a character to its integer code point
+├─ ( .................. begins ord&#x27;s input
+├─ letter ............ the character just returned this call
+├─ ) .................. ends ord&#x27;s input
+├─ + .................. addition operator
+├─ 1 .................. the integer one, the step to the next code point
+├─ ) .................. ends chr&#x27;s input
+└─ performs ........... advances the position to the following letter</code></pre>
+<p>Now watch the official transcript. Notice that both <code>letter_iter.__next__()</code> and <code>next(letter_iter)</code> appear, and they do the same thing. The final call runs off the end and raises <code>StopIteration</code>, shown with the full traceback exactly as the interpreter prints it.</p>
+<pre class='code text'><code>&gt;&gt;&gt; letter_iter = LetterIter()
+&gt;&gt;&gt; letter_iter.__next__()
+&#x27;a&#x27;
+&gt;&gt;&gt; letter_iter.__next__()
+&#x27;b&#x27;
+&gt;&gt;&gt; next(letter_iter)
+&#x27;c&#x27;
+&gt;&gt;&gt; letter_iter.__next__()
+&#x27;d&#x27;
+&gt;&gt;&gt; letter_iter.__next__()
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+  File &quot;&lt;stdin&gt;&quot;, line 12, in next
+StopIteration</code></pre>
+<p>Here is a runnable version of that same session. We catch the final <code>StopIteration</code> so the program finishes cleanly and prints a marker instead of crashing.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #859900">class</span> <span style="color: #268bd2">LetterIter</span><span style="color: #657b83">:</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;An iterator over letters of the alphabet in ASCII order.&quot;&quot;&quot;</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">start</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">&#39;a&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">end</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">&#39;e&#39;</span><span style="color: #657b83">):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_letter</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">start</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">end</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">end</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__next__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">if</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_letter</span> <span style="color: #93a1a1">==</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">end:</span>
+            <span style="color: #859900">raise</span> <span style="color: #268bd2">StopIteration</span>
+        <span style="color: #657b83">letter</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_letter</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_letter</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">chr</span><span style="color: #657b83">(</span><span style="color: #268bd2">ord</span><span style="color: #657b83">(letter)</span><span style="color: #93a1a1">+</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">letter</span>
+
+
+<span style="color: #657b83">letter_iter</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">LetterIter()</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(letter_iter</span><span style="color: #93a1a1">.</span><span style="color: #268bd2">__next__</span><span style="color: #657b83">())</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(letter_iter</span><span style="color: #93a1a1">.</span><span style="color: #268bd2">__next__</span><span style="color: #657b83">())</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">next</span><span style="color: #657b83">(letter_iter))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(letter_iter</span><span style="color: #93a1a1">.</span><span style="color: #268bd2">__next__</span><span style="color: #657b83">())</span>
+
+<span style="color: #859900">try</span><span style="color: #657b83">:</span>
+    <span style="color: #268bd2">print</span><span style="color: #657b83">(letter_iter</span><span style="color: #93a1a1">.</span><span style="color: #268bd2">__next__</span><span style="color: #657b83">())</span>
+<span style="color: #859900">except</span> <span style="color: #268bd2">StopIteration</span><span style="color: #657b83">:</span>
+    <span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #2aa198">&#39;done&#39;</span><span style="color: #657b83">)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/f36d487244cd.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>a
+b
+c
+d
+done</code></pre>
+<h3>A Step-by-Step Trace of Iterator State</h3>
+<p>The point of an iterator is that it carries a position that mutates. Let us trace <code>self.next_letter</code> across the calls in (2), starting from <code>LetterIter()</code>, where <code>start</code> defaults to <code>&#x27;a&#x27;</code> and <code>end</code> defaults to <code>&#x27;e&#x27;</code>.</p>
+<div class='table-wrap'><table><thead><tr>
+<th>Call</th>
+<th><code>self.next_letter</code> before</th>
+<th>Returns</th>
+<th><code>self.next_letter</code> after</th>
+</tr></thead><tbody>
+<tr>
+<td>1st <code>__next__</code></td>
+<td><code>&#x27;a&#x27;</code></td>
+<td><code>&#x27;a&#x27;</code></td>
+<td><code>&#x27;b&#x27;</code></td>
+</tr>
+<tr>
+<td>2nd <code>__next__</code></td>
+<td><code>&#x27;b&#x27;</code></td>
+<td><code>&#x27;b&#x27;</code></td>
+<td><code>&#x27;c&#x27;</code></td>
+</tr>
+<tr>
+<td>3rd via <code>next</code></td>
+<td><code>&#x27;c&#x27;</code></td>
+<td><code>&#x27;c&#x27;</code></td>
+<td><code>&#x27;d&#x27;</code></td>
+</tr>
+<tr>
+<td>4th <code>__next__</code></td>
+<td><code>&#x27;d&#x27;</code></td>
+<td><code>&#x27;d&#x27;</code></td>
+<td><code>&#x27;e&#x27;</code></td>
+</tr>
+<tr>
+<td>5th <code>__next__</code></td>
+<td><code>&#x27;e&#x27;</code></td>
+<td>raises <code>StopIteration</code></td>
+<td><code>&#x27;e&#x27;</code></td>
+</tr>
+</tbody></table></div>
+<p>On the fifth call, <code>self.next_letter</code> equals <code>self.end</code> (<code>&#x27;e&#x27;</code>), so the guard at the top runs <code>raise StopIteration</code> before returning anything. The position does not advance because the method exits early. This is the dispenser hitting the end of its roll.</p>
+</div></section>
+<section id='making-an-iterator-usable-in-a-for-loop' class='ls ls-default'>
+<h2 class='ls-h'><span>Making an Iterator Usable in a <code>for</code> Loop</span></h2>
+<div class='ls-body'>
+<p>There is a subtlety the source is careful about. To use an iterator in a <code>for</code> loop, the iterator must also have an <code>__iter__</code> method, because <code>for</code> always begins by calling <code>iter</code> on whatever you give it. The Python documentation recommends that an iterator&#x27;s <code>__iter__</code> return the iterator itself, so that every iterator is also iterable.</p>
+<p>Why return <code>self</code>? Because a dispenser is already a value-producer. If you ask a dispenser for a dispenser, the honest answer is &quot;I am one — here I am.&quot; Returning <code>self</code> means the object hands itself back, position and all.</p>
+<pre class='code text'><code>LetterIter object
+  already has __next__ and a current position
+  so __iter__ can simply return self</code></pre>
+<p>Here is a token-by-token reading of that recommended method.</p>
+<pre class='code anatomy'><code>def __iter__(self): return self
+├─ def ............... begins a method definition
+├─ __iter__ ......... the method for &quot;give me an iterator&quot;
+├─ (self) ............ the one parameter: the object itself
+├─ : .................. begins the method body
+├─ return ............ hands a value back to the caller
+├─ self .............. this very object, which already dispenses values
+└─ performs ........... lets a `for` loop iterate this iterator directly</code></pre>
+<p>With that method added, the same <code>LetterIter</code> works directly in a <code>for</code> loop. Here <code>for</code> calls <code>iter(letter_iter)</code>, gets the same object back, and then calls <code>next</code> on it repeatedly.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #859900">class</span> <span style="color: #268bd2">LetterIter</span><span style="color: #657b83">:</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;An iterator over letters of the alphabet in ASCII order.&quot;&quot;&quot;</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">start</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">&#39;a&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">end</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">&#39;e&#39;</span><span style="color: #657b83">):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_letter</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">start</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">end</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">end</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__next__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">if</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_letter</span> <span style="color: #93a1a1">==</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">end:</span>
+            <span style="color: #859900">raise</span> <span style="color: #268bd2">StopIteration</span>
+        <span style="color: #657b83">letter</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_letter</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_letter</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">chr</span><span style="color: #657b83">(</span><span style="color: #268bd2">ord</span><span style="color: #657b83">(letter)</span><span style="color: #93a1a1">+</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">letter</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__iter__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span>
+
+
+<span style="color: #859900">for</span> <span style="color: #657b83">letter</span> <span style="color: #859900">in</span> <span style="color: #657b83">LetterIter():</span>
+    <span style="color: #268bd2">print</span><span style="color: #657b83">(letter)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/0779b86ccb3a.json' data-mount='st1'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st1' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>a
+b
+c
+d</code></pre>
+</div></section>
+<section id='the-iterable-interface-iter' class='ls ls-default'>
+<h2 class='ls-h'><span>The Iterable Interface: <code>__iter__</code></span></h2>
+<div class='ls-body'>
+<p>Now the other role. An object is <strong>iterable</strong> if it returns an iterator when its <code>__iter__</code> method is invoked. An iterable represents a data collection and provides a fixed representation that may produce more than one iterator. The iterable itself does not get consumed; it is the stock room roll, and each <code>__iter__</code> call loads a fresh dispenser.</p>
+<p>The official <code>Letters</code> class is iterable but is not its own iterator. It stores only the rules (<code>start</code> and <code>end</code>) and builds a new <code>LetterIter</code> every time it is asked.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (4)</span>
+<span style="color: #859900">class</span> <span style="color: #268bd2">Letters</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">start</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">&#39;a&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">end</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">&#39;e&#39;</span><span style="color: #657b83">):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">start</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">start</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">end</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">end</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__iter__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">LetterIter(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">start,</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">end)</span>
+</code></pre>
+<p>Watch the contrast in this official transcript. Two iterators are created from one iterable, <code>b_to_k</code>, and they advance independently. Pulling from <code>first_iterator</code> does not move <code>second_iterator</code>. The iterable <code>b_to_k</code> never changes; only the two dispensers do.</p>
+<pre class='code text'><code>&gt;&gt;&gt; b_to_k = Letters(&#x27;b&#x27;, &#x27;k&#x27;)
+&gt;&gt;&gt; first_iterator = b_to_k.__iter__()
+&gt;&gt;&gt; next(first_iterator)
+&#x27;b&#x27;
+&gt;&gt;&gt; next(first_iterator)
+&#x27;c&#x27;
+&gt;&gt;&gt; second_iterator = iter(b_to_k)
+&gt;&gt;&gt; second_iterator.__next__()
+&#x27;b&#x27;
+&gt;&gt;&gt; first_iterator.__next__()
+&#x27;d&#x27;
+&gt;&gt;&gt; first_iterator.__next__()
+&#x27;e&#x27;
+&gt;&gt;&gt; second_iterator.__next__()
+&#x27;c&#x27;
+&gt;&gt;&gt; second_iterator.__next__()
+&#x27;d&#x27;</code></pre>
+<p>The iterable <code>Letters</code> instance <code>b_to_k</code> and the <code>LetterIter</code> iterator instances differ in exactly the way the deli picture predicts: the iterable does not change, while the iterator instances change with each call to <code>next</code>. The iterator tracks progress through the data; the iterable represents the data itself.</p>
+<p>Because <code>Letters</code> knows how to produce an iterator, any built-in that consumes an iterable accepts it. The source shows <code>map</code> over <code>b_to_k</code>. Recall that <code>map</code> itself returns an iterator, so once it accepts <code>b_to_k</code> you can pull values from it with <code>next</code>, just like any other dispenser:</p>
+<pre class='code text'><code>&gt;&gt;&gt; caps = map(lambda x: x.upper(), b_to_k)
+&gt;&gt;&gt; next(caps)
+&#x27;B&#x27;
+&gt;&gt;&gt; next(caps)
+&#x27;C&#x27;</code></pre>
+<p>Here is a runnable program that builds the two independent iterators and shows that one iterable can be traversed fully more than once, because each <code>list(...)</code> call asks for a new iterator. This <code>LetterIter</code> includes the recommended <code>__iter__</code> so the iterators it produces are themselves iterable.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (5)</span>
+<span style="color: #859900">class</span> <span style="color: #268bd2">LetterIter</span><span style="color: #657b83">:</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;An iterator over letters of the alphabet in ASCII order.&quot;&quot;&quot;</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">start</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">&#39;a&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">end</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">&#39;e&#39;</span><span style="color: #657b83">):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_letter</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">start</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">end</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">end</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__next__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">if</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_letter</span> <span style="color: #93a1a1">==</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">end:</span>
+            <span style="color: #859900">raise</span> <span style="color: #268bd2">StopIteration</span>
+        <span style="color: #657b83">letter</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_letter</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_letter</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">chr</span><span style="color: #657b83">(</span><span style="color: #268bd2">ord</span><span style="color: #657b83">(letter)</span><span style="color: #93a1a1">+</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">letter</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__iter__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span>
+
+
+<span style="color: #859900">class</span> <span style="color: #268bd2">Letters</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">start</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">&#39;a&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">end</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">&#39;e&#39;</span><span style="color: #657b83">):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">start</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">start</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">end</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">end</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__iter__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">LetterIter(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">start,</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">end)</span>
+
+
+<span style="color: #657b83">b_to_k</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Letters(</span><span style="color: #2aa198">&#39;b&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;k&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">first_iterator</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">iter</span><span style="color: #657b83">(b_to_k)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">next</span><span style="color: #657b83">(first_iterator))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">next</span><span style="color: #657b83">(first_iterator))</span>
+
+<span style="color: #657b83">second_iterator</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">iter</span><span style="color: #657b83">(b_to_k)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">next</span><span style="color: #657b83">(second_iterator))</span>
+
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">list</span><span style="color: #657b83">(b_to_k))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">list</span><span style="color: #657b83">(b_to_k))</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/38b999339571.json' data-mount='st2'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st2' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>b
+c
+b
+[&#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;, &#x27;e&#x27;, &#x27;f&#x27;, &#x27;g&#x27;, &#x27;h&#x27;, &#x27;i&#x27;, &#x27;j&#x27;]
+[&#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;, &#x27;e&#x27;, &#x27;f&#x27;, &#x27;g&#x27;, &#x27;h&#x27;, &#x27;i&#x27;, &#x27;j&#x27;]</code></pre>
+</div></section>
+<section id='iterator-versus-iterable-side-by-side' class='ls ls-default'>
+<h2 class='ls-h'><span>Iterator Versus Iterable, Side by Side</span></h2>
+<div class='ls-body'>
+<p>This is the distinction to lock in. An iterator carries a position and is consumed: after one full pass it is empty, and <code>__next__</code> keeps raising <code>StopIteration</code>. An iterable carries no position; it manufactures a fresh iterator on each request, so it can be traversed again and again.</p>
+<div class='table-wrap'><table><thead><tr>
+<th></th>
+<th>Iterator</th>
+<th>Iterable</th>
+</tr></thead><tbody>
+<tr>
+<td>Deli analogy</td>
+<td>the ticket dispenser</td>
+<td>the roll of tickets</td>
+</tr>
+<tr>
+<td>Required method</td>
+<td><code>__next__</code> (and usually <code>__iter__</code> returning <code>self</code>)</td>
+<td><code>__iter__</code> returning a new iterator</td>
+</tr>
+<tr>
+<td>Carries a position?</td>
+<td>yes</td>
+<td>no</td>
+</tr>
+<tr>
+<td>What happens on reuse</td>
+<td>already consumed; a second pass is empty</td>
+<td>fresh iterator each time; reusable</td>
+</tr>
+</tbody></table></div>
+<p>The next program makes the difference visible. A bare iterator is consumed after one pass; the second <code>list</code> call on it is empty. An iterable produces the same values every time.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (6)</span>
+<span style="color: #859900">class</span> <span style="color: #268bd2">LetterIter</span><span style="color: #657b83">:</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;An iterator over letters of the alphabet in ASCII order.&quot;&quot;&quot;</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">start</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">&#39;a&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">end</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">&#39;e&#39;</span><span style="color: #657b83">):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_letter</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">start</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">end</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">end</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__next__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">if</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_letter</span> <span style="color: #93a1a1">==</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">end:</span>
+            <span style="color: #859900">raise</span> <span style="color: #268bd2">StopIteration</span>
+        <span style="color: #657b83">letter</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_letter</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_letter</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">chr</span><span style="color: #657b83">(</span><span style="color: #268bd2">ord</span><span style="color: #657b83">(letter)</span><span style="color: #93a1a1">+</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">letter</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__iter__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span>
+
+
+<span style="color: #859900">class</span> <span style="color: #268bd2">Letters</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">start</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">&#39;a&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">end</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">&#39;e&#39;</span><span style="color: #657b83">):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">start</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">start</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">end</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">end</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__iter__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">LetterIter(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">start,</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">end)</span>
+
+
+<span style="color: #657b83">iterator</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">LetterIter()</span>
+<span style="color: #657b83">iterable</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Letters()</span>
+
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">list</span><span style="color: #657b83">(iterator))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">list</span><span style="color: #657b83">(iterator))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">list</span><span style="color: #657b83">(iterable))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">list</span><span style="color: #657b83">(iterable))</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/17e1f69a9359.json' data-mount='st3'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st3' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;]
+[]
+[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;]
+[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;]</code></pre>
+<p>The first <code>list(iterator)</code> drains the dispenser; the second finds it empty. Both <code>list(iterable)</code> calls return the full sequence because each one loaded a fresh dispenser.</p>
+</div></section>
+<section id='creating-iterables-with-yield' class='ls ls-default'>
+<h2 class='ls-h'><span>Creating Iterables with Yield</span></h2>
+<div class='ls-body'>
+<p>Writing a separate iterator class by hand, with its own <code>__next__</code> and its own position attribute, is a lot of bookkeeping. Generators remove that work. Recall that any function containing a <code>yield</code> statement is a <strong>generator function</strong>: calling it returns a generator, which is an iterator that runs the function body, pausing at each <code>yield</code> and resuming on the next <code>next</code>.</p>
+<p>The key move is that <code>__iter__</code> can itself be a generator method. Because <code>__iter__</code> is only required to return an iterator, and a generator is an iterator, putting <code>yield</code> inside <code>__iter__</code> does exactly what we need: each call to <code>iter(obj)</code> starts the method over and produces a brand-new generator. The object becomes a reusable iterable with no hand-written <code>__next__</code> at all.</p>
+<p>Here is the official <code>LettersWithYield</code>. Its <code>__iter__</code> is a generator method that walks from <code>start</code> up to <code>end</code>.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (7)</span>
+<span style="color: #859900">class</span> <span style="color: #268bd2">LettersWithYield</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">start</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">&#39;a&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">end</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">&#39;e&#39;</span><span style="color: #657b83">):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">start</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">start</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">end</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">end</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__iter__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #657b83">next_letter</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">start</span>
+        <span style="color: #859900">while</span> <span style="color: #657b83">next_letter</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">end:</span>
+            <span style="color: #859900">yield</span> <span style="color: #657b83">next_letter</span>
+            <span style="color: #657b83">next_letter</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">chr</span><span style="color: #657b83">(</span><span style="color: #268bd2">ord</span><span style="color: #657b83">(next_letter)</span><span style="color: #93a1a1">+</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>Notice what is gone compared with the <code>Letters</code>/<code>LetterIter</code> pair: there is no separate iterator class, no <code>next_letter</code> attribute on the object, and no explicit <code>raise StopIteration</code>. The local variable <code>next_letter</code> lives inside the generator, and the loop ending naturally stops iteration. Because <code>__iter__</code> is a generator method, each call to <code>iter(letters)</code> produces a fresh generator with its own local <code>next_letter</code>, so the object is reusable.</p>
+<p>Let us read the <code>yield</code> line in context, token by token.</p>
+<pre class='code anatomy'><code>yield next_letter
+├─ yield ............. pauses the generator and emits a value
+├─ next_letter ....... the local variable holding the current letter
+└─ performs ........... hands this letter to next, then suspends here until resumed</code></pre>
+<p>Here is a runnable program. Because the object is iterable, not a one-shot iterator, two full passes both succeed.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (8)</span>
+<span style="color: #859900">class</span> <span style="color: #268bd2">LettersWithYield</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">start</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">&#39;a&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">end</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">&#39;e&#39;</span><span style="color: #657b83">):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">start</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">start</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">end</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">end</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__iter__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #657b83">next_letter</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">start</span>
+        <span style="color: #859900">while</span> <span style="color: #657b83">next_letter</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">end:</span>
+            <span style="color: #859900">yield</span> <span style="color: #657b83">next_letter</span>
+            <span style="color: #657b83">next_letter</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">chr</span><span style="color: #657b83">(</span><span style="color: #268bd2">ord</span><span style="color: #657b83">(next_letter)</span><span style="color: #93a1a1">+</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+
+
+<span style="color: #657b83">letters</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">LettersWithYield()</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">list</span><span style="color: #657b83">(letters))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">list</span><span style="color: #657b83">(letters))</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/ad78ad8c3343.json' data-mount='st4'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st4' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;]
+[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;]</code></pre>
+<h3>A Trace of Generator Suspension</h3>
+<p>A generator method does not run top to bottom in one shot. It suspends at <code>yield</code> and resumes there. Tracing one pass of <code>LettersWithYield().__iter__()</code> makes the pausing concrete.</p>
+<div class='table-wrap'><table><thead><tr>
+<th>Event</th>
+<th><code>next_letter</code></th>
+<th>Action</th>
+</tr></thead><tbody>
+<tr>
+<td><code>iter(letters)</code> called</td>
+<td>unset</td>
+<td>generator created, body not yet started</td>
+</tr>
+<tr>
+<td>1st <code>next</code></td>
+<td><code>&#x27;a&#x27;</code></td>
+<td>run to <code>yield</code>, emit <code>&#x27;a&#x27;</code>, suspend</td>
+</tr>
+<tr>
+<td>2nd <code>next</code></td>
+<td><code>&#x27;a&#x27;</code> then <code>&#x27;b&#x27;</code></td>
+<td>advance to <code>&#x27;b&#x27;</code>, loop, <code>yield</code> <code>&#x27;b&#x27;</code>, suspend</td>
+</tr>
+<tr>
+<td>3rd <code>next</code></td>
+<td><code>&#x27;b&#x27;</code> then <code>&#x27;c&#x27;</code></td>
+<td>advance to <code>&#x27;c&#x27;</code>, <code>yield</code> <code>&#x27;c&#x27;</code>, suspend</td>
+</tr>
+<tr>
+<td>4th <code>next</code></td>
+<td><code>&#x27;c&#x27;</code> then <code>&#x27;d&#x27;</code></td>
+<td>advance to <code>&#x27;d&#x27;</code>, <code>yield</code> <code>&#x27;d&#x27;</code>, suspend</td>
+</tr>
+<tr>
+<td>5th <code>next</code></td>
+<td><code>&#x27;d&#x27;</code> then <code>&#x27;e&#x27;</code></td>
+<td>advance to <code>&#x27;e&#x27;</code>, <code>&#x27;e&#x27; &lt; &#x27;e&#x27;</code> is false, loop ends, raise <code>StopIteration</code></td>
+</tr>
+</tbody></table></div>
+<p>The local variable persists across the pauses because the generator keeps its own frame suspended between calls. When the <code>while</code> condition finally fails, the function returns, which signals <code>StopIteration</code> to whatever is driving the loop.</p>
+</div></section>
+<section id='a-generator-for-nested-pairs' class='ls ls-default'>
+<h2 class='ls-h'><span>A Generator for Nested Pairs</span></h2>
+<div class='ls-body'>
+<p>Generators shine when the sequence is awkward to materialize as a stored list. The official <code>all_pairs</code> generator yields every ordered pair drawn from a single iterable, pairing each element with every element, including itself.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (9)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">all_pairs</span><span style="color: #657b83">(s):</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">item1</span> <span style="color: #859900">in</span> <span style="color: #657b83">s:</span>
+        <span style="color: #859900">for</span> <span style="color: #657b83">item2</span> <span style="color: #859900">in</span> <span style="color: #657b83">s:</span>
+            <span style="color: #859900">yield</span> <span style="color: #657b83">(item1,</span> <span style="color: #657b83">item2)</span>
+</code></pre>
+<p>The structure is a nested loop: the outer loop fixes <code>item1</code>, and for each one the inner loop runs through every <code>item2</code>, yielding the pair <code>(item1, item2)</code>. Because it yields one pair at a time, nothing forces the full collection of pairs to exist all at once; the pairs are produced on demand as something pulls them.</p>
+<p>The official transcript runs it over the list <code>[1, 2, 3]</code>:</p>
+<pre class='code text'><code>&gt;&gt;&gt; list(all_pairs([1, 2, 3]))
+[(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3)]</code></pre>
+<p>It also works over any iterable, including our <code>LettersWithYield</code>. Here the source takes only the first five pairs with a slice:</p>
+<pre class='code text'><code>&gt;&gt;&gt; letters = LettersWithYield()
+&gt;&gt;&gt; list(all_pairs(letters))[:5]
+[(&#x27;a&#x27;, &#x27;a&#x27;), (&#x27;a&#x27;, &#x27;b&#x27;), (&#x27;a&#x27;, &#x27;c&#x27;), (&#x27;a&#x27;, &#x27;d&#x27;), (&#x27;b&#x27;, &#x27;a&#x27;)]</code></pre>
+<p>Here is a runnable version covering both transcripts:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (10)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">all_pairs</span><span style="color: #657b83">(s):</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">item1</span> <span style="color: #859900">in</span> <span style="color: #657b83">s:</span>
+        <span style="color: #859900">for</span> <span style="color: #657b83">item2</span> <span style="color: #859900">in</span> <span style="color: #657b83">s:</span>
+            <span style="color: #859900">yield</span> <span style="color: #657b83">(item1,</span> <span style="color: #657b83">item2)</span>
+
+
+<span style="color: #859900">class</span> <span style="color: #268bd2">LettersWithYield</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">start</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">&#39;a&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">end</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">&#39;e&#39;</span><span style="color: #657b83">):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">start</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">start</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">end</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">end</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__iter__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #657b83">next_letter</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">start</span>
+        <span style="color: #859900">while</span> <span style="color: #657b83">next_letter</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">end:</span>
+            <span style="color: #859900">yield</span> <span style="color: #657b83">next_letter</span>
+            <span style="color: #657b83">next_letter</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">chr</span><span style="color: #657b83">(</span><span style="color: #268bd2">ord</span><span style="color: #657b83">(next_letter)</span><span style="color: #93a1a1">+</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+
+
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">list</span><span style="color: #657b83">(all_pairs([</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">])))</span>
+<span style="color: #657b83">letters</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">LettersWithYield()</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">list</span><span style="color: #657b83">(all_pairs(letters))[:</span><span style="color: #2aa198">5</span><span style="color: #657b83">])</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/49d118d1ba11.json' data-mount='st5'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st5' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>[(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3)]
+[(&#x27;a&#x27;, &#x27;a&#x27;), (&#x27;a&#x27;, &#x27;b&#x27;), (&#x27;a&#x27;, &#x27;c&#x27;), (&#x27;a&#x27;, &#x27;d&#x27;), (&#x27;b&#x27;, &#x27;a&#x27;)]</code></pre>
+<p>Because <code>all_pairs(letters)</code> walks through <code>letters</code> in the outer loop, and then walks through <code>letters</code> all over again for each item the outer loop reaches, it asks <code>letters</code> for a fresh iterator many times. That only works because <code>letters</code> is a reusable iterable. The inner loop calls <code>iter(letters)</code> afresh for each <code>item1</code>, getting a new generator each time. A one-shot iterator passed in <code>s</code> would be drained after the first inner pass.</p>
+</div></section>
+<section id='an-unbounded-iterator-positives' class='ls ls-default'>
+<h2 class='ls-h'><span>An Unbounded Iterator: <code>Positives</code></span></h2>
+<div class='ls-body'>
+<p>An iterator does not need a stopping value at all. The official <code>Positives</code> class is an iterator over the positive integers, which never raises <code>StopIteration</code> because the positive integers never run out.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (11)</span>
+<span style="color: #859900">class</span> <span style="color: #268bd2">Positives</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_positive</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">1</span><span style="color: #657b83">;</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__next__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_positive</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_positive</span> <span style="color: #93a1a1">+=</span> <span style="color: #2aa198">1</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">result</span>
+</code></pre>
+<p>The pattern is the familiar iterator pattern: save the value to return in <code>result</code>, advance the position with <code>self.next_positive += 1</code>, then return the saved value. There is no guard and no <code>raise</code>, so every call succeeds and the sequence goes on forever.</p>
+<p>The official transcript pulls the first three values:</p>
+<pre class='code text'><code>&gt;&gt;&gt; p = Positives()
+&gt;&gt;&gt; next(p)
+1
+&gt;&gt;&gt; next(p)
+2
+&gt;&gt;&gt; next(p)
+3</code></pre>
+<p>Because the sequence is infinite, you must never hand it to something that tries to consume all of it, such as <code>list(Positives())</code> or a plain <code>for</code> loop with no break. You stay in control by pulling a finite number of values yourself.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (12)</span>
+<span style="color: #859900">class</span> <span style="color: #268bd2">Positives</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_positive</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">1</span><span style="color: #657b83">;</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__next__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_positive</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_positive</span> <span style="color: #93a1a1">+=</span> <span style="color: #2aa198">1</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">result</span>
+
+
+<span style="color: #657b83">p</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Positives()</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">next</span><span style="color: #657b83">(p))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">next</span><span style="color: #657b83">(p))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">next</span><span style="color: #657b83">(p))</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/4605f2aa0248.json' data-mount='st6'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st6' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>1
+2
+3</code></pre>
+<p>The same infinite sequence can also be written as a generator, which many people find easier to read because the position is just a local variable. This is a bridge, not the official version above; both describe the same unbounded series.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (13)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">positives_gen</span><span style="color: #657b83">():</span>
+    <span style="color: #657b83">current</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">while</span> <span style="color: #2aa198">True</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">yield</span> <span style="color: #657b83">current</span>
+        <span style="color: #657b83">current</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">current</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+
+
+<span style="color: #657b83">p</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">positives_gen()</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">next</span><span style="color: #657b83">(p))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">next</span><span style="color: #657b83">(p))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">next</span><span style="color: #657b83">(p))</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/96cc4e36272d.json' data-mount='st7'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st7' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>1
+2
+3</code></pre>
+<p>The <code>while True</code> says there is no built-in end. The consumer decides how far to go, which is exactly why we only call <code>next</code> three times instead of asking for the whole sequence.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<p>One trap is confusing the iterator with the iterable. If your object has <code>__next__</code> and its <code>__iter__</code> returns <code>self</code>, it is a single dispenser with one shared position, and a second <code>for</code> loop over it will find it already empty. If you want repeated traversal, write <code>__iter__</code> so it returns a new iterator (or make it a generator method).</p>
+<p>A second trap is calling <code>list</code> or running an unbounded <code>for</code> over an infinite iterator such as <code>Positives</code>. There is no final value where collection can stop, so Python would try to pull values forever. Take a fixed number of values with explicit <code>next</code> calls instead.</p>
+<p>A third trap is forgetting that consuming functions drain their input iterator. <code>map</code>, <code>filter</code>, and <code>for</code> all pull from the iterator you give them. If you pass the same iterator somewhere else afterward, it may already be empty, which is exactly what the <code>iterator</code> versus <code>iterable</code> example showed.</p>
+<p>A fourth trap is treating <code>__iter__</code> and <code>__next__</code> as magic words with no model. <code>__iter__</code> produces or returns a dispenser; <code>__next__</code> asks a dispenser for one value and advances it. When you are unsure which method an object needs, ask whether it is the roll (needs <code>__iter__</code> returning a new iterator) or the dispenser (needs <code>__next__</code>).</p>
+<p>A fifth trap is assuming an iterator works in a <code>for</code> loop just because it has <code>__next__</code>. A <code>for</code> loop calls <code>iter</code> first, so an object with only <code>__next__</code> raises <code>TypeError: &#x27;...&#x27; object is not iterable</code> the moment the loop tries to start. An iterator also needs an <code>__iter__</code> method; the recommended one simply returns <code>self</code>.</p>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>Using the <code>LetterIter</code> class above, what does <code>list(LetterIter(&#x27;x&#x27;, &#x27;z&#x27;))</code> evaluate to, and at which letter does <code>__next__</code> raise <code>StopIteration</code>?</li>
+<li>Why does the recommended <code>__iter__</code> for an iterator return <code>self</code>?</li>
+<li>Why can a <code>Letters</code> object be iterated more than once, while a single <code>LetterIter</code> cannot?</li>
+<li>In the <code>Positives</code> class, why is there no <code>raise StopIteration</code>, and what must you avoid doing with it?</li>
+<li>How does making <code>__iter__</code> a generator method (as in <code>LettersWithYield</code>) give you a reusable iterable without writing <code>__next__</code>?</li>
+<li>Why does <code>all_pairs(s)</code> require <code>s</code> to be a reusable iterable rather than a one-shot iterator?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li>It evaluates to <code>[&#x27;x&#x27;, &#x27;y&#x27;]</code>. The iterator returns <code>&#x27;x&#x27;</code>, then <code>&#x27;y&#x27;</code>, and on the next call <code>self.next_letter</code> equals <code>self.end</code> (<code>&#x27;z&#x27;</code>), so the guard raises <code>StopIteration</code> at <code>&#x27;z&#x27;</code> before returning it; <code>&#x27;z&#x27;</code> is never included.</li>
+<li>An iterator is already a value-producer with its own position. Returning <code>self</code> makes the iterator also iterable, so it can be used directly in a <code>for</code> loop, which always calls <code>iter</code> first.</li>
+<li><code>Letters.__iter__</code> builds a fresh <code>LetterIter</code> on each call, and each fresh iterator starts at the beginning. A single <code>LetterIter</code> carries one position that is consumed after one pass, so a second pass is empty.</li>
+<li>The positive integers never end, so there is no stopping value to trigger <code>StopIteration</code>. You must avoid <code>list(Positives())</code> or an unbounded <code>for</code>, because they would try to consume an infinite sequence; pull a finite number of values with <code>next</code> instead.</li>
+<li>A generator is an iterator, so a generator method satisfies the <code>__iter__</code> contract. Each <code>iter(obj)</code> call restarts the method and yields a new generator with its own local state, giving reusable iteration with no hand-written <code>__next__</code>.</li>
+<li><code>all_pairs</code> loops over <code>s</code> in the outer loop and then loops over <code>s</code> again for every outer item. Each inner loop calls <code>iter(s)</code> fresh, so <code>s</code> must be able to produce a new iterator each time. A one-shot iterator would be drained after the first inner pass and yield nothing afterward.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>The iterable interface lets your own objects work with <code>for</code>, <code>map</code>, <code>list</code>, and every other sequence-processing tool. Two roles do the work, and keeping them apart is the key idea. An <strong>iterator</strong> defines <code>__next__</code>, carries a position, and is consumed as values are pulled; to use it in a <code>for</code> loop it also needs an <code>__iter__</code> that returns <code>self</code>. An <strong>iterable</strong> defines <code>__iter__</code> to return a fresh iterator, carries no position, and can therefore be traversed again and again. Generator methods collapse most of this bookkeeping: because a generator is an iterator, writing <code>__iter__</code> with <code>yield</code> produces a reusable iterable with no hand-written <code>__next__</code>. And because an iterator need not ever stop, you can model unbounded series like the positive integers, as long as you pull from them a finite number of values at a time.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>This program is the lesson&#x27;s capstone: it contrasts a one-shot iterator with a reusable iterable in a single run. Stepping through it draws the <strong>environment diagram</strong> behind that contrast: one consumed <code>LetterIter</code> object on the heap whose <code>next_letter</code> attribute creeps toward <code>&#x27;e&#x27;</code> and then stays there, beside a <code>Letters</code> iterable that holds only its bounds and spins up a brand-new <code>LetterIter</code> object each time it is asked. Before you step through the block below, write down three predictions: how many times <code>__next__</code> will run during the first <code>list(iterator)</code> call, how many times it will run during the second, and how many distinct <code>LetterIter</code> objects will have been constructed by the time the last line finishes.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (14)</span>
+<span style="color: #859900">class</span> <span style="color: #268bd2">LetterIter</span><span style="color: #657b83">:</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;An iterator over letters of the alphabet in ASCII order.&quot;&quot;&quot;</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">start</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">&#39;a&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">end</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">&#39;e&#39;</span><span style="color: #657b83">):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_letter</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">start</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">end</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">end</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__next__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">if</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_letter</span> <span style="color: #93a1a1">==</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">end:</span>
+            <span style="color: #859900">raise</span> <span style="color: #268bd2">StopIteration</span>
+        <span style="color: #657b83">letter</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_letter</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_letter</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">chr</span><span style="color: #657b83">(</span><span style="color: #268bd2">ord</span><span style="color: #657b83">(letter)</span><span style="color: #93a1a1">+</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">letter</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__iter__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span>
+
+
+<span style="color: #859900">class</span> <span style="color: #268bd2">Letters</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">start</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">&#39;a&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">end</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">&#39;e&#39;</span><span style="color: #657b83">):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">start</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">start</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">end</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">end</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__iter__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">LetterIter(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">start,</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">end)</span>
+
+
+<span style="color: #657b83">iterator</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">LetterIter()</span>
+<span style="color: #657b83">first_pass_iterator</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">list</span><span style="color: #657b83">(iterator)</span>
+<span style="color: #657b83">second_pass_iterator</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">list</span><span style="color: #657b83">(iterator)</span>
+
+<span style="color: #657b83">iterable</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Letters()</span>
+<span style="color: #657b83">first_pass_iterable</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">list</span><span style="color: #657b83">(iterable)</span>
+<span style="color: #657b83">second_pass_iterable</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">list</span><span style="color: #657b83">(iterable)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/0dea821d3309.json' data-mount='st8'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st8' hidden></div></figure>
+<p>Step through it one line at a time and check each prediction as the frames appear. The first <code>list(iterator)</code> call opens five <code>__next__</code> frames: four return letters as <code>iterator.next_letter</code> advances from <code>&#x27;a&#x27;</code> to <code>&#x27;e&#x27;</code>, and the fifth raises <code>StopIteration</code>, which is how <code>list</code> knows to stop. The second call opens just one frame, because the guard fires immediately on the drained dispenser, leaving <code>second_pass_iterator</code> empty. The <code>Letters</code> object never changes; each <code>list(iterable)</code> call constructs a brand-new <code>LetterIter</code> that starts over at <code>&#x27;a&#x27;</code>, for three <code>LetterIter</code> objects in all. When the run ends, the four result names are bound to <code>[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;]</code>, <code>[]</code>, <code>[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;]</code>, and <code>[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;]</code>.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>4.2-C Generators and Yield Statements</span></a><a class='pg pg-next' href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>4.2-E Streams and Lazy Stream Processing</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#a-ticket-dispenser-and-a-roll-of-tickets'>A Ticket Dispenser and a Roll of Tickets</a></li><li><a href='#the-contract-between-objects-and-for'>The Contract Between Objects and for</a></li><li><a href='#the-iterator-interface-next'>The Iterator Interface: __next__</a></li><li><a href='#making-an-iterator-usable-in-a-for-loop'>Making an Iterator Usable in a for Loop</a></li><li><a href='#the-iterable-interface-iter'>The Iterable Interface: __iter__</a></li><li><a href='#iterator-versus-iterable-side-by-side'>Iterator Versus Iterable, Side by Side</a></li><li><a href='#creating-iterables-with-yield'>Creating Iterables with Yield</a></li><li><a href='#a-generator-for-nested-pairs'>A Generator for Nested Pairs</a></li><li><a href='#an-unbounded-iterator-positives'>An Unbounded Iterator: Positives</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

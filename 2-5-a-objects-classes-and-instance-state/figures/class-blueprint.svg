@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 300" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- blueprint box: the class (the template) -->
+  <rect x="16" y="60" width="226" height="180" rx="16" fill="#fdf6e3" stroke="#073642" stroke-width="2.5"/>
+  <text x="129" y="92" text-anchor="middle" font-size="20" font-family="monospace" font-weight="bold" fill="#073642">class Account</text>
+
+  <!-- divider under the title -->
+  <line x1="40" y1="106" x2="218" y2="106" stroke="#93a1a1" stroke-width="1.5"/>
+
+  <!-- attributes section -->
+  <text x="40" y="130" text-anchor="start" font-size="12" fill="#657b83">attributes</text>
+  <text x="40" y="152" text-anchor="start" font-size="16" font-family="monospace" fill="#073642">holder, balance</text>
+
+  <!-- methods section -->
+  <text x="40" y="184" text-anchor="start" font-size="12" fill="#657b83">methods</text>
+  <text x="40" y="206" text-anchor="start" font-size="16" font-family="monospace" fill="#073642">deposit()</text>
+  <text x="40" y="228" text-anchor="start" font-size="16" font-family="monospace" fill="#073642">withdraw()</text>
+
+  <text x="129" y="266" text-anchor="middle" font-size="13" fill="#93a1a1">the blueprint</text>
+
+  <!-- call arrow from the class to each instance -->
+  <line x1="242" y1="100" x2="430" y2="100" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="428,94 439,100 428,106" fill="#268bd2"/>
+  <line x1="242" y1="200" x2="430" y2="200" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="428,194 439,200 428,206" fill="#268bd2"/>
+  <text x="335" y="146" text-anchor="middle" font-size="15" font-family="monospace" fill="#268bd2">Account(...)</text>
+  <text x="335" y="166" text-anchor="middle" font-size="11" fill="#93a1a1">makes a new object</text>
+
+  <!-- instance a (top) -->
+  <rect x="442" y="62" width="222" height="76" rx="12" fill="#ffffff" stroke="#2aa198" stroke-width="2"/>
+  <text x="466" y="88" text-anchor="start" font-size="15" font-family="monospace" font-weight="bold" fill="#073642">a</text>
+  <text x="488" y="88" text-anchor="start" font-size="12" fill="#657b83">instance</text>
+  <text x="466" y="112" text-anchor="start" font-size="15" font-family="monospace" fill="#073642">holder = Kirk</text>
+  <text x="466" y="132" text-anchor="start" font-size="15" font-family="monospace" fill="#073642">balance = 0</text>
+
+  <!-- instance b (bottom) -->
+  <rect x="442" y="162" width="222" height="76" rx="12" fill="#ffffff" stroke="#2aa198" stroke-width="2"/>
+  <text x="466" y="188" text-anchor="start" font-size="15" font-family="monospace" font-weight="bold" fill="#073642">b</text>
+  <text x="488" y="188" text-anchor="start" font-size="12" fill="#657b83">instance</text>
+  <text x="466" y="212" text-anchor="start" font-size="15" font-family="monospace" fill="#073642">holder = Spock</text>
+  <text x="466" y="232" text-anchor="start" font-size="15" font-family="monospace" fill="#073642">balance = 0</text>
+
+  <text x="553" y="266" text-anchor="middle" font-size="13" fill="#93a1a1">two separate objects</text>
+
+  <!-- caption -->
+  <text x="340" y="290" text-anchor="middle" font-size="13" fill="#93a1a1">one class is the blueprint; each instance is its own object with its own state.</text>
+</svg>

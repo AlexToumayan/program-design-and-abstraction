@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-18 -18 812 618" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- ============ TITLE ============ -->
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#073642">The SELECT pipeline on rows</text>
+
+  <!-- ================================================================ -->
+  <!-- STAGE 1: START  (all rows)                                       -->
+  <!-- ================================================================ -->
+  <text x="180" y="62" text-anchor="middle" font-size="13" font-weight="bold" fill="#657b83">STAGE 1 &#8212; START: all rows (cities)</text>
+
+  <!-- table frame -->
+  <rect x="40" y="74" width="280" height="120" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <!-- column dividers -->
+  <line x1="132" y1="74" x2="132" y2="194" stroke="#073642" stroke-width="1"/>
+  <line x1="240" y1="74" x2="240" y2="194" stroke="#073642" stroke-width="1"/>
+  <!-- header rule -->
+  <line x1="40" y1="104" x2="320" y2="104" stroke="#073642" stroke-width="1.5"/>
+  <!-- header -->
+  <text x="86"  y="94" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#073642">latitude</text>
+  <text x="186" y="94" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#073642">name</text>
+  <text x="280" y="94" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#073642">longitude</text>
+  <!-- row 1 -->
+  <text x="86"  y="128" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">38</text>
+  <text x="186" y="128" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">Berkeley</text>
+  <text x="280" y="128" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">122</text>
+  <!-- row 2 -->
+  <text x="86"  y="156" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">42</text>
+  <text x="186" y="156" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">Cambridge</text>
+  <text x="280" y="156" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">71</text>
+  <!-- row 3 -->
+  <text x="86"  y="184" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">45</text>
+  <text x="186" y="184" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">Minneapolis</text>
+  <text x="280" y="184" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">93</text>
+
+  <!-- ===== Arrow 1 &#8594; 2 (horizontal, blue) ===== -->
+  <text x="500" y="118" text-anchor="middle" font-size="12" font-family="monospace" fill="#268bd2">WHERE latitude &gt; 43</text>
+  <text x="500" y="134" text-anchor="middle" font-size="11" font-style="italic" fill="#93a1a1">(keep ROWS)</text>
+  <line x1="332" y1="144" x2="666" y2="144" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="664,138 675,144 664,150" fill="#268bd2"/>
+
+  <!-- ================================================================ -->
+  <!-- STAGE 2: FILTER  (drop failing rows)                             -->
+  <!-- ================================================================ -->
+  <text x="540" y="200" text-anchor="middle" font-size="13" font-weight="bold" fill="#657b83">STAGE 2 &#8212; FILTER: drop failing rows</text>
+
+  <!-- table frame -->
+  <rect x="400" y="212" width="280" height="120" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <line x1="492" y1="212" x2="492" y2="332" stroke="#073642" stroke-width="1"/>
+  <line x1="600" y1="212" x2="600" y2="332" stroke="#073642" stroke-width="1"/>
+  <line x1="400" y1="242" x2="680" y2="242" stroke="#073642" stroke-width="1.5"/>
+  <!-- header -->
+  <text x="446" y="232" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#073642">latitude</text>
+  <text x="546" y="232" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#073642">name</text>
+  <text x="640" y="232" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#073642">longitude</text>
+
+  <!-- row 1: Berkeley DROPPED (grey, struck, red x) -->
+  <text x="382" y="270" text-anchor="middle" font-size="14" font-weight="bold" fill="#dc322f">&#215;</text>
+  <text x="446" y="266" text-anchor="middle" font-size="13" font-family="monospace" fill="#93a1a1">38</text>
+  <text x="546" y="266" text-anchor="middle" font-size="13" font-family="monospace" fill="#93a1a1">Berkeley</text>
+  <text x="640" y="266" text-anchor="middle" font-size="13" font-family="monospace" fill="#93a1a1">122</text>
+  <line x1="406" y1="262" x2="674" y2="262" stroke="#93a1a1" stroke-width="1.25"/>
+
+  <!-- row 2: Cambridge DROPPED (grey, struck, red x) -->
+  <text x="382" y="298" text-anchor="middle" font-size="14" font-weight="bold" fill="#dc322f">&#215;</text>
+  <text x="446" y="294" text-anchor="middle" font-size="13" font-family="monospace" fill="#93a1a1">42</text>
+  <text x="546" y="294" text-anchor="middle" font-size="13" font-family="monospace" fill="#93a1a1">Cambridge</text>
+  <text x="640" y="294" text-anchor="middle" font-size="13" font-family="monospace" fill="#93a1a1">71</text>
+  <line x1="406" y1="290" x2="674" y2="290" stroke="#93a1a1" stroke-width="1.25"/>
+
+  <!-- row 3: Minneapolis KEPT (solid black, bold) -->
+  <text x="446" y="322" text-anchor="middle" font-size="13" font-family="monospace" font-weight="bold" fill="#073642">45</text>
+  <text x="546" y="322" text-anchor="middle" font-size="13" font-family="monospace" font-weight="bold" fill="#073642">Minneapolis</text>
+  <text x="640" y="322" text-anchor="middle" font-size="13" font-family="monospace" font-weight="bold" fill="#073642">93</text>
+
+  <!-- per-row test annotations to the right of the table -->
+  <text x="690" y="266" text-anchor="start" font-size="11" font-family="monospace" fill="#93a1a1">38 &gt; 43 false</text>
+  <text x="690" y="294" text-anchor="start" font-size="11" font-family="monospace" fill="#93a1a1">42 &gt; 43 false</text>
+  <text x="690" y="322" text-anchor="start" font-size="11" font-family="monospace" font-weight="bold" fill="#2aa198">45 &gt; 43 true</text>
+
+  <!-- ===== Arrow 2 &#8594; 3 (down-left, cyan) ===== -->
+  <text x="360" y="350" text-anchor="middle" font-size="12" font-family="monospace" fill="#2aa198">SELECT name, 60*abs(latitude-38)</text>
+  <text x="360" y="366" text-anchor="middle" font-size="11" font-style="italic" fill="#93a1a1">(compute COLUMNS)</text>
+  <line x1="540" y1="344" x2="290" y2="398" stroke="#2aa198" stroke-width="2.5"/>
+  <polygon points="295,386 283,400 307,401" fill="#2aa198"/>
+
+  <!-- ================================================================ -->
+  <!-- STAGE 3: PROJECT  (build output columns)                         -->
+  <!-- ================================================================ -->
+  <text x="180" y="412" text-anchor="middle" font-size="13" font-weight="bold" fill="#657b83">STAGE 3 &#8212; PROJECT: build output columns</text>
+
+  <!-- result table frame (2 columns, 1 row) -->
+  <rect x="56" y="424" width="248" height="62" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <line x1="160" y1="424" x2="160" y2="486" stroke="#073642" stroke-width="1"/>
+  <line x1="56" y1="454" x2="304" y2="454" stroke="#073642" stroke-width="1.5"/>
+  <!-- header -->
+  <text x="108" y="444" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#073642">name</text>
+  <text x="232" y="444" text-anchor="middle" font-size="11" font-family="monospace" font-weight="bold" fill="#073642">60*abs(latitude-38)</text>
+  <!-- single result row -->
+  <text x="108" y="475" text-anchor="middle" font-size="13" font-family="monospace" font-weight="bold" fill="#268bd2">Minneapolis</text>
+  <text x="232" y="475" text-anchor="middle" font-size="14" font-family="monospace" font-weight="bold" fill="#2aa198">420</text>
+  <!-- caption under computed header -->
+  <text x="232" y="502" text-anchor="middle" font-size="11" font-family="monospace" fill="#93a1a1">60*abs(45-38)=420</text>
+  <!-- columns note -->
+  <text x="180" y="520" text-anchor="middle" font-size="11" font-style="italic" fill="#dc322f">3 cols in &#8594; 2 cols out: columns chosen/computed here</text>
+
+  <!-- ===== Arrow 3 &#8594; 4 (horizontal, navy) ===== -->
+  <text x="500" y="446" text-anchor="middle" font-size="12" font-family="monospace" fill="#073642">ORDER BY &#8230;</text>
+  <text x="500" y="462" text-anchor="middle" font-size="11" font-style="italic" fill="#93a1a1">(sort survivors)</text>
+  <line x1="316" y1="455" x2="406" y2="455" stroke="#073642" stroke-width="2.5"/>
+  <polygon points="404,449 415,455 404,461" fill="#073642"/>
+
+  <!-- ================================================================ -->
+  <!-- STAGE 4: SORT  (order output rows)                               -->
+  <!-- ================================================================ -->
+  <text x="540" y="490" text-anchor="middle" font-size="13" font-weight="bold" fill="#657b83">STAGE 4 &#8212; SORT: order the output rows</text>
+
+  <!-- same single-row result table -->
+  <rect x="416" y="502" width="248" height="62" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <line x1="520" y1="502" x2="520" y2="564" stroke="#073642" stroke-width="1"/>
+  <line x1="416" y1="532" x2="664" y2="532" stroke="#073642" stroke-width="1.5"/>
+  <text x="468" y="522" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#073642">name</text>
+  <text x="592" y="522" text-anchor="middle" font-size="11" font-family="monospace" font-weight="bold" fill="#073642">60*abs(latitude-38)</text>
+  <text x="468" y="553" text-anchor="middle" font-size="13" font-family="monospace" font-weight="bold" fill="#268bd2">Minneapolis</text>
+  <text x="592" y="553" text-anchor="middle" font-size="14" font-family="monospace" font-weight="bold" fill="#2aa198">420</text>
+  <!-- grey note beside result -->
+  <text x="540" y="582" text-anchor="middle" font-size="11" font-style="italic" fill="#93a1a1">one survivor, nothing to reorder</text>
+</svg>

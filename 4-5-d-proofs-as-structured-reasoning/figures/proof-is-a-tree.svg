@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-60 -18 778 596" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- ===== title ===== -->
+  <text x="350" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#073642">A Proof Is a Tree: Tiny Answer, Tall Justification</text>
+
+  <!-- ===== the ANSWER pill (the what), pointing down at the root ===== -->
+  <rect x="186" y="50" width="412" height="40" rx="20" fill="#fdf6e3" stroke="#2aa198" stroke-width="2.5"/>
+  <text x="392" y="68" text-anchor="middle" font-size="12" font-weight="bold" fill="#2aa198">the ANSWER (the what)</text>
+  <text x="392" y="83" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">?a &#8594; fillmore,  ?brown-dog &#8594; herbert</text>
+  <!-- pill points down at the root -->
+  <line x1="392" y1="90" x2="392" y2="116" stroke="#2aa198" stroke-width="2.5"/>
+  <polygon points="386,114 392,125 398,114" fill="#2aa198"/>
+
+  <!-- ===== left-margin PROOF bracket, spanning the whole tree ===== -->
+  <!-- vertical spine + top/bottom ticks form a thin bracket -->
+  <line x1="40" y1="128" x2="40" y2="468" stroke="#657b83" stroke-width="1.5"/>
+  <line x1="40" y1="128" x2="50" y2="128" stroke="#657b83" stroke-width="1.5"/>
+  <line x1="40" y1="468" x2="50" y2="468" stroke="#657b83" stroke-width="1.5"/>
+  <text x="32" y="298" text-anchor="middle" font-size="13" font-weight="bold" fill="#657b83" transform="rotate(-90 32 298)">the PROOF (the why)</text>
+
+  <!-- ===== ROOT = the CLAIM (bold box) ===== -->
+  <rect x="236" y="128" width="312" height="56" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2.5"/>
+  <text x="392" y="152" text-anchor="middle" font-size="11" font-weight="bold" fill="#657b83">CLAIM</text>
+  <text x="392" y="173" text-anchor="middle" font-size="17" font-family="monospace" fill="#073642">(ancestor fillmore herbert)</text>
+
+  <!-- ===== edge: root splits to two children, labeled 'recursive ancestor rule' ===== -->
+  <!-- left branch: to AXIOM leaf -->
+  <line x1="392" y1="184" x2="186" y2="276" stroke="#073642" stroke-width="2"/>
+  <polygon points="186,266 180,279 192,278" fill="#073642"/>
+  <!-- right branch: to interior rule-application node -->
+  <line x1="392" y1="184" x2="540" y2="276" stroke="#073642" stroke-width="2"/>
+  <polygon points="540,266 547,279 533,278" fill="#073642"/>
+  <!-- edge label, sitting above the split -->
+  <rect x="300" y="206" width="184" height="24" rx="6" fill="#fdf6e3" stroke="#93a1a1" stroke-width="1"/>
+  <text x="392" y="222" text-anchor="middle" font-size="12" font-style="italic" fill="#657b83">recursive ancestor rule</text>
+
+  <!-- ===== LEFT child: AXIOM leaf (green, ground bottom) ===== -->
+  <rect x="64" y="288" width="244" height="56" rx="10" fill="#e6f2e6" stroke="#2aa198" stroke-width="2"/>
+  <text x="186" y="312" text-anchor="middle" font-size="11" font-weight="bold" fill="#2aa198">AXIOM</text>
+  <text x="186" y="333" text-anchor="middle" font-size="16" font-family="monospace" fill="#073642">(parent fillmore delano)</text>
+  <!-- 'ground' symbol under the leaf: three shrinking horizontal bars -->
+  <line x1="186" y1="344" x2="186" y2="352" stroke="#2aa198" stroke-width="2"/>
+  <line x1="160" y1="352" x2="212" y2="352" stroke="#2aa198" stroke-width="2.5"/>
+  <line x1="168" y1="358" x2="204" y2="358" stroke="#2aa198" stroke-width="2"/>
+  <line x1="176" y1="364" x2="196" y2="364" stroke="#2aa198" stroke-width="2"/>
+
+  <!-- ===== RIGHT child: rule-application interior node (white) ===== -->
+  <rect x="418" y="288" width="244" height="56" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="540" y="312" text-anchor="middle" font-size="11" font-weight="bold" fill="#657b83">rule application</text>
+  <text x="540" y="333" text-anchor="middle" font-size="16" font-family="monospace" fill="#073642">(ancestor delano herbert)</text>
+
+  <!-- ===== edge: interior node down to its AXIOM leaf, labeled 'base ancestor rule' ===== -->
+  <line x1="540" y1="344" x2="540" y2="400" stroke="#073642" stroke-width="2"/>
+  <polygon points="534,398 540,409 546,398" fill="#073642"/>
+  <rect x="448" y="356" width="184" height="24" rx="6" fill="#fdf6e3" stroke="#93a1a1" stroke-width="1"/>
+  <text x="540" y="372" text-anchor="middle" font-size="12" font-style="italic" fill="#657b83">base ancestor rule</text>
+
+  <!-- ===== bottom leaf: AXIOM (green, ground bottom) ===== -->
+  <rect x="418" y="412" width="244" height="56" rx="10" fill="#e6f2e6" stroke="#2aa198" stroke-width="2"/>
+  <text x="540" y="436" text-anchor="middle" font-size="11" font-weight="bold" fill="#2aa198">AXIOM</text>
+  <text x="540" y="457" text-anchor="middle" font-size="16" font-family="monospace" fill="#073642">(parent delano herbert)</text>
+  <!-- 'ground' symbol under the leaf -->
+  <line x1="540" y1="468" x2="540" y2="476" stroke="#2aa198" stroke-width="2"/>
+  <line x1="514" y1="476" x2="566" y2="476" stroke="#2aa198" stroke-width="2.5"/>
+  <line x1="522" y1="482" x2="558" y2="482" stroke="#2aa198" stroke-width="2"/>
+  <line x1="530" y1="488" x2="550" y2="488" stroke="#2aa198" stroke-width="2"/>
+
+  <!-- ===== legend ===== -->
+  <text x="350" y="518" text-anchor="middle" font-size="12" fill="#93a1a1">leaves = axioms (granted facts)  &#183;  interior = rule applications  &#183;  root = the claim</text>
+
+  <!-- ===== caption ===== -->
+  <text x="350" y="542" text-anchor="middle" font-size="13" fill="#93a1a1">The interpreter reports the answer; it could only find it by building this tree.</text>
+</svg>

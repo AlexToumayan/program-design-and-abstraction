@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>2.2 Pairs, Abstraction Barriers, and the Properties of Data · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/' class='active'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 2</span><span class='dot'>/</span><span class='eb-sec'>2.2 Data Abstraction</span></div><h1 class='lesson-title'>2.2 Pairs, Abstraction Barriers, and the Properties of Data</h1><div class='reading-meta'>&#9719; approx. 20 min read <span class='rm-sep'>&middot;</span> 10 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>In the previous lesson you designed a complete set of rational-number operations before you decided how a rational number would actually be stored. You wrote <code>add_rationals</code>, <code>mul_rationals</code>, <code>print_rational</code>, and <code>rationals_are_equal</code>, and every one of them talked to a rational number only through the three names <code>rational</code>, <code>numer</code>, and <code>denom</code>. That left a hole on purpose: those three names were never implemented.</p>
+<p>This lesson fills the hole, and then it does something more interesting. By the end you will be able to do four things: build a rational number out of a <strong>pair</strong> (a container that holds two values), explain why the line between &quot;code that uses a value&quot; and &quot;code that builds a value&quot; is called an <strong>abstraction barrier</strong>, improve the representation without touching any of the operations that use it, and finally see the surprising claim at the center of the whole chapter: a piece of data is defined by how it <strong>behaves</strong>, not by what it is physically made of. To drive that last point home, you will build a working pair out of nothing but a function.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='a-pair-is-a-two-slot-container' class='ls ls-default'>
+<h2 class='ls-h'><span>A Pair Is a Two-Slot Container</span></h2>
+<div class='ls-body'>
+<p>Start with the everyday version of the idea. Think of an egg carton built for exactly two eggs. The carton itself is one object you can pick up and carry, but it holds two separate things, and each thing has a fixed spot: a left cup and a right cup. If a friend asks for &quot;the egg on the left,&quot; there is no ambiguity. The carton bundles two values into one value while still letting you reach in and pull out either piece on demand.</p>
+<p>That is precisely what we need for a rational number. A rational number is one value, but it is built from two integers: a numerator and a denominator. We want a single container that holds both, keeps them in a fixed order, and lets us pull out the first or the second whenever we ask.</p>
+<p>The simplest such container in Python is a <strong>list</strong> with two elements. A list is written by surrounding comma-separated values with square brackets. Here is the smallest one that matters to us, typed directly at the interpreter:</p>
+<pre class='code text'><code>&gt;&gt;&gt; [10, 20]
+[10, 20]</code></pre>
+<p>You typed a list of two elements, and Python echoed the same list back as its value. Nothing is stored yet, because we never named it. Give it a name so we can come back to it:</p>
+<pre class='code text'><code>&gt;&gt;&gt; pair = [10, 20]
+&gt;&gt;&gt; pair
+[10, 20]</code></pre>
+<p>Picture the value bound to <code>pair</code> as a two-slot tray:</p>
+<pre class='code text'><code>index:   0    1
+       +----+----+
+pair = | 10 | 20 |
+       +----+----+</code></pre>
+<p>The two facts to hold onto are that the list keeps its elements in order, and that the positions are numbered starting from <code>0</code>, not from <code>1</code>. This zero-based counting trips up almost everyone at first, so we will keep returning to it.</p>
+</div></section>
+<section id='follow-the-line-a-list-literal' class='ls ls-default'>
+<h2 class='ls-h'><span>Follow the Line: A List Literal</span></h2>
+<div class='ls-body'>
+<p>Here is the list literal broken into its parts. Read the left column as &quot;the piece of code,&quot; and the right column as &quot;what that piece does.&quot;</p>
+<pre class='code anatomy'><code>[10, 20]
+├─ [ ........... open the list literal; everything until the matching ] is an element
+├─ 10 .......... first element; it lands at index 0
+├─ , ........... separator that marks the boundary between elements
+├─ 20 .......... second element; it lands at index 1
+├─ ] ........... close the list literal
+└─ evaluates to  a two-element list [10, 20]</code></pre>
+<p>The comma is not decoration. It is the token that tells Python there is more than one element, and it is what fixes which value is &quot;first&quot; and which is &quot;second.&quot;</p>
+</div></section>
+<section id='pulling-a-value-back-out' class='ls ls-default'>
+<h2 class='ls-h'><span>Pulling a Value Back Out</span></h2>
+<div class='ls-body'>
+<p>A container is only useful if you can reach into it. To select an element from a list, write the list, then square brackets, then the index you want:</p>
+<pre class='code text'><code>&gt;&gt;&gt; pair[0]
+10
+&gt;&gt;&gt; pair[1]
+20</code></pre>
+<p><code>pair[0]</code> is the value in the first slot, <code>10</code>, and <code>pair[1]</code> is the value in the second slot, <code>20</code>. The square brackets here mean something different from the square brackets that built the list. When brackets sit immediately after a value, they mean &quot;select the element at this index.&quot;</p>
+</div></section>
+<section id='follow-the-line-element-selection' class='ls ls-default'>
+<h2 class='ls-h'><span>Follow the Line: Element Selection</span></h2>
+<div class='ls-body'>
+<pre class='code anatomy'><code>pair[0]
+├─ pair ........ the sequence to select from
+├─ [ ........... begin an index selection
+├─ 0 ........... the index to select; 0 is the first position
+├─ ] ........... end the index selection
+└─ evaluates to  10, the value stored at index 0 of pair</code></pre>
+<p>The single most common beginner mistake is reading <code>pair[0]</code> as &quot;the zeroth thing, which surely means nothing useful&quot; or as &quot;the first thing I&#x27;d point at, which is the 10... or is it the 20?&quot; Anchor it: index <code>0</code> is the first slot, index <code>1</code> is the second slot.</p>
+</div></section>
+<section id='selection-is-just-a-call-expression' class='ls ls-default'>
+<h2 class='ls-h'><span>Selection Is Just a Call Expression</span></h2>
+<div class='ls-body'>
+<p>Square-bracket selection looks like special punctuation, but it is not magic. The same operation has an ordinary <strong>call expression</strong> form (a function call) named <code>getitem</code>, which lives in the <code>operator</code> module. Importing it and calling it does exactly what the brackets do:</p>
+<pre class='code text'><code>&gt;&gt;&gt; from operator import getitem
+&gt;&gt;&gt; getitem(pair, 0)
+10
+&gt;&gt;&gt; getitem(pair, 1)
+20</code></pre>
+<p><code>getitem(pair, 0)</code> returns the same value as <code>pair[0]</code>. This is worth a moment of attention because it reveals the shape of the idea: selecting an element is an operation that takes a compound value and an index and returns one part. The brackets are convenient surface syntax for that operation. Seeing the function form makes it concrete that selection is a normal computation, not a built-in spelling you simply have to memorize.</p>
+</div></section>
+<section id='unpacking-both-values-at-once' class='ls ls-default'>
+<h2 class='ls-h'><span>Unpacking Both Values at Once</span></h2>
+<div class='ls-body'>
+<p>Often you want both elements in named variables. Python lets you bind two names from a two-element sequence in a single statement, which is called <strong>multiple assignment</strong> (or sequence unpacking):</p>
+<pre class='code text'><code>&gt;&gt;&gt; x, y = pair
+&gt;&gt;&gt; x
+10
+&gt;&gt;&gt; y
+20</code></pre>
+<p>After this statement, <code>x</code> is <code>10</code> and <code>y</code> is <code>20</code>. The list itself is unchanged; <code>x</code> and <code>y</code> are two new names that point at the values that were inside it.</p>
+</div></section>
+<section id='follow-the-line-multiple-assignment' class='ls ls-default'>
+<h2 class='ls-h'><span>Follow the Line: Multiple Assignment</span></h2>
+<div class='ls-body'>
+<pre class='code anatomy'><code>x, y = pair
+├─ x ........... first target name on the left
+├─ , ........... separates the target names
+├─ y ........... second target name on the left
+├─ = ........... assignment; bind the targets to the elements on the right
+├─ pair ........ a sequence on the right, expected to have exactly two elements
+└─ performs      binds x to pair&#x27;s element 0 and y to its element 1</code></pre>
+<p>Because this is a statement and not an expression, it prints nothing on its own; it performs the action of creating two bindings. Here is the machine model, step by step:</p>
+<pre class='code text'><code>1. Evaluate the right side: look up pair, the list [10, 20].
+2. Check that the sequence has exactly two elements, matching the two targets.
+3. Bind x to the element at index 0, which is 10.
+4. Bind y to the element at index 1, which is 20.</code></pre>
+<p>After all four steps, the current frame holds three bindings:</p>
+<pre class='code text'><code>+------+----------+
+| pair | [10, 20] |
+| x    | 10       |
+| y    | 20       |
++------+----------+</code></pre>
+<p>If the number of names on the left does not match the number of elements on the right, Python raises an error rather than guessing. Two names require exactly two elements.</p>
+</div></section>
+<section id='representing-rational-numbers-with-pairs' class='ls ls-default'>
+<h2 class='ls-h'><span>Representing Rational Numbers with Pairs</span></h2>
+<div class='ls-body'>
+<p>Now we have everything needed to implement the three names the previous lesson left undefined. A rational number will be a two-element list: numerator at index <code>0</code>, denominator at index <code>1</code>. The constructor builds that list, and each selector pulls out one element.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">rational</span><span style="color: #657b83">(n,</span> <span style="color: #657b83">d):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">[n,</span> <span style="color: #657b83">d]</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">numer</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">x[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">denom</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">x[</span><span style="color: #2aa198">1</span><span style="color: #657b83">]</span>
+</code></pre>
+<p><code>rational(n, d)</code> constructs a rational number by packaging <code>n</code> and <code>d</code> into a list. <code>numer(x)</code> selects the element at index <code>0</code>, the numerator. <code>denom(x)</code> selects the element at index <code>1</code>, the denominator. These three functions are the only code in the entire program that is allowed to know that a rational number is secretly a list. Everything else goes through them.</p>
+</div></section>
+<section id='follow-the-line-building-the-pair' class='ls ls-default'>
+<h2 class='ls-h'><span>Follow the Line: Building the Pair</span></h2>
+<div class='ls-body'>
+<p>The body of the constructor is the line that does the packaging:</p>
+<pre class='code anatomy'><code>return [n, d]
+├─ return ...... hand a value back to whoever called rational
+├─ [ ........... begin a list literal
+├─ n ........... first element expression; the numerator lands at index 0
+├─ , ........... separator between the two elements
+├─ d ........... second element expression; the denominator lands at index 1
+├─ ] ........... end the list literal
+└─ evaluates to  a two-element list whose value is returned, e.g. [1, 2]</code></pre>
+</div></section>
+<section id='trying-the-representation' class='ls ls-default'>
+<h2 class='ls-h'><span>Trying the Representation</span></h2>
+<div class='ls-body'>
+<p>With the constructor and selectors defined, every operation from the previous lesson springs to life, because each of them was written against <code>rational</code>, <code>numer</code>, and <code>denom</code>. Here is the official text&#x27;s check at the interpreter:</p>
+<pre class='code text'><code>&gt;&gt;&gt; half = rational(1, 2)
+&gt;&gt;&gt; print_rational(half)
+1 / 2
+&gt;&gt;&gt; third = rational(1, 3)
+&gt;&gt;&gt; print_rational(mul_rationals(half, third))
+1 / 6
+&gt;&gt;&gt; print_rational(add_rationals(third, third))
+6 / 9</code></pre>
+<p>The first two results are exactly what you expect. The third deserves a long look. Mathematically the answer is correct, but it is not in lowest terms:</p>
+<div class='math'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.0074em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">3</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:2.0074em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">3</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.0074em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">3</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></div>
+<p>yet the program displays <code>6 / 9</code>. The addition rule built a numerator of <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">6</span></span></span></span></span> and a denominator of <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">9</span></span></span></span></span>, and nothing in the program ever reduced the fraction. We would rather see <code>2 / 3</code>. Fixing this is the moment that shows why the boundary we are about to name is so valuable.</p>
+</div></section>
+<section id='the-abstraction-barrier' class='ls ls-default'>
+<h2 class='ls-h'><span>The Abstraction Barrier</span></h2>
+<div class='ls-body'>
+<p>An <strong>abstraction barrier</strong> is a boundary in your program with a rule attached: code on one side may touch a value only through an agreed-upon set of functions, never by reaching into its representation directly. For rational numbers, the agreed-upon interface is exactly three functions:</p>
+<pre class='code text'><code>rational(n, d)    construct a rational number
+numer(x)          select its numerator
+denom(x)          select its denominator</code></pre>
+<p>The user-level operations are supposed to use a rational number only through this interface. They should never assume a rational number is a list, a tuple, a function, or anything else in particular. Drawn as layers, the program looks like this:</p>
+<pre class='code text'><code>Operations that USE rational numbers
+add_rationals, mul_rationals, rationals_are_equal, print_rational
+        |
+        |  may use only rational, numer, denom
+        v
+The interface (the abstraction barrier)
+rational, numer, denom
+        |
+        |  may know the storage format
+        v
+The representation
+the two-element list [n, d]</code></pre>
+<p>The official text lays out these same layers as a table. Each row is one kind of code, the middle column says what that code is allowed to <em>treat</em> a rational number as, and the right column lists the only tools that code is permitted to use:</p>
+<div class='table-wrap'><table><thead><tr>
+<th>Parts of the program that...</th>
+<th>Treat rationals as...</th>
+<th>Using only...</th>
+</tr></thead><tbody>
+<tr>
+<td>Use rational numbers to perform computation</td>
+<td>whole data values</td>
+<td><code>add_rational</code>, <code>mul_rational</code>, <code>rationals_are_equal</code>, <code>print_rational</code></td>
+</tr>
+<tr>
+<td>Create rationals or implement rational operations</td>
+<td>numerators and denominators</td>
+<td><code>rational</code>, <code>numer</code>, <code>denom</code></td>
+</tr>
+<tr>
+<td>Implement selectors and constructor for rationals</td>
+<td>two-element lists</td>
+<td>list literals and element selection</td>
+</tr>
+</tbody></table></div>
+<p>Read the middle column from top to bottom: the same rational number is seen as a single <em>whole data value</em> by the code that computes with it, as a <em>numerator and denominator</em> by the code that implements the operations, and only as a <em>two-element list</em> at the very bottom, where the constructor and selectors are written with list literals and element selection. Each layer knows less about the representation than the one below it, and that shrinking knowledge is exactly what makes the layers independent.</p>
+<p>The discipline reads as three short rules:</p>
+<ul>
+<li><code>add_rationals</code> may call <code>numer(x)</code> to get a numerator.</li>
+<li><code>add_rationals</code> must not write <code>x[0]</code>, because that reaches past the barrier into the representation.</li>
+<li><code>numer</code> may write <code>x[0]</code>, because <code>numer</code> lives in the representation layer; touching the list is its whole job.</li>
+</ul>
+<p>The official text makes the cost of crossing the barrier concrete with three versions of a function that squares a rational number. All three compute the right answer today, but they differ in how many layers they reach through:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">square_rational</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">mul_rational(x,</span> <span style="color: #657b83">x)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">square_rational_violating_once</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">rational(numer(x)</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">numer(x),</span> <span style="color: #657b83">denom(x)</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">denom(x))</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">square_rational_violating_twice</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">[x[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">x[</span><span style="color: #2aa198">0</span><span style="color: #657b83">],</span> <span style="color: #657b83">x[</span><span style="color: #2aa198">1</span><span style="color: #657b83">]</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">x[</span><span style="color: #2aa198">1</span><span style="color: #657b83">]]</span>
+</code></pre>
+<p>The first version, <code>square_rational</code>, treats a rational number as a whole and reuses the existing multiplication operation; it respects every barrier. (Note that the official text writes the multiply call as <code>mul_rational(x, x)</code> here, singular, while the operation defined in the previous section is named <code>mul_rationals</code>. That is a small naming slip in the source; the runnable form would call <code>mul_rationals(x, x)</code>.) The second version, <code>square_rational_violating_once</code>, reaches through one layer: it knows a rational number has a numerator and a denominator. The third version, <code>square_rational_violating_twice</code>, reaches through two layers: it assumes the exact list shape with <code>x[0]</code> and <code>x[1]</code>. The more layers a function reaches through, the more code you must rewrite if the representation ever changes. The third version is the most fragile of the three.</p>
+</div></section>
+<section id='improving-the-constructor-and-nothing-else' class='ls ls-default'>
+<h2 class='ls-h'><span>Improving the Constructor, and Nothing Else</span></h2>
+<div class='ls-body'>
+<p>Here is the payoff of the barrier. Because every rational number in the program is born through <code>rational</code>, we can make all of them reduce to lowest terms by changing that one function. We use the greatest common divisor: divide both the numerator and the denominator by <code>gcd(n, d)</code>.</p>
+<p>This is what the original text wrote:</p>
+<pre class='code text'><code>&gt;&gt;&gt; from fractions import gcd
+&gt;&gt;&gt; def rational(n, d):
+        g = gcd(n, d)
+        return (n//g, d//g)</code></pre>
+<p>Two notes on that original snippet. First, it returns a <strong>tuple</strong> <code>(n//g, d//g)</code> rather than a list; a tuple is another two-element sequence, and selection with <code>x[0]</code> and <code>x[1]</code> works on it identically, so the selectors do not need to change. Second, <code>gcd</code> no longer lives in the <code>fractions</code> module in modern Python; it was moved, and <code>from fractions import gcd</code> will fail on current versions. The runnable, up-to-date form imports <code>gcd</code> from the <code>math</code> module instead:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">math</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">gcd</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">rational</span><span style="color: #657b83">(n,</span> <span style="color: #657b83">d):</span>
+    <span style="color: #657b83">g</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">gcd(n,</span> <span style="color: #657b83">d)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">[n</span> <span style="color: #93a1a1">//</span> <span style="color: #657b83">g,</span> <span style="color: #657b83">d</span> <span style="color: #93a1a1">//</span> <span style="color: #657b83">g]</span>
+</code></pre>
+<p>The operator <code>//</code> is <strong>floor division</strong>, which divides and discards any fractional part to return an integer. It is the right choice here because <code>gcd(n, d)</code> divides both <code>n</code> and <code>d</code> evenly, so each quotient is already a whole number; floor division simply keeps the result an <code>int</code> rather than a <code>float</code>. With the new constructor in place, the troublesome sum reduces on its own:</p>
+<pre class='code text'><code>&gt;&gt;&gt; print_rational(add_rationals(third, third))
+2 / 3</code></pre>
+<p>Read that result against what changed. We did not touch <code>add_rationals</code>. We did not touch <code>numer</code>, <code>denom</code>, <code>mul_rationals</code>, or <code>print_rational</code>. We changed <code>rational</code> alone, and every rational number in the entire program is now reduced. That is exactly what the abstraction barrier buys you: behavior on one side of the boundary can be improved without disturbing anything on the other side.</p>
+</div></section>
+<section id='a-careful-trace-of-reduction' class='ls ls-default'>
+<h2 class='ls-h'><span>A Careful Trace of Reduction</span></h2>
+<div class='ls-body'>
+<p>To see the new constructor work, trace a single call by hand:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (4)</span>
+<span style="color: #657b83">rational(</span><span style="color: #2aa198">6</span><span style="color: #657b83">,</span> <span style="color: #2aa198">9</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>The machine steps inside the call are:</p>
+<pre class='code text'><code>1. Open a new frame for rational; bind n to 6 and d to 9.
+2. Evaluate gcd(6, 9), which is 3.
+3. Bind g to 3.
+4. Evaluate 6 // 3, which is 2.
+5. Evaluate 9 // 3, which is 3.
+6. Build and return the list [2, 3].</code></pre>
+<p>The frame for the call, at the moment just before the return, holds:</p>
+<pre class='code text'><code>rational frame
++---+---+
+| n | 6 |
+| d | 9 |
+| g | 3 |
++---+---+</code></pre>
+<p>The returned list <code>[2, 3]</code> represents <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1901em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>, the reduced form of <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1901em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">9</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">6</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>. Notice that the caller never sees <code>g</code>; it lives only inside this frame and disappears when the call returns.</p>
+</div></section>
+<section id='what-must-be-true-for-this-to-count-as-data' class='ls ls-default'>
+<h2 class='ls-h'><span>What Must Be True for This to Count as Data?</span></h2>
+<div class='ls-body'>
+<p>We have now used two different representations for a rational number in this single lesson: first a plain list <code>[n, d]</code>, then a reduced list (or, in the original, a reduced tuple). The operations did not care which one was in play. That raises a sharper question than it first appears: what actually makes a representation a valid rational number? What is the contract?</p>
+<p>For rational numbers, the constructor and selectors must satisfy one promise. If you build a rational number from a numerator and a denominator, the selectors must give back values consistent with that numerator and denominator:</p>
+<pre class='code text'><code>If r = rational(n, d), then numer(r) and denom(r) describe the same
+rational number as n / d (possibly reduced to lowest terms).</code></pre>
+<p>This is more fundamental than any storage choice. As long as that promise holds, the rest of the program works, and the representation underneath is free to be a list, a tuple, or something stranger.</p>
+<p>We can state the same idea for the more basic building block, the pair itself. A pair is defined entirely by the relationship between its constructor and its selector. Whatever a &quot;pair&quot; is made of, it must satisfy: if you build a pair from <code>x</code> and <code>y</code>, then selecting position <code>0</code> gives back <code>x</code>, and selecting position <code>1</code> gives back <code>y</code>. Writing the constructor as <code>pair</code> and the selector as <code>select</code>:</p>
+<div class='math'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">select</span></span><span class="mopen">(</span><span class="mord text"><span class="mord">pair</span></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">0</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span></span></div>
+<div class='math'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">select</span></span><span class="mopen">(</span><span class="mord text"><span class="mord">pair</span></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span></span></span></span></span></div>
+<p>If a construction-and-selection pair of functions satisfies those two equations, it is a working pair. That is the whole specification. Nothing in it mentions lists, brackets, or memory. This is the key that unlocks the next idea.</p>
+</div></section>
+<section id='a-pair-built-from-a-function' class='ls ls-default'>
+<h2 class='ls-h'><span>A Pair Built From a Function</span></h2>
+<div class='ls-body'>
+<p>Here is the part of the lesson that changes how you think about data. We will build something that satisfies the pair specification above without using a list at all. The pair will be a <strong>function</strong>.</p>
+<p>The trick rests on something you already know from Chapter 1: a function defined inside another function can remember the values from the call that created it. We construct a pair by capturing <code>x</code> and <code>y</code> inside an inner function, and we return that inner function as the pair. To select from the pair, we call it with the index we want.</p>
+<p>This is the official implementation, with the inner function named <code>get</code>:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (5)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">pair</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return a function that represents a pair.&quot;&quot;&quot;</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">get</span><span style="color: #657b83">(index):</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">index</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">x</span>
+        <span style="color: #859900">elif</span> <span style="color: #657b83">index</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">y</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">get</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">select</span><span style="color: #657b83">(p,</span> <span style="color: #657b83">i):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return the element at index i of pair p.&quot;&quot;&quot;</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">p(i)</span>
+</code></pre>
+<p>Look closely at what <code>pair</code> returns. It does not return <code>x</code>, and it does not return <code>y</code>. It returns <code>get</code>, the inner function itself. That returned function carries <code>x</code> and <code>y</code> with it, because they live in the frame of the <code>pair</code> call that produced it. The function is the pair. To read one of its values, <code>select(p, i)</code> simply calls <code>p(i)</code>, which runs <code>get</code> with the chosen index and hands back the matching captured value.</p>
+</div></section>
+<section id='follow-the-line-returning-a-function' class='ls ls-default'>
+<h2 class='ls-h'><span>Follow the Line: Returning a Function</span></h2>
+<div class='ls-body'>
+<p>The single most important line in that definition is the last line of <code>pair</code>. It is also the easiest to get wrong.</p>
+<pre class='code anatomy'><code>return get
+├─ return ...... hand a value back to whoever called pair
+├─ get ......... the inner function object itself, NOT a call to it
+└─ evaluates to  the function get, which still remembers x and y</code></pre>
+<p>Contrast it with what you must not write:</p>
+<pre class='code text'><code>return get      hands back the function object (correct: this is the pair)
+return get(0)   calls get immediately and hands back only x (wrong: not a pair)</code></pre>
+<p>The absence of parentheses after <code>get</code> is the entire difference. With parentheses you would run the function and return a single value; without them you return the function, which is the thing we want, because the function carries both values and can be asked for either one later.</p>
+</div></section>
+<section id='environment-trace-a-functional-pair' class='ls ls-default'>
+<h2 class='ls-h'><span>Environment Trace: A Functional Pair</span></h2>
+<div class='ls-body'>
+<p>Trace the construction and one selection:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (6)</span>
+<span style="color: #657b83">p</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">pair(</span><span style="color: #2aa198">20</span><span style="color: #657b83">,</span> <span style="color: #2aa198">14</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">select(p,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>After the first line runs, the frames look like this:</p>
+<pre class='code text'><code>Global frame
++--------+-------------------------------+
+| pair   | function pair                 |
+| select | function select               |
+| p      | function get [parent: f1]     |
++--------+-------------------------------+
+
+f1: the frame from calling pair(20, 14)
++---+----+
+| x | 20 |
+| y | 14 |
++---+----+</code></pre>
+<p>The crucial structural fact is that <code>p</code> is bound to the <code>get</code> function, and that <code>get</code> remembers frame <code>f1</code> as its parent. Even though the <code>pair</code> call has returned, frame <code>f1</code> does not vanish, because <code>get</code> still points back to it. That is how <code>x</code> and <code>y</code> survive.</p>
+<p>Now evaluate <code>select(p, 0)</code>. Step the block below and watch the <code>get</code> frame open: notice that it holds only <code>index</code>, never an <code>x</code> of its own, so when <code>return x</code> runs the lookup has to follow <code>get</code>&#x27;s parent link back to <code>f1</code> to find <code>x</code> as <code>20</code>. The same structure answers <code>select(p, 1)</code> with <code>14</code>. So the functional pair satisfies the specification exactly:</p>
+<pre class='code text'><code>&gt;&gt;&gt; p = pair(20, 14)
+&gt;&gt;&gt; select(p, 0)
+20
+&gt;&gt;&gt; select(p, 1)
+14</code></pre>
+<p>Compared to the two equations from the previous section, this implementation makes both of them true: <code>select(pair(20, 14), 0)</code> is <code>20</code>, and <code>select(pair(20, 14), 1)</code> is <code>14</code>. There is not a list anywhere in sight, yet by every test that matters, this is a pair.</p>
+</div></section>
+<section id='why-this-matters' class='ls ls-default'>
+<h2 class='ls-h'><span>Why This Matters</span></h2>
+<div class='ls-body'>
+<p>The point is not that you should store data inside functions from now on. Lists are simpler and faster, and you will use them constantly. The point is what the functional pair proves: the meaning of a compound data type comes entirely from the behavior its constructor and selectors guarantee, not from any particular physical shape in memory. If the interface keeps its promises, the implementation underneath can be swapped freely. That single idea, that a stable interface lets the representation change without breaking the code that depends on it, is one of the most powerful tools in all of programming, and you just watched it hold even in the extreme case where the representation is a closure (the name for a function that carries remembered values, as our pair does) rather than a container.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<p>The first trap is off-by-one indexing. The first element of a list is at index <code>0</code>, so <code>pair[1]</code> is the second element, not the first:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (7)</span>
+<span style="color: #657b83">pair</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[</span><span style="color: #2aa198">10</span><span style="color: #657b83">,</span> <span style="color: #2aa198">20</span><span style="color: #657b83">]</span>
+<span style="color: #657b83">pair[</span><span style="color: #2aa198">1</span><span style="color: #657b83">]</span>   <span style="color: #93a1a1; font-style: italic"># 20, the second element, not 10</span>
+</code></pre>
+<p>The second trap is reaching through the abstraction barrier. The following function works only as long as a rational number happens to be a list, because it indexes with <code>x[0]</code> and <code>y[1]</code> instead of calling the selectors:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (8)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">bad_add_rationals</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">[x[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">y[</span><span style="color: #2aa198">1</span><span style="color: #657b83">]</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">y[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">x[</span><span style="color: #2aa198">1</span><span style="color: #657b83">],</span> <span style="color: #657b83">x[</span><span style="color: #2aa198">1</span><span style="color: #657b83">]</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">y[</span><span style="color: #2aa198">1</span><span style="color: #657b83">]]</span>
+</code></pre>
+<p>If the representation later changes to a tuple, a function, or anything else, this breaks, while the version that uses <code>numer</code>, <code>denom</code>, and <code>rational</code> keeps working.</p>
+<p>The third trap is the parentheses on a returned function. Returning <code>get(0)</code> instead of <code>get</code> turns a pair constructor into something that hands back a single value:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (9)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">broken_pair</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">get</span><span style="color: #657b83">(index):</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">index</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">x</span>
+        <span style="color: #859900">elif</span> <span style="color: #657b83">index</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">y</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">get(</span><span style="color: #2aa198">0</span><span style="color: #657b83">)</span>
+</code></pre>
+<p><code>broken_pair(20, 14)</code> returns <code>20</code>, an integer, not a function you can select from. The whole point of returning the function is lost.</p>
+<p>The fourth trap is confusing the two meanings of square brackets. In <code>[n, d]</code> the brackets build a new list, while in <code>x[0]</code> the brackets select an element from an existing sequence. Same symbol, opposite directions: one packs values in, the other pulls a value out.</p>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>After running <code>fresh = [7, 4]</code> and then <code>a, b = fresh</code>, what are <code>a</code> and <code>b</code>, and why?</li>
+<li>Which functions in the rational-number program are allowed to write <code>x[0]</code>, and which are not?</li>
+<li>You changed <code>rational</code> to reduce fractions with <code>gcd</code>, and <code>add_rationals</code> started returning reduced results without being edited. Why?</li>
+<li>In the functional pair, why does <code>get</code> still know <code>x</code> and <code>y</code> after the call to <code>pair</code> has already returned?</li>
+<li>State the two equations that any working pair, no matter how it is built, must satisfy.</li>
+<li>Why does <code>return get</code> build a usable pair while <code>return get(0)</code> does not?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li><code>a</code> is <code>7</code> and <code>b</code> is <code>4</code>. Multiple assignment binds the target names in order to the elements of the sequence on the right, so <code>a</code> takes the element at index <code>0</code> and <code>b</code> takes the element at index <code>1</code>.</li>
+<li>Only the representation-layer functions <code>rational</code>, <code>numer</code>, and <code>denom</code> may write <code>x[0]</code>. The user-level operations <code>add_rationals</code>, <code>mul_rationals</code>, <code>rationals_are_equal</code>, and <code>print_rational</code> must go through the interface and never index directly.</li>
+<li>Every rational number is created by <code>rational</code>, so reducing inside <code>rational</code> reduces all of them. <code>add_rationals</code> builds its result by calling <code>rational</code>, which now reduces, so its output is reduced even though its own code is unchanged.</li>
+<li><code>get</code> is a function defined inside <code>pair</code>, and it remembers the frame of the <code>pair</code> call as its parent. That frame holds <code>x</code> and <code>y</code>, and it stays alive as long as <code>get</code> refers to it, so the values are still reachable when <code>get</code> is later called.</li>
+<li><code>select(pair(x, y), 0)</code> must equal <code>x</code>, and <code>select(pair(x, y), 1)</code> must equal <code>y</code>.</li>
+<li><code>return get</code> hands back the function object, which carries both values and can be asked for either one later, so it behaves as a pair. <code>return get(0)</code> calls the function immediately and hands back only the first value, which is a single integer, not a selectable pair.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>A <strong>pair</strong> is a container that holds two values in order, and the simplest one in Python is a two-element list, selected with <code>pair[0]</code> and <code>pair[1]</code> (or, equivalently, with <code>getitem</code>) and unpackable with <code>x, y = pair</code>. Using a pair, you implemented the rational-number interface that the previous lesson left undefined: <code>rational</code> packs a numerator and denominator into a list, and <code>numer</code> and <code>denom</code> pull them back out. The larger lesson is the <strong>abstraction barrier</strong>: user-level operations must touch a rational number only through <code>rational</code>, <code>numer</code>, and <code>denom</code>, never through its list representation. Because of that barrier, improving the constructor to reduce fractions changed every rational number in the program without editing a single operation. Finally, the functional pair, built with an inner <code>get</code> function and selected through <code>select</code>, proves the deepest claim of the section: data is defined by the behavior its constructor and selectors promise, not by any one physical representation, so a stable interface lets the implementation change freely underneath.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>This program is the lesson&#x27;s capstone: it defines the functional <code>pair</code> and <code>select</code>, builds a pair, and then selects both values, without a list anywhere in the program. In an <strong>environment diagram</strong>, <code>p</code> points at the <code>get</code> function object, and the <code>pair</code> frame that held <code>x</code> as <code>20</code> and <code>y</code> as <code>14</code> stays alive as that function&#x27;s parent; the diagram makes the closure visible, because you can watch each later <code>get</code> frame reach back along its parent link to read those saved values rather than storing any of its own. Before you step through the block below, write down three predictions: how many local frames will open over the whole run, which names will appear inside each <code>get</code> frame, and what <code>index</code> holds and which <code>return</code> line runs during the final selection.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (10)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">pair</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return a function that represents a pair.&quot;&quot;&quot;</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">get</span><span style="color: #657b83">(index):</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">index</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">x</span>
+        <span style="color: #859900">elif</span> <span style="color: #657b83">index</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">y</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">get</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">select</span><span style="color: #657b83">(p,</span> <span style="color: #657b83">i):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return the element at index i of pair p.&quot;&quot;&quot;</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">p(i)</span>
+
+<span style="color: #657b83">p</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">pair(</span><span style="color: #2aa198">20</span><span style="color: #657b83">,</span> <span style="color: #2aa198">14</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">first_value</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">select(p,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">second_value</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">select(p,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/9b6097123442.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>Step through it one line at a time and check each prediction as the frames appear. You should have seen five local frames in all: one for <code>pair</code>, then a <code>select</code> frame and a <code>get</code> frame for each of the two selections. After <code>p = pair(20, 14)</code> runs, <code>p</code> is bound to a function, not a list, and the frame holding <code>x</code> as <code>20</code> and <code>y</code> as <code>14</code> stays on screen even though <code>pair</code> has returned. Neither <code>get</code> frame ever holds an <code>x</code> or <code>y</code> of its own; each holds only <code>index</code>, and the lookup follows the parent link back to that one saved frame, where the final selection&#x27;s <code>index == 1</code> test sends <code>14</code> back out through <code>return y</code>. When the last line finishes, the global frame holds <code>first_value</code> as <code>20</code> and <code>second_value</code> as <code>14</code>. That parent link from <code>get</code> back to the <code>pair</code> frame is the entire mechanism that lets a function behave like data.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>2.2-A Data Abstraction and Rational Numbers</span></a><a class='pg pg-next' href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>2.3-A Lists and Sequence Iteration</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#a-pair-is-a-two-slot-container'>A Pair Is a Two-Slot Container</a></li><li><a href='#follow-the-line-a-list-literal'>Follow the Line: A List Literal</a></li><li><a href='#pulling-a-value-back-out'>Pulling a Value Back Out</a></li><li><a href='#follow-the-line-element-selection'>Follow the Line: Element Selection</a></li><li><a href='#selection-is-just-a-call-expression'>Selection Is Just a Call Expression</a></li><li><a href='#unpacking-both-values-at-once'>Unpacking Both Values at Once</a></li><li><a href='#follow-the-line-multiple-assignment'>Follow the Line: Multiple Assignment</a></li><li><a href='#representing-rational-numbers-with-pairs'>Representing Rational Numbers with Pairs</a></li><li><a href='#follow-the-line-building-the-pair'>Follow the Line: Building the Pair</a></li><li><a href='#trying-the-representation'>Trying the Representation</a></li><li><a href='#the-abstraction-barrier'>The Abstraction Barrier</a></li><li><a href='#improving-the-constructor-and-nothing-else'>Improving the Constructor, and Nothing Else</a></li><li><a href='#a-careful-trace-of-reduction'>A Careful Trace of Reduction</a></li><li><a href='#what-must-be-true-for-this-to-count-as-data'>What Must Be True for This to Count as Data?</a></li><li><a href='#a-pair-built-from-a-function'>A Pair Built From a Function</a></li><li><a href='#follow-the-line-returning-a-function'>Follow the Line: Returning a Function</a></li><li><a href='#environment-trace-a-functional-pair'>Environment Trace: A Functional Pair</a></li><li><a href='#why-this-matters'>Why This Matters</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

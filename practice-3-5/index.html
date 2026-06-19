@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>3.5 · The Scheme Interpreter — Coding Practice · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class='is-practice'>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/' class='active'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Practice</span><span class='dot'>/</span><span class='eb-sec'>Chapter 3 · Coding Practice</span></div><h1 class='lesson-title'>3.5 · The Scheme Interpreter — Coding Practice</h1><div class='reading-meta'>&#9719; approx. 11 min read <span class='rm-sep'>&middot;</span> 31 worked examples</div></div><div class='lesson-grid'><div class='lesson-body'><p>These problems build fluency with the Scheme interpreter you study in this section: representing Scheme programs as <code>Pair</code> data, looking names up through a chain of <code>Frame</code> environments, and extending <code>scheme_eval</code> with new special forms so the eval/apply engine can interpret more of the language. Every problem operates on the interpreter machinery reproduced once in the <strong>Setup</strong> block at the top of the Solutions section.</p>
+<p>&gt; Work each problem from the starter signature first. Run your function against the Examples, then open the matching solution below to check your approach and its time and space cost.</p>
+<p>The interpreter machinery — <code>Pair</code>, <code>nil</code>, <code>scheme_list</code>, <code>Frame</code>, <code>LambdaProcedure</code>, <code>scheme_eval</code>, <code>scheme_apply</code>, and <code>make_global</code> — is reproduced once in the <strong>Setup</strong> block at the top of the Solutions section. Copy that block into your interpreter before running any solution, then paste the solution under it.</p>
+<section id='easy' class='ls ls-default'>
+<h2 class='ls-h'><span>Easy</span></h2>
+<div class='ls-body'>
+<h3>1. Bind and Read a Name</h3>
+<p>Build a fresh <code>Frame</code>, <code>define</code> the binding <code>symbol -&gt; value</code> in it, then return what <code>lookup</code> finds for that symbol. This is the round trip every name in a Scheme program makes: a name is written into a frame, and later read back out.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  bind_and_read(&quot;x&quot;, 10)
+Output: 10
+Explanation: x is bound to 10 in the frame, then looked up.
+
+Input:  bind_and_read(&quot;score&quot;, 88)
+Output: 88
+Explanation: define writes the binding; lookup reads it back.
+
+Input:  bind_and_read(&quot;+&quot;, &quot;primitive add&quot;)
+Output: &#x27;primitive add&#x27;
+Explanation: any value, even a string, can be bound to a symbol.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>symbol</code> is a string; <code>value</code> is any Python value.</li>
+<li>Use the <code>Frame</code> methods <code>define</code> and <code>lookup</code> — do not touch <code>frame.bindings</code> directly.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">bind_and_read</span><span style="color: #657b83">(symbol,</span> <span style="color: #657b83">value):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>A new <code>Frame()</code> starts empty; <code>define</code> puts the binding in, <code>lookup</code> takes it out.</p></details>
+<h3>2. Number of Elements in a Scheme List</h3>
+<p>A Scheme list is a <code>Pair</code> chain that ends in <code>nil</code>. Return how many elements are in <code>s</code> by walking from <code>s</code> to <code>s.second</code> until you reach <code>nil</code>. The empty list <code>nil</code> has length <code>0</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  list_length(scheme_list(&quot;+&quot;, 2, 3))
+Output: 3
+Explanation: the chain holds &quot;+&quot;, 2, 3 before nil.
+
+Input:  list_length(scheme_list(42))
+Output: 1
+Explanation: a one-element list.
+
+Input:  list_length(nil)
+Output: 0
+Explanation: nil is the empty list.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>s</code> is a Scheme list: a <code>Pair</code> chain ending in <code>nil</code>, or <code>nil</code> itself.</li>
+<li>Walk the <code>second</code> links; stop when <code>s is nil</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">list_length</span><span style="color: #657b83">(s):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Loop while <code>s is not nil</code>, counting one element and moving to <code>s.second</code> each time.</p></details>
+<h3>3. Classify a Scheme Expression</h3>
+<p>Before <code>scheme_eval</code> can pick a rule, it asks what kind of expression it has. Return <code>&quot;symbol&quot;</code> if <code>expr</code> is a name (a <code>str</code>), <code>&quot;atom&quot;</code> if it is a self-evaluating value (anything that is not a <code>Pair</code>), and <code>&quot;combination&quot;</code> if it is a <code>Pair</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  classify(&quot;square&quot;)
+Output: &#x27;symbol&#x27;
+Explanation: a string is a name to look up.
+
+Input:  classify(7)
+Output: &#x27;atom&#x27;
+Explanation: a number is a self-evaluating atom.
+
+Input:  classify(scheme_list(&quot;+&quot;, 1, 2))
+Output: &#x27;combination&#x27;
+Explanation: a Pair is a combination to take apart.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>expr</code> is a Scheme expression as Python data: a <code>str</code>, a number, or a <code>Pair</code>.</li>
+<li>Mirror the order of checks <code>scheme_eval</code> uses: symbol first, then atom, then combination.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">classify</span><span style="color: #657b83">(expr):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Check <code>isinstance(expr, str)</code> first, then <code>isinstance(expr, Pair)</code>; everything that is neither is an atom.</p></details>
+<h3>4. Local Binding Shadows the Parent</h3>
+<p>Build a global frame binding <code>symbol -&gt; global_value</code>, then a local frame (with the global as its parent) binding <code>symbol -&gt; local_value</code>. Return what <code>lookup</code> finds for <code>symbol</code> from the local frame. Because the current frame answers first, the local binding shadows the global one.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  shadowed_value(&quot;x&quot;, 10, 99)
+Output: 99
+Explanation: the local binding for x is found before the parent is checked.
+
+Input:  shadowed_value(&quot;size&quot;, 1, 2)
+Output: 2
+Explanation: lookup stops at the local frame.
+
+Input:  shadowed_value(&quot;k&quot;, -4, -4)
+Output: -4
+Explanation: same value in both frames; the local one still answers first.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>symbol</code> is a string; the two values are any Python values.</li>
+<li>The local frame&#x27;s parent must be the global frame.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">shadowed_value</span><span style="color: #657b83">(symbol,</span> <span style="color: #657b83">global_value,</span> <span style="color: #657b83">local_value):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>lookup</code> checks the current frame&#x27;s bindings before following the parent link, so the local binding wins.</p></details>
+</div></section>
+<section id='medium' class='ls ls-default'>
+<h2 class='ls-h'><span>Medium</span></h2>
+<div class='ls-body'>
+<h3>5. Count Frames a Lookup Visits</h3>
+<p>A <code>lookup</code> walks outward, frame by frame, until it finds the binding. Return how many frames are consulted to resolve <code>symbol</code> starting from <code>env</code> — <code>1</code> if it is in <code>env</code> itself, <code>2</code> if it is one parent out, and so on. Assume the symbol exists somewhere in the chain.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  lookup_depth(leaf, &quot;n&quot;)   # n is in leaf
+Output: 1
+Explanation: found in the starting frame, so one frame is consulted.
+
+Input:  lookup_depth(leaf, &quot;m&quot;)   # m is in leaf&#x27;s parent
+Output: 2
+Explanation: miss in leaf, then found one frame out.
+
+Input:  lookup_depth(leaf, &quot;g&quot;)   # g is in the global frame
+Output: 3
+Explanation: miss, miss, then found two frames out.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>env</code> is a <code>Frame</code>; <code>symbol</code> is bound somewhere in <code>env</code>&#x27;s chain.</li>
+<li>Inspect <code>frame.bindings</code> membership and walk <code>frame.parent</code>; count the frames visited.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">lookup_depth</span><span style="color: #657b83">(env,</span> <span style="color: #657b83">symbol):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Start a counter at <code>1</code>; while the symbol is not in the current frame&#x27;s bindings, step to <code>frame.parent</code> and add one.</p></details>
+<h3>6. Evaluate a Nested Arithmetic Program</h3>
+<p>Build a fresh global frame with <code>make_global</code> (it binds the primitives <code>+</code>, <code>-</code>, <code>*</code>, <code>=</code>), then evaluate the Scheme expression <code>expr</code> with <code>scheme_eval</code> and return the value. This is the whole eval/apply engine running on one program.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  run_program(scheme_list(&quot;+&quot;, 2, scheme_list(&quot;*&quot;, 3, 4)))
+Output: 14
+Explanation: the inner (* 3 4) evaluates to 12, then (+ 2 12) is 14.
+
+Input:  run_program(scheme_list(&quot;-&quot;, scheme_list(&quot;*&quot;, 5, 5), 1))
+Output: 24
+Explanation: (* 5 5) is 25, then (- 25 1) is 24.
+
+Input:  run_program(7)
+Output: 7
+Explanation: a bare number is a self-evaluating atom.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>expr</code> is a Scheme expression as Python data, using only the primitives <code>make_global</code> provides.</li>
+<li>Use <code>make_global</code> and <code>scheme_eval</code> from Setup; do not re-implement evaluation.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">run_program</span><span style="color: #657b83">(expr):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>make_global()</code> gives you the environment; <code>scheme_eval(expr, env)</code> does the rest.</p></details>
+<h3>7. Define Then Use a Name in One Session</h3>
+<p>Model a two-line Scheme session in one global frame. First evaluate <code>(define name value_expr)</code> to bind the name, then evaluate <code>use_expr</code> (which may mention that name) and return its value. The binding created by the first form must be visible to the second.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  define_then_use(&quot;x&quot;, 10, scheme_list(&quot;+&quot;, &quot;x&quot;, 5))
+Output: 15
+Explanation: x is defined as 10, then (+ x 5) evaluates to 15.
+
+Input:  define_then_use(&quot;y&quot;, scheme_list(&quot;*&quot;, 6, 7), &quot;y&quot;)
+Output: 42
+Explanation: the value_expr (* 6 7) evaluates to 42 before binding, then y is looked up.
+
+Input:  define_then_use(&quot;z&quot;, 0, scheme_list(&quot;=&quot;, &quot;z&quot;, 0))
+Output: True
+Explanation: z is 0, so (= z 0) is True.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Both forms run in the SAME global frame, in order.</li>
+<li>Build the define form with <code>scheme_list(&quot;define&quot;, name, value_expr)</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">define_then_use</span><span style="color: #657b83">(name,</span> <span style="color: #657b83">value_expr,</span> <span style="color: #657b83">use_expr):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Evaluate the <code>define</code> form first to mutate the frame, then evaluate <code>use_expr</code> in that same frame.</p></details>
+<h3>8. Add a <code>quote</code> Special Form</h3>
+<p>Write <code>scheme_eval_q</code>, a copy of <code>scheme_eval</code> that adds one special form. When the first element of a combination is <code>&quot;quote&quot;</code>, return the quoted datum unevaluated — that is, return <code>rest.first</code> rather than evaluating it. Every other case (symbols, atoms, <code>define</code>, ordinary calls) behaves exactly as before.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  scheme_eval_q(scheme_list(&quot;quote&quot;, scheme_list(&quot;+&quot;, 1, 2)), make_global())
+Output: Pair(&#x27;+&#x27;, Pair(1, Pair(2, ())))
+Explanation: quote hands back the list as data; the + is never applied.
+
+Input:  scheme_eval_q(scheme_list(&quot;quote&quot;, &quot;hello&quot;), make_global())
+Output: &#x27;hello&#x27;
+Explanation: the symbol is returned as a datum, not looked up.
+
+Input:  scheme_eval_q(scheme_list(&quot;+&quot;, 2, scheme_list(&quot;*&quot;, 3, 4)), make_global())
+Output: 14
+Explanation: ordinary calls still evaluate normally through the extended evaluator.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>quote</code> returns its single operand unevaluated; all other forms keep their original behavior.</li>
+<li>Recurse with <code>scheme_eval_q</code> (not <code>scheme_eval</code>) inside your new evaluator.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">scheme_eval_q</span><span style="color: #657b83">(expr,</span> <span style="color: #657b83">env):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Add a <code>first == &quot;quote&quot;</code> branch that returns <code>rest.first</code> before the <code>define</code> and call branches.</p></details>
+</div></section>
+<section id='hard' class='ls ls-default'>
+<h2 class='ls-h'><span>Hard</span></h2>
+<div class='ls-body'>
+<h3>9. Add an <code>if</code> Special Form</h3>
+<p>Write <code>scheme_eval_if</code>, a copy of <code>scheme_eval</code> that adds the <code>if</code> special form. An <code>if</code> combination has the shape <code>(if test consequent alternative)</code>. Evaluate <code>test</code>; if it is truthy, evaluate and return <code>consequent</code>, otherwise evaluate and return <code>alternative</code>. Crucially, only ONE of the two branches is ever evaluated — that is exactly why <code>if</code> cannot be an ordinary call.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  scheme_eval_if(scheme_list(&quot;if&quot;, scheme_list(&quot;=&quot;, 0, 0), 1, 2), make_global())
+Output: 1
+Explanation: (= 0 0) is True, so the consequent 1 is returned.
+
+Input:  scheme_eval_if(scheme_list(&quot;if&quot;, scheme_list(&quot;=&quot;, 3, 0), 1, 2), make_global())
+Output: 2
+Explanation: (= 3 0) is False, so the alternative 2 is returned.
+
+Input:  scheme_eval_if(scheme_list(&quot;if&quot;, scheme_list(&quot;=&quot;, 4, 4), scheme_list(&quot;+&quot;, 10, 5), scheme_list(&quot;*&quot;, 10, 5)), make_global())
+Output: 15
+Explanation: the test is True, so only (+ 10 5) is evaluated; (* 10 5) is skipped.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>The combination is <code>(if test consequent alternative)</code>: <code>test</code> is <code>rest.first</code>, <code>consequent</code> is <code>rest.second.first</code>, <code>alternative</code> is <code>rest.second.second.first</code>.</li>
+<li>Evaluate the test first, then exactly one branch; never both.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">scheme_eval_if</span><span style="color: #657b83">(expr,</span> <span style="color: #657b83">env):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Reach the three parts through <code>rest.first</code>, <code>rest.second.first</code>, and <code>rest.second.second.first</code>, and pick the branch with a Python <code>if</code>.</p></details>
+<h3>10. Build and Apply a One-Argument Procedure</h3>
+<p>Construct a one-parameter <code>LambdaProcedure</code> whose parameter list is <code>(param)</code>, whose body is <code>body</code>, and whose parent is a fresh global frame, then apply it to <code>arg</code> with <code>scheme_apply</code> and return the result. This is the heart of the environment model: applying a user-defined procedure makes a new frame, binds the parameter, and evaluates the body there.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  apply_lambda(&quot;x&quot;, scheme_list(&quot;*&quot;, &quot;x&quot;, &quot;x&quot;), 5)
+Output: 25
+Explanation: a square procedure: x is bound to 5, (* x x) is 25.
+
+Input:  apply_lambda(&quot;n&quot;, scheme_list(&quot;+&quot;, &quot;n&quot;, 1), 41)
+Output: 42
+Explanation: an increment procedure: n is bound to 41, (+ n 1) is 42.
+
+Input:  apply_lambda(&quot;a&quot;, scheme_list(&quot;-&quot;, scheme_list(&quot;*&quot;, &quot;a&quot;, &quot;a&quot;), &quot;a&quot;), 4)
+Output: 12
+Explanation: a is bound to 4, (* a a) is 16, (- 16 a) is 12.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>The parameter list passed to <code>LambdaProcedure</code> must be a Scheme list: <code>scheme_list(param)</code>.</li>
+<li>Use <code>scheme_apply</code> to apply the procedure; the argument list is <code>scheme_list(arg)</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">apply_lambda</span><span style="color: #657b83">(param,</span> <span style="color: #657b83">body,</span> <span style="color: #657b83">arg):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Wrap both the parameter and the argument in <code>scheme_list(...)</code>, build the <code>LambdaProcedure</code>, then call <code>scheme_apply(proc, scheme_list(arg), env)</code>.</p></details>
+</div></section>
+<section id='solutions' class='ls ls-default'>
+<h2 class='ls-h'><span>Solutions</span></h2>
+<div class='ls-body'>
+<h3>Setup</h3>
+<p>These problems all run on the section&#x27;s interpreter machinery — a Scheme program represented as <code>Pair</code> data, <code>Frame</code> environments with a parent link, and the mutually recursive <code>scheme_eval</code> / <code>scheme_apply</code> engine. Copy this block first, then paste any solution under it:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #859900">class</span> <span style="color: #268bd2">Pair</span><span style="color: #657b83">:</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;A Scheme pair: a first element and a second (the rest of the list).&quot;&quot;&quot;</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">first,</span> <span style="color: #657b83">second):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">first</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">second</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">map</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">fn):</span>
+        <span style="color: #93a1a1">&quot;&quot;&quot;Return a new Pair with fn applied to every element of this list.&quot;&quot;&quot;</span>
+        <span style="color: #657b83">rest</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span><span style="color: #93a1a1">.</span><span style="color: #657b83">map(fn)</span> <span style="color: #859900">if</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second,</span> <span style="color: #657b83">Pair)</span> <span style="color: #859900">else</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">Pair(fn(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first),</span> <span style="color: #657b83">rest)</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__repr__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">&quot;Pair({0}, {1})&quot;</span><span style="color: #93a1a1">.</span><span style="color: #657b83">format(</span><span style="color: #268bd2">repr</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first),</span> <span style="color: #268bd2">repr</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second))</span>
+
+
+<span style="color: #657b83">nil</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">()</span>  <span style="color: #93a1a1; font-style: italic"># the empty list, which ends a well-formed Scheme list</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">scheme_list</span><span style="color: #657b83">(</span><span style="color: #93a1a1">*</span><span style="color: #657b83">items):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Build a Scheme list (a Pair chain ending in nil) from Python items.&quot;&quot;&quot;</span>
+    <span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">nil</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">item</span> <span style="color: #859900">in</span> <span style="color: #268bd2">reversed</span><span style="color: #657b83">(items):</span>
+        <span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Pair(item,</span> <span style="color: #657b83">result)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">result</span>
+
+
+<span style="color: #859900">class</span> <span style="color: #268bd2">Frame</span><span style="color: #657b83">:</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;An environment: a table of bindings plus a parent frame (None at global).&quot;&quot;&quot;</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">parent</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">None</span><span style="color: #657b83">):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">bindings</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">{}</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">parent</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">parent</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">define</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">symbol,</span> <span style="color: #657b83">value):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">bindings[symbol]</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">value</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">lookup</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">symbol):</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">symbol</span> <span style="color: #859900">in</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">bindings:</span>
+            <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">bindings[symbol]</span>
+        <span style="color: #859900">if</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">parent</span> <span style="color: #859900">is</span> <span style="color: #859900">not</span> <span style="color: #2aa198">None</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">parent</span><span style="color: #93a1a1">.</span><span style="color: #657b83">lookup(symbol)</span>
+        <span style="color: #859900">raise</span> <span style="color: #268bd2">NameError</span><span style="color: #657b83">(symbol)</span>
+
+
+<span style="color: #859900">class</span> <span style="color: #268bd2">LambdaProcedure</span><span style="color: #657b83">:</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;A user-defined procedure: parameter names, a body expression, a parent frame.&quot;&quot;&quot;</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">params,</span> <span style="color: #657b83">body,</span> <span style="color: #657b83">env):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">params</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">params</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">body</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">body</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">env</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">env</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">scheme_eval</span><span style="color: #657b83">(expr,</span> <span style="color: #657b83">env):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Evaluate Scheme expression expr (Python data) in environment env.&quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(expr,</span> <span style="color: #268bd2">str</span><span style="color: #657b83">):</span>              <span style="color: #93a1a1; font-style: italic"># a symbol: look it up</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">env</span><span style="color: #93a1a1">.</span><span style="color: #657b83">lookup(expr)</span>
+    <span style="color: #859900">if</span> <span style="color: #859900">not</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(expr,</span> <span style="color: #657b83">Pair):</span>         <span style="color: #93a1a1; font-style: italic"># a self-evaluating atom (number)</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">expr</span>
+    <span style="color: #657b83">first,</span> <span style="color: #657b83">rest</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">expr</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">expr</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>  <span style="color: #93a1a1; font-style: italic"># otherwise a combination</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">first</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;define&quot;</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">name</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span>
+        <span style="color: #657b83">value</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">scheme_eval(rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">env)</span>
+        <span style="color: #657b83">env</span><span style="color: #93a1a1">.</span><span style="color: #657b83">define(name,</span> <span style="color: #657b83">value)</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">None</span>
+    <span style="color: #657b83">procedure</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">scheme_eval(first,</span> <span style="color: #657b83">env)</span>
+    <span style="color: #657b83">args</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">map(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">operand:</span> <span style="color: #657b83">scheme_eval(operand,</span> <span style="color: #657b83">env))</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">scheme_apply(procedure,</span> <span style="color: #657b83">args,</span> <span style="color: #657b83">env)</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">scheme_apply</span><span style="color: #657b83">(procedure,</span> <span style="color: #657b83">args,</span> <span style="color: #657b83">env):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Apply a procedure to an argument list (a Pair chain ending in nil).&quot;&quot;&quot;</span>
+    <span style="color: #657b83">arg_values</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[]</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">args</span> <span style="color: #859900">is</span> <span style="color: #859900">not</span> <span style="color: #657b83">nil:</span>
+        <span style="color: #657b83">arg_values</span><span style="color: #93a1a1">.</span><span style="color: #657b83">append(args</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+        <span style="color: #657b83">args</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">args</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(procedure,</span> <span style="color: #657b83">LambdaProcedure):</span>
+        <span style="color: #657b83">call_frame</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Frame(procedure</span><span style="color: #93a1a1">.</span><span style="color: #657b83">env)</span>
+        <span style="color: #657b83">params</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">procedure</span><span style="color: #93a1a1">.</span><span style="color: #657b83">params</span>
+        <span style="color: #657b83">i</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+        <span style="color: #859900">while</span> <span style="color: #657b83">params</span> <span style="color: #859900">is</span> <span style="color: #859900">not</span> <span style="color: #657b83">nil:</span>
+            <span style="color: #657b83">call_frame</span><span style="color: #93a1a1">.</span><span style="color: #657b83">define(params</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">arg_values[i])</span>
+            <span style="color: #657b83">params</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">params</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+            <span style="color: #657b83">i</span> <span style="color: #93a1a1">+=</span> <span style="color: #2aa198">1</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">scheme_eval(procedure</span><span style="color: #93a1a1">.</span><span style="color: #657b83">body,</span> <span style="color: #657b83">call_frame)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">procedure(</span><span style="color: #93a1a1">*</span><span style="color: #657b83">arg_values)</span>          <span style="color: #93a1a1; font-style: italic"># a primitive: a Python function</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">make_global</span><span style="color: #657b83">():</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;A fresh global frame with a few primitive procedures bound.&quot;&quot;&quot;</span>
+    <span style="color: #657b83">g</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Frame()</span>
+    <span style="color: #657b83">g</span><span style="color: #93a1a1">.</span><span style="color: #657b83">define(</span><span style="color: #2aa198">&quot;+&quot;</span><span style="color: #657b83">,</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">a,</span> <span style="color: #657b83">b:</span> <span style="color: #657b83">a</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">b)</span>
+    <span style="color: #657b83">g</span><span style="color: #93a1a1">.</span><span style="color: #657b83">define(</span><span style="color: #2aa198">&quot;-&quot;</span><span style="color: #657b83">,</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">a,</span> <span style="color: #657b83">b:</span> <span style="color: #657b83">a</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">b)</span>
+    <span style="color: #657b83">g</span><span style="color: #93a1a1">.</span><span style="color: #657b83">define(</span><span style="color: #2aa198">&quot;*&quot;</span><span style="color: #657b83">,</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">a,</span> <span style="color: #657b83">b:</span> <span style="color: #657b83">a</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">b)</span>
+    <span style="color: #657b83">g</span><span style="color: #93a1a1">.</span><span style="color: #657b83">define(</span><span style="color: #2aa198">&quot;=&quot;</span><span style="color: #657b83">,</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">a,</span> <span style="color: #657b83">b:</span> <span style="color: #657b83">a</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">b)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">g</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/9740c4422bf1.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<h3>1. Bind and Read a Name</h3>
+<p><strong>Approach — define then lookup.</strong> A frame is a table of bindings; <code>define</code> writes a binding into the current frame and <code>lookup</code> reads it back, exactly the two <code>Frame</code> operations the section names.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">bind_and_read</span><span style="color: #657b83">(symbol,</span> <span style="color: #657b83">value):</span>
+    <span style="color: #657b83">frame</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Frame()</span>
+    <span style="color: #657b83">frame</span><span style="color: #93a1a1">.</span><span style="color: #657b83">define(symbol,</span> <span style="color: #657b83">value)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">frame</span><span style="color: #93a1a1">.</span><span style="color: #657b83">lookup(symbol)</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>define</code> always writes into the current frame, so the binding is present when <code>lookup</code> searches the same frame and finds it immediately.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. One binding written, one lookup in a single frame.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">bind_and_read(</span><span style="color: #2aa198">&quot;x&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">10</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">bind_and_read(</span><span style="color: #2aa198">&quot;score&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">88</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">88</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">bind_and_read(</span><span style="color: #2aa198">&quot;+&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;primitive add&quot;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;primitive add&quot;</span>
+</code></pre>
+<h3>2. Number of Elements in a Scheme List</h3>
+<p><strong>Approach — walk the <code>second</code> links.</strong> A Scheme list is a chain of <code>Pair</code>s ending in <code>nil</code>; counting its length means following <code>s.second</code> from pair to pair until <code>nil</code>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">list_length</span><span style="color: #657b83">(s):</span>
+    <span style="color: #657b83">count</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">s</span> <span style="color: #859900">is</span> <span style="color: #859900">not</span> <span style="color: #657b83">nil:</span>
+        <span style="color: #657b83">count</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">count</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+        <span style="color: #657b83">s</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">count</span>
+</code></pre>
+<p><strong>Why it works.</strong> Each <code>Pair</code> contributes one element and points to the rest through <code>second</code>; the loop stops exactly when it reaches the <code>nil</code> that ends the list.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. One pass over the <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span></span> pairs, with only a counter kept.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">list_length(scheme_list(</span><span style="color: #2aa198">&quot;+&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">list_length(scheme_list(</span><span style="color: #2aa198">42</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">list_length(nil)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+</code></pre>
+<h3>3. Classify a Scheme Expression</h3>
+<p><strong>Approach — the evaluator&#x27;s first question.</strong> <code>scheme_eval</code> sorts an expression into symbol, atom, or combination before choosing a rule; this function answers just that question in the same order.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">classify</span><span style="color: #657b83">(expr):</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(expr,</span> <span style="color: #268bd2">str</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">&quot;symbol&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #859900">not</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(expr,</span> <span style="color: #657b83">Pair):</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">&quot;atom&quot;</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">&quot;combination&quot;</span>
+</code></pre>
+<p><strong>Why it works.</strong> Symbols are strings, combinations are <code>Pair</code>s, and everything else (numbers, booleans) is a self-evaluating atom; checking in that order matches the evaluator&#x27;s own branching.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. Two type checks and nothing more.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">classify(</span><span style="color: #2aa198">&quot;square&quot;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;symbol&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">classify(</span><span style="color: #2aa198">7</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;atom&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">classify(scheme_list(</span><span style="color: #2aa198">&quot;+&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;combination&quot;</span>
+</code></pre>
+<h3>4. Local Binding Shadows the Parent</h3>
+<p><strong>Approach — current frame answers first.</strong> Because <code>lookup</code> checks the current frame before following the parent link, a binding in the local frame shadows any binding for the same name in the parent.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">shadowed_value</span><span style="color: #657b83">(symbol,</span> <span style="color: #657b83">global_value,</span> <span style="color: #657b83">local_value):</span>
+    <span style="color: #657b83">g</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Frame()</span>
+    <span style="color: #657b83">g</span><span style="color: #93a1a1">.</span><span style="color: #657b83">define(symbol,</span> <span style="color: #657b83">global_value)</span>
+    <span style="color: #657b83">local</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Frame(g)</span>
+    <span style="color: #657b83">local</span><span style="color: #93a1a1">.</span><span style="color: #657b83">define(symbol,</span> <span style="color: #657b83">local_value)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">local</span><span style="color: #93a1a1">.</span><span style="color: #657b83">lookup(symbol)</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>local.lookup(symbol)</code> finds the symbol in <code>local.bindings</code> on its first check and returns immediately, never walking to the parent where the global value lives.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. Two frames built, a single immediate lookup.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">shadowed_value(</span><span style="color: #2aa198">&quot;x&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">,</span> <span style="color: #2aa198">99</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">99</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">shadowed_value(</span><span style="color: #2aa198">&quot;size&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">2</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">shadowed_value(</span><span style="color: #2aa198">&quot;k&quot;</span><span style="color: #657b83">,</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">4</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">4</span>
+</code></pre>
+<h3>5. Count Frames a Lookup Visits</h3>
+<p><strong>Approach — count the parent-link walk.</strong> A <code>lookup</code> consults the current frame, then its parent, then its parent&#x27;s parent, until the binding is found; counting those frames measures how far outward the search walks.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">lookup_depth</span><span style="color: #657b83">(env,</span> <span style="color: #657b83">symbol):</span>
+    <span style="color: #657b83">depth</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">1</span>
+    <span style="color: #657b83">frame</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">env</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">symbol</span> <span style="color: #859900">not</span> <span style="color: #859900">in</span> <span style="color: #657b83">frame</span><span style="color: #93a1a1">.</span><span style="color: #657b83">bindings:</span>
+        <span style="color: #657b83">frame</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">frame</span><span style="color: #93a1a1">.</span><span style="color: #657b83">parent</span>
+        <span style="color: #657b83">depth</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">depth</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">depth</span>
+</code></pre>
+<p><strong>Why it works.</strong> The counter starts at <code>1</code> for the starting frame; each miss steps to <code>frame.parent</code> and adds one, so the final count is the number of frames the real <code>lookup</code> would have consulted.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, where <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">d</span></span></span></span></span> is the depth at which the symbol is found. One step per frame in the walk.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">_depth_env</span><span style="color: #657b83">():</span>
+    <span style="color: #657b83">g</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Frame()</span>
+    <span style="color: #657b83">g</span><span style="color: #93a1a1">.</span><span style="color: #657b83">define(</span><span style="color: #2aa198">&quot;g&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span>
+    <span style="color: #657b83">mid</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Frame(g)</span>
+    <span style="color: #657b83">mid</span><span style="color: #93a1a1">.</span><span style="color: #657b83">define(</span><span style="color: #2aa198">&quot;m&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span>
+    <span style="color: #657b83">leaf</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Frame(mid)</span>
+    <span style="color: #657b83">leaf</span><span style="color: #93a1a1">.</span><span style="color: #657b83">define(</span><span style="color: #2aa198">&quot;n&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">g,</span> <span style="color: #657b83">mid,</span> <span style="color: #657b83">leaf</span>
+
+
+<span style="color: #657b83">_g5,</span> <span style="color: #657b83">_m5,</span> <span style="color: #657b83">_leaf5</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">_depth_env()</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">lookup_depth(_leaf5,</span> <span style="color: #2aa198">&quot;n&quot;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">lookup_depth(_leaf5,</span> <span style="color: #2aa198">&quot;m&quot;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">2</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">lookup_depth(_leaf5,</span> <span style="color: #2aa198">&quot;g&quot;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/a8be7baf61fa.json' data-mount='st1'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st1' hidden></div></figure>
+<h3>6. Evaluate a Nested Arithmetic Program</h3>
+<p><strong>Approach — run the eval/apply engine.</strong> A fresh global frame supplies the primitives, and <code>scheme_eval</code> recursively evaluates the operator and operands of every combination before applying, bottoming out at self-evaluating atoms.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">run_program</span><span style="color: #657b83">(expr):</span>
+    <span style="color: #657b83">env</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">make_global()</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">scheme_eval(expr,</span> <span style="color: #657b83">env)</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>scheme_eval</code> evaluates the inner <code>(* 3 4)</code> to <code>12</code> first, then evaluates <code>(+ 2 12)</code> — the operands are turned into values before the procedure is applied, which is the call rule.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">h</span><span class="mclose">)</span></span></span></span></span>, where <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span></span> is the number of subexpressions and <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">h</span></span></span></span></span> the nesting depth. One eval per node; recursion depth equals nesting.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">run_program(scheme_list(</span><span style="color: #2aa198">&quot;+&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #657b83">scheme_list(</span><span style="color: #2aa198">&quot;*&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">14</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">run_program(scheme_list(</span><span style="color: #2aa198">&quot;-&quot;</span><span style="color: #657b83">,</span> <span style="color: #657b83">scheme_list(</span><span style="color: #2aa198">&quot;*&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">),</span> <span style="color: #2aa198">1</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">24</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">run_program(</span><span style="color: #2aa198">7</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">7</span>
+</code></pre>
+<h3>7. Define Then Use a Name in One Session</h3>
+<p><strong>Approach — one frame, two forms.</strong> Evaluating the <code>define</code> form mutates the global frame in place, so the binding it creates is visible when the second expression is evaluated in that same frame.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">define_then_use</span><span style="color: #657b83">(name,</span> <span style="color: #657b83">value_expr,</span> <span style="color: #657b83">use_expr):</span>
+    <span style="color: #657b83">env</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">make_global()</span>
+    <span style="color: #657b83">scheme_eval(scheme_list(</span><span style="color: #2aa198">&quot;define&quot;</span><span style="color: #657b83">,</span> <span style="color: #657b83">name,</span> <span style="color: #657b83">value_expr),</span> <span style="color: #657b83">env)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">scheme_eval(use_expr,</span> <span style="color: #657b83">env)</span>
+</code></pre>
+<p><strong>Why it works.</strong> The <code>define</code> branch of <code>scheme_eval</code> evaluates <code>value_expr</code> and calls <code>env.define(name, ...)</code>; because <code>env</code> is reused, the later <code>scheme_eval(use_expr, env)</code> can <code>lookup</code> that name.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">h</span><span class="mclose">)</span></span></span></span></span>, in the size and depth of the two expressions. Two evaluations sharing one environment.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">define_then_use(</span><span style="color: #2aa198">&quot;x&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">,</span> <span style="color: #657b83">scheme_list(</span><span style="color: #2aa198">&quot;+&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;x&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">15</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">define_then_use(</span><span style="color: #2aa198">&quot;y&quot;</span><span style="color: #657b83">,</span> <span style="color: #657b83">scheme_list(</span><span style="color: #2aa198">&quot;*&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">6</span><span style="color: #657b83">,</span> <span style="color: #2aa198">7</span><span style="color: #657b83">),</span> <span style="color: #2aa198">&quot;y&quot;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">42</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">define_then_use(</span><span style="color: #2aa198">&quot;z&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #657b83">scheme_list(</span><span style="color: #2aa198">&quot;=&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;z&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">))</span> <span style="color: #859900">is</span> <span style="color: #2aa198">True</span>
+</code></pre>
+<h3>8. Add a <code>quote</code> Special Form</h3>
+<p><strong>Approach — a new branch that does not evaluate.</strong> A special form is recognized by its first element and given its own rule; <code>quote</code>&#x27;s rule is to hand back its operand as data, skipping the evaluation that an ordinary call would do.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">scheme_eval_q</span><span style="color: #657b83">(expr,</span> <span style="color: #657b83">env):</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(expr,</span> <span style="color: #268bd2">str</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">env</span><span style="color: #93a1a1">.</span><span style="color: #657b83">lookup(expr)</span>
+    <span style="color: #859900">if</span> <span style="color: #859900">not</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(expr,</span> <span style="color: #657b83">Pair):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">expr</span>
+    <span style="color: #657b83">first,</span> <span style="color: #657b83">rest</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">expr</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">expr</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">first</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;quote&quot;</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">first</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;define&quot;</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">env</span><span style="color: #93a1a1">.</span><span style="color: #657b83">define(rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">scheme_eval_q(rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">env))</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">None</span>
+    <span style="color: #657b83">procedure</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">scheme_eval_q(first,</span> <span style="color: #657b83">env)</span>
+    <span style="color: #657b83">args</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">map(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">operand:</span> <span style="color: #657b83">scheme_eval_q(operand,</span> <span style="color: #657b83">env))</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">scheme_apply(procedure,</span> <span style="color: #657b83">args,</span> <span style="color: #657b83">env)</span>
+</code></pre>
+<p><strong>Why it works.</strong> The <code>first == &quot;quote&quot;</code> check fires before the call branch, so the quoted datum is returned untouched; all other expressions fall through to the original symbol, atom, <code>define</code>, and call rules.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">h</span><span class="mclose">)</span></span></span></span></span>, in the size and depth of the evaluated expression. The <code>quote</code> branch is <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>; other forms cost as before.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">quote_eval</span><span style="color: #657b83">(datum):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">scheme_eval_q(scheme_list(</span><span style="color: #2aa198">&quot;quote&quot;</span><span style="color: #657b83">,</span> <span style="color: #657b83">datum),</span> <span style="color: #657b83">make_global())</span>
+
+
+<span style="color: #859900">assert</span> <span style="color: #657b83">quote_eval(scheme_list(</span><span style="color: #2aa198">&quot;+&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">))</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;+&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">quote_eval(</span><span style="color: #2aa198">&quot;hello&quot;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;hello&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">quote_eval(</span><span style="color: #2aa198">42</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">42</span>
+<span style="color: #93a1a1; font-style: italic"># Ordinary calls still work through the extended evaluator:</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">scheme_eval_q(scheme_list(</span><span style="color: #2aa198">&quot;+&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #657b83">scheme_list(</span><span style="color: #2aa198">&quot;*&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)),</span> <span style="color: #657b83">make_global())</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">14</span>
+</code></pre>
+<h3>9. Add an <code>if</code> Special Form</h3>
+<p><strong>Approach — evaluate the test, then one branch.</strong> <code>if</code> is a special form precisely because it must not evaluate both branches; the evaluator checks the test and then evaluates only the matching consequent or alternative.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">scheme_eval_if</span><span style="color: #657b83">(expr,</span> <span style="color: #657b83">env):</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(expr,</span> <span style="color: #268bd2">str</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">env</span><span style="color: #93a1a1">.</span><span style="color: #657b83">lookup(expr)</span>
+    <span style="color: #859900">if</span> <span style="color: #859900">not</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(expr,</span> <span style="color: #657b83">Pair):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">expr</span>
+    <span style="color: #657b83">first,</span> <span style="color: #657b83">rest</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">expr</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">expr</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">first</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;if&quot;</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">test</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">scheme_eval_if(rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">env)</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">test:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">scheme_eval_if(rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">env)</span>
+        <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">scheme_eval_if(rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">env)</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">first</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;define&quot;</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">env</span><span style="color: #93a1a1">.</span><span style="color: #657b83">define(rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">scheme_eval_if(rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">env))</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">None</span>
+    <span style="color: #657b83">procedure</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">scheme_eval_if(first,</span> <span style="color: #657b83">env)</span>
+    <span style="color: #657b83">args</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">map(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">operand:</span> <span style="color: #657b83">scheme_eval_if(operand,</span> <span style="color: #657b83">env))</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">scheme_apply(procedure,</span> <span style="color: #657b83">args,</span> <span style="color: #657b83">env)</span>
+</code></pre>
+<p><strong>Why it works.</strong> The three parts are reached through <code>rest.first</code>, <code>rest.second.first</code>, and <code>rest.second.second.first</code>; evaluating the test first and then exactly one branch is what makes <code>if</code> differ from an ordinary call that would evaluate every operand.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">h</span><span class="mclose">)</span></span></span></span></span>, in the size and depth of the chosen branch. Only one branch is ever evaluated.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">run_if</span><span style="color: #657b83">(expr):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">scheme_eval_if(expr,</span> <span style="color: #657b83">make_global())</span>
+
+
+<span style="color: #859900">assert</span> <span style="color: #657b83">run_if(scheme_list(</span><span style="color: #2aa198">&quot;if&quot;</span><span style="color: #657b83">,</span> <span style="color: #657b83">scheme_list(</span><span style="color: #2aa198">&quot;=&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">),</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">run_if(scheme_list(</span><span style="color: #2aa198">&quot;if&quot;</span><span style="color: #657b83">,</span> <span style="color: #657b83">scheme_list(</span><span style="color: #2aa198">&quot;=&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">),</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">2</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">run_if(scheme_list(</span><span style="color: #2aa198">&quot;if&quot;</span><span style="color: #657b83">,</span> <span style="color: #657b83">scheme_list(</span><span style="color: #2aa198">&quot;=&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">),</span>
+                          <span style="color: #657b83">scheme_list(</span><span style="color: #2aa198">&quot;+&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">),</span>
+                          <span style="color: #657b83">scheme_list(</span><span style="color: #2aa198">&quot;*&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">15</span>
+</code></pre>
+<h3>10. Build and Apply a One-Argument Procedure</h3>
+<p><strong>Approach — the environment model in miniature.</strong> A <code>LambdaProcedure</code> stores parameters, a body, and a parent frame; applying it makes a new frame whose parent is that saved environment, binds the parameter to the argument, and evaluates the body there.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">apply_lambda</span><span style="color: #657b83">(param,</span> <span style="color: #657b83">body,</span> <span style="color: #657b83">arg):</span>
+    <span style="color: #657b83">env</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">make_global()</span>
+    <span style="color: #657b83">proc</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">LambdaProcedure(scheme_list(param),</span> <span style="color: #657b83">body,</span> <span style="color: #657b83">env)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">scheme_apply(proc,</span> <span style="color: #657b83">scheme_list(arg),</span> <span style="color: #657b83">env)</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>scheme_apply</code> recognizes the <code>LambdaProcedure</code>, opens a <code>call_frame</code> extending <code>proc.env</code>, binds the parameter to the argument value, and then <code>scheme_eval</code>s the body in that frame — so the body&#x27;s reference to the parameter resolves to the argument.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">h</span><span class="mclose">)</span></span></span></span></span>, in the size and depth of the body. One new frame plus evaluating the body.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">apply_lambda(</span><span style="color: #2aa198">&quot;x&quot;</span><span style="color: #657b83">,</span> <span style="color: #657b83">scheme_list(</span><span style="color: #2aa198">&quot;*&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;x&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;x&quot;</span><span style="color: #657b83">),</span> <span style="color: #2aa198">5</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">25</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">apply_lambda(</span><span style="color: #2aa198">&quot;n&quot;</span><span style="color: #657b83">,</span> <span style="color: #657b83">scheme_list(</span><span style="color: #2aa198">&quot;+&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;n&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">),</span> <span style="color: #2aa198">41</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">42</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">apply_lambda(</span><span style="color: #2aa198">&quot;a&quot;</span><span style="color: #657b83">,</span> <span style="color: #657b83">scheme_list(</span><span style="color: #2aa198">&quot;-&quot;</span><span style="color: #657b83">,</span> <span style="color: #657b83">scheme_list(</span><span style="color: #2aa198">&quot;*&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;a&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;a&quot;</span><span style="color: #657b83">),</span> <span style="color: #2aa198">&quot;a&quot;</span><span style="color: #657b83">),</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">12</span>
+</code></pre>
+</div></section><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

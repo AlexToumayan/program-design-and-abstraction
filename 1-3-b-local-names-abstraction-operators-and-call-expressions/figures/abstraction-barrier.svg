@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 312" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- central function box: the black box named square -->
+  <rect x="236" y="34" width="208" height="214" rx="16" fill="#fdf6e3" stroke="#073642" stroke-width="2.5"/>
+  <text x="340" y="64" text-anchor="middle" font-size="26" font-family="monospace" font-weight="bold" fill="#073642">square</text>
+
+  <!-- ABOVE the barrier: how you use it (bright) -->
+  <text x="340" y="92" text-anchor="middle" font-size="13" font-weight="bold" fill="#268bd2">How you USE it</text>
+
+  <!-- input box 5 (blue) -->
+  <rect x="40" y="96" width="80" height="44" rx="10" fill="#ffffff" stroke="#268bd2" stroke-width="2"/>
+  <text x="80" y="124" text-anchor="middle" font-size="22" font-family="monospace" fill="#073642">5</text>
+  <text x="80" y="160" text-anchor="middle" font-size="12" fill="#93a1a1">input</text>
+
+  <!-- input arrow into the box -->
+  <line x1="122" y1="118" x2="228" y2="118" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="226,112 237,118 226,124" fill="#268bd2"/>
+
+  <!-- output arrow out of the box -->
+  <line x1="444" y1="118" x2="550" y2="118" stroke="#2aa198" stroke-width="2.5"/>
+  <polygon points="548,112 559,118 548,124" fill="#2aa198"/>
+
+  <!-- output box 25 (cyan) -->
+  <rect x="561" y="96" width="80" height="44" rx="10" fill="#ffffff" stroke="#2aa198" stroke-width="2"/>
+  <text x="601" y="124" text-anchor="middle" font-size="22" font-family="monospace" fill="#073642">25</text>
+  <text x="601" y="160" text-anchor="middle" font-size="12" fill="#93a1a1">output</text>
+
+  <!-- the abstraction barrier: horizontal dashed line across the box -->
+  <line x1="236" y1="172" x2="444" y2="172" stroke="#073642" stroke-width="2" stroke-dasharray="7 6"/>
+  <text x="340" y="190" text-anchor="middle" font-size="11" font-style="italic" fill="#93a1a1">abstraction barrier</text>
+
+  <!-- BELOW the barrier: how it works, hidden (faded grey) -->
+  <text x="340" y="214" text-anchor="middle" font-size="13" font-weight="bold" fill="#93a1a1">How it WORKS (hidden)</text>
+  <text x="340" y="236" text-anchor="middle" font-size="15" font-family="monospace" fill="#93a1a1">return mul(x, x)</text>
+
+  <!-- caption -->
+  <text x="340" y="288" text-anchor="middle" font-size="13" fill="#93a1a1">you can use square without knowing how it computes the answer.</text>
+</svg>

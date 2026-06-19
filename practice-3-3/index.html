@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>3.3 · Exceptions — Coding Practice · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class='is-practice'>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/' class='active'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Practice</span><span class='dot'>/</span><span class='eb-sec'>Chapter 3 · Coding Practice</span></div><h1 class='lesson-title'>3.3 · Exceptions — Coding Practice</h1><div class='reading-meta'>&#9719; approx. 14 min read <span class='rm-sep'>&middot;</span> 30 worked examples</div></div><div class='lesson-grid'><div class='lesson-body'><p>These problems build fluency with Python&#x27;s exception machinery: raising the right exception with <code>raise</code>, checking assumptions with <code>assert</code>, protecting code with <code>try</code>/<code>except</code>, binding a caught object with <code>as</code> to read its class and attributes, recovering with fallbacks, aggregating failures across many inputs, and defining custom exception classes that carry structured information out to a handler with the context to use it.</p>
+<p>&gt; Work each problem from the starter signature first. Run your function against the Examples, then open the matching solution below to check your approach and its time and space cost.</p>
+<section id='easy' class='ls ls-default'>
+<h2 class='ls-h'><span>Easy</span></h2>
+<div class='ls-body'>
+<h3>1. Safe Square Root</h3>
+<p>Write <code>safe_sqrt(x)</code> that returns the square root of <code>x</code> using the expression <code>x ** 0.5</code>. If <code>x</code> is not a number — so that <code>x ** 0.5</code> raises a <code>TypeError</code> — catch it and return the string <code>&#x27;not a number&#x27;</code> instead of crashing.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  safe_sqrt(9)
+Output: 3.0
+Explanation: 9 ** 0.5 is 3.0; no exception is raised.
+
+Input:  safe_sqrt(&#x27;nine&#x27;)
+Output: &#x27;not a number&#x27;
+Explanation: &#x27;nine&#x27; ** 0.5 raises TypeError, which the handler catches.
+
+Input:  safe_sqrt(0)
+Output: 0.0
+Explanation: 0 ** 0.5 is 0.0; the try block succeeds.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Compute the root with <code>x ** 0.5</code> inside a <code>try</code> block.</li>
+<li>Catch only <code>TypeError</code>; do not use a bare <code>except</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">safe_sqrt</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Put the <code>return x ** 0.5</code> inside <code>try</code>, and return the fallback string in an <code>except TypeError</code> clause.</p></details>
+<h3>2. Validate Age</h3>
+<p>Write <code>validate_age(age)</code> that returns <code>age</code> unchanged when it is a sensible value, but signals a problem otherwise. If <code>age</code> is negative, <code>raise ValueError(&#x27;age must not be negative&#x27;)</code>. If <code>age</code> is greater than <code>150</code>, <code>raise ValueError(&#x27;age is too large&#x27;)</code>. Otherwise return <code>age</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  validate_age(30)
+Output: 30
+Explanation: 30 is in range, so it is returned unchanged.
+
+Input:  validate_age(-1)
+Output: ValueError(&#x27;age must not be negative&#x27;)
+Explanation: a negative age raises ValueError with that message.
+
+Input:  validate_age(150)
+Output: 150
+Explanation: 150 is the largest accepted value, so it passes.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Raise <code>ValueError</code> (not <code>assert</code>) — invalid input is an expected, recoverable condition here.</li>
+<li>The negative-age message must be exactly <code>&#x27;age must not be negative&#x27;</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">validate_age</span><span style="color: #657b83">(age):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Check each failing case with an <code>if</code> and <code>raise ValueError(...)</code>; fall through to <code>return age</code> only when both checks pass.</p></details>
+<h3>3. Lookup With Fallback</h3>
+<p>Write <code>lookup(prices, item, default)</code> that returns <code>prices[item]</code> when <code>item</code> is a key of the dictionary <code>prices</code>, and returns <code>default</code> when it is missing. Indexing a dictionary with a missing key raises <code>KeyError</code>; catch that and return <code>default</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  lookup({&#x27;pen&#x27;: 2, &#x27;ink&#x27;: 5}, &#x27;pen&#x27;, 0)
+Output: 2
+Explanation: &#x27;pen&#x27; is present, so its value 2 is returned.
+
+Input:  lookup({&#x27;pen&#x27;: 2, &#x27;ink&#x27;: 5}, &#x27;glue&#x27;, 0)
+Output: 0
+Explanation: &#x27;glue&#x27; is missing, so prices[&#x27;glue&#x27;] raises KeyError and the fallback 0 is returned.
+
+Input:  lookup({&#x27;a&#x27;: 0}, &#x27;a&#x27;, 99)
+Output: 0
+Explanation: the stored value 0 is returned, not the default — the key exists.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Index with <code>prices[item]</code> inside a <code>try</code>; do not use <code>in</code> or <code>.get</code>.</li>
+<li>Catch only <code>KeyError</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">lookup</span><span style="color: #657b83">(prices,</span> <span style="color: #657b83">item,</span> <span style="color: #657b83">default):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Return <code>prices[item]</code> in the <code>try</code> and <code>default</code> in an <code>except KeyError</code> clause; a present key with value <code>0</code> still comes from the <code>try</code>.</p></details>
+<h3>4. Check Even</h3>
+<p>Write <code>check_even(n)</code> that returns <code>n // 2</code> but first asserts that <code>n</code> is even. Use <code>assert n % 2 == 0, str(n) + &#x27; is not even&#x27;</code> so that an odd <code>n</code> raises an <code>AssertionError</code> whose message names the offending number.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  check_even(8)
+Output: 4
+Explanation: 8 is even, so the assertion passes and 8 // 2 is 4.
+
+Input:  check_even(7)
+Output: AssertionError(&#x27;7 is not even&#x27;)
+Explanation: 7 % 2 is 1, so the assertion fails with that message.
+
+Input:  check_even(0)
+Output: 0
+Explanation: 0 is even, so it passes and 0 // 2 is 0.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Use a single <code>assert</code> statement with a message built from <code>str(n)</code>.</li>
+<li>Return <code>n // 2</code> only after the assertion passes.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">check_even</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>assert &lt;condition&gt;, &lt;message&gt;</code> raises <code>AssertionError</code> with the message only when the condition is false.</p></details>
+</div></section>
+<section id='medium' class='ls ls-default'>
+<h2 class='ls-h'><span>Medium</span></h2>
+<div class='ls-body'>
+<h3>5. Retry Until Valid</h3>
+<p>Write <code>first_valid(check, candidates)</code> that returns the first item in the sequence <code>candidates</code> for which calling <code>check(item)</code> does <strong>not</strong> raise a <code>ValueError</code>. If <code>check</code> raises <code>ValueError</code> for an item, move on to the next one. If every candidate fails (or the sequence is empty), return <code>None</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  first_valid(positive, [-3, -1, 4, 9])
+Output: 4
+Explanation: -3 and -1 raise ValueError; 4 is the first that does not.
+
+Input:  first_valid(positive, [0, -5, -2])
+Output: None
+Explanation: every candidate raises ValueError, so None is returned.
+
+Input:  first_valid(positive, [7, 8])
+Output: 7
+Explanation: 7 passes the very first check.</code></pre>
+<p>(<code>positive(n)</code> raises <code>ValueError</code> when <code>n &lt;= 0</code> and returns <code>n</code> otherwise.)</p>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Try <code>check(candidate)</code> inside a loop; on <code>ValueError</code> continue to the next candidate.</li>
+<li>Return the candidate itself (not the result of <code>check</code>) on the first success; return <code>None</code> if none pass.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">first_valid</span><span style="color: #657b83">(check,</span> <span style="color: #657b83">candidates):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>A <code>try</code>/<code>except ValueError</code> inside a <code>for</code> loop lets you <code>continue</code> past failures and <code>return candidate</code> on the first success.</p></details>
+<h3>6. Divide All</h3>
+<p>Write <code>divide_all(numerator, denominators)</code> that returns a list of <code>numerator / d</code> for each <code>d</code> in <code>denominators</code>. Whenever a division would divide by zero, put <code>None</code> in that position instead of crashing, and keep going with the remaining denominators.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  divide_all(12, [2, 3, 4])
+Output: [6.0, 4.0, 3.0]
+Explanation: every division succeeds.
+
+Input:  divide_all(12, [2, 0, 6])
+Output: [6.0, None, 2.0]
+Explanation: 12 / 0 raises ZeroDivisionError, so None marks that slot; the rest continue.
+
+Input:  divide_all(8, [])
+Output: []
+Explanation: no denominators, so the result is empty.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Build and return a list, appending one entry per denominator.</li>
+<li>Catch only <code>ZeroDivisionError</code>; a failure must not stop the remaining divisions.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">divide_all</span><span style="color: #657b83">(numerator,</span> <span style="color: #657b83">denominators):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Loop over the denominators; wrap each division in <code>try</code>/<code>except ZeroDivisionError</code> and append either the quotient or <code>None</code>.</p></details>
+<h3>7. Count Failures</h3>
+<p>Write <code>count_failures(action, inputs)</code> that calls <code>action(value)</code> for each <code>value</code> in <code>inputs</code> and returns how many of those calls raised an exception. A call that returns normally counts as a success; a call that raises any exception counts as a failure. Discard the return values — only the count of failures matters.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  count_failures(reciprocal, [1, 2, 4])
+Output: 0
+Explanation: every reciprocal succeeds.
+
+Input:  count_failures(reciprocal, [1, 0, 2, 0])
+Output: 2
+Explanation: reciprocal(0) raises ZeroDivisionError twice.
+
+Input:  count_failures(reciprocal, [])
+Output: 0
+Explanation: no inputs means no failures.</code></pre>
+<p>(<code>reciprocal(x)</code> returns <code>1 / x</code>.)</p>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Increment a counter inside an <code>except</code> clause.</li>
+<li>This is the one place a broad <code>except Exception</code> is appropriate — you are aggregating <em>any</em> failure, not handling a specific one.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">count_failures</span><span style="color: #657b83">(action,</span> <span style="color: #657b83">inputs):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Try <code>action(value)</code> in the loop; the <code>except Exception</code> clause is where you bump the failure count.</p></details>
+<h3>8. Withdraw With Custom Exception</h3>
+<p>Define a custom exception class <code>InsufficientFunds(Exception)</code> whose constructor takes a <code>shortfall</code> amount and stores it as <code>self.shortfall</code>. Write <code>withdraw(balance, amount)</code> that returns <code>balance - amount</code> when funds suffice, but raises <code>InsufficientFunds(amount - balance)</code> when <code>amount</code> exceeds <code>balance</code>. Then write <code>withdraw_or_zero(balance, amount)</code> that calls <code>withdraw</code>, catches <code>InsufficientFunds</code>, and returns the saved <code>shortfall</code> from the caught exception object.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  withdraw_or_zero(100, 40)
+Output: 60
+Explanation: funds suffice, so withdraw returns 100 - 40 = 60.
+
+Input:  withdraw_or_zero(100, 150)
+Output: 50
+Explanation: 150 &gt; 100, so withdraw raises InsufficientFunds(50); the handler returns that shortfall.
+
+Input:  withdraw(100, 40)
+Output: 60
+Explanation: withdraw itself returns the new balance when funds suffice.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>InsufficientFunds</code> must inherit from <code>Exception</code> and store <code>self.shortfall</code> in <code>__init__</code>.</li>
+<li>The handler in <code>withdraw_or_zero</code> must read <code>error.shortfall</code>, not the exception&#x27;s text message.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">class</span> <span style="color: #268bd2">InsufficientFunds</span><span style="color: #657b83">(</span><span style="color: #268bd2">Exception</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">withdraw</span><span style="color: #657b83">(balance,</span> <span style="color: #657b83">amount):</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">withdraw_or_zero</span><span style="color: #657b83">(balance,</span> <span style="color: #657b83">amount):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>raise InsufficientFunds(amount - balance)</code> packs the shortfall into the object; <code>except InsufficientFunds as error</code> lets the caller pull <code>error.shortfall</code> back out.</p></details>
+</div></section>
+<section id='hard' class='ls ls-default'>
+<h2 class='ls-h'><span>Hard</span></h2>
+<div class='ls-body'>
+<h3>9. Parse Or Report</h3>
+<p>Define a custom exception <code>ParseError(Exception)</code> whose constructor stores <code>self.bad_index</code> and <code>self.bad_token</code>. Write <code>to_int(token)</code> that returns <code>int(token)</code> but re-raises a <code>ValueError(&#x27;cannot parse&#x27;)</code> if the conversion fails. Write <code>parse_ints(tokens)</code> that converts every token to an int, returning the list of ints; if a token fails to parse, it raises <code>ParseError(index, tokens[index])</code> carrying the position and the offending token. Finally write <code>parse_report(tokens)</code> that returns the parsed list on success, or — catching <code>ParseError</code> — a string of the form <code>bad token &#x27;oops&#x27; at index 1</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  parse_report([&#x27;3&#x27;, &#x27;14&#x27;, &#x27;9&#x27;])
+Output: [3, 14, 9]
+Explanation: every token parses, so the list of ints is returned.
+
+Input:  parse_report([&#x27;3&#x27;, &#x27;oops&#x27;, &#x27;9&#x27;])
+Output: &quot;bad token &#x27;oops&#x27; at index 1&quot;
+Explanation: &#x27;oops&#x27; fails at index 1; ParseError carries both, and the report formats them.
+
+Input:  parse_report([&#x27;x&#x27;])
+Output: &quot;bad token &#x27;x&#x27; at index 0&quot;
+Explanation: the only token fails at index 0.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>parse_ints</code> must track the current index so the raised <code>ParseError</code> reports the right position and token.</li>
+<li><code>parse_report</code> reads <code>error.bad_index</code> and <code>error.bad_token</code>; build the string with <code>repr(error.bad_token)</code> so it shows the quotes.</li>
+<li>Detect the failure in <code>to_int</code>/<code>parse_ints</code>, but format the message only in <code>parse_report</code>, where the context lives.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #859900">class</span> <span style="color: #268bd2">ParseError</span><span style="color: #657b83">(</span><span style="color: #268bd2">Exception</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">to_int</span><span style="color: #657b83">(token):</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">parse_ints</span><span style="color: #657b83">(tokens):</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">parse_report</span><span style="color: #657b83">(tokens):</span>
+    <span style="color: #859900">pass</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/b4765a8bb6c4.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<details class='hint'><summary>Hint</summary><p>Catch the low-level <code>ValueError</code> inside <code>parse_ints</code> and re-raise it as a <code>ParseError</code> carrying <code>index</code> and <code>tokens[index]</code>; <code>parse_report</code> catches that richer object and reads its attributes.</p></details>
+<h3>10. Safe Pipeline</h3>
+<p>A pipeline is a list of one-argument functions (stages) applied in order, each fed the previous stage&#x27;s output. Define <code>StageError(Exception)</code> storing <code>self.stage_number</code> (1-based) and <code>self.value</code> (the input that stage received). Write <code>run_pipeline(stages, start)</code> that threads <code>start</code> through every stage; if a stage raises any exception, it raises <code>StageError</code> naming which stage (counting from 1) failed and the value it was given. Then write <code>run_pipeline_safe(stages, start)</code> that returns the final value on success, or — catching <code>StageError</code> — the tuple <code>(stage_number, value)</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  run_pipeline_safe([lambda x: x + 1, lambda x: x * 2], 3)
+Output: 8
+Explanation: (3 + 1) then (* 2) gives 8; no stage fails.
+
+Input:  run_pipeline_safe([lambda x: x + 1, lambda x: 1 / 0, lambda x: x * 2], 3)
+Output: (2, 4)
+Explanation: stage 2 receives 4 and divides by zero, so StageError carries stage 2 and value 4.
+
+Input:  run_pipeline_safe([], 7)
+Output: 7
+Explanation: an empty pipeline returns the start value unchanged.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Number stages from <code>1</code>; the <code>StageError</code> must record the stage number and the value passed <em>into</em> the failing stage.</li>
+<li><code>run_pipeline</code> catches any exception from a stage and re-raises it as a <code>StageError</code>; <code>run_pipeline_safe</code> catches only <code>StageError</code>.</li>
+<li>Detect the failure where it happens (inside <code>run_pipeline</code>), but decide the recovery shape in <code>run_pipeline_safe</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">class</span> <span style="color: #268bd2">StageError</span><span style="color: #657b83">(</span><span style="color: #268bd2">Exception</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">run_pipeline</span><span style="color: #657b83">(stages,</span> <span style="color: #657b83">start):</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">run_pipeline_safe</span><span style="color: #657b83">(stages,</span> <span style="color: #657b83">start):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Track a running <code>value</code> and a 1-based <code>number</code>; wrap each <code>stage(value)</code> in <code>try</code>/<code>except Exception</code> and raise <code>StageError(number, value)</code> with the value as it stood <em>before</em> the failing stage.</p></details>
+</div></section>
+<section id='solutions' class='ls ls-default'>
+<h2 class='ls-h'><span>Solutions</span></h2>
+<div class='ls-body'>
+<h3>1. Safe Square Root</h3>
+<p><strong>Approach — protect one expression, return a fallback.</strong> This is the smallest <code>try</code>/<code>except</code> shape from the lesson&#x27;s <code>safe_reciprocal</code>: the risky computation <code>x ** 0.5</code> goes in the <code>try</code>, and a single <code>except TypeError</code> clause supplies a fallback when the operand has no power operation. A number flows straight through the <code>try</code>; a non-number triggers the handler.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">safe_sqrt</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">try</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">**</span> <span style="color: #2aa198">0.5</span>
+    <span style="color: #859900">except</span> <span style="color: #268bd2">TypeError</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;not a number&#39;</span>
+</code></pre>
+<p><strong>Why it works.</strong> When <code>x</code> is numeric, <code>x ** 0.5</code> evaluates and the <code>return</code> fires before the <code>except</code> is ever consulted. When <code>x</code> is a string or list, <code>** 0.5</code> raises <code>TypeError</code>, Python abandons the rest of the <code>try</code> block, and control jumps to the matching handler, which returns the fallback string. Catching <code>TypeError</code> specifically — not a bare <code>except</code> — leaves genuinely unexpected failures free to surface.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> — a single arithmetic attempt.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">safe_sqrt(</span><span style="color: #2aa198">9</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3.0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">safe_sqrt(</span><span style="color: #2aa198">2</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">2</span> <span style="color: #93a1a1">**</span> <span style="color: #2aa198">0.5</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">safe_sqrt(</span><span style="color: #2aa198">&#39;nine&#39;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;not a number&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">safe_sqrt(</span><span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0.0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">safe_sqrt([</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">])</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;not a number&#39;</span>
+</code></pre>
+<h3>2. Validate Age</h3>
+<p><strong>Approach — raise on expected invalid input.</strong> Validation is the lesson&#x27;s reason to use <code>raise</code> rather than <code>assert</code>: a caller may pass a bad age, and that is a recoverable condition the program should signal with a real exception. Each failing case is detected with an <code>if</code> and reported with <code>raise ValueError(message)</code>; only a value that survives both checks reaches <code>return age</code>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">validate_age</span><span style="color: #657b83">(age):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">age</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">raise</span> <span style="color: #268bd2">ValueError</span><span style="color: #657b83">(</span><span style="color: #2aa198">&#39;age must not be negative&#39;</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">age</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #2aa198">150</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">raise</span> <span style="color: #268bd2">ValueError</span><span style="color: #657b83">(</span><span style="color: #2aa198">&#39;age is too large&#39;</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">age</span>
+</code></pre>
+<p><strong>Why it works.</strong> A <code>raise</code> stops the function immediately, so the first failing check ends the call before the next line runs — the negative case never reaches the too-large check or the <code>return</code>. A valid age skips both <code>raise</code> statements and returns unchanged. <code>ValueError</code> is the conventional class for an argument whose type is fine but whose value is out of range.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> — two comparisons.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">validate_age(</span><span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">validate_age(</span><span style="color: #2aa198">30</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">30</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">validate_age(</span><span style="color: #2aa198">150</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">150</span>
+<span style="color: #859900">try</span><span style="color: #657b83">:</span>
+    <span style="color: #657b83">validate_age(</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+    <span style="color: #657b83">raised</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">False</span>
+<span style="color: #859900">except</span> <span style="color: #268bd2">ValueError</span> <span style="color: #859900">as</span> <span style="color: #657b83">error:</span>
+    <span style="color: #657b83">raised</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">True</span>
+    <span style="color: #657b83">message</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(error)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">raised</span> <span style="color: #859900">is</span> <span style="color: #2aa198">True</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">message</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;age must not be negative&#39;</span>
+<span style="color: #859900">try</span><span style="color: #657b83">:</span>
+    <span style="color: #657b83">validate_age(</span><span style="color: #2aa198">200</span><span style="color: #657b83">)</span>
+    <span style="color: #657b83">big_raised</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">False</span>
+<span style="color: #859900">except</span> <span style="color: #268bd2">ValueError</span><span style="color: #657b83">:</span>
+    <span style="color: #657b83">big_raised</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">True</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">big_raised</span> <span style="color: #859900">is</span> <span style="color: #2aa198">True</span>
+</code></pre>
+<h3>3. Lookup With Fallback</h3>
+<p><strong>Approach — catch the lookup failure, supply a default.</strong> Indexing a dictionary with a missing key raises <code>KeyError</code>; the <code>try</code>/<code>except</code> shape from the lesson turns that crash into a graceful fallback. The successful index returns inside the <code>try</code>; a missing key sends control to the <code>except KeyError</code> clause, which returns <code>default</code>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">lookup</span><span style="color: #657b83">(prices,</span> <span style="color: #657b83">item,</span> <span style="color: #657b83">default):</span>
+    <span style="color: #859900">try</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">prices[item]</span>
+    <span style="color: #859900">except</span> <span style="color: #268bd2">KeyError</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">default</span>
+</code></pre>
+<p><strong>Why it works.</strong> A present key — even one whose stored value is <code>0</code> — makes <code>prices[item]</code> succeed, so the <code>try</code>&#x27;s <code>return</code> fires and the default is never reached. That is why catching the exception is more faithful than testing truthiness: it distinguishes &quot;absent&quot; from &quot;present but falsy.&quot; A missing key raises <code>KeyError</code>, the only class the handler catches, so the fallback is returned.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> average for the dictionary lookup, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">lookup({</span><span style="color: #2aa198">&#39;pen&#39;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;ink&#39;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">5</span><span style="color: #657b83">},</span> <span style="color: #2aa198">&#39;pen&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">2</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">lookup({</span><span style="color: #2aa198">&#39;pen&#39;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;ink&#39;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">5</span><span style="color: #657b83">},</span> <span style="color: #2aa198">&#39;glue&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">lookup({},</span> <span style="color: #2aa198">&#39;pen&#39;</span><span style="color: #657b83">,</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">lookup({</span><span style="color: #2aa198">&#39;a&#39;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">0</span><span style="color: #657b83">},</span> <span style="color: #2aa198">&#39;a&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">99</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+</code></pre>
+<h3>4. Check Even</h3>
+<p><strong>Approach — assert an assumption, then proceed.</strong> <code>assert &lt;condition&gt;, &lt;message&gt;</code> is the lesson&#x27;s tool for checking that an assumption holds. When <code>n</code> is even the condition <code>n % 2 == 0</code> is true, so the assertion is silent and the function returns <code>n // 2</code>. When <code>n</code> is odd the condition is false and Python raises <code>AssertionError</code> carrying the message built from <code>str(n)</code>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">check_even</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">assert</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">%</span> <span style="color: #2aa198">2</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(n)</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&#39; is not even&#39;</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">//</span> <span style="color: #2aa198">2</span>
+</code></pre>
+<p><strong>Why it works.</strong> A passing assertion does nothing visible — execution simply falls through to the <code>return</code>. A failing one raises <code>AssertionError</code> before the <code>return</code> can run, and the message after the comma becomes the exception&#x27;s text, so a handler that binds the exception with <code>as error</code> reads exactly <code>&#x27;7 is not even&#x27;</code>. Building the message with <code>str(n)</code> puts the offending value into the report.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> — one modulus check.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">check_even(</span><span style="color: #2aa198">8</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">4</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">check_even(</span><span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">try</span><span style="color: #657b83">:</span>
+    <span style="color: #657b83">check_even(</span><span style="color: #2aa198">7</span><span style="color: #657b83">)</span>
+    <span style="color: #657b83">odd_raised</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">False</span>
+<span style="color: #859900">except</span> <span style="color: #268bd2">AssertionError</span> <span style="color: #859900">as</span> <span style="color: #657b83">error:</span>
+    <span style="color: #657b83">odd_raised</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">True</span>
+    <span style="color: #657b83">odd_message</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(error)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">odd_raised</span> <span style="color: #859900">is</span> <span style="color: #2aa198">True</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">odd_message</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;7 is not even&#39;</span>
+</code></pre>
+<h3>5. Retry Until Valid</h3>
+<p><strong>Approach — loop, catch, and continue.</strong> Each candidate is tried in turn; the lesson&#x27;s pattern of catching a specific exception lets a failure skip to the next iteration instead of stopping the search. A <code>try</code>/<code>except ValueError</code> wraps the <code>check</code>; on success the candidate is returned, and on <code>ValueError</code> the loop continues. If the loop ends without a success, <code>None</code> is returned.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">first_valid</span><span style="color: #657b83">(check,</span> <span style="color: #657b83">candidates):</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">candidate</span> <span style="color: #859900">in</span> <span style="color: #657b83">candidates:</span>
+        <span style="color: #859900">try</span><span style="color: #657b83">:</span>
+            <span style="color: #657b83">check(candidate)</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">candidate</span>
+        <span style="color: #859900">except</span> <span style="color: #268bd2">ValueError</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">continue</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">None</span>
+</code></pre>
+<p><strong>Why it works.</strong> When <code>check(candidate)</code> raises <code>ValueError</code>, the <code>return candidate</code> on the next line is skipped — a raised exception abandons the rest of the <code>try</code> block — and <code>continue</code> advances to the next candidate. When <code>check</code> returns normally, no exception interrupts the path, so <code>return candidate</code> fires. Reaching the end of the loop means every candidate failed, so the function falls through to <code>return None</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> for <code>n</code> candidates (each tried once), Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">positive</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&lt;=</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">raise</span> <span style="color: #268bd2">ValueError</span><span style="color: #657b83">(</span><span style="color: #2aa198">&#39;not positive&#39;</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">n</span>
+
+
+<span style="color: #859900">assert</span> <span style="color: #657b83">first_valid(positive,</span> <span style="color: #657b83">[</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">9</span><span style="color: #657b83">])</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">4</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">first_valid(positive,</span> <span style="color: #657b83">[</span><span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">2</span><span style="color: #657b83">])</span> <span style="color: #859900">is</span> <span style="color: #2aa198">None</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">first_valid(positive,</span> <span style="color: #657b83">[</span><span style="color: #2aa198">7</span><span style="color: #657b83">,</span> <span style="color: #2aa198">8</span><span style="color: #657b83">])</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">7</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">first_valid(positive,</span> <span style="color: #657b83">[])</span> <span style="color: #859900">is</span> <span style="color: #2aa198">None</span>
+</code></pre>
+<h3>6. Divide All</h3>
+<p><strong>Approach — recover per element, keep going.</strong> The point of catching the exception inside the loop is that one bad denominator must not abort the whole computation. Each division sits in its own <code>try</code>/<code>except ZeroDivisionError</code>; a good denominator appends the quotient, a zero appends <code>None</code>, and the loop proceeds to the next either way.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">divide_all</span><span style="color: #657b83">(numerator,</span> <span style="color: #657b83">denominators):</span>
+    <span style="color: #657b83">results</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[]</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">d</span> <span style="color: #859900">in</span> <span style="color: #657b83">denominators:</span>
+        <span style="color: #859900">try</span><span style="color: #657b83">:</span>
+            <span style="color: #657b83">results</span><span style="color: #93a1a1">.</span><span style="color: #657b83">append(numerator</span> <span style="color: #93a1a1">/</span> <span style="color: #657b83">d)</span>
+        <span style="color: #859900">except</span> <span style="color: #268bd2">ZeroDivisionError</span><span style="color: #657b83">:</span>
+            <span style="color: #657b83">results</span><span style="color: #93a1a1">.</span><span style="color: #657b83">append(</span><span style="color: #2aa198">None</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">results</span>
+</code></pre>
+<p><strong>Why it works.</strong> Because the <code>try</code> surrounds a single division, a <code>ZeroDivisionError</code> only abandons that one iteration&#x27;s <code>try</code> body — the handler appends <code>None</code> and the <code>for</code> loop moves on. Each input therefore contributes exactly one slot to the output, in order, so the result lines up position-for-position with the denominators.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> for <code>n</code> denominators, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> for the result list.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">divide_all(</span><span style="color: #2aa198">12</span><span style="color: #657b83">,</span> <span style="color: #657b83">[</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">])</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">6.0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4.0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3.0</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">divide_all(</span><span style="color: #2aa198">12</span><span style="color: #657b83">,</span> <span style="color: #657b83">[</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">6</span><span style="color: #657b83">])</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">6.0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">None</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2.0</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">divide_all(</span><span style="color: #2aa198">10</span><span style="color: #657b83">,</span> <span style="color: #657b83">[</span><span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">])</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">None</span><span style="color: #657b83">,</span> <span style="color: #2aa198">None</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">divide_all(</span><span style="color: #2aa198">8</span><span style="color: #657b83">,</span> <span style="color: #657b83">[])</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[]</span>
+</code></pre>
+<h3>7. Count Failures</h3>
+<p><strong>Approach — aggregate any failure with a broad handler.</strong> Here we genuinely want to count <em>every</em> kind of failure, not respond to one specific class, so a broad <code>except Exception</code> is the right tool — the rare case the lesson warns is otherwise a trap. Each call runs in a <code>try</code>; a normal return adds nothing, and any raised exception bumps the failure counter.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">count_failures</span><span style="color: #657b83">(action,</span> <span style="color: #657b83">inputs):</span>
+    <span style="color: #657b83">failures</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">value</span> <span style="color: #859900">in</span> <span style="color: #657b83">inputs:</span>
+        <span style="color: #859900">try</span><span style="color: #657b83">:</span>
+            <span style="color: #657b83">action(value)</span>
+        <span style="color: #859900">except</span> <span style="color: #268bd2">Exception</span><span style="color: #657b83">:</span>
+            <span style="color: #657b83">failures</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">failures</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">failures</span>
+</code></pre>
+<p><strong>Why it works.</strong> When <code>action(value)</code> returns normally, control falls past the <code>except</code> and the counter is untouched. When it raises, the matching <code>except Exception</code> catches it — <code>Exception</code> is a base class of <code>ZeroDivisionError</code>, <code>ValueError</code>, and the rest — and increments <code>failures</code>. Because the handler swallows the exception, the loop continues to the next input rather than stopping at the first failure.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> for <code>n</code> inputs, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> — a single counter.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">reciprocal</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">1</span> <span style="color: #93a1a1">/</span> <span style="color: #657b83">x</span>
+
+
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_failures(reciprocal,</span> <span style="color: #657b83">[</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">])</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_failures(reciprocal,</span> <span style="color: #657b83">[</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">])</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">2</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_failures(reciprocal,</span> <span style="color: #657b83">[</span><span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">])</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_failures(reciprocal,</span> <span style="color: #657b83">[])</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+</code></pre>
+<h3>8. Withdraw With Custom Exception</h3>
+<p><strong>Approach — a custom class that carries a value.</strong> Following the lesson&#x27;s <code>IterImproveError</code>, the exception is built from a class that stores extra information — here the <code>shortfall</code>. <code>withdraw</code> detects the overdraft and raises <code>InsufficientFunds(amount - balance)</code>, packing the missing amount into the object. <code>withdraw_or_zero</code> is the handler with context: it catches the exception and reads <code>error.shortfall</code> back out.</p>
+<pre class='code python'><code><span style="color: #859900">class</span> <span style="color: #268bd2">InsufficientFunds</span><span style="color: #657b83">(</span><span style="color: #268bd2">Exception</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">shortfall):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">shortfall</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">shortfall</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">withdraw</span><span style="color: #657b83">(balance,</span> <span style="color: #657b83">amount):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">amount</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #657b83">balance:</span>
+        <span style="color: #859900">raise</span> <span style="color: #657b83">InsufficientFunds(amount</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">balance)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">balance</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">amount</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">withdraw_or_zero</span><span style="color: #657b83">(balance,</span> <span style="color: #657b83">amount):</span>
+    <span style="color: #859900">try</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">withdraw(balance,</span> <span style="color: #657b83">amount)</span>
+    <span style="color: #859900">except</span> <span style="color: #657b83">InsufficientFunds</span> <span style="color: #859900">as</span> <span style="color: #657b83">error:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">error</span><span style="color: #93a1a1">.</span><span style="color: #657b83">shortfall</span>
+</code></pre>
+<p><strong>Why it works.</strong> Because <code>InsufficientFunds</code> inherits from <code>Exception</code>, an instance is a full exception object that can be raised and caught, and its <code>__init__</code> saves <code>self.shortfall</code> so the value travels with the exception. The <code>as error</code> binding gives <code>withdraw_or_zero</code> the object itself, so it recovers the structured <code>shortfall</code> rather than parsing a text message. This is the lesson&#x27;s design split: detect the problem deep down, decide the response where the context is.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> — one comparison and one attribute.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">withdraw(</span><span style="color: #2aa198">100</span><span style="color: #657b83">,</span> <span style="color: #2aa198">40</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">60</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">withdraw_or_zero(</span><span style="color: #2aa198">100</span><span style="color: #657b83">,</span> <span style="color: #2aa198">40</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">60</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">withdraw_or_zero(</span><span style="color: #2aa198">100</span><span style="color: #657b83">,</span> <span style="color: #2aa198">150</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">50</span>
+<span style="color: #859900">try</span><span style="color: #657b83">:</span>
+    <span style="color: #657b83">withdraw(</span><span style="color: #2aa198">50</span><span style="color: #657b83">,</span> <span style="color: #2aa198">80</span><span style="color: #657b83">)</span>
+    <span style="color: #657b83">over_raised</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">False</span>
+<span style="color: #859900">except</span> <span style="color: #657b83">InsufficientFunds</span> <span style="color: #859900">as</span> <span style="color: #657b83">error:</span>
+    <span style="color: #657b83">over_raised</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">True</span>
+    <span style="color: #657b83">short</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">error</span><span style="color: #93a1a1">.</span><span style="color: #657b83">shortfall</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">over_raised</span> <span style="color: #859900">is</span> <span style="color: #2aa198">True</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">short</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">30</span>
+<span style="color: #859900">assert</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(InsufficientFunds(</span><span style="color: #2aa198">10</span><span style="color: #657b83">),</span> <span style="color: #268bd2">Exception</span><span style="color: #657b83">)</span> <span style="color: #859900">is</span> <span style="color: #2aa198">True</span>
+</code></pre>
+<h3>9. Parse Or Report</h3>
+<p><strong>Approach — translate a low-level error into a richer one.</strong> A bare <code>ValueError</code> from <code>int(token)</code> knows only that <em>a</em> token failed, not <em>which</em>. So <code>parse_ints</code> catches that low-level error and re-raises a <code>ParseError</code> carrying the <code>index</code> and the offending <code>tokens[index]</code> — the lesson&#x27;s idea of an exception that carries information. <code>parse_report</code> is the outer layer with the context to format a message, so it catches <code>ParseError</code> and reads its attributes.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #859900">class</span> <span style="color: #268bd2">ParseError</span><span style="color: #657b83">(</span><span style="color: #268bd2">Exception</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">bad_index,</span> <span style="color: #657b83">bad_token):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">bad_index</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">bad_index</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">bad_token</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">bad_token</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">to_int</span><span style="color: #657b83">(token):</span>
+    <span style="color: #859900">try</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">int</span><span style="color: #657b83">(token)</span>
+    <span style="color: #859900">except</span> <span style="color: #268bd2">ValueError</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">raise</span> <span style="color: #268bd2">ValueError</span><span style="color: #657b83">(</span><span style="color: #2aa198">&#39;cannot parse&#39;</span><span style="color: #657b83">)</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">parse_ints</span><span style="color: #657b83">(tokens):</span>
+    <span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[]</span>
+    <span style="color: #657b83">index</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">try</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">for</span> <span style="color: #657b83">token</span> <span style="color: #859900">in</span> <span style="color: #657b83">tokens:</span>
+            <span style="color: #657b83">result</span><span style="color: #93a1a1">.</span><span style="color: #657b83">append(to_int(token))</span>
+            <span style="color: #657b83">index</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">index</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">result</span>
+    <span style="color: #859900">except</span> <span style="color: #268bd2">ValueError</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">raise</span> <span style="color: #657b83">ParseError(index,</span> <span style="color: #657b83">tokens[index])</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">parse_report</span><span style="color: #657b83">(tokens):</span>
+    <span style="color: #859900">try</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">parse_ints(tokens)</span>
+    <span style="color: #859900">except</span> <span style="color: #657b83">ParseError</span> <span style="color: #859900">as</span> <span style="color: #657b83">error:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;bad token &#39;</span> <span style="color: #93a1a1">+</span> <span style="color: #268bd2">repr</span><span style="color: #657b83">(error</span><span style="color: #93a1a1">.</span><span style="color: #657b83">bad_token)</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&#39; at index &#39;</span> <span style="color: #93a1a1">+</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(error</span><span style="color: #93a1a1">.</span><span style="color: #657b83">bad_index)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/25dee9e21528.json' data-mount='st1'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st1' hidden></div></figure>
+<p><strong>Why it works.</strong> <code>index</code> advances only after a token parses, so when <code>to_int</code> raises <code>ValueError</code> mid-loop, <code>index</code> still points at the token that failed and <code>tokens[index]</code> is that token. The <code>except ValueError</code> in <code>parse_ints</code> re-raises this as a <code>ParseError</code> holding both facts, which propagates past <code>to_int</code> straight to <code>parse_report</code>. There the <code>as error</code> binding exposes <code>error.bad_index</code> and <code>error.bad_token</code>, and <code>repr(...)</code> formats the token with quotes — <code>&#x27;oops&#x27;</code> — matching the report. The error is detected low and reported high, exactly the lesson&#x27;s separation.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> for <code>n</code> tokens, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> for the parsed list.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">parse_ints([</span><span style="color: #2aa198">&#39;3&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;14&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;9&#39;</span><span style="color: #657b83">])</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">14</span><span style="color: #657b83">,</span> <span style="color: #2aa198">9</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">parse_report([</span><span style="color: #2aa198">&#39;3&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;14&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;9&#39;</span><span style="color: #657b83">])</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">14</span><span style="color: #657b83">,</span> <span style="color: #2aa198">9</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">parse_report([</span><span style="color: #2aa198">&#39;3&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;oops&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;9&#39;</span><span style="color: #657b83">])</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;bad token &#39;oops&#39; at index 1&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">parse_report([</span><span style="color: #2aa198">&#39;x&#39;</span><span style="color: #657b83">])</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;bad token &#39;x&#39; at index 0&quot;</span>
+<span style="color: #859900">try</span><span style="color: #657b83">:</span>
+    <span style="color: #657b83">parse_ints([</span><span style="color: #2aa198">&#39;1&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;2&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;z&#39;</span><span style="color: #657b83">])</span>
+    <span style="color: #657b83">pe_raised</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">False</span>
+<span style="color: #859900">except</span> <span style="color: #657b83">ParseError</span> <span style="color: #859900">as</span> <span style="color: #657b83">error:</span>
+    <span style="color: #657b83">pe_raised</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">True</span>
+    <span style="color: #657b83">pe_index</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">error</span><span style="color: #93a1a1">.</span><span style="color: #657b83">bad_index</span>
+    <span style="color: #657b83">pe_token</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">error</span><span style="color: #93a1a1">.</span><span style="color: #657b83">bad_token</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">pe_raised</span> <span style="color: #859900">is</span> <span style="color: #2aa198">True</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">pe_index</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">2</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">pe_token</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;z&#39;</span>
+</code></pre>
+<h3>10. Safe Pipeline</h3>
+<p><strong>Approach — capture the failing stage&#x27;s number and input.</strong> As <code>run_pipeline</code> threads the value through the stages, it tracks a 1-based <code>number</code> and the current <code>value</code>. A broad <code>except Exception</code> catches whatever a stage throws and re-raises a <code>StageError</code> carrying both the stage number and the value that stage received — the most useful snapshot at the moment of failure, in the spirit of <code>IterImproveError.last_guess</code>. <code>run_pipeline_safe</code> catches only that <code>StageError</code> and returns the recorded pair.</p>
+<pre class='code python'><code><span style="color: #859900">class</span> <span style="color: #268bd2">StageError</span><span style="color: #657b83">(</span><span style="color: #268bd2">Exception</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">stage_number,</span> <span style="color: #657b83">value):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">stage_number</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">stage_number</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">value</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">value</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">run_pipeline</span><span style="color: #657b83">(stages,</span> <span style="color: #657b83">start):</span>
+    <span style="color: #657b83">value</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">start</span>
+    <span style="color: #657b83">number</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">stage</span> <span style="color: #859900">in</span> <span style="color: #657b83">stages:</span>
+        <span style="color: #657b83">number</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">number</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+        <span style="color: #859900">try</span><span style="color: #657b83">:</span>
+            <span style="color: #657b83">value</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">stage(value)</span>
+        <span style="color: #859900">except</span> <span style="color: #268bd2">Exception</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">raise</span> <span style="color: #657b83">StageError(number,</span> <span style="color: #657b83">value)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">value</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">run_pipeline_safe</span><span style="color: #657b83">(stages,</span> <span style="color: #657b83">start):</span>
+    <span style="color: #859900">try</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">run_pipeline(stages,</span> <span style="color: #657b83">start)</span>
+    <span style="color: #859900">except</span> <span style="color: #657b83">StageError</span> <span style="color: #859900">as</span> <span style="color: #657b83">error:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">(error</span><span style="color: #93a1a1">.</span><span style="color: #657b83">stage_number,</span> <span style="color: #657b83">error</span><span style="color: #93a1a1">.</span><span style="color: #657b83">value)</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>number</code> is bumped at the top of each iteration, so it names the stage about to run; <code>value</code> is only overwritten <em>after</em> a stage succeeds, so at the moment a stage raises, <code>value</code> still holds that stage&#x27;s input. The assignment <code>value = stage(value)</code> never completes on failure — a raised exception abandons it — which is why the captured <code>value</code> is the input, not a half-built output. <code>run_pipeline</code> wraps each stage in its own <code>try</code>, re-raising any exception as a <code>StageError</code>; <code>run_pipeline_safe</code> catches that single class and returns <code>(stage_number, value)</code>. An empty pipeline runs no stages and returns <code>start</code> unchanged.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> for <code>n</code> stages (up to the failing one), Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> beyond the threaded value.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">run_pipeline([</span><span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">*</span> <span style="color: #2aa198">2</span><span style="color: #657b83">],</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">8</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">run_pipeline_safe([</span><span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">*</span> <span style="color: #2aa198">2</span><span style="color: #657b83">],</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">8</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">run_pipeline_safe([</span><span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #2aa198">1</span> <span style="color: #93a1a1">/</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">*</span> <span style="color: #2aa198">2</span><span style="color: #657b83">],</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">run_pipeline_safe([</span><span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #2aa198">1</span> <span style="color: #93a1a1">/</span> <span style="color: #2aa198">0</span><span style="color: #657b83">],</span> <span style="color: #2aa198">5</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">run_pipeline_safe([],</span> <span style="color: #2aa198">7</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">7</span>
+<span style="color: #859900">try</span><span style="color: #657b83">:</span>
+    <span style="color: #657b83">run_pipeline([</span><span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">-</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">x[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]],</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)</span>
+    <span style="color: #657b83">se_raised</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">False</span>
+<span style="color: #859900">except</span> <span style="color: #657b83">StageError</span> <span style="color: #859900">as</span> <span style="color: #657b83">error:</span>
+    <span style="color: #657b83">se_raised</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">True</span>
+    <span style="color: #657b83">se_stage</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">error</span><span style="color: #93a1a1">.</span><span style="color: #657b83">stage_number</span>
+    <span style="color: #657b83">se_value</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">error</span><span style="color: #93a1a1">.</span><span style="color: #657b83">value</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">se_raised</span> <span style="color: #859900">is</span> <span style="color: #2aa198">True</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">se_stage</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">2</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">se_value</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+</code></pre>
+</div></section><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

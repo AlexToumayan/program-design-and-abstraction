@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>2.6 Account Classes and Dictionary-Based Inheritance · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/' class='active'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 2</span><span class='dot'>/</span><span class='eb-sec'>2.6 Implementing Classes and Objects</span></div><h1 class='lesson-title'>2.6 Account Classes and Dictionary-Based Inheritance</h1><div class='reading-meta'>&#9719; approx. 15 min read <span class='rm-sep'>&middot;</span> 15 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>The previous packet built a small object system out of nothing but functions and dictionaries. It gave you three tools: <code>make_instance</code>, <code>make_class</code>, and the helpers that bind methods and run constructors. That packet stayed abstract on purpose, so the machinery was easy to see.</p>
+<p>This packet puts the machinery to work. By the end you will be able to do four things: rebuild a real bank-account class using only dictionaries, create instances and call their methods through <code>get</code> and <code>set</code> messages, explain why setting an attribute on an instance does not disturb the class, and build a subclass whose missing names fall back to its base class. Every example you trace here has an exact counterpart in Python&#x27;s built-in <code>class</code> statement, so the payoff is that dot notation stops being magic.</p>
+<p>We are not proposing that you write programs this way. Real code uses <code>class</code>. The point is to see that classes, instances, methods, constructors, and inheritance are not new primitives baked into the language. They are arrangements of ideas you already command:</p>
+<pre class='code text'><code>functions + dictionaries + local state + lookup rules</code></pre>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='an-analogy-a-company-directory' class='ls ls-default'>
+<h2 class='ls-h'><span>An Analogy: A Company Directory</span></h2>
+<div class='ls-body'>
+<p>Imagine a company with a printed policy binder and a stack of individual employee folders.</p>
+<p>The <strong>policy binder</strong> holds rules that apply to everyone: the standard vacation allowance, the default job title for a new hire. The binder is shared. There is one copy.</p>
+<p>Each <strong>employee folder</strong> holds facts about one person: their name, their current salary. When you need to know an employee&#x27;s vacation allowance, you first flip through their personal folder. If the folder says nothing about vacation, you walk to the shelf and consult the shared binder.</p>
+<p>That two-step lookup is the whole idea. The folder is an <strong>instance</strong>, and it stores instance attributes. The binder is the <strong>class</strong>, and it stores class attributes. Asking for an attribute means &quot;check my own folder first, and only fall back to the binder if my folder is silent.&quot; If a particular employee negotiates extra vacation, that note goes in their personal folder. It does not rewrite the shared binder, so everyone else is unaffected. That is exactly how an instance attribute shadows a class attribute, and it is the behavior we are about to reproduce with dictionaries.</p>
+<p>A subclass adds a second binder on a higher shelf. A checking-account folder consults the checking-account binder first, and if that binder is silent, it consults the general account binder above it. That chain of binders is inheritance.</p>
+</div></section>
+<section id='the-object-system-kernel' class='ls ls-default'>
+<h2 class='ls-h'><span>The Object System Kernel</span></h2>
+<div class='ls-body'>
+<p>This document is standalone, so we begin with the complete object-system kernel from the previous packet. Reproduce it exactly; every line matters later.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">make_instance</span><span style="color: #657b83">(</span><span style="color: #268bd2">cls</span><span style="color: #657b83">):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return a new object instance, which is a dispatch dictionary.&quot;&quot;&quot;</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">get_value</span><span style="color: #657b83">(name):</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">name</span> <span style="color: #859900">in</span> <span style="color: #657b83">attributes:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">attributes[name]</span>
+        <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+            <span style="color: #657b83">value</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">cls</span><span style="color: #657b83">[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](name)</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">bind_method(value,</span> <span style="color: #657b83">instance)</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">set_value</span><span style="color: #657b83">(name,</span> <span style="color: #657b83">value):</span>
+        <span style="color: #657b83">attributes[name]</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">value</span>
+
+    <span style="color: #657b83">attributes</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">{}</span>
+    <span style="color: #657b83">instance</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">{</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">:</span> <span style="color: #657b83">get_value,</span> <span style="color: #2aa198">&#39;set&#39;</span><span style="color: #657b83">:</span> <span style="color: #657b83">set_value}</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">instance</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">bind_method</span><span style="color: #657b83">(value,</span> <span style="color: #657b83">instance):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return a bound method if value is callable, or value otherwise.&quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">callable(value):</span>
+        <span style="color: #859900">def</span> <span style="color: #268bd2">method</span><span style="color: #657b83">(</span><span style="color: #93a1a1">*</span><span style="color: #657b83">args):</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">value(instance,</span> <span style="color: #93a1a1">*</span><span style="color: #657b83">args)</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">method</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">value</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">make_class</span><span style="color: #657b83">(attributes,</span> <span style="color: #657b83">base_class</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">None</span><span style="color: #657b83">):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return a new class, which is a dispatch dictionary.&quot;&quot;&quot;</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">get_value</span><span style="color: #657b83">(name):</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">name</span> <span style="color: #859900">in</span> <span style="color: #657b83">attributes:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">attributes[name]</span>
+        <span style="color: #859900">elif</span> <span style="color: #657b83">base_class</span> <span style="color: #859900">is</span> <span style="color: #859900">not</span> <span style="color: #2aa198">None</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">base_class[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](name)</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">set_value</span><span style="color: #657b83">(name,</span> <span style="color: #657b83">value):</span>
+        <span style="color: #657b83">attributes[name]</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">value</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">new</span><span style="color: #657b83">(</span><span style="color: #93a1a1">*</span><span style="color: #657b83">args):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">init_instance(</span><span style="color: #268bd2">cls</span><span style="color: #657b83">,</span> <span style="color: #93a1a1">*</span><span style="color: #657b83">args)</span>
+
+    <span style="color: #268bd2">cls</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">{</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">:</span> <span style="color: #657b83">get_value,</span> <span style="color: #2aa198">&#39;set&#39;</span><span style="color: #657b83">:</span> <span style="color: #657b83">set_value,</span> <span style="color: #2aa198">&#39;new&#39;</span><span style="color: #657b83">:</span> <span style="color: #657b83">new}</span>
+    <span style="color: #859900">return</span> <span style="color: #268bd2">cls</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">init_instance</span><span style="color: #657b83">(</span><span style="color: #268bd2">cls</span><span style="color: #657b83">,</span> <span style="color: #93a1a1">*</span><span style="color: #657b83">args):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return a new object with type cls, initialized with args.&quot;&quot;&quot;</span>
+    <span style="color: #657b83">instance</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">make_instance(</span><span style="color: #268bd2">cls</span><span style="color: #657b83">)</span>
+    <span style="color: #657b83">init</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">cls</span><span style="color: #657b83">[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;__init__&#39;</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">init:</span>
+        <span style="color: #657b83">init(instance,</span> <span style="color: #93a1a1">*</span><span style="color: #657b83">args)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">instance</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/9fd7abcaeb23.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>This kernel gives us exactly three behaviors, and the rest of the packet is just these three behaviors playing out on a concrete example.</p>
+<div class='table-wrap'><table><thead><tr>
+<th>Behavior</th>
+<th>Where it appears in (1)</th>
+</tr></thead><tbody>
+<tr>
+<td>Instance attribute storage</td>
+<td><code>attributes = {}</code> inside <code>make_instance</code></td>
+</tr>
+<tr>
+<td>Method binding</td>
+<td><code>bind_method(value, instance)</code></td>
+</tr>
+<tr>
+<td>Inheritance lookup</td>
+<td><code>base_class[&#x27;get&#x27;](name)</code> inside <code>make_class</code></td>
+</tr>
+</tbody></table></div>
+</div></section>
+<section id='rebuilding-the-account-class' class='ls ls-default'>
+<h2 class='ls-h'><span>Rebuilding the Account Class</span></h2>
+<div class='ls-body'>
+<p>In ordinary Python, the account class from the data-and-state chapter looks like this. This is the destination we are reconstructing.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #859900">class</span> <span style="color: #268bd2">Account</span><span style="color: #657b83">:</span>
+    <span style="color: #657b83">interest</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0.02</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">account_holder):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">holder</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">account_holder</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">balance</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+</code></pre>
+<p>In our dictionary-based object system, we do not write a <code>class</code> statement. Instead we write a function whose local frame holds the class attributes and methods, and which ends by handing that frame to <code>make_class</code>.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">make_account_class</span><span style="color: #657b83">():</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return the Account class, which has deposit and withdraw methods.&quot;&quot;&quot;</span>
+    <span style="color: #657b83">interest</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0.02</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">account_holder):</span>
+        <span style="color: #268bd2">self</span><span style="color: #657b83">[</span><span style="color: #2aa198">&#39;set&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;holder&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">account_holder)</span>
+        <span style="color: #268bd2">self</span><span style="color: #657b83">[</span><span style="color: #2aa198">&#39;set&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">deposit</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">amount):</span>
+        <span style="color: #93a1a1">&quot;&quot;&quot;Increase the account balance by amount and return the new balance.&quot;&quot;&quot;</span>
+        <span style="color: #657b83">new_balance</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #657b83">[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">amount</span>
+        <span style="color: #268bd2">self</span><span style="color: #657b83">[</span><span style="color: #2aa198">&#39;set&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">new_balance)</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #657b83">[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">)</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">withdraw</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">amount):</span>
+        <span style="color: #93a1a1">&quot;&quot;&quot;Decrease the account balance by amount and return the new balance.&quot;&quot;&quot;</span>
+        <span style="color: #657b83">balance</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #657b83">[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">)</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">amount</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #657b83">balance:</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;Insufficient funds&#39;</span>
+        <span style="color: #268bd2">self</span><span style="color: #657b83">[</span><span style="color: #2aa198">&#39;set&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">balance</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">amount)</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #657b83">[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">)</span>
+
+    <span style="color: #859900">return</span> <span style="color: #657b83">make_class(</span><span style="color: #268bd2">locals</span><span style="color: #657b83">())</span>
+</code></pre>
+<p>This looks strange at first, because <code>self</code> is no longer an object you reach into with a dot. In this system <code>self</code> is an instance dispatch dictionary, so you talk to it by sending it <code>&#x27;get&#x27;</code> and <code>&#x27;set&#x27;</code> messages.</p>
+<p>Here is the translation between the two worlds. Reading an attribute:</p>
+<pre class='code text'><code>self.balance              becomes      self[&#x27;get&#x27;](&#x27;balance&#x27;)</code></pre>
+<p>Writing an attribute:</p>
+<pre class='code text'><code>self.balance = 0          becomes      self[&#x27;set&#x27;](&#x27;balance&#x27;, 0)</code></pre>
+<p>Once you internalize that one substitution, the body of (3) reads exactly like the ordinary <code>Account</code> class in (2).</p>
+</div></section>
+<section id='the-local-frame-becomes-a-class-dictionary' class='ls ls-default'>
+<h2 class='ls-h'><span>The Local Frame Becomes a Class Dictionary</span></h2>
+<div class='ls-body'>
+<p>The final line in (3) is the hinge of the whole technique:</p>
+<pre class='code text'><code>return make_class(locals())</code></pre>
+<p>This is the one genuinely new tool in this packet. <code>locals()</code> is a built-in Python function you have not needed before, and it returns a dictionary containing the name-value bindings in the current local frame. Read that line one token at a time.</p>
+<pre class='code anatomy'><code>return make_class(locals())
+├─ return ......... hand a value back to the caller of make_account_class
+├─ make_class ..... the kernel function that builds a class dispatch dictionary
+├─ ( .............. begin the arguments to make_class
+├─ locals() ....... call locals, capturing this frame&#x27;s current name bindings
+├─ ) .............. end the call to make_class
+└─ evaluates to   a class dispatch dictionary with get, set, and new</code></pre>
+<p>Right before that line runs, the local frame for <code>make_account_class</code> holds four names: the class attribute and the three methods just defined.</p>
+<pre class='code text'><code>make_account_class frame
+  interest  -&gt; 0.02
+  __init__  -&gt; function
+  deposit   -&gt; function
+  withdraw  -&gt; function</code></pre>
+<p>So <code>locals()</code> produces a dictionary with exactly those bindings:</p>
+<pre class='code text'><code>{
+  &#x27;interest&#x27;: 0.02,
+  &#x27;__init__&#x27;: &lt;function __init__&gt;,
+  &#x27;deposit&#x27;: &lt;function deposit&gt;,
+  &#x27;withdraw&#x27;: &lt;function withdraw&gt;
+}</code></pre>
+<p>Then <code>make_class</code> wraps that dictionary inside a class dispatch dictionary that responds to messages:</p>
+<pre class='code text'><code>Account class dispatch dictionary
+  &#x27;get&#x27; -&gt; class lookup function
+  &#x27;set&#x27; -&gt; class assignment function
+  &#x27;new&#x27; -&gt; instance creation function</code></pre>
+<p>The original four bindings are now hidden inside the closure of the class&#x27;s lookup function. You no longer see <code>interest</code> sitting at the top level; you ask for it by message.</p>
+</div></section>
+<section id='a-follow-the-line-look-at-the-constructor' class='ls ls-default'>
+<h2 class='ls-h'><span>A Follow-the-Line Look at the Constructor</span></h2>
+<div class='ls-body'>
+<p>Look at the first assignment inside the constructor in (3):</p>
+<pre class='code text'><code>self[&#x27;set&#x27;](&#x27;holder&#x27;, account_holder)</code></pre>
+<p>In ordinary Python this would be <code>self.holder = account_holder</code>. Here it is a message send. Break the line into its tokens.</p>
+<pre class='code anatomy'><code>self[&#x27;set&#x27;](&#x27;holder&#x27;, account_holder)
+├─ self ............. the instance dispatch dictionary being initialized
+├─ [ ............... begin selecting a value out of that dictionary
+├─ &#x27;set&#x27; ........... the key whose value is the instance&#x27;s setter function
+├─ ] ............... end the selection, yielding the setter function
+├─ ( ............... call the setter function
+├─ &#x27;holder&#x27; ........ the attribute name to store on this instance
+├─ , ............... separate the two arguments
+├─ account_holder .. the value to store under that name
+├─ ) ............... end the call
+└─ stores          holder -&gt; account_holder in this instance&#x27;s attributes</code></pre>
+<p>The constructor runs two such lines, so it stores two instance attributes:</p>
+<pre class='code text'><code>holder  -&gt; account_holder
+balance -&gt; 0</code></pre>
+<p>Notice what it does not store. The class attribute <code>interest</code> is never written onto the instance. It stays in the class dictionary, and an instance only sees it through fallback lookup, unless that instance later shadows it.</p>
+</div></section>
+<section id='creating-the-account-class' class='ls ls-default'>
+<h2 class='ls-h'><span>Creating the Account Class</span></h2>
+<div class='ls-body'>
+<p>Now we actually build the class dictionary by calling the maker.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (4)</span>
+<span style="color: #657b83">Account</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">make_account_class()</span>
+</code></pre>
+<p>After (4) runs, the global frame binds <code>Account</code> to a dispatch dictionary:</p>
+<pre class='code text'><code>Account -&gt; {
+  &#x27;get&#x27;: class lookup function,
+  &#x27;set&#x27;: class assignment function,
+  &#x27;new&#x27;: instance creation function
+}</code></pre>
+<p>The account-specific attributes are not visible at the top level of this dictionary. They are sealed inside the closure of the class&#x27;s <code>get_value</code> function. That is precisely why we retrieve them by sending a message rather than by indexing:</p>
+<pre class='code text'><code>Account[&#x27;get&#x27;](&#x27;interest&#x27;)</code></pre>
+</div></section>
+<section id='creating-an-account-instance' class='ls ls-default'>
+<h2 class='ls-h'><span>Creating an Account Instance</span></h2>
+<div class='ls-body'>
+<p>The official example creates an account by sending the <code>&#x27;new&#x27;</code> message to the class.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (5)</span>
+<span style="color: #657b83">kirk_account</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Account[</span><span style="color: #2aa198">&#39;new&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;Kirk&#39;</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>This is the dictionary-object version of the ordinary call <code>Account(&#x27;Kirk&#x27;)</code>. Read the line as tokens.</p>
+<pre class='code anatomy'><code>kirk_account = Account[&#x27;new&#x27;](&#x27;Kirk&#x27;)
+├─ kirk_account .... the name that will hold the finished instance
+├─ = ............... bind that name to the value computed on the right
+├─ Account ......... the class dispatch dictionary
+├─ [&#x27;new&#x27;] ......... select the class&#x27;s instance-creation function
+├─ ( ............... call that function
+├─ &#x27;Kirk&#x27; .......... the account-holder argument passed along to __init__
+├─ ) ............... end the call
+└─ binds          kirk_account to a fresh, initialized instance dictionary</code></pre>
+<p>What does sending <code>&#x27;new&#x27;</code> actually set in motion? Trace the chain through the kernel from (1).</p>
+<pre class='code text'><code>Account[&#x27;new&#x27;](&#x27;Kirk&#x27;)
+  calls new(&#x27;Kirk&#x27;)
+  calls init_instance(Account, &#x27;Kirk&#x27;)
+  calls make_instance(Account)
+  returns a fresh instance dispatch dictionary
+  looks up Account[&#x27;get&#x27;](&#x27;__init__&#x27;)
+  calls __init__(instance, &#x27;Kirk&#x27;)
+  stores holder -&gt; &#x27;Kirk&#x27;
+  stores balance -&gt; 0
+  returns the initialized instance</code></pre>
+<p>The string <code>&#x27;Kirk&#x27;</code> is not stored by <code>new</code> itself. It rides along as <code>account_holder</code>, and <code>__init__</code> is the code that finally files it under the instance attribute name <code>&#x27;holder&#x27;</code>.</p>
+</div></section>
+<section id='retrieving-attributes-and-calling-methods' class='ls ls-default'>
+<h2 class='ls-h'><span>Retrieving Attributes and Calling Methods</span></h2>
+<div class='ls-body'>
+<p>Now send messages to the finished instance. This is the official transcript.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (6)</span>
+<span style="color: #657b83">kirk_account[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;holder&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">kirk_account[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;interest&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">kirk_account[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;deposit&#39;</span><span style="color: #657b83">)(</span><span style="color: #2aa198">20</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">kirk_account[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;withdraw&#39;</span><span style="color: #657b83">)(</span><span style="color: #2aa198">5</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>Running those four lines in the interpreter produces:</p>
+<pre class='code text'><code>&#x27;Kirk&#x27;
+0.02
+20
+15</code></pre>
+<p>Every line uses the one lookup rule built into <code>make_instance</code>: check the instance&#x27;s own attributes first, and fall back to the class only if the instance is silent.</p>
+<div class='table-wrap'><table><thead><tr>
+<th>Expression</th>
+<th>What happens</th>
+</tr></thead><tbody>
+<tr>
+<td><code>kirk_account[&#x27;get&#x27;](&#x27;holder&#x27;)</code></td>
+<td>Finds <code>&#x27;holder&#x27;</code> in the instance&#x27;s own attributes</td>
+</tr>
+<tr>
+<td><code>kirk_account[&#x27;get&#x27;](&#x27;interest&#x27;)</code></td>
+<td>Not found locally, so the instance asks <code>Account</code></td>
+</tr>
+<tr>
+<td><code>kirk_account[&#x27;get&#x27;](&#x27;deposit&#x27;)</code></td>
+<td>Found in <code>Account</code>, then bound to <code>kirk_account</code></td>
+</tr>
+<tr>
+<td><code>kirk_account[&#x27;get&#x27;](&#x27;withdraw&#x27;)</code></td>
+<td>Found in <code>Account</code>, then bound to <code>kirk_account</code></td>
+</tr>
+</tbody></table></div>
+<p>The last two lines are method calls, and a method call here happens in two visible stages. Look at the structure of one of them.</p>
+<pre class='code anatomy'><code>kirk_account[&#x27;get&#x27;](&#x27;deposit&#x27;)(20)
+├─ kirk_account[&#x27;get&#x27;](&#x27;deposit&#x27;) .. retrieve deposit and bind it to kirk_account
+├─ ( ............................... call the bound method
+├─ 20 .............................. the one visible argument: the amount
+├─ ) ............................... end the call
+└─ evaluates to                    20, the new balance</code></pre>
+<p>The first stage returns a bound method: a function that already has <code>kirk_account</code> waiting inside it as <code>self</code>. The second stage calls that bound method with the single visible argument <code>20</code>. The instance is the hidden argument; you never type it.</p>
+</div></section>
+<section id='a-full-trace-of-deposit20' class='ls ls-default'>
+<h2 class='ls-h'><span>A Full Trace of <code>deposit(20)</code></span></h2>
+<div class='ls-body'>
+<p>It is worth slowing the method call all the way down, because this is where the purpose of bound methods becomes concrete. The call:</p>
+<pre class='code text'><code>kirk_account[&#x27;get&#x27;](&#x27;deposit&#x27;)(20)</code></pre>
+<p>unfolds step by step:</p>
+<pre class='code text'><code>1.  Ask kirk_account for &#x27;deposit&#x27;.
+2.  &#x27;deposit&#x27; is not in kirk_account&#x27;s own attributes.
+3.  The instance asks Account for &#x27;deposit&#x27;.
+4.  Account returns the deposit function.
+5.  bind_method wraps deposit, with kirk_account waiting inside as self.
+6.  Call the bound method with amount -&gt; 20.
+7.  The bound method calls deposit(kirk_account, 20).
+8.  deposit asks kirk_account for &#x27;balance&#x27;.
+9.  The current balance is 0.
+10. deposit computes 0 + 20.
+11. deposit stores kirk_account&#x27;s &#x27;balance&#x27; as 20.
+12. deposit returns the updated balance, 20.</code></pre>
+<p>The whole point: you wrote one argument, <code>20</code>, but the method body received two, because binding silently slipped <code>kirk_account</code> in front as <code>self</code>.</p>
+</div></section>
+<section id='instance-attributes-can-shadow-class-attributes' class='ls ls-default'>
+<h2 class='ls-h'><span>Instance Attributes Can Shadow Class Attributes</span></h2>
+<div class='ls-body'>
+<p>In Python&#x27;s built-in system, assigning an attribute on an instance does not change the matching attribute on its class. Our implementation has the same behavior, and the official transcript demonstrates it.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (7)</span>
+<span style="color: #657b83">kirk_account[</span><span style="color: #2aa198">&#39;set&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;interest&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0.04</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">Account[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;interest&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">kirk_account[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;interest&#39;</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>After the assignment, the two reads disagree:</p>
+<pre class='code text'><code>0.02
+0.04</code></pre>
+<p>Why do they disagree? Because the setter writes into the receiver&#x27;s own attribute dictionary and nowhere else. The line:</p>
+<pre class='code text'><code>kirk_account[&#x27;set&#x27;](&#x27;interest&#x27;, 0.04)</code></pre>
+<p>stores <code>&#x27;interest&#x27;</code> in the instance&#x27;s private attributes. It is emphatically not the same as:</p>
+<pre class='code text'><code>Account[&#x27;set&#x27;](&#x27;interest&#x27;, 0.04)</code></pre>
+<p>So the class still holds its original value:</p>
+<pre class='code text'><code>interest -&gt; 0.02</code></pre>
+<p>while the instance now holds its own:</p>
+<pre class='code text'><code>interest -&gt; 0.04</code></pre>
+<p>On every later lookup, the instance value wins, because instance lookup checks local attributes before falling back to the class. This is the negotiated-vacation note from our analogy: it goes in the personal folder and leaves the shared binder untouched.</p>
+</div></section>
+<section id='rebuilding-inheritance' class='ls ls-default'>
+<h2 class='ls-h'><span>Rebuilding Inheritance</span></h2>
+<div class='ls-body'>
+<p>Now we build a subclass, <code>CheckingAccount</code>, a checking account that charges a small fee on each withdrawal. In ordinary Python from the data-and-state chapter it looked like this:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (8)</span>
+<span style="color: #859900">class</span> <span style="color: #268bd2">CheckingAccount</span><span style="color: #657b83">(Account):</span>
+    <span style="color: #657b83">interest</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0.01</span>
+    <span style="color: #657b83">withdraw_charge</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">1</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">withdraw</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">amount):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">Account</span><span style="color: #93a1a1">.</span><span style="color: #657b83">withdraw(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">amount</span> <span style="color: #93a1a1">+</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">withdraw_charge)</span>
+</code></pre>
+<p>The dictionary-based version follows the same design: redefine the names that change, and reuse everything else from the base class.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (9)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">make_checking_account_class</span><span style="color: #657b83">():</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return the CheckingAccount class, which imposes a 1-unit withdrawal fee.&quot;&quot;&quot;</span>
+    <span style="color: #657b83">interest</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0.01</span>
+    <span style="color: #657b83">withdraw_fee</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">1</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">withdraw</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">amount):</span>
+        <span style="color: #657b83">fee</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #657b83">[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;withdraw_fee&#39;</span><span style="color: #657b83">)</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">Account[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;withdraw&#39;</span><span style="color: #657b83">)(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">amount</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">fee)</span>
+
+    <span style="color: #859900">return</span> <span style="color: #657b83">make_class(</span><span style="color: #268bd2">locals</span><span style="color: #657b83">(),</span> <span style="color: #657b83">Account)</span>
+</code></pre>
+<p>The final line is where inheritance is wired up. Read it as tokens.</p>
+<pre class='code anatomy'><code>return make_class(locals(), Account)
+├─ return ......... hand the finished subclass back to the caller
+├─ make_class ..... the kernel function that builds a class dispatch dictionary
+├─ ( .............. begin the arguments
+├─ locals() ....... this subclass&#x27;s own attributes: interest, withdraw_fee, withdraw
+├─ , .............. separate the two arguments
+├─ Account ........ the base class to consult when a name is missing here
+├─ ) .............. end the call
+└─ evaluates to   a subclass dictionary whose fallback parent is Account</code></pre>
+<p>The first argument is the subclass&#x27;s own bindings:</p>
+<pre class='code text'><code>interest     -&gt; 0.01
+withdraw_fee -&gt; 1
+withdraw     -&gt; specialized withdraw function</code></pre>
+<p>The second argument is the base class, <code>Account</code>. So whenever <code>CheckingAccount</code> is asked for a name it does not have, it forwards the question to <code>Account</code>.</p>
+</div></section>
+<section id='a-follow-the-line-look-at-calling-the-base-class' class='ls ls-default'>
+<h2 class='ls-h'><span>A Follow-the-Line Look at Calling the Base Class</span></h2>
+<div class='ls-body'>
+<p>The specialized <code>withdraw</code> ends with a deliberately tricky line:</p>
+<pre class='code text'><code>return Account[&#x27;get&#x27;](&#x27;withdraw&#x27;)(self, amount + fee)</code></pre>
+<p>It calls the base class&#x27;s <code>withdraw</code> by hand. Break it into tokens.</p>
+<pre class='code anatomy'><code>return Account[&#x27;get&#x27;](&#x27;withdraw&#x27;)(self, amount + fee)
+├─ return ........... hand the resulting balance back to the caller
+├─ Account .......... the base class dispatch dictionary
+├─ [&#x27;get&#x27;] .......... select the base class&#x27;s lookup function
+├─ (&#x27;withdraw&#x27;) ..... ask the base class for its own withdraw function
+├─ ( ................ call that base-class function directly
+├─ self ............. pass the instance explicitly, since this is not a bound call
+├─ , ................ separate the arguments
+├─ amount + fee ..... the larger amount: the request plus the checking fee
+├─ ) ................ end the call
+└─ evaluates to     the base class&#x27;s new balance after the fee-inflated withdrawal</code></pre>
+<p>Two details earn the trouble. First, we pass <code>self</code> explicitly. We retrieved <code>withdraw</code> from <code>Account</code> rather than from the instance, so it never got bound, which means it still expects the instance as its first argument. Second, and more important, we ask <code>Account</code> for <code>withdraw</code> rather than asking <code>self</code>. If this method called <code>self[&#x27;get&#x27;](&#x27;withdraw&#x27;)</code>, lookup would find the checking-account override again, and the method would call itself forever. Asking the base class directly is how a subclass reaches the original method it is overriding.</p>
+</div></section>
+<section id='creating-and-using-the-subclass' class='ls ls-default'>
+<h2 class='ls-h'><span>Creating and Using the Subclass</span></h2>
+<div class='ls-body'>
+<p>Now build the subclass and open one checking account.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (10)</span>
+<span style="color: #657b83">CheckingAccount</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">make_checking_account_class()</span>
+<span style="color: #657b83">jack_acct</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">CheckingAccount[</span><span style="color: #2aa198">&#39;new&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;Spock&#39;</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>The official transcript checks the changed interest, the inherited deposit, and the overriding withdraw.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (11)</span>
+<span style="color: #657b83">jack_acct[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;interest&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">jack_acct[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;deposit&#39;</span><span style="color: #657b83">)(</span><span style="color: #2aa198">20</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">jack_acct[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;withdraw&#39;</span><span style="color: #657b83">)(</span><span style="color: #2aa198">5</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>The results are:</p>
+<pre class='code text'><code>0.01
+20
+14</code></pre>
+<p>The first two are easy: <code>interest</code> is found right on <code>CheckingAccount</code>, and <code>deposit</code> is inherited from <code>Account</code>. The third is the interesting one. Why is the final balance <code>14</code> rather than <code>15</code>? Trace the arithmetic.</p>
+<pre class='code text'><code>Start balance:                       0
+Deposit 20:                          0 + 20 = 20
+Withdraw request:                    5
+Checking fee added by the override:  1
+Amount passed to Account.withdraw:   5 + 1 = 6
+Final balance:                       20 - 6 = 14</code></pre>
+<p>The override inflates the requested amount by the one-unit fee before handing it to the inherited withdrawal logic, so a 5-unit request actually removes 6.</p>
+</div></section>
+<section id='what-is-inherited' class='ls ls-default'>
+<h2 class='ls-h'><span>What Is Inherited</span></h2>
+<div class='ls-body'>
+<p>The <code>CheckingAccount</code> class defines only the names it changes:</p>
+<pre class='code text'><code>interest
+withdraw_fee
+withdraw</code></pre>
+<p>It deliberately does not define these:</p>
+<pre class='code text'><code>__init__
+deposit</code></pre>
+<p>So when those names are needed, lookup climbs the chain of binders. When <code>CheckingAccount[&#x27;new&#x27;](&#x27;Spock&#x27;)</code> needs <code>__init__</code>:</p>
+<pre class='code text'><code>CheckingAccount
+  does not have &#x27;__init__&#x27;
+Account
+  has &#x27;__init__&#x27;</code></pre>
+<p>When <code>jack_acct[&#x27;get&#x27;](&#x27;deposit&#x27;)</code> needs <code>deposit</code>:</p>
+<pre class='code text'><code>jack_acct local attributes
+  no &#x27;deposit&#x27;
+CheckingAccount
+  no &#x27;deposit&#x27;
+Account
+  has &#x27;deposit&#x27;
+bind deposit to jack_acct</code></pre>
+<p>When <code>jack_acct[&#x27;get&#x27;](&#x27;withdraw&#x27;)</code> needs <code>withdraw</code>:</p>
+<pre class='code text'><code>jack_acct local attributes
+  no &#x27;withdraw&#x27;
+CheckingAccount
+  has &#x27;withdraw&#x27;
+bind CheckingAccount.withdraw to jack_acct</code></pre>
+<p>That is inheritance, expressed entirely as dictionary lookup with a fallback parent.</p>
+</div></section>
+<section id='a-warm-up-you-can-verify-by-hand' class='ls ls-default'>
+<h2 class='ls-h'><span>A Warm-Up You Can Verify by Hand</span></h2>
+<div class='ls-body'>
+<p>Before leaning on the full kernel, it helps to see the shadow-and-fallback rule in miniature, using nothing but two plain dictionaries and a tiny lookup function. This is not the official example; it is a bridge to make the rule obvious, and you can run it in your head.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (12)</span>
+<span style="color: #657b83">shared_binder</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">{</span><span style="color: #2aa198">&#39;vacation&#39;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">10</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;title&#39;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&#39;Staff&#39;</span><span style="color: #657b83">}</span>
+<span style="color: #657b83">folder</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">{</span><span style="color: #2aa198">&#39;name&#39;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&#39;Kirk&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;vacation&#39;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">25</span><span style="color: #657b83">}</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">look_up</span><span style="color: #657b83">(name):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">name</span> <span style="color: #859900">in</span> <span style="color: #657b83">folder:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">folder[name]</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">shared_binder[name]</span>
+
+<span style="color: #657b83">look_up(</span><span style="color: #2aa198">&#39;vacation&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">look_up(</span><span style="color: #2aa198">&#39;title&#39;</span><span style="color: #657b83">)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/d043d3c932ab.json' data-mount='st1'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st1' hidden></div></figure>
+<p>Trace it by hand. The call <code>look_up(&#x27;vacation&#x27;)</code> finds <code>&#x27;vacation&#x27;</code> in <code>folder</code>, so it returns <code>25</code>, the personal override. The call <code>look_up(&#x27;title&#x27;)</code> does not find <code>&#x27;title&#x27;</code> in <code>folder</code>, so it falls back to <code>shared_binder</code> and returns <code>&#x27;Staff&#x27;</code>. The values are:</p>
+<pre class='code text'><code>25
+&#x27;Staff&#x27;</code></pre>
+<p>This is the entire instance-then-class lookup rule, stripped of method binding and constructors. The official kernel adds those features back, but the heart of it is just &quot;check my own dictionary, then fall back.&quot;</p>
+</div></section>
+<section id='built-in-python-uses-a-similar-storage-idea' class='ls ls-default'>
+<h2 class='ls-h'><span>Built-In Python Uses a Similar Storage Idea</span></h2>
+<div class='ls-body'>
+<p>Python&#x27;s built-in object system is far more sophisticated than our small one. It supports metaclasses, descriptors, static methods, class methods, multiple inheritance, introspection, and a long list of special protocols. Python also distinguishes certain special methods that interact with built-in functions, so that those functions behave correctly across many different types. We are not reproducing any of that.</p>
+<p>But the core storage idea is the same. In Python, an ordinary instance keeps its own attributes in a dictionary named <code>__dict__</code>, much like the <code>attributes</code> dictionary inside our <code>make_instance</code>.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (13)</span>
+<span style="color: #859900">class</span> <span style="color: #268bd2">SimpleAccount</span><span style="color: #657b83">:</span>
+    <span style="color: #657b83">interest</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0.02</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">holder):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">holder</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">holder</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">balance</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+
+
+<span style="color: #657b83">simple</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">SimpleAccount(</span><span style="color: #2aa198">&#39;Kirk&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">simple</span><span style="color: #93a1a1">.</span><span style="color: #268bd2">__dict__</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/faa122765103.json' data-mount='st2'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st2' hidden></div></figure>
+<p>The last line produces a dictionary shaped like this:</p>
+<pre class='code text'><code>{&#x27;holder&#x27;: &#x27;Kirk&#x27;, &#x27;balance&#x27;: 0}</code></pre>
+<p>The class attribute <code>interest</code> is not inside <code>simple.__dict__</code>. It lives on the class, and the instance only sees it through fallback, exactly as in our system. Now watch the built-in shadowing behavior directly.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (14)</span>
+<span style="color: #657b83">simple</span><span style="color: #93a1a1">.</span><span style="color: #657b83">interest</span>
+<span style="color: #657b83">simple</span><span style="color: #93a1a1">.</span><span style="color: #657b83">interest</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0.04</span>
+<span style="color: #657b83">simple</span><span style="color: #93a1a1">.</span><span style="color: #268bd2">__dict__</span>
+<span style="color: #657b83">SimpleAccount</span><span style="color: #93a1a1">.</span><span style="color: #657b83">interest</span>
+</code></pre>
+<p>The two readings that matter are:</p>
+<pre class='code text'><code>simple.interest        -&gt; 0.04
+SimpleAccount.interest -&gt; 0.02</code></pre>
+<p>After the assignment, <code>simple.__dict__</code> has gained its own <code>&#x27;interest&#x27;</code> entry, and the instance reading returns <code>0.04</code> while the class still holds <code>0.02</code>. This is the same outcome you saw in code (7). The takeaway is that <code>__dict__</code> is not a mysterious internal feature once you have built the storage-plus-lookup pattern yourself:</p>
+<pre class='code text'><code>instance attributes can shadow class attributes</code></pre>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<div class='table-wrap'><table><thead><tr>
+<th>Mistake</th>
+<th>Why it happens</th>
+<th>Correct model</th>
+</tr></thead><tbody>
+<tr>
+<td>Writing <code>self.balance</code> inside this system</td>
+<td>Reflex to use built-in dot notation</td>
+<td><code>self</code> is a dispatch dictionary, so use <code>self[&#x27;get&#x27;]</code> and <code>self[&#x27;set&#x27;]</code>; dotting it raises <code>AttributeError: &#x27;dict&#x27; object has no attribute &#x27;balance&#x27;</code></td>
+</tr>
+<tr>
+<td>Calling <code>Account[&#x27;get&#x27;](&#x27;withdraw&#x27;)(amount + fee)</code></td>
+<td>Forgetting the base method is unbound</td>
+<td>An unbound base method still needs the instance: <code>Account[&#x27;get&#x27;](&#x27;withdraw&#x27;)(self, amount + fee)</code>; omitting <code>self</code> passes the amount in its place and raises <code>TypeError: withdraw() missing 1 required positional argument: &#x27;amount&#x27;</code></td>
+</tr>
+<tr>
+<td>Calling <code>self[&#x27;get&#x27;](&#x27;withdraw&#x27;)</code> inside <code>CheckingAccount.withdraw</code></td>
+<td>Wanting the original method</td>
+<td>That finds the override again and recurses forever; ask the base class directly to bypass the override</td>
+</tr>
+<tr>
+<td>Expecting <code>kirk_account[&#x27;set&#x27;](&#x27;interest&#x27;, 0.04)</code> to change <code>Account</code></td>
+<td>Thinking set edits the shared value</td>
+<td>A set message stores in the receiver&#x27;s own dictionary; instance assignment shadows, it does not edit the class</td>
+</tr>
+<tr>
+<td>Thinking <code>locals()</code> keeps tracking later changes</td>
+<td>Imagining it as a live view</td>
+<td><code>locals()</code> captures the bindings present at the moment it is called; the class is built from that snapshot</td>
+</tr>
+<tr>
+<td>Forgetting why <code>deposit</code> is inherited</td>
+<td>Expecting a subclass to redefine everything</td>
+<td>A subclass defines only the names it changes; missing names fall back to the base class</td>
+</tr>
+</tbody></table></div>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<p>Use these checks to make sure the account system is a machine you can trace, not a spell you have memorized.</p>
+<ol>
+<li>When <code>kirk_account[&#x27;get&#x27;](&#x27;interest&#x27;)</code> runs before any local interest is set, where is <code>interest</code> found?</li>
+<li>After <code>kirk_account[&#x27;set&#x27;](&#x27;interest&#x27;, 0.04)</code>, why does <code>Account[&#x27;get&#x27;](&#x27;interest&#x27;)</code> still produce <code>0.02</code>?</li>
+<li>Why does <code>CheckingAccount.withdraw</code> call <code>Account[&#x27;get&#x27;](&#x27;withdraw&#x27;)(self, amount + fee)</code> instead of <code>self[&#x27;get&#x27;](&#x27;withdraw&#x27;)(amount + fee)</code>?</li>
+<li>In the checking-account example, why does <code>jack_acct[&#x27;get&#x27;](&#x27;deposit&#x27;)(20)</code> work even though <code>make_checking_account_class</code> never defines <code>deposit</code>?</li>
+<li>Open a fresh checking account, deposit 30, then withdraw 10: <code>acct = CheckingAccount[&#x27;new&#x27;](&#x27;Uhura&#x27;)</code>, <code>acct[&#x27;get&#x27;](&#x27;deposit&#x27;)(30)</code>, <code>acct[&#x27;get&#x27;](&#x27;withdraw&#x27;)(10)</code>. What final balance does the last call return?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li>It is found on the <code>Account</code> class through fallback lookup, because the instance has no local <code>interest</code> yet.</li>
+<li>The <code>set</code> message sent to <code>kirk_account</code> stores a local instance attribute, which shadows the class attribute instead of editing it; the class value is untouched.</li>
+<li><code>self[&#x27;get&#x27;](&#x27;withdraw&#x27;)</code> would find the checking-account override again and recurse forever. Asking <code>Account</code> directly retrieves the original base-class method, and <code>self</code> is passed explicitly because that retrieved method is unbound.</li>
+<li>Missing names in <code>CheckingAccount</code> fall back to <code>Account</code>, so <code>deposit</code> is inherited and then bound to <code>jack_acct</code>.</li>
+<li><code>19</code>. The deposit raises the balance to <code>30</code>, and the checking override inflates the 10-unit request by the 1-unit fee before delegating to the inherited <code>Account</code> withdraw, so it removes <code>11</code>, leaving <code>30 - 11 = 19</code>.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>This packet turned the object-system kernel into a working program. <code>make_account_class</code> collects class attributes and methods in a local frame and hands that frame to <code>make_class</code>, producing a class dictionary that answers <code>get</code>, <code>set</code>, and <code>new</code>. Sending <code>Account[&#x27;new&#x27;](&#x27;Kirk&#x27;)</code> builds an instance, runs <code>__init__</code> to file away <code>holder</code> and <code>balance</code>, and returns a dispatch dictionary. Reading an attribute checks the instance first and falls back to the class; calling a method retrieves it, binds the instance in as <code>self</code>, and runs it with your one visible argument as the second. Assigning an attribute on an instance shadows the class value without disturbing it. <code>CheckingAccount</code> shows inheritance: it overrides <code>interest</code> and <code>withdraw</code>, reuses <code>deposit</code> and <code>__init__</code> by fallback, and reaches its parent&#x27;s original <code>withdraw</code> by asking <code>Account</code> directly. Because Python&#x27;s real objects store their own attributes in <code>__dict__</code> and resolve names with the same instance-then-class rule, the built-in <code>class</code> statement is now far less mysterious: objects and classes are organized around attribute storage plus lookup rules.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>This checkpoint is longer than usual, but self-contained: the kernel, then the account class, then the calls that change the balance. Watching it draws the <strong>environment diagram</strong> that exposes inheritance as plain closures: <code>kirk_account</code> and <code>Account</code> are dispatch dictionaries on the heap, the instance&#x27;s <code>get_value</code> closes over its private <code>attributes</code> while the class&#x27;s <code>get_value</code> closes over the snapshot <code>locals()</code> handed to <code>make_class</code>, and each <code>bind_method</code> call produces a short-lived <code>method</code> frame that captures <code>kirk_account</code> as the <code>self</code> slipped in before your one visible argument. Before you step through the block below, write down three predictions: which frame gains <code>holder</code> and <code>balance</code> when <code>__init__</code> runs, how many times <code>bind_method</code> is called over the whole run, and how many frames open to evaluate the line that binds <code>after_deposit</code>.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (15)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">make_instance</span><span style="color: #657b83">(</span><span style="color: #268bd2">cls</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">get_value</span><span style="color: #657b83">(name):</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">name</span> <span style="color: #859900">in</span> <span style="color: #657b83">attributes:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">attributes[name]</span>
+        <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+            <span style="color: #657b83">value</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">cls</span><span style="color: #657b83">[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](name)</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">bind_method(value,</span> <span style="color: #657b83">instance)</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">set_value</span><span style="color: #657b83">(name,</span> <span style="color: #657b83">value):</span>
+        <span style="color: #657b83">attributes[name]</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">value</span>
+    <span style="color: #657b83">attributes</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">{}</span>
+    <span style="color: #657b83">instance</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">{</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">:</span> <span style="color: #657b83">get_value,</span> <span style="color: #2aa198">&#39;set&#39;</span><span style="color: #657b83">:</span> <span style="color: #657b83">set_value}</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">instance</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">bind_method</span><span style="color: #657b83">(value,</span> <span style="color: #657b83">instance):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">callable(value):</span>
+        <span style="color: #859900">def</span> <span style="color: #268bd2">method</span><span style="color: #657b83">(</span><span style="color: #93a1a1">*</span><span style="color: #657b83">args):</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">value(instance,</span> <span style="color: #93a1a1">*</span><span style="color: #657b83">args)</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">method</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">value</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">make_class</span><span style="color: #657b83">(attributes,</span> <span style="color: #657b83">base_class</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">None</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">get_value</span><span style="color: #657b83">(name):</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">name</span> <span style="color: #859900">in</span> <span style="color: #657b83">attributes:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">attributes[name]</span>
+        <span style="color: #859900">elif</span> <span style="color: #657b83">base_class</span> <span style="color: #859900">is</span> <span style="color: #859900">not</span> <span style="color: #2aa198">None</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">base_class[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](name)</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">set_value</span><span style="color: #657b83">(name,</span> <span style="color: #657b83">value):</span>
+        <span style="color: #657b83">attributes[name]</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">value</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">new</span><span style="color: #657b83">(</span><span style="color: #93a1a1">*</span><span style="color: #657b83">args):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">init_instance(</span><span style="color: #268bd2">cls</span><span style="color: #657b83">,</span> <span style="color: #93a1a1">*</span><span style="color: #657b83">args)</span>
+    <span style="color: #268bd2">cls</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">{</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">:</span> <span style="color: #657b83">get_value,</span> <span style="color: #2aa198">&#39;set&#39;</span><span style="color: #657b83">:</span> <span style="color: #657b83">set_value,</span> <span style="color: #2aa198">&#39;new&#39;</span><span style="color: #657b83">:</span> <span style="color: #657b83">new}</span>
+    <span style="color: #859900">return</span> <span style="color: #268bd2">cls</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">init_instance</span><span style="color: #657b83">(</span><span style="color: #268bd2">cls</span><span style="color: #657b83">,</span> <span style="color: #93a1a1">*</span><span style="color: #657b83">args):</span>
+    <span style="color: #657b83">instance</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">make_instance(</span><span style="color: #268bd2">cls</span><span style="color: #657b83">)</span>
+    <span style="color: #657b83">init</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">cls</span><span style="color: #657b83">[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;__init__&#39;</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">init:</span>
+        <span style="color: #657b83">init(instance,</span> <span style="color: #93a1a1">*</span><span style="color: #657b83">args)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">instance</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">make_account_class</span><span style="color: #657b83">():</span>
+    <span style="color: #657b83">interest</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0.02</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">account_holder):</span>
+        <span style="color: #268bd2">self</span><span style="color: #657b83">[</span><span style="color: #2aa198">&#39;set&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;holder&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">account_holder)</span>
+        <span style="color: #268bd2">self</span><span style="color: #657b83">[</span><span style="color: #2aa198">&#39;set&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">deposit</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">amount):</span>
+        <span style="color: #657b83">new_balance</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #657b83">[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">amount</span>
+        <span style="color: #268bd2">self</span><span style="color: #657b83">[</span><span style="color: #2aa198">&#39;set&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">new_balance)</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #657b83">[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">withdraw</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">amount):</span>
+        <span style="color: #657b83">balance</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #657b83">[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">)</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">amount</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #657b83">balance:</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;Insufficient funds&#39;</span>
+        <span style="color: #268bd2">self</span><span style="color: #657b83">[</span><span style="color: #2aa198">&#39;set&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">balance</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">amount)</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #657b83">[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">make_class(</span><span style="color: #268bd2">locals</span><span style="color: #657b83">())</span>
+
+<span style="color: #657b83">Account</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">make_account_class()</span>
+<span style="color: #657b83">kirk_account</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Account[</span><span style="color: #2aa198">&#39;new&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;Kirk&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">holder</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">kirk_account[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;holder&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">starting_interest</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">kirk_account[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;interest&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">after_deposit</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">kirk_account[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;deposit&#39;</span><span style="color: #657b83">)(</span><span style="color: #2aa198">20</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">after_withdrawal</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">kirk_account[</span><span style="color: #2aa198">&#39;get&#39;</span><span style="color: #657b83">](</span><span style="color: #2aa198">&#39;withdraw&#39;</span><span style="color: #657b83">)(</span><span style="color: #2aa198">5</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>Step through it one line at a time and check each prediction as the frames appear. The <code>__init__</code> writes land in the <code>attributes</code> dictionary inside the <code>make_instance</code> frame, not in the global frame; that closure holds the instance&#x27;s state. <code>bind_method</code> runs three times, for the <code>interest</code>, <code>deposit</code>, and <code>withdraw</code> lookups: it hands <code>0.02</code> back unchanged because a number is not callable, but wraps the two functions with <code>kirk_account</code> waiting inside as <code>self</code>. The <code>after_deposit</code> line opens roughly eight frames, which you can reconstruct one at a time: the instance <code>get_value</code> lookup for <code>&#x27;deposit&#x27;</code>, the class <code>get_value</code> lookup it falls back to, the <code>bind_method</code> call, the <code>method</code> wrapper that bound call enters, the <code>deposit</code> call itself, and then the three balance operations inside <code>deposit</code> — the <code>get</code> that reads <code>balance</code>, the <code>set</code> that stores the new balance, and the final <code>get</code> that returns it. The <code>deposit</code> body receives two arguments though you typed one. The global frame finishes with <code>holder</code> bound to <code>&#x27;Kirk&#x27;</code>, <code>starting_interest</code> to <code>0.02</code>, <code>after_deposit</code> to <code>20</code>, and <code>after_withdrawal</code> to <code>15</code>.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>2.6-A Instances, Classes, and Bound Methods</span></a><a class='pg pg-next' href='/program-design-and-abstraction/2-7-a-string-conversion/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>2.7-A String Conversion</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#an-analogy-a-company-directory'>An Analogy: A Company Directory</a></li><li><a href='#the-object-system-kernel'>The Object System Kernel</a></li><li><a href='#rebuilding-the-account-class'>Rebuilding the Account Class</a></li><li><a href='#the-local-frame-becomes-a-class-dictionary'>The Local Frame Becomes a Class Dictionary</a></li><li><a href='#a-follow-the-line-look-at-the-constructor'>A Follow-the-Line Look at the Constructor</a></li><li><a href='#creating-the-account-class'>Creating the Account Class</a></li><li><a href='#creating-an-account-instance'>Creating an Account Instance</a></li><li><a href='#retrieving-attributes-and-calling-methods'>Retrieving Attributes and Calling Methods</a></li><li><a href='#a-full-trace-of-deposit20'>A Full Trace of deposit(20)</a></li><li><a href='#instance-attributes-can-shadow-class-attributes'>Instance Attributes Can Shadow Class Attributes</a></li><li><a href='#rebuilding-inheritance'>Rebuilding Inheritance</a></li><li><a href='#a-follow-the-line-look-at-calling-the-base-class'>A Follow-the-Line Look at Calling the Base Class</a></li><li><a href='#creating-and-using-the-subclass'>Creating and Using the Subclass</a></li><li><a href='#what-is-inherited'>What Is Inherited</a></li><li><a href='#a-warm-up-you-can-verify-by-hand'>A Warm-Up You Can Verify by Hand</a></li><li><a href='#built-in-python-uses-a-similar-storage-idea'>Built-In Python Uses a Similar Storage Idea</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 384" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- ===================== CALL STACK (bottom to top) ===================== -->
+
+  <!-- TOP frame: the line that raises the exception (red warning) -->
+  <rect x="178" y="24" width="384" height="52" rx="12" fill="#ffffff" stroke="#dc322f" stroke-width="2.5"/>
+  <text x="370" y="48" text-anchor="middle" font-size="17" font-family="monospace" fill="#073642">1 / x</text>
+  <text x="370" y="67" text-anchor="middle" font-size="12" fill="#dc322f">raises ZeroDivisionError</text>
+
+  <!-- frame: invert(0) -->
+  <rect x="178" y="108" width="384" height="48" rx="12" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="370" y="138" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">invert(0)</text>
+
+  <!-- frame: invert_safe(0) -->
+  <rect x="178" y="188" width="384" height="48" rx="12" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="370" y="218" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">invert_safe(0)</text>
+
+  <!-- BOTTOM frame: the handler (cream, emphasized) -->
+  <rect x="178" y="268" width="384" height="56" rx="14" fill="#fdf6e3" stroke="#073642" stroke-width="2.5"/>
+  <text x="370" y="293" text-anchor="middle" font-size="17" font-family="monospace" font-weight="bold" fill="#073642">try: ... except ZeroDivisionError:</text>
+  <text x="370" y="313" text-anchor="middle" font-size="12" fill="#657b83">the nearest handler</text>
+
+  <!-- ===================== NORMAL PATH: faint up-arrows between frames (right) ===================== -->
+  <!-- the normal way values return: one frame at a time, going up -->
+  <line x1="600" y1="268" x2="600" y2="240" stroke="#268bd2" stroke-width="2" opacity="0.35"/>
+  <polygon points="595,248 600,236 605,248" fill="#268bd2" opacity="0.35"/>
+  <line x1="600" y1="188" x2="600" y2="160" stroke="#268bd2" stroke-width="2" opacity="0.35"/>
+  <polygon points="595,168 600,156 605,168" fill="#268bd2" opacity="0.35"/>
+  <line x1="600" y1="108" x2="600" y2="80" stroke="#268bd2" stroke-width="2" opacity="0.35"/>
+  <polygon points="595,88 600,76 605,88" fill="#268bd2" opacity="0.35"/>
+  <text x="639" y="174" text-anchor="middle" font-size="12" fill="#93a1a1" transform="rotate(90 639 174)">normal returns</text>
+
+  <!-- ===================== EXCEPTION JUMP: one bold red arrow, top straight down to handler (left) ===================== -->
+  <line x1="140" y1="36" x2="140" y2="296" stroke="#dc322f" stroke-width="4"/>
+  <polygon points="132,288 140,302 148,288" fill="#dc322f"/>
+  <text x="101" y="166" text-anchor="middle" font-size="13" font-family="monospace" fill="#dc322f" transform="rotate(-90 101 166)">the exception jumps</text>
+
+  <!-- ===================== CAPTION ===================== -->
+  <text x="350" y="354" text-anchor="middle" font-size="12.5" fill="#93a1a1">a raised exception unwinds the stack, jumping straight to the nearest handler</text>
+  <text x="350" y="372" text-anchor="middle" font-size="12.5" fill="#93a1a1">and skipping the normal returns in between.</text>
+</svg>

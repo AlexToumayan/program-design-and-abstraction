@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>2.5 Dot Expressions, Methods, and Class Attributes · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/' class='active'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 2</span><span class='dot'>/</span><span class='eb-sec'>2.5 Object-Oriented Programming</span></div><h1 class='lesson-title'>2.5 Dot Expressions, Methods, and Class Attributes</h1><div class='reading-meta'>&#9719; approx. 18 min read <span class='rm-sep'>&middot;</span> 12 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>In the previous lesson you built account objects. Each account had its own <code>balance</code> and <code>holder</code>, and the methods <code>deposit</code> and <code>withdraw</code> changed that one account. You already wrote dot expressions like <code>spock_account.deposit(90)</code> without slowing down to ask what the dot actually does.</p>
+<p>This lesson slows down the dot. By the end you will be able to do four things. You will read any dot expression by breaking it into its parts and predicting the value. You will explain why <code>Account.deposit</code> and <code>spock_account.deposit</code> print as two different kinds of value, even though they run the same body. You will store a value once, on a class, and have every instance share it. And you will trace, step by step, the exact order Python uses to resolve a name after a dot, so that you can predict which value wins when an instance and its class both define the same name.</p>
+<p>The whole lesson rests on one habit you have been building since day one: when code looks dense, separate it into the smallest meaningful pieces and evaluate one piece at a time.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='the-dot-is-a-request-to-an-object' class='ls ls-default'>
+<h2 class='ls-h'><span>The Dot Is a Request to an Object</span></h2>
+<div class='ls-body'>
+<p>Picture the front desk of a large building. You do not wander the halls yourself. You walk up to one specific desk, say a name, and the desk either hands you a piece of information it is holding or performs a service on your behalf. The desk is the object. The name you say is the attribute. The dot is the act of walking up to that particular desk and asking.</p>
+<p>This matters because the same name can mean different things at different desks. If you ask the third-floor desk for &quot;the schedule,&quot; you get the third floor&#x27;s schedule, not the first floor&#x27;s. In the same way, <code>spock_account.balance</code> asks one specific account for its balance, and a different account would answer with a different number. The object on the left of the dot decides whose answer you get.</p>
+<p>In the message-passing system from Section 2.4, you sent a request to a value by indexing it with a string key:</p>
+<pre class='code text'><code>account[&#x27;withdraw&#x27;](amount)</code></pre>
+<p>With classes, Python gives you syntax for the same idea:</p>
+<pre class='code text'><code>account.withdraw(amount)</code></pre>
+<p>The two lines express the same intent: send a named request to a value. The difference is that the message name is no longer an arbitrary string typed into brackets. It is a name that belongs to the object&#x27;s class, and the language gives it real syntax of its own: a dot, not a string in brackets. Because the dot is built into Python&#x27;s grammar, it works smoothly with the rest of the language. You do not need one message to read an attribute and a separate message to change it the way a hand-built dispatch dictionary did; an ordinary assignment statement can target an attribute directly.</p>
+</div></section>
+<section id='rebuilding-the-account-class' class='ls ls-default'>
+<h2 class='ls-h'><span>Rebuilding the Account Class</span></h2>
+<div class='ls-body'>
+<p>This document stands on its own, so here is the account class from the previous lesson again. It is the official <code>Account</code> class, reproduced exactly:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #859900">class</span> <span style="color: #268bd2">Account</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">account_holder):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">balance</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">holder</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">account_holder</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">deposit</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">amount):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">balance</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">balance</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">amount</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">balance</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">withdraw</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">amount):</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">amount</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">balance:</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;Insufficient funds&#39;</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">balance</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">balance</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">amount</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">balance</span>
+</code></pre>
+<p>Make one account and move some money through it, so that we have a concrete object to ask questions of:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #657b83">spock_account</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Account(</span><span style="color: #2aa198">&#39;Spock&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">spock_account</span><span style="color: #93a1a1">.</span><span style="color: #657b83">deposit(</span><span style="color: #2aa198">100</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">spock_account</span><span style="color: #93a1a1">.</span><span style="color: #657b83">withdraw(</span><span style="color: #2aa198">90</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>After these three lines, the balance of <code>spock_account</code> is <code>10</code>. Hold on to that number; the rest of this lesson keeps asking <code>spock_account</code> about itself.</p>
+</div></section>
+<section id='dot-expressions' class='ls ls-default'>
+<h2 class='ls-h'><span>Dot Expressions</span></h2>
+<div class='ls-body'>
+<p>The code fragment:</p>
+<pre class='code text'><code>spock_account.deposit</code></pre>
+<p>is called a <strong>dot expression</strong>. A dot expression is built from three parts: an expression, a dot, and a name. Its general form is:</p>
+<pre class='code text'><code>&lt;expression&gt; . &lt;name&gt;</code></pre>
+<p>The <code>&lt;expression&gt;</code> on the left can be any valid Python expression, as long as it evaluates to an object. The <code>&lt;name&gt;</code> on the right must be a simple name. It is not a string, and it is not another expression that produces a name. A dot expression evaluates to the value of the attribute called <code>&lt;name&gt;</code> on whatever object the <code>&lt;expression&gt;</code> produced.</p>
+<p>Follow the line one token at a time:</p>
+<pre class='code anatomy'><code>spock_account.deposit
+├─ spock_account ... expression on the left; evaluates to an Account object
+├─ . ............... the attribute-lookup operator; &quot;ask that object for a name&quot;
+├─ deposit ......... the simple name to look up on that object
+└─ evaluates to .... a bound method that will run deposit with self = spock_account</code></pre>
+<p>The dot does real work in two stages. First it forces Python to evaluate the left side all the way down to an actual object. Only then does it search that object for an attribute named <code>deposit</code>. Reading an attribute that simply stores data hands you the stored value:</p>
+<pre class='code text'><code>&gt;&gt;&gt; spock_account.balance
+10
+&gt;&gt;&gt; spock_account.holder
+&#x27;Spock&#x27;</code></pre>
+<p>Reading an attribute that is a method does something more interesting, which the next sections take apart.</p>
+</div></section>
+<section id='getattr-and-hasattr' class='ls ls-default'>
+<h2 class='ls-h'><span><code>getattr</code> and <code>hasattr</code></span></h2>
+<div class='ls-body'>
+<p>Dot notation requires you to type the name literally into your code. Sometimes you instead have the name sitting in a string, computed at runtime. The built-in function <code>getattr</code> is the function equivalent of the dot: it returns an attribute of an object by name, where the name is supplied as a string. This is exactly the kind of lookup you did with a dispatch dictionary, where the message was a string key.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #268bd2">getattr</span><span style="color: #657b83">(spock_account,</span> <span style="color: #2aa198">&#39;balance&#39;</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>The result is:</p>
+<pre class='code text'><code>10</code></pre>
+<p>Walk through the call:</p>
+<pre class='code anatomy'><code>getattr(spock_account, &#x27;balance&#x27;)
+├─ getattr ......... built-in: look up an attribute by string name
+├─ ( .............. begins the inputs
+├─ spock_account .. the object to search
+├─ , .............. separates the inputs
+├─ &#x27;balance&#x27; ...... the attribute name, given as a string
+├─ ) .............. ends the inputs
+└─ evaluates to ... 10, the value stored under the attribute named balance</code></pre>
+<p>You can also ask whether an object even has an attribute of a given name, without retrieving it, using <code>hasattr</code>:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (4)</span>
+<span style="color: #268bd2">hasattr</span><span style="color: #657b83">(spock_account,</span> <span style="color: #2aa198">&#39;deposit&#39;</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>The result is:</p>
+<pre class='code text'><code>True</code></pre>
+<p>The token walk is the same shape:</p>
+<pre class='code anatomy'><code>hasattr(spock_account, &#x27;deposit&#x27;)
+├─ hasattr ........ built-in: test for an attribute by string name
+├─ ( .............. begins the inputs
+├─ spock_account .. the object to search
+├─ , .............. separates the inputs
+├─ &#x27;deposit&#x27; ...... the attribute name to check for, as a string
+├─ ) .............. ends the inputs
+└─ evaluates to ... True, because spock_account does have a deposit attribute</code></pre>
+<p>The attributes Python finds for an object include all of its instance attributes, such as <code>balance</code> and <code>holder</code>, together with everything defined in its class, including the methods <code>deposit</code> and <code>withdraw</code>. Methods are attributes of the class, but they need special handling when you reach them through an instance. That special handling is the subject of the next two sections.</p>
+</div></section>
+<section id='methods-versus-functions' class='ls ls-default'>
+<h2 class='ls-h'><span>Methods Versus Functions</span></h2>
+<div class='ls-body'>
+<p>When you call a method on an object, that object is passed automatically as the first argument to the method. The object on the left of the dot becomes the value bound to the parameter <code>self</code> inside the method body. You have relied on this since the previous lesson; now we name the mechanism.</p>
+<p>To make automatic <code>self</code> binding possible, Python keeps two distinct kinds of value. A <strong>function</strong> is the kind of value you have been creating with <code>def</code> since the very beginning of the course. A <strong>bound method</strong> couples together a function and the particular object the method will run on. A bound method already carries its first argument with it: the instance it was looked up from, which will be named <code>self</code> when the method runs.</p>
+<p>A pre-addressed, stamped envelope is a useful image. A plain function is a blank envelope: before you can send it, you must write in every address yourself, including who it is from. A bound method is an envelope that already has the &quot;from&quot; line filled in. You only supply what is left.</p>
+<p>You can see the two kinds of value directly by calling <code>type</code> on the result of a dot expression. Reached as an attribute of the class, a method is just a function. Reached as an attribute of an instance, it is a bound method:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (5)</span>
+<span style="color: #268bd2">type</span><span style="color: #657b83">(Account</span><span style="color: #93a1a1">.</span><span style="color: #657b83">deposit)</span>
+<span style="color: #268bd2">type</span><span style="color: #657b83">(spock_account</span><span style="color: #93a1a1">.</span><span style="color: #657b83">deposit)</span>
+</code></pre>
+<p>The results are:</p>
+<pre class='code text'><code>&lt;class &#x27;function&#x27;&gt;
+&lt;class &#x27;method&#x27;&gt;</code></pre>
+<p>These two results differ in exactly one way. <code>Account.deposit</code> is the ordinary two-argument function, with parameters <code>self</code> and <code>amount</code>. <code>spock_account.deposit</code> is a one-argument method: the name <code>self</code> will be bound to <code>spock_account</code> automatically when the method is called, and the parameter <code>amount</code> will be bound to whatever argument you pass. Both values, the function and the bound method, run the same <code>deposit</code> function body.</p>
+<p>Follow the difference line by line. First, the lookup on the class:</p>
+<pre class='code anatomy'><code>Account.deposit
+├─ Account ......... the class object
+├─ . ............... attribute lookup on the class
+├─ deposit ......... the name to look up
+└─ evaluates to .... a plain function with parameters self and amount</code></pre>
+<p>Now the lookup on the instance:</p>
+<pre class='code anatomy'><code>spock_account.deposit
+├─ spock_account ... an Account instance
+├─ . ............... attribute lookup on the instance
+├─ deposit ......... the name to look up; found on the class, then bound
+└─ evaluates to .... a bound method with self already fixed to spock_account</code></pre>
+</div></section>
+<section id='calling-the-same-body-two-ways' class='ls ls-default'>
+<h2 class='ls-h'><span>Calling the Same Body Two Ways</span></h2>
+<div class='ls-body'>
+<p>Because the function and the bound method share one body, you can run <code>deposit</code> in two ways. As a function, you must supply the <code>self</code> argument yourself. As a bound method, <code>self</code> is filled in for you. The official text shows both, with the same comments it uses:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (6)</span>
+<span style="color: #657b83">Account</span><span style="color: #93a1a1">.</span><span style="color: #657b83">deposit(spock_account,</span> <span style="color: #2aa198">1001</span><span style="color: #657b83">)</span>  <span style="color: #93a1a1; font-style: italic"># The deposit function takes 2 arguments</span>
+<span style="color: #657b83">spock_account</span><span style="color: #93a1a1">.</span><span style="color: #657b83">deposit(</span><span style="color: #2aa198">1000</span><span style="color: #657b83">)</span>           <span style="color: #93a1a1; font-style: italic"># The deposit method takes 1 argument</span>
+</code></pre>
+<p>The results are:</p>
+<pre class='code text'><code>1011
+2011</code></pre>
+<p>The first call goes through the class, so nothing is filled in automatically:</p>
+<pre class='code anatomy'><code>Account.deposit(spock_account, 1001)
+├─ Account.deposit ... a plain function: needs self and amount
+├─ spock_account ..... supplied by hand as the first argument -&gt; self
+├─ 1001 ............. supplied as the second argument -&gt; amount
+└─ performs .......... self.balance goes 10 -&gt; 1011, returns 1011</code></pre>
+<p>The second call goes through the instance, so <code>self</code> is already attached:</p>
+<pre class='code anatomy'><code>spock_account.deposit(1000)
+├─ spock_account.deposit ... a bound method: self is already spock_account
+├─ 1000 ................... the only argument you supply -&gt; amount
+└─ performs ............... self.balance goes 1011 -&gt; 2011, returns 2011</code></pre>
+<p>The body executed is identical in both calls. The only difference is how <code>self</code> gets its value: handed in by you, or filled in by the bound method. This is why a single balance keeps climbing across the two calls: both calls operate on the same <code>spock_account</code>.</p>
+<p>There is one more consequence worth stating now, because it connects back to <code>getattr</code>. The function <code>getattr</code> behaves exactly like dot notation here. If its first argument is an instance and the name is a method defined in the class, <code>getattr</code> returns a bound method. If its first argument is a class, <code>getattr</code> returns the attribute value directly, which is a plain function. For example, <code>getattr(spock_account, &#x27;deposit&#x27;)</code> returns the same bound method that <code>spock_account.deposit</code> does, while <code>getattr(Account, &#x27;deposit&#x27;)</code> returns the plain function, exactly the <code>&lt;class &#x27;method&#x27;&gt;</code> versus <code>&lt;class &#x27;function&#x27;&gt;</code> split you saw in code (5). The same instance-versus-class distinction governs both spellings of the lookup.</p>
+</div></section>
+<section id='a-method-dispatch-trace' class='ls ls-default'>
+<h2 class='ls-h'><span>A Method-Dispatch Trace</span></h2>
+<div class='ls-body'>
+<p>It is worth watching one bound-method call resolve all the way through, because every method call you write follows this path. Trace <code>spock_account.deposit(1000)</code> from code (6):</p>
+<pre class='code text'><code>spock_account.deposit(1000)
+
+step 1  Evaluate the dot expression on the left of the call: spock_account.deposit
+step 2    Evaluate spock_account -&gt; the Account instance for &#x27;Spock&#x27;
+step 3    Look for an instance attribute named deposit on that object -&gt; none
+step 4    Look for deposit in its class Account -&gt; found, a function
+step 5    The class attribute is a function, so build a bound method:
+              function  = the deposit function body
+              self      = spock_account   (already attached)
+step 6  Now apply that bound method to the argument list (1000):
+              self   -&gt; spock_account     (carried by the bound method)
+              amount -&gt; 1000              (the argument you supplied)
+step 7  Run the body:
+              self.balance = self.balance + amount   # 1011 + 1000
+              return self.balance                    # 2011
+step 8  The call evaluates to 2011, and spock_account.balance is now 2011.</code></pre>
+<p>The thing to notice is step 5. The bound method is created at the moment of lookup, before any argument is applied. That is why <code>self</code> never appears in your argument list when you call through an instance: it was attached one step earlier.</p>
+</div></section>
+<section id='class-attributes' class='ls ls-default'>
+<h2 class='ls-h'><span>Class Attributes</span></h2>
+<div class='ls-body'>
+<p>Some information does not belong to any one object. It belongs to the whole class. Suppose a bank pays interest on every account at one fixed rate. That rate might change over time, but at any moment it is a single value shared across all accounts. Storing a separate copy of it on every account would be wasteful and error-prone.</p>
+<p>A value like that is stored as a <strong>class attribute</strong>. You create a class attribute with an assignment statement in the body of a <code>class</code> statement, outside of any method definition. Other communities call these class variables or static variables. Here is the official class statement that gives <code>Account</code> a class attribute named <code>interest</code>, reproduced with its own comments:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (7)</span>
+<span style="color: #859900">class</span> <span style="color: #268bd2">Account</span><span style="color: #657b83">:</span>
+    <span style="color: #657b83">interest</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0.02</span>            <span style="color: #93a1a1; font-style: italic"># A class attribute</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">account_holder):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">balance</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">holder</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">account_holder</span>
+    <span style="color: #93a1a1; font-style: italic"># Additional methods would be defined here</span>
+</code></pre>
+<p>The line that creates the class attribute is:</p>
+<pre class='code anatomy'><code>interest = 0.02
+├─ interest ........ the attribute name, written with no self in front
+├─ = ............... assignment
+├─ 0.02 ............ the value
+└─ performs ........ binds interest as an attribute of the class Account itself</code></pre>
+<p>The position of the line is what makes it a class attribute. It sits inside the class body but outside every method, so the name is assigned on the class object rather than on any instance. Compare it to <code>self.balance = 0</code>, which lives inside <code>__init__</code> and therefore attaches <code>balance</code> to one particular instance.</p>
+</div></section>
+<section id='reading-a-class-attribute-through-instances' class='ls ls-default'>
+<h2 class='ls-h'><span>Reading a Class Attribute Through Instances</span></h2>
+<div class='ls-body'>
+<p>A class attribute can be read from any instance of the class. Make two accounts and ask each one for the interest rate:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (8)</span>
+<span style="color: #657b83">spock_account</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Account(</span><span style="color: #2aa198">&#39;Spock&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">kirk_account</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Account(</span><span style="color: #2aa198">&#39;Kirk&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">spock_account</span><span style="color: #93a1a1">.</span><span style="color: #657b83">interest</span>
+<span style="color: #657b83">kirk_account</span><span style="color: #93a1a1">.</span><span style="color: #657b83">interest</span>
+</code></pre>
+<p>The results are:</p>
+<pre class='code text'><code>0.02
+0.02</code></pre>
+<p>Neither account stores its own <code>interest</code> yet. When Python evaluates <code>spock_account.interest</code>, it first searches the instance, finds nothing named <code>interest</code>, and then searches the class, where it finds <code>0.02</code>. Both accounts reach the same shared value the same way.</p>
+<p>Follow the lookup for one of them:</p>
+<pre class='code anatomy'><code>spock_account.interest
+├─ spock_account ... the Account instance for &#x27;Spock&#x27;
+├─ . ............... attribute lookup
+├─ interest ........ not an instance attribute here, so search the class
+└─ evaluates to .... 0.02, the class attribute on Account</code></pre>
+</div></section>
+<section id='changing-a-class-attribute' class='ls ls-default'>
+<h2 class='ls-h'><span>Changing a Class Attribute</span></h2>
+<div class='ls-body'>
+<p>Because the value lives on the class, one assignment to the class attribute changes what every instance sees, as long as that instance has not stored its own attribute of the same name.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (9)</span>
+<span style="color: #657b83">Account</span><span style="color: #93a1a1">.</span><span style="color: #657b83">interest</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0.04</span>
+<span style="color: #657b83">spock_account</span><span style="color: #93a1a1">.</span><span style="color: #657b83">interest</span>
+<span style="color: #657b83">kirk_account</span><span style="color: #93a1a1">.</span><span style="color: #657b83">interest</span>
+</code></pre>
+<p>The results are:</p>
+<pre class='code text'><code>0.04
+0.04</code></pre>
+<p>The left-hand side of the assignment is the dot expression <code>Account.interest</code>, and the object there is the class itself, so the assignment updates the attribute on the class. Both instances were reading the shared class value, so both now report <code>0.04</code>.</p>
+<pre class='code anatomy'><code>Account.interest = 0.04
+├─ Account ......... the object on the left is the class
+├─ .interest ....... the attribute being assigned
+├─ = 0.04 .......... the new value
+└─ performs ........ updates the class attribute, seen by every plain instance</code></pre>
+</div></section>
+<section id='attribute-lookup-order' class='ls ls-default'>
+<h2 class='ls-h'><span>Attribute Lookup Order</span></h2>
+<div class='ls-body'>
+<p>You now have enough machinery that a name after a dot could match either an instance attribute or a class attribute. Python needs a definite rule for which one wins. Recall the form of a dot expression:</p>
+<pre class='code text'><code>&lt;expression&gt; . &lt;name&gt;</code></pre>
+<p>To evaluate a dot expression, Python follows these steps in order:</p>
+<pre class='code text'><code>1. Evaluate the &lt;expression&gt; to the left of the dot to get the object.
+2. Match &lt;name&gt; against the object&#x27;s instance attributes; if found, return that value.
+3. If &lt;name&gt; is not an instance attribute, look it up in the object&#x27;s class.
+4. Return that class value, unless it is a function, in which case return a bound method.</code></pre>
+<p>Instance attributes are found before class attributes. This is the same priority rule you already know from environments, where a local name takes precedence over a global one. Step 4 is exactly the bound-method behavior from earlier in this lesson: a function found on the class is combined with the object on the left to form a bound method. The class-lookup part of step 3 gains more steps once inheritance appears, but the instance-first ordering will not change.</p>
+<p>The parallel is worth stating plainly:</p>
+<pre class='code text'><code>environment lookup:   local frame first, then enclosing frames
+attribute lookup:     instance first, then the class</code></pre>
+<p>There is a matching rule for assignment. Any assignment statement whose left-hand side is a dot expression sets an attribute on the object of that dot expression. If that object is an instance, the assignment sets an instance attribute. If that object is a class, it sets a class attribute. A consequence of this rule is that assigning to an attribute of an instance can never reach back and change the class. The next section shows that consequence in action.</p>
+</div></section>
+<section id='instance-attributes-can-shadow-class-attributes' class='ls ls-default'>
+<h2 class='ls-h'><span>Instance Attributes Can Shadow Class Attributes</span></h2>
+<div class='ls-body'>
+<p>Give only Kirk&#x27;s account its own interest rate:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (10)</span>
+<span style="color: #657b83">kirk_account</span><span style="color: #93a1a1">.</span><span style="color: #657b83">interest</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0.08</span>
+<span style="color: #657b83">kirk_account</span><span style="color: #93a1a1">.</span><span style="color: #657b83">interest</span>
+<span style="color: #657b83">spock_account</span><span style="color: #93a1a1">.</span><span style="color: #657b83">interest</span>
+</code></pre>
+<p>The results are:</p>
+<pre class='code text'><code>0.08
+0.04</code></pre>
+<p>The assignment <code>kirk_account.interest = 0.08</code> has an instance on its left-hand side, so it creates a new instance attribute on <code>kirk_account</code> that happens to share the name <code>interest</code> with the class attribute. From now on, a dot lookup on <code>kirk_account</code> finds that instance attribute at step 2 and stops, returning <code>0.08</code>. The class attribute is untouched and still reads <code>0.04</code> for <code>spock_account</code>, which has no instance attribute of that name.</p>
+<pre class='code anatomy'><code>kirk_account.interest = 0.08
+├─ kirk_account .... the object on the left is an instance
+├─ .interest ....... the attribute being assigned
+├─ = 0.08 .......... the new value
+└─ performs ........ creates an instance attribute that shadows the class attribute</code></pre>
+<p>Now change the class attribute one more time and watch the two accounts diverge:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (11)</span>
+<span style="color: #657b83">Account</span><span style="color: #93a1a1">.</span><span style="color: #657b83">interest</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0.05</span>
+<span style="color: #657b83">spock_account</span><span style="color: #93a1a1">.</span><span style="color: #657b83">interest</span>
+<span style="color: #657b83">kirk_account</span><span style="color: #93a1a1">.</span><span style="color: #657b83">interest</span>
+</code></pre>
+<p>The results are:</p>
+<pre class='code text'><code>0.05
+0.08</code></pre>
+<p><code>spock_account</code> has no instance attribute named <code>interest</code>, so its lookup falls through to the class and reports the new <code>0.05</code>. <code>kirk_account</code> still has its own instance attribute, found first at step 2, so it keeps reporting <code>0.08</code> and never consults the class. The instance value shadows the class value for that one object.</p>
+</div></section>
+<section id='an-attribute-lookup-trace' class='ls ls-default'>
+<h2 class='ls-h'><span>An Attribute-Lookup Trace</span></h2>
+<div class='ls-body'>
+<p>Put the whole shadowing story in one picture. After running code (7) through (11), the objects look like this:</p>
+<pre class='code text'><code>Account class
++----------+------+
+| interest | 0.05 |
++----------+------+
+
+spock_account instance
++---------+---------+
+| balance | 0       |
+| holder  | &#x27;Spock&#x27; |
++---------+---------+      (no interest attribute of its own)
+
+kirk_account instance
++----------+--------+
+| balance  | 0      |
+| holder   | &#x27;Kirk&#x27; |
+| interest | 0.08   |
++----------+--------+</code></pre>
+<p>Trace each lookup against that picture:</p>
+<pre class='code text'><code>spock_account.interest
+  step 1  object = spock_account
+  step 2  instance attributes: balance, holder -&gt; no interest
+  step 3  look in class Account -&gt; interest = 0.05
+  result  0.05
+
+kirk_account.interest
+  step 1  object = kirk_account
+  step 2  instance attributes: balance, holder, interest -&gt; interest = 0.08
+  result  0.08   (class is never consulted)</code></pre>
+<p>The single most important detail is the absence of an <code>interest</code> row on <code>spock_account</code>. That absence is the reason its lookup keeps falling through to the class, and it is the reason the two accounts now report different rates from the same starting class.</p>
+</div></section>
+<section id='naming-conventions' class='ls ls-default'>
+<h2 class='ls-h'><span>Naming Conventions</span></h2>
+<div class='ls-body'>
+<p>Python programmers signal intent through naming conventions. None of these are enforced by the language; they are agreements that make code readable to other people.</p>
+<p>Class names use the CapWords convention, also called CamelCase because the capital letters in the middle of a name look like humps. Examples are <code>Account</code> and <code>CheckingAccount</code>. Method names follow the usual convention for functions: lowercased words separated by underscores, such as <code>deposit</code> or <code>withdraw</code>.</p>
+<p>Some attributes and methods exist only to keep an object internally consistent and are not meant for users of the class to touch. They are part of the implementation, not part of the abstraction the class offers. Python&#x27;s convention is that an attribute whose name begins with an underscore should be accessed only within the methods of the class itself, not by outside code. The underscore does not lock the attribute; you can still reach it. It is a message to other programmers that the name is not part of the public interface and may change without warning.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<p>The first trap is treating <code>Account.deposit</code> and <code>spock_account.deposit</code> as the same kind of value. The first is a plain function with parameters <code>self</code> and <code>amount</code>. The second is a bound method that has already attached <code>spock_account</code> as <code>self</code>.</p>
+<p>The second trap is supplying <code>self</code> twice. Writing <code>spock_account.deposit(spock_account, 100)</code> fails, because the bound method has already filled in <code>self</code>, so the call now has one argument too many. Through an instance you pass only <code>amount</code>. Through the class you pass both, as in <code>Account.deposit(spock_account, 100)</code>.</p>
+<p>The third trap is believing that <code>kirk_account.interest = 0.08</code> changes the rate for every account. It does not. An assignment with an instance on the left only ever creates or updates an attribute on that one instance, leaving the class attribute alone.</p>
+<p>The fourth trap is mistaking the right side of the dot for a string. In <code>spock_account.deposit</code>, the name <code>deposit</code> is a simple name, not <code>&#x27;deposit&#x27;</code>; writing <code>spock_account.&#x27;deposit&#x27;</code> raises a <code>SyntaxError</code> because a string literal cannot follow a dot. When you genuinely need to look up an attribute from a string, that is what <code>getattr</code> is for.</p>
+<p>The fifth trap is treating a leading underscore as a security feature. It is a convention, not a lock. Nothing stops the code from reading a <code>_</code>-prefixed name; the underscore only signals that it should not.</p>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>In <code>spock_account.deposit(1000)</code>, which object becomes <code>self</code>, and at what point is it attached?</li>
+<li>Why does <code>type(Account.deposit)</code> differ from <code>type(spock_account.deposit)</code>?</li>
+<li>Suppose that, after the lesson&#x27;s code runs (so <code>Account.interest</code> is <code>0.05</code> and <code>kirk_account</code> carries its own <code>interest</code> of <code>0.08</code>), you create a brand-new account with <code>jean_account = Account(&#x27;Jean&#x27;)</code> and then read <code>jean_account.interest</code>. What value comes back, and why?</li>
+<li>After <code>Account.interest = 0.05</code>, why does <code>kirk_account.interest</code> remain <code>0.08</code> while <code>spock_account.interest</code> becomes <code>0.05</code>?</li>
+<li>What does <code>getattr(spock_account, &#x27;balance&#x27;)</code> do, and how is it like a dispatch-dictionary lookup?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li><code>spock_account</code> becomes <code>self</code>. It is attached when the dot expression <code>spock_account.deposit</code> is evaluated and a bound method is created, which happens before the argument <code>1000</code> is applied.</li>
+<li><code>Account.deposit</code> is looked up on the class, so it is the plain two-argument function with parameters <code>self</code> and <code>amount</code>. <code>spock_account.deposit</code> is looked up on an instance, so Python returns a bound method that already carries <code>spock_account</code> as <code>self</code> and takes only <code>amount</code>.</li>
+<li><code>0.08</code> is wrong; the answer is <code>0.05</code>. <code>jean_account</code> is a fresh instance, so it has no instance attribute named <code>interest</code>. Its lookup finds nothing at the instance, falls through to the class <code>Account</code>, and returns the current class value <code>0.05</code>. Kirk&#x27;s <code>0.08</code> lives only on the <code>kirk_account</code> instance and is invisible to any other account.</li>
+<li><code>kirk_account</code> has its own instance attribute named <code>interest</code>, found first during lookup, so it shadows the class attribute and the class change is never seen. <code>spock_account</code> has no such instance attribute, so its lookup falls through to the updated class value <code>0.05</code>.</li>
+<li>It looks up the attribute named by the string <code>&#x27;balance&#x27;</code> on <code>spock_account</code> and returns <code>10</code>. Like a dispatch dictionary, the name is supplied as data, a string, and used to perform the lookup, rather than being written literally in the code.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>Dot expressions are Python&#x27;s built-in syntax for sending a named request to an object. A dot expression has the form <code>&lt;expression&gt; . &lt;name&gt;</code>: Python evaluates the expression on the left to an object, then looks up the simple name on the right. The function <code>getattr</code> performs the same lookup from a string, and <code>hasattr</code> tests whether the name exists. A function defined in a class is a plain function when reached through the class, but reaching it through an instance produces a bound method that has already attached the instance as <code>self</code>, which is why a method call through an instance supplies only the remaining arguments. Class attributes are assigned in the class body outside any method and are shared by every instance through the lookup order: instance attributes are checked first, then the class. Because an assignment with an instance on the left only ever sets an instance attribute, an instance can shadow a class attribute of the same name without changing the class for anyone else.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>The program below defines a class with both a class attribute and instance attributes, then triggers the exact shadowing situation from this lesson. Stepping through it draws the <strong>environment diagram</strong> the machine is really building: the <code>Account</code> class object carries the shared <code>interest</code> attribute, <code>spock_account</code> and <code>kirk_account</code> are two instances on the heap whose parent link points back to that class, and you watch <code>Account.interest = 0.04</code> rewrite the entry on the class itself while <code>kirk_account.interest = 0.08</code> instead grows a new <code>interest</code> attribute inside the Kirk instance that shadows the class value, leaving the Spock instance with no such entry. Before you step through it, write down three predictions: which one box gains or changes an entry when the line <code>Account.interest = 0.04</code> runs, which boxes hold their own <code>interest</code> entry once <code>kirk_account.interest = 0.08</code> has run and what each holds, and what values <code>spock_rate</code> and <code>kirk_rate</code> are bound to when the final line finishes.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (12)</span>
+<span style="color: #859900">class</span> <span style="color: #268bd2">Account</span><span style="color: #657b83">:</span>
+    <span style="color: #657b83">interest</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0.02</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">account_holder):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">balance</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">holder</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">account_holder</span>
+
+<span style="color: #657b83">spock_account</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Account(</span><span style="color: #2aa198">&#39;Spock&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">kirk_account</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Account(</span><span style="color: #2aa198">&#39;Kirk&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">Account</span><span style="color: #93a1a1">.</span><span style="color: #657b83">interest</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0.04</span>
+<span style="color: #657b83">kirk_account</span><span style="color: #93a1a1">.</span><span style="color: #657b83">interest</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0.08</span>
+<span style="color: #657b83">spock_rate</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">spock_account</span><span style="color: #93a1a1">.</span><span style="color: #657b83">interest</span>
+<span style="color: #657b83">kirk_rate</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">kirk_account</span><span style="color: #93a1a1">.</span><span style="color: #657b83">interest</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/aae6d336b514.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>Step through it one line at a time and check each prediction as the entries appear. The assignment <code>Account.interest = 0.04</code> should have touched only the class box, because an assignment sets an attribute on whatever object sits to the left of its dot. The line <code>kirk_account.interest = 0.08</code> then added an <code>interest</code> row inside <code>kirk_account</code> and nowhere else; <code>spock_account</code> never carries one of its own. That absence is why the last two lines bind <code>spock_rate</code> to <code>0.04</code> and <code>kirk_rate</code> to <code>0.08</code>: Spock&#x27;s lookup falls through to the class, while Kirk&#x27;s finds the instance attribute first and stops there.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>2.5-A Objects, Classes, and Instance State</span></a><a class='pg pg-next' href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>2.5-C Inheritance, Interfaces, and Account Specialization</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#the-dot-is-a-request-to-an-object'>The Dot Is a Request to an Object</a></li><li><a href='#rebuilding-the-account-class'>Rebuilding the Account Class</a></li><li><a href='#dot-expressions'>Dot Expressions</a></li><li><a href='#getattr-and-hasattr'>getattr and hasattr</a></li><li><a href='#methods-versus-functions'>Methods Versus Functions</a></li><li><a href='#calling-the-same-body-two-ways'>Calling the Same Body Two Ways</a></li><li><a href='#a-method-dispatch-trace'>A Method-Dispatch Trace</a></li><li><a href='#class-attributes'>Class Attributes</a></li><li><a href='#reading-a-class-attribute-through-instances'>Reading a Class Attribute Through Instances</a></li><li><a href='#changing-a-class-attribute'>Changing a Class Attribute</a></li><li><a href='#attribute-lookup-order'>Attribute Lookup Order</a></li><li><a href='#instance-attributes-can-shadow-class-attributes'>Instance Attributes Can Shadow Class Attributes</a></li><li><a href='#an-attribute-lookup-trace'>An Attribute-Lookup Trace</a></li><li><a href='#naming-conventions'>Naming Conventions</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

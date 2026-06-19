@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>1.5 · Control — Coding Practice · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+
+</head>
+<body class='is-practice'>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/' class='active'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Practice</span><span class='dot'>/</span><span class='eb-sec'>Chapter 1 · Coding Practice</span></div><h1 class='lesson-title'>1.5 · Control — Coding Practice</h1><div class='reading-meta'>&#9719; approx. 13 min read <span class='rm-sep'>&middot;</span> 30 worked examples</div></div><div class='lesson-grid'><div class='lesson-body'><p>These problems drill the control tools of Section 1.5: <code>if</code>/<code>elif</code>/<code>else</code> chains where exactly one branch runs, boolean contexts and short-circuiting <code>and</code>/<code>or</code>, <code>while</code>-loop iteration with a counter that makes progress, simultaneous assignment, and turning expectations into <code>assert</code> checks.</p>
+<p>&gt; Work each problem from the starter signature first. Run your function against the Examples, then open the matching solution below to check your approach and its time and space cost.</p>
+<section id='easy' class='ls ls-default'>
+<h2 class='ls-h'><span>Easy</span></h2>
+<div class='ls-body'>
+<h3>1. Sign of a Number</h3>
+<p>Write <code>sign(x)</code> that returns <code>1</code> when <code>x</code> is positive, <code>0</code> when <code>x</code> is exactly zero, and <code>-1</code> when <code>x</code> is negative. This is the <code>absolute_value</code> shape from the lesson: a three-way <code>if</code>/<code>elif</code>/<code>else</code> where exactly one branch fires.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  sign(7)
+Output: 1
+Explanation: 7 &gt; 0, so the first branch runs.</code></pre>
+<pre class='code text'><code>Input:  sign(0)
+Output: 0
+Explanation: the elif x == 0 branch runs.</code></pre>
+<pre class='code text'><code>Input:  sign(-3)
+Output: -1
+Explanation: both conditions are false, so the else branch runs.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>x</code> is a number (int or float).</li>
+<li>Use a single <code>if</code>/<code>elif</code>/<code>else</code> chain; do not call the built-in <code>abs</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">sign</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Ask the questions in order — first &quot;is it positive?&quot;, then &quot;is it zero?&quot; — and let <code>else</code> catch the leftover negative case.</p></details>
+<h3>2. Clamp to a Range</h3>
+<p>Write <code>clamp(x, low, high)</code> that pulls <code>x</code> back inside the closed interval <code>[low, high]</code>. If <code>x</code> is below <code>low</code>, return <code>low</code>; if it is above <code>high</code>, return <code>high</code>; otherwise return <code>x</code> unchanged. Assume <code>low &lt;= high</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  clamp(5, 0, 10)
+Output: 5
+Explanation: 5 is already inside [0, 10], so it passes through.</code></pre>
+<pre class='code text'><code>Input:  clamp(-4, 0, 10)
+Output: 0
+Explanation: -4 is below the low bound, so it snaps up to 0.</code></pre>
+<pre class='code text'><code>Input:  clamp(99, 0, 10)
+Output: 10
+Explanation: 99 is above the high bound, so it snaps down to 10.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>x</code>, <code>low</code>, and <code>high</code> are numbers with <code>low &lt;= high</code>.</li>
+<li>Use comparison operators and an <code>if</code>/<code>elif</code>/<code>else</code> chain; the boundary values <code>low</code> and <code>high</code> should pass through unchanged.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">clamp</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">low,</span> <span style="color: #657b83">high):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>There are exactly three cases — too low, too high, and just right — and only one of them runs.</p></details>
+<h3>3. Count Multiples up to n</h3>
+<p>Write <code>count_multiples(n, d)</code> that counts how many integers in <code>1, 2, ..., n</code> are exact multiples of <code>d</code>. If <code>d</code> is <code>0</code>, return <code>0</code> (nothing is a multiple of zero here). Since this section has no <code>%</code> operator, test divisibility with floor division: <code>k</code> is a multiple of <code>d</code> exactly when <code>k - (k // d) * d == 0</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  count_multiples(10, 2)
+Output: 5
+Explanation: 2, 4, 6, 8, 10 are the multiples of 2 up to 10.</code></pre>
+<pre class='code text'><code>Input:  count_multiples(10, 3)
+Output: 3
+Explanation: 3, 6, 9 are divisible by 3.</code></pre>
+<pre class='code text'><code>Input:  count_multiples(5, 7)
+Output: 0
+Explanation: no value in 1..5 is a multiple of 7.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>n</code> is an integer with <code>n &gt;= 0</code>; <code>d</code> is an integer.</li>
+<li>Guard the <code>d == 0</code> case first so you never form <code>k // 0</code>.</li>
+<li>Use a <code>while</code> loop with a counter <code>k</code> from 1 to <code>n</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">count_multiples</span><span style="color: #657b83">(n,</span> <span style="color: #657b83">d):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>The expression <code>k - (k // d) * d</code> is the remainder of <code>k</code> divided by <code>d</code>; it is <code>0</code> precisely when <code>d</code> divides <code>k</code>.</p></details>
+<h3>4. Safe Reciprocal</h3>
+<p>Write <code>safe_reciprocal(x)</code> that returns <code>1 / x</code> when that division is safe, and <code>0</code> when <code>x</code> is <code>0</code>. The point is to let short-circuiting protect the division: put the cheap guard <code>x != 0</code> on the left of an <code>and</code> so the risky <code>1 / x</code> on the right never runs when <code>x</code> is <code>0</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  safe_reciprocal(2)
+Output: 0.5
+Explanation: x is nonzero, so the guard passes and 1 / 2 is returned.</code></pre>
+<pre class='code text'><code>Input:  safe_reciprocal(0)
+Output: 0
+Explanation: the guard x != 0 is false, so the division is skipped and 0 is returned.</code></pre>
+<pre class='code text'><code>Input:  safe_reciprocal(-5)
+Output: -0.2
+Explanation: 1 / -5 = -0.2.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>x</code> is a number.</li>
+<li>The division <code>1 / x</code> must be guarded by a short-circuiting <code>and</code> so it is never attempted when <code>x</code> is <code>0</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">safe_reciprocal</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>x != 0 and &lt;something using 1 / x&gt;</code> evaluates the left side first; a false left side stops there and the division on the right is never reached.</p></details>
+</div></section>
+<section id='medium' class='ls ls-default'>
+<h2 class='ls-h'><span>Medium</span></h2>
+<div class='ls-body'>
+<h3>5. Number of Digits</h3>
+<p>Write <code>digit_count(n)</code> that returns how many decimal digits <code>n</code> has, ignoring its sign. <code>0</code> has one digit. Negative numbers count the same as their absolute value, so <code>-583</code> has three digits.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  digit_count(0)
+Output: 1
+Explanation: zero is written with a single digit.</code></pre>
+<pre class='code text'><code>Input:  digit_count(42)
+Output: 2
+Explanation: 42 has the two digits 4 and 2.</code></pre>
+<pre class='code text'><code>Input:  digit_count(-583)
+Output: 3
+Explanation: the sign is ignored; 583 has three digits.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>n</code> is an integer (it may be negative or zero).</li>
+<li>Use a <code>while</code> loop that repeatedly applies <code>n = n // 10</code>; each pass strips one trailing digit.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">digit_count</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Take <code>abs(n)</code> first, handle <code>0</code> as a special case, then count how many times you can floor-divide by 10 before reaching <code>0</code>.</p></details>
+<h3>6. Greatest Common Divisor</h3>
+<p>Write <code>gcd(a, b)</code> that returns the greatest common divisor of two non-negative integers using Euclid&#x27;s subtraction method: while both numbers are positive, repeatedly subtract the smaller from the larger. When one of them reaches <code>0</code>, the other is the gcd. By convention <code>gcd(0, b) == b</code> and <code>gcd(a, 0) == a</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  gcd(12, 18)
+Output: 6
+Explanation: 6 is the largest integer dividing both 12 and 18.</code></pre>
+<pre class='code text'><code>Input:  gcd(17, 5)
+Output: 1
+Explanation: 17 and 5 share no factor beyond 1.</code></pre>
+<pre class='code text'><code>Input:  gcd(0, 9)
+Output: 9
+Explanation: with a = 0 the loop never runs, leaving 9.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>a</code> and <code>b</code> are non-negative integers.</li>
+<li>Use a <code>while</code> loop whose condition keeps going only while both values are positive (<code>a &gt; 0 and b &gt; 0</code>).</li>
+<li>Do not use the <code>%</code> operator; subtraction alone suffices.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">gcd</span><span style="color: #657b83">(a,</span> <span style="color: #657b83">b):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Each pass, replace the larger value with <code>larger - smaller</code>. When the loop ends, exactly one of <code>a</code>, <code>b</code> is <code>0</code>, so <code>a + b</code> is the answer.</p></details>
+<h3>7. Collatz Step Count</h3>
+<p>Write <code>collatz_steps(n)</code> that counts how many steps it takes to drive <code>n</code> down to <code>1</code> under the Collatz rule: if <code>n</code> is even, replace it with <code>n // 2</code>; if <code>n</code> is odd, replace it with <code>3 * n + 1</code>. Count one step per replacement. <code>collatz_steps(1)</code> is <code>0</code> because <code>1</code> is already at the target.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  collatz_steps(1)
+Output: 0
+Explanation: 1 is already at the target, so no steps are taken.</code></pre>
+<pre class='code text'><code>Input:  collatz_steps(6)
+Output: 8
+Explanation: 6 -&gt; 3 -&gt; 10 -&gt; 5 -&gt; 16 -&gt; 8 -&gt; 4 -&gt; 2 -&gt; 1 is eight steps.</code></pre>
+<pre class='code text'><code>Input:  collatz_steps(27)
+Output: 111
+Explanation: 27 famously takes 111 steps to reach 1.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>n</code> is a positive integer.</li>
+<li>Use a <code>while n &gt; 1</code> loop with an even/odd branch inside; test evenness with <code>n - (n // 2) * 2 == 0</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">collatz_steps</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Each pass of the loop, decide even or odd, update <code>n</code> accordingly, and add one to a step counter — the counter is the binding-change that lets the loop finish.</p></details>
+<h3>8. Primality Test</h3>
+<p>Write <code>is_prime(n)</code> that returns <code>True</code> when <code>n</code> is a prime number and <code>False</code> otherwise. A prime is an integer greater than or equal to <code>2</code> with no divisor strictly between <code>1</code> and itself. You only need to test trial divisors <code>d</code> while <code>d * d &lt;= n</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  is_prime(2)
+Output: True
+Explanation: 2 is the smallest prime.</code></pre>
+<pre class='code text'><code>Input:  is_prime(97)
+Output: True
+Explanation: no d with d * d &lt;= 97 divides 97.</code></pre>
+<pre class='code text'><code>Input:  is_prime(100)
+Output: False
+Explanation: 100 is divisible by 2, so the loop returns False early.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>n</code> is an integer.</li>
+<li>Numbers below <code>2</code> are not prime.</li>
+<li>Loop trial divisors <code>d</code> from <code>2</code> while <code>d * d &lt;= n</code>; test divisibility with <code>n - (n // d) * d == 0</code>. Return <code>False</code> the moment you find a divisor.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">is_prime</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Stopping at <code>d * d &lt;= n</code> is enough: if <code>n</code> had a divisor larger than its square root, the matching co-divisor smaller than the square root would already have been found.</p></details>
+</div></section>
+<section id='hard' class='ls ls-default'>
+<h2 class='ls-h'><span>Hard</span></h2>
+<div class='ls-body'>
+<h3>9. Reverse the Digits</h3>
+<p>Write <code>reverse_number(n)</code> that returns the integer formed by reversing the decimal digits of <code>n</code>, preserving the sign. Leading zeros that appear after reversing simply disappear, so <code>1200</code> reverses to <code>21</code>. <code>reverse_number(0)</code> is <code>0</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  reverse_number(123)
+Output: 321
+Explanation: the digits 1, 2, 3 reverse to 3, 2, 1.</code></pre>
+<pre class='code text'><code>Input:  reverse_number(1200)
+Output: 21
+Explanation: reversing 1200 gives 0021, which as an integer is 21.</code></pre>
+<pre class='code text'><code>Input:  reverse_number(-405)
+Output: -504
+Explanation: the sign is kept; 405 reverses to 504.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>n</code> is an integer (it may be negative or zero).</li>
+<li>Do not convert to a string. Peel digits with the remainder trick <code>digit = n - (n // 10) * 10</code> and rebuild with <code>result = result * 10 + digit</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">reverse_number</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Remember whether <code>n</code> was negative, work with <code>abs(n)</code>, and on each pass pull off the lowest digit while shifting the accumulating result left by one place (<code>result * 10</code>).</p></details>
+<h3>10. The nth Prime</h3>
+<p>Write <code>nth_prime(n)</code> that returns the <code>n</code>th prime number, counting from <code>1</code>: <code>nth_prime(1)</code> is <code>2</code>, <code>nth_prime(2)</code> is <code>3</code>, and so on. This nests two <code>while</code> loops — an outer loop that keeps trying candidates until it has found <code>n</code> primes, and an inner trial-division loop that decides whether the current candidate is prime.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  nth_prime(1)
+Output: 2
+Explanation: the first prime is 2.</code></pre>
+<pre class='code text'><code>Input:  nth_prime(6)
+Output: 13
+Explanation: the primes in order are 2, 3, 5, 7, 11, 13.</code></pre>
+<pre class='code text'><code>Input:  nth_prime(25)
+Output: 97
+Explanation: 97 is the 25th prime.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>n</code> is a positive integer.</li>
+<li>Use a <code>found</code> counter in the outer loop and a short-circuited <code>is_p</code> flag in the inner loop (<code>while d * d &lt;= candidate and is_p</code>).</li>
+<li>Test divisibility with floor division, not <code>%</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">nth_prime</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Start <code>candidate</code> at <code>1</code> and bump it before each test. The inner loop sets <code>is_p</code> to <code>False</code> as soon as it finds a divisor; the <code>and is_p</code> in its header lets it stop checking immediately.</p></details>
+</div></section>
+<section id='solutions' class='ls ls-default'>
+<h2 class='ls-h'><span>Solutions</span></h2>
+<div class='ls-body'>
+<h3>1. Sign of a Number</h3>
+<p><strong>Approach — three-way <code>if</code>/<code>elif</code>/<code>else</code>.</strong> This mirrors <code>absolute_value</code> from 1.5-A: Python checks the clauses top to bottom and runs the suite of the first true one, skipping the rest. Exactly one of the three branches fires.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">sign</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>x &gt; 0</code> catches every positive value; if that is false, <code>x == 0</code> catches exactly zero; if both are false, <code>x</code> must be negative, so the <code>else</code> returns <code>-1</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. A fixed chain of comparisons with no loop.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">sign(</span><span style="color: #2aa198">7</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">sign(</span><span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">sign(</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">sign(</span><span style="color: #2aa198">0.0001</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+</code></pre>
+<h3>2. Clamp to a Range</h3>
+<p><strong>Approach — ordered conditional decisions.</strong> Three exclusive cases — below the floor, above the ceiling, or already inside — map directly onto an <code>if</code>/<code>elif</code>/<code>else</code>. Because only the first true clause runs, the inside case never needs to re-test the bounds.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">clamp</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">low,</span> <span style="color: #657b83">high):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #657b83">low:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">low</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #657b83">high:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">high</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">x</span>
+</code></pre>
+<p><strong>Why it works.</strong> If <code>x</code> is below <code>low</code> it snaps up; if it is above <code>high</code> it snaps down; otherwise it is within <code>[low, high]</code> and passes through. The boundary values satisfy neither strict inequality, so they fall into the <code>else</code> and return unchanged.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. Two comparisons at most.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">clamp(</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">5</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">clamp(</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">clamp(</span><span style="color: #2aa198">99</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">10</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">clamp(</span><span style="color: #2aa198">10</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">10</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">clamp(</span><span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+</code></pre>
+<h3>3. Count Multiples up to n</h3>
+<p><strong>Approach — counter loop with a divisibility test.</strong> A <code>while</code> loop walks <code>k</code> from 1 to <code>n</code>. Inside, the remainder expression <code>k - (k // d) * d</code> (built from floor division, since <code>%</code> is not in this section) is <code>0</code> exactly when <code>d</code> divides <code>k</code>, and the counter rises on those passes. The <code>d == 0</code> guard runs first so we never floor-divide by zero.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">count_multiples</span><span style="color: #657b83">(n,</span> <span style="color: #657b83">d):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">d</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">0</span>
+    <span style="color: #657b83">count,</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">&lt;=</span> <span style="color: #657b83">n:</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">(k</span> <span style="color: #93a1a1">//</span> <span style="color: #657b83">d)</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">d</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+            <span style="color: #657b83">count</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">count</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+        <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">count</span>
+</code></pre>
+<p><strong>Why it works.</strong> Each integer in <code>1..n</code> is visited once; <code>count</code> increases precisely for the multiples of <code>d</code>. The <code>k = k + 1</code> is the binding-change that moves the loop toward <code>k &gt; n</code> and stops it.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. One pass over the counter with constant extra storage.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">count_multiples(</span><span style="color: #2aa198">10</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">5</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_multiples(</span><span style="color: #2aa198">10</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_multiples(</span><span style="color: #2aa198">9</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_multiples(</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">7</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_multiples(</span><span style="color: #2aa198">6</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+</code></pre>
+<h3>4. Safe Reciprocal</h3>
+<p><strong>Approach — short-circuit guard.</strong> This is the <code>x != 0 and ...</code> pattern from 1.5-A. Python evaluates the left operand of <code>and</code> first; when <code>x</code> is <code>0</code> the guard is false, so the whole <code>and</code> is false and the right side <code>1 / x</code> is never evaluated — no division-by-zero ever happens.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">safe_reciprocal</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">!=</span> <span style="color: #2aa198">0</span> <span style="color: #859900">and</span> <span style="color: #2aa198">1</span> <span style="color: #93a1a1">/</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span> <span style="color: #93a1a1">/</span> <span style="color: #657b83">x:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">1</span> <span style="color: #93a1a1">/</span> <span style="color: #657b83">x</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">0</span>
+</code></pre>
+<p><strong>Why it works.</strong> For nonzero <code>x</code>, the guard passes, the harmless <code>1 / x == 1 / x</code> check is true, and <code>1 / x</code> is returned. For <code>x == 0</code>, the guard short-circuits and control falls through to <code>return 0</code>, so the risky division is skipped entirely.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. A constant amount of work either way.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">safe_reciprocal(</span><span style="color: #2aa198">2</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0.5</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">safe_reciprocal(</span><span style="color: #2aa198">4</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0.25</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">safe_reciprocal(</span><span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">safe_reciprocal(</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">5</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">0.2</span>
+</code></pre>
+<h3>5. Number of Digits</h3>
+<p><strong>Approach — shrink-by-floor-division loop.</strong> After taking <code>abs(n)</code> and handling the special case <code>0</code>, a <code>while</code> loop repeatedly applies <code>n = n // 10</code>, lopping off one trailing digit each pass, and counts how many passes it takes to reach <code>0</code>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">digit_count</span><span style="color: #657b83">(n):</span>
+    <span style="color: #657b83">n</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">abs</span><span style="color: #657b83">(n)</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">1</span>
+    <span style="color: #657b83">count</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">n</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">//</span> <span style="color: #2aa198">10</span>
+        <span style="color: #657b83">count</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">count</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">count</span>
+</code></pre>
+<p><strong>Why it works.</strong> Floor-dividing by 10 removes the last digit, so the number of passes before <code>n</code> becomes <code>0</code> is exactly the number of digits. The <code>n // 10</code> each pass is the binding-change that guarantees the loop ends. Zero is handled up front because the loop would otherwise count it as <code>0</code> digits.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mop">lo<span style="margin-right:0.0139em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> in the value of <code>n</code> (one pass per digit), Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">digit_count(</span><span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">digit_count(</span><span style="color: #2aa198">7</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">digit_count(</span><span style="color: #2aa198">42</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">2</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">digit_count(</span><span style="color: #2aa198">1000</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">4</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">digit_count(</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">583</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+</code></pre>
+<h3>6. Greatest Common Divisor</h3>
+<p><strong>Approach — Euclid by subtraction.</strong> The loop condition <code>a &gt; 0 and b &gt; 0</code> keeps going only while both numbers are positive. Each pass replaces the larger value with their difference, which shrinks the pair while preserving the gcd. When one value hits <code>0</code>, the other holds the answer, so <code>a + b</code> returns it.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">gcd</span><span style="color: #657b83">(a,</span> <span style="color: #657b83">b):</span>
+    <span style="color: #657b83">a,</span> <span style="color: #657b83">b</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">abs</span><span style="color: #657b83">(a),</span> <span style="color: #268bd2">abs</span><span style="color: #657b83">(b)</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">a</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #2aa198">0</span> <span style="color: #859900">and</span> <span style="color: #657b83">b</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">a</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #657b83">b:</span>
+            <span style="color: #657b83">a</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">a</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">b</span>
+        <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+            <span style="color: #657b83">b</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">b</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">a</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">a</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">b</span>
+</code></pre>
+<p><strong>Why it works.</strong> Subtracting the smaller from the larger never changes the set of common divisors, so the gcd is invariant across passes. The values strictly decrease, so the loop must terminate; at the end exactly one of <code>a</code>, <code>b</code> is <code>0</code>, and adding them returns the nonzero one (or <code>0</code> if both started at <code>0</code>).</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mop">max</span><span class="mopen">(</span><span class="mord mathnormal">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">b</span><span class="mclose">))</span></span></span></span></span> in the worst case (repeated subtraction), Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">gcd(</span><span style="color: #2aa198">12</span><span style="color: #657b83">,</span> <span style="color: #2aa198">18</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">6</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">gcd(</span><span style="color: #2aa198">48</span><span style="color: #657b83">,</span> <span style="color: #2aa198">36</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">12</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">gcd(</span><span style="color: #2aa198">17</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">gcd(</span><span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">9</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">9</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">gcd(</span><span style="color: #2aa198">14</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">14</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">gcd(</span><span style="color: #2aa198">100</span><span style="color: #657b83">,</span> <span style="color: #2aa198">100</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">100</span>
+</code></pre>
+<h3>7. Collatz Step Count</h3>
+<p><strong>Approach — <code>while</code> loop with an inner branch.</strong> The loop runs while <code>n &gt; 1</code>. Each pass uses an <code>if</code>/<code>else</code> to pick the even or odd rule, updates <code>n</code>, and adds one to <code>steps</code>. Evenness is tested with the floor-division remainder <code>n - (n // 2) * 2 == 0</code> since <code>%</code> is not available yet.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">collatz_steps</span><span style="color: #657b83">(n):</span>
+    <span style="color: #657b83">steps</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #2aa198">1</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">(n</span> <span style="color: #93a1a1">//</span> <span style="color: #2aa198">2</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">*</span> <span style="color: #2aa198">2</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+            <span style="color: #657b83">n</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">//</span> <span style="color: #2aa198">2</span>
+        <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+            <span style="color: #657b83">n</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">3</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+        <span style="color: #657b83">steps</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">steps</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">steps</span>
+</code></pre>
+<p><strong>Why it works.</strong> Each pass transforms <code>n</code> by exactly one Collatz rule and tallies one step. The loop stops when <code>n</code> reaches <code>1</code>; for <code>n == 1</code> the body never runs, so the count is <code>0</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span></span> where <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">s</span></span></span></span></span> is the number of steps to reach <code>1</code>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. The step count is the loop length itself.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">collatz_steps(</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">collatz_steps(</span><span style="color: #2aa198">2</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">collatz_steps(</span><span style="color: #2aa198">6</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">8</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">collatz_steps(</span><span style="color: #2aa198">7</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">16</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">collatz_steps(</span><span style="color: #2aa198">27</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">111</span>
+</code></pre>
+<h3>8. Primality Test</h3>
+<p><strong>Approach — early-exit trial division.</strong> Numbers below <code>2</code> are rejected outright. Then a <code>while</code> loop tries divisors <code>d</code> while <code>d * d &lt;= n</code>; the first <code>d</code> that divides <code>n</code> (again via the floor-division remainder) triggers an immediate <code>return False</code>. Surviving the whole loop means no divisor exists, so <code>n</code> is prime.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">is_prime</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">2</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">False</span>
+    <span style="color: #657b83">d</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">2</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">d</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">d</span> <span style="color: #93a1a1">&lt;=</span> <span style="color: #657b83">n:</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">(n</span> <span style="color: #93a1a1">//</span> <span style="color: #657b83">d)</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">d</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">False</span>
+        <span style="color: #657b83">d</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">d</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">True</span>
+</code></pre>
+<p><strong>Why it works.</strong> Any composite <code>n</code> has a divisor no larger than its square root, so checking <code>d</code> up to <code>d * d &lt;= n</code> is sufficient. Returning <code>False</code> at the first divisor short-circuits the search; reaching the end with none found proves primality.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0503em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8003em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord mathnormal">n</span></span></span><span style="top:-2.7603em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.08em" viewBox="0 0 400000 1080" preserveAspectRatio="xMinYMin slice"><path d="M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2397em;"><span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. The loop runs only while <code>d * d &lt;= n</code>.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">is_prime(</span><span style="color: #2aa198">2</span><span style="color: #657b83">)</span> <span style="color: #859900">is</span> <span style="color: #2aa198">True</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">is_prime(</span><span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #859900">is</span> <span style="color: #2aa198">True</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">is_prime(</span><span style="color: #2aa198">4</span><span style="color: #657b83">)</span> <span style="color: #859900">is</span> <span style="color: #2aa198">False</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">is_prime(</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span> <span style="color: #859900">is</span> <span style="color: #2aa198">False</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">is_prime(</span><span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #859900">is</span> <span style="color: #2aa198">False</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">is_prime(</span><span style="color: #2aa198">97</span><span style="color: #657b83">)</span> <span style="color: #859900">is</span> <span style="color: #2aa198">True</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">is_prime(</span><span style="color: #2aa198">100</span><span style="color: #657b83">)</span> <span style="color: #859900">is</span> <span style="color: #2aa198">False</span>
+</code></pre>
+<h3>9. Reverse the Digits</h3>
+<p><strong>Approach — peel and rebuild.</strong> Record the sign, work with <code>abs(n)</code>, and on each pass pull off the lowest digit with the remainder trick while shifting the growing result left by a place. This is a single <code>while</code> loop whose state — the shrinking <code>n</code> and the growing <code>result</code> — moves together until <code>n</code> reaches <code>0</code>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">reverse_number</span><span style="color: #657b83">(n):</span>
+    <span style="color: #657b83">negative</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">0</span>
+    <span style="color: #657b83">n</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">abs</span><span style="color: #657b83">(n)</span>
+    <span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">digit</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">(n</span> <span style="color: #93a1a1">//</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">*</span> <span style="color: #2aa198">10</span>
+        <span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">result</span> <span style="color: #93a1a1">*</span> <span style="color: #2aa198">10</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">digit</span>
+        <span style="color: #657b83">n</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">//</span> <span style="color: #2aa198">10</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">negative:</span>
+        <span style="color: #859900">return</span> <span style="color: #93a1a1">-</span><span style="color: #657b83">result</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">result</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>digit = n - (n // 10) * 10</code> is the last digit of <code>n</code>; appending it to <code>result</code> with <code>result * 10 + digit</code> places it one position more significant than the previous digit, which reverses the order. Floor-dividing <code>n</code> by 10 drives the loop to termination. Trailing zeros vanish because a leading zero in the reversed number contributes nothing to the integer value.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mop">lo<span style="margin-right:0.0139em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> in the value of <code>n</code> (one pass per digit), Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">reverse_number(</span><span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">reverse_number(</span><span style="color: #2aa198">7</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">7</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">reverse_number(</span><span style="color: #2aa198">123</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">321</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">reverse_number(</span><span style="color: #2aa198">1200</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">21</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">reverse_number(</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">405</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">504</span>
+</code></pre>
+<h3>10. The nth Prime</h3>
+<p><strong>Approach — nested loops with a short-circuited flag.</strong> The outer <code>while</code> keeps generating candidates until <code>found</code> reaches <code>n</code>. For each candidate, an inner <code>while</code> does trial division, setting <code>is_p</code> to <code>False</code> at the first divisor; the header <code>d * d &lt;= candidate and is_p</code> short-circuits so the inner loop stops the instant the candidate is known to be composite.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">nth_prime</span><span style="color: #657b83">(n):</span>
+    <span style="color: #657b83">found,</span> <span style="color: #657b83">candidate</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">found</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #657b83">n:</span>
+        <span style="color: #657b83">candidate</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">candidate</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+        <span style="color: #657b83">is_p,</span> <span style="color: #657b83">d</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">True</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span>
+        <span style="color: #859900">while</span> <span style="color: #657b83">d</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">d</span> <span style="color: #93a1a1">&lt;=</span> <span style="color: #657b83">candidate</span> <span style="color: #859900">and</span> <span style="color: #657b83">is_p:</span>
+            <span style="color: #859900">if</span> <span style="color: #657b83">candidate</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">(candidate</span> <span style="color: #93a1a1">//</span> <span style="color: #657b83">d)</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">d</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+                <span style="color: #657b83">is_p</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">False</span>
+            <span style="color: #657b83">d</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">d</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">is_p:</span>
+            <span style="color: #657b83">found</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">found</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">candidate</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>candidate</code> starts at <code>1</code> and is bumped before each test, so the first candidate examined is <code>2</code>. The inner loop decides primality exactly as <code>is_prime</code> does; when a candidate survives, <code>found</code> increases. The outer loop exits the moment <code>found == n</code>, leaving <code>candidate</code> bound to the <code>n</code>th prime.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0869em;vertical-align:-0.3369em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">p</span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7031em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord mathnormal">p</span></span></span><span style="top:-2.6631em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.08em" viewBox="0 0 400000 1080" preserveAspectRatio="xMinYMin slice"><path d="M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3369em;"><span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span> where <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span></span></span></span></span> is the value of the <code>n</code>th prime (each candidate up to <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span></span></span></span></span> costs an <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0869em;vertical-align:-0.3369em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7031em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord mathnormal">p</span></span></span><span style="top:-2.6631em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.08em" viewBox="0 0 400000 1080" preserveAspectRatio="xMinYMin slice"><path d="M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3369em;"><span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span> trial-division), Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">nth_prime(</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">2</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">nth_prime(</span><span style="color: #2aa198">2</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">nth_prime(</span><span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">5</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">nth_prime(</span><span style="color: #2aa198">6</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">13</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">nth_prime(</span><span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">29</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">nth_prime(</span><span style="color: #2aa198">25</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">97</span>
+</code></pre>
+</div></section><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+
+</body>
+</html>

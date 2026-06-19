@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 326" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- Diamond 1: x > 0 ?  (center 150,58) -->
+  <polygon points="150,16 240,58 150,100 60,58" fill="#fdf6e3" stroke="#073642" stroke-width="2.5"/>
+  <text x="150" y="64" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">x &gt; 0 ?</text>
+
+  <!-- Diamond 1 True arrow (right, blue) -->
+  <line x1="240" y1="58" x2="442" y2="58" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="440,52 451,58 440,64" fill="#268bd2"/>
+  <text x="345" y="46" text-anchor="middle" font-size="13" font-family="monospace" fill="#268bd2">True</text>
+
+  <!-- return x box (cyan result, center y 58) -->
+  <rect x="454" y="35" width="138" height="46" rx="12" fill="#ffffff" stroke="#2aa198" stroke-width="2"/>
+  <text x="523" y="64" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">return x</text>
+
+  <!-- Diamond 1 False arrow (down) -->
+  <line x1="150" y1="100" x2="150" y2="128" stroke="#657b83" stroke-width="2.5"/>
+  <polygon points="144,126 150,137 156,126" fill="#657b83"/>
+  <text x="179" y="118" text-anchor="middle" font-size="13" font-family="monospace" fill="#657b83">False</text>
+
+  <!-- Diamond 2: x == 0 ?  (center 150,172) -->
+  <polygon points="150,130 240,172 150,214 60,172" fill="#fdf6e3" stroke="#073642" stroke-width="2.5"/>
+  <text x="150" y="178" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">x == 0 ?</text>
+
+  <!-- Diamond 2 True arrow (right, blue) -->
+  <line x1="240" y1="172" x2="442" y2="172" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="440,166 451,172 440,178" fill="#268bd2"/>
+  <text x="345" y="160" text-anchor="middle" font-size="13" font-family="monospace" fill="#268bd2">True</text>
+
+  <!-- return 0 box (cyan result, center y 172) -->
+  <rect x="454" y="149" width="138" height="46" rx="12" fill="#ffffff" stroke="#2aa198" stroke-width="2"/>
+  <text x="523" y="178" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">return 0</text>
+
+  <!-- Diamond 2 False arrow (down) -->
+  <line x1="150" y1="214" x2="150" y2="242" stroke="#657b83" stroke-width="2.5"/>
+  <polygon points="144,240 150,251 156,240" fill="#657b83"/>
+  <text x="179" y="232" text-anchor="middle" font-size="13" font-family="monospace" fill="#657b83">False</text>
+
+  <!-- return -x box (else, cyan result) -->
+  <rect x="81" y="244" width="138" height="46" rx="12" fill="#ffffff" stroke="#2aa198" stroke-width="2"/>
+  <text x="150" y="273" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">return -x</text>
+  <text x="150" y="309" text-anchor="middle" font-size="13" fill="#93a1a1">else (no condition left)</text>
+
+  <!-- caption -->
+  <text x="437" y="262" text-anchor="middle" font-size="13" fill="#93a1a1">conditions are checked top to bottom; the first True</text>
+  <text x="437" y="280" text-anchor="middle" font-size="13" fill="#93a1a1">branch runs and the rest are skipped.</text>
+</svg>

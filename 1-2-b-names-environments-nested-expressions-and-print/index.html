@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>1.2 Elements of Programming: Names, Environments, and Print · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/' class='active'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 1</span><span class='dot'>/</span><span class='eb-sec'>1.2 Elements of Programming</span></div><h1 class='lesson-title'>1.2 Elements of Programming: Names, Environments, and Print</h1><div class='reading-meta'>&#9719; approx. 17 min read <span class='rm-sep'>&middot;</span> 33 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>In the last lesson you learned that an expression computes a value and a statement carries out an action. The single most important statement, the one you will write thousands of times, is the <strong>assignment statement</strong>: it gives a name to a value. This lesson is about what that name actually is, where Python keeps track of it, and what happens when you reassign it.</p>
+<p>By the end you will be able to do four things: read an assignment statement as a two-step process instead of a math equation, picture the <strong>environment</strong> where Python stores every name, predict what a name evaluates to after the code around it changes, and separate what a function <strong>displays</strong> on screen from what it <strong>returns</strong> to your program. That last skill arrives through <code>print</code>, which is the first function in this course that does something other than hand back a value.</p>
+<p>The habit from lesson 1.1 carries straight in: when code looks confusing, slow down and separate it into the smallest meaningful pieces, then evaluate one piece at a time.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='names-are-labels-not-the-thing-itself' class='ls ls-default'>
+<h2 class='ls-h'><span>Names Are Labels, Not the Thing Itself</span></h2>
+<div class='ls-body'>
+<p>Picture a coat-check counter. You hand over your coat and get a numbered tag. The tag is not the coat. It is a way to find the coat later. If you walk up and say &quot;tag 14,&quot; the attendant goes and fetches whatever coat is currently filed under 14. Crucially, the tag does not remember what you were wearing yesterday, and it does not magically update if you swap your coat for a different one. It just points at whatever is filed under that number <strong>right now</strong>.</p>
+<p>A <strong>name</strong> in Python works the same way. When you write <code>radius = 10</code>, you are not writing a mathematical fact. You are filing the value <code>10</code> under the tag <code>radius</code>. Later, when Python sees the name <code>radius</code>, it goes and fetches whatever is currently filed under that name. The name is a label that points to a value; it is never the value itself.</p>
+<p>This is why the rest of the lesson keeps coming back to one question: <strong>what is this name bound to right now?</strong> Almost every confusing moment with names dissolves once you ask it.</p>
+</div></section>
+<section id='assignment-evaluate-the-right-then-bind-the-left' class='ls ls-default'>
+<h2 class='ls-h'><span>Assignment: Evaluate the Right, Then Bind the Left</span></h2>
+<div class='ls-body'>
+<p>Here is the smallest assignment statement:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #657b83">radius</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">10</span>
+</code></pre>
+<p>Python does not read <code>=</code> as &quot;is equal to.&quot; It reads <code>=</code> as an instruction to <strong>bind</strong> a name. The order it works in is fixed and worth memorizing.</p>
+<pre class='code anatomy'><code>radius = 10
+├─ 10 .......... evaluate the expression on the right first → the value 10
+├─ = ........... bind: file that value under the name on the left
+├─ radius ...... the name (the label) that will point to the value
+└─ performs:     creates the binding radius → 10 in the current environment</code></pre>
+<p>Two machine steps, always in this order: first evaluate the right-hand expression, then bind the left-hand name to the result. Nothing is printed; an assignment is a statement, and a statement carries out an action rather than producing a value.</p>
+<p>Once the binding exists, evaluating the name fetches the value it points to:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #657b83">radius</span>
+</code></pre>
+<pre class='code text'><code>10</code></pre>
+<p>And the name can be used anywhere a value is expected, including inside a larger expression:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #2aa198">2</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">radius</span>
+</code></pre>
+<p>Python looks up <code>radius</code>, finds <code>10</code>, and computes the product:</p>
+<pre class='code text'><code>20</code></pre>
+<p>The anatomy of that lookup-and-compute:</p>
+<pre class='code anatomy'><code>2 * radius
+├─ 2 ........... the integer two
+├─ * ........... the multiplication operator
+├─ radius ...... look this name up in the environment → 10
+└─ evaluates to  20</code></pre>
+</div></section>
+<section id='the-environment-stores-every-binding' class='ls ls-default'>
+<h2 class='ls-h'><span>The Environment Stores Every Binding</span></h2>
+<div class='ls-body'>
+<p>Where does Python keep the fact that <code>radius → 10</code>? In the <strong>environment</strong>: the collection of name-to-value bindings the interpreter can currently use. At the top level of a program, those bindings live in a single table called the <strong>global frame</strong>.</p>
+<p>Run two assignments in a row:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (4)</span>
+<span style="color: #657b83">radius</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">10</span>
+<span style="color: #657b83">diameter</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">2</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">radius</span>
+</code></pre>
+<p>After both lines, the global frame holds two bindings:</p>
+<pre class='code text'><code>Global frame
+radius   → 10
+diameter → 20</code></pre>
+<p>Here is the subtle point that becomes one of the most important mental models in this chapter. When Python evaluated <code>2 * radius</code>, it looked up <code>radius</code>, found <code>10</code>, computed <code>20</code>, and stored the <strong>finished value</strong> <code>20</code> under <code>diameter</code>. It did not store the formula <code>2 * radius</code>. The binding <code>diameter → 20</code> is a snapshot of work Python already completed, not a live recipe that keeps recomputing.</p>
+<pre class='code text'><code>Assignment stores the value produced now.
+It does not store a formula that keeps updating forever.</code></pre>
+<p>So if a later line asks for <code>diameter</code>, Python does not reopen <code>2 * radius</code>. It just reads the value <code>20</code> straight out of the frame.</p>
+</div></section>
+<section id='imported-names-are-bindings-too' class='ls ls-default'>
+<h2 class='ls-h'><span>Imported Names Are Bindings Too</span></h2>
+<div class='ls-body'>
+<p>An import statement also adds bindings to the environment. The <code>math</code> module ships a name <code>pi</code> bound to a decimal approximation of the mathematical constant <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">π</span></span></span></span></span>.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (5)</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">math</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">pi</span>
+</code></pre>
+<p>After this line, <code>pi</code> is a name in the environment like any other, and you can use it anywhere a value is expected. The source text shows it inside a small expression:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (6)</span>
+<span style="color: #657b83">pi</span> <span style="color: #93a1a1">*</span> <span style="color: #2aa198">71</span> <span style="color: #93a1a1">/</span> <span style="color: #2aa198">223</span>
+</code></pre>
+<p>Python looks up <code>pi</code>, multiplies by <code>71</code>, then divides by <code>223</code>, evaluating left to right:</p>
+<pre class='code text'><code>1.0002380197528042</code></pre>
+<p>There is nothing special about the name <code>pi</code>. It is just a binding that happens to point at a useful number. Now use it in the circle formulas, with <code>radius</code> bound to <code>10</code>:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (7)</span>
+<span style="color: #657b83">radius</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">10</span>
+<span style="color: #657b83">area,</span> <span style="color: #657b83">circumference</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">pi</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">radius</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">radius,</span> <span style="color: #2aa198">2</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">pi</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">radius</span>
+</code></pre>
+<p>Don&#x27;t worry about the two-names-at-once form yet; for now just read it as two assignments, one to <code>area</code> and one to <code>circumference</code>. We dissect exactly how Python lines up the two sides in a moment.</p>
+<p>The geometry behind those two expressions is:</p>
+<div class='math'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord text"><span class="mord">area</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8641em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">π</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:2em;"></span><span class="mord text"><span class="mord">circumference</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mord mathnormal" style="margin-right:0.0359em;">π</span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span></span></span></span></span></div>
+<p>Asking for each result gives the official values verbatim:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (8)</span>
+<span style="color: #657b83">area</span>
+</code></pre>
+<pre class='code text'><code>314.1592653589793</code></pre>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (9)</span>
+<span style="color: #657b83">circumference</span>
+</code></pre>
+<pre class='code text'><code>62.83185307179586</code></pre>
+</div></section>
+<section id='reassigning-a-name-does-not-update-old-results' class='ls ls-default'>
+<h2 class='ls-h'><span>Reassigning a Name Does Not Update Old Results</span></h2>
+<div class='ls-body'>
+<p>This is the trap that catches almost every beginner, so study it slowly. Names look like algebra, and in algebra &quot;<span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord text"><span class="mord">area</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">π</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span>&quot; stays true forever as <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span></span></span></span></span> changes. Python is not algebra. A binding is a snapshot, not a living equation.</p>
+<p>Continuing the session above, change <code>radius</code>:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (10)</span>
+<span style="color: #657b83">radius</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">11</span>
+</code></pre>
+<p>Now ask for <code>area</code> again:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (11)</span>
+<span style="color: #657b83">area</span>
+</code></pre>
+<pre class='code text'><code>314.1592653589793</code></pre>
+<p>The value did <strong>not</strong> change. <code>area</code> was bound back in line (7) to the number Python computed while <code>radius</code> was <code>10</code>. Rebinding <code>radius</code> to <code>11</code> files a new coat under the <code>radius</code> tag, but it does not reach back in time and recompute <code>area</code>. The binding <code>area → 314.1592653589793</code> simply sits there, exactly as it was stored.</p>
+<p>Picture the two tags before and after the reassignment: only the <code>radius</code> tag moves to a new value, while the <code>area</code> tag stays pinned to the number it was already given.</p>
+<p><img class="figure" src="figures/name-as-tag.svg" alt="Two side-by-side panels labeled BEFORE and AFTER. In BEFORE, a tag radius points by an arrow to a box holding 10, and a tag area points to a box holding 314.159 and so on. In AFTER, with radius reassigned to 11, the radius tag now points by a highlighted blue arrow to a new box holding 11, while the area tag still points to the same unchanged box holding 314.159 and so on."></p>
+<p>If you want the area for the new radius, you must run a <strong>new</strong> assignment, which evaluates the right side again using the current value of <code>radius</code>:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (12)</span>
+<span style="color: #657b83">area</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">pi</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">radius</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">radius</span>
+</code></pre>
+<pre class='code text'><code>380.1327110843649</code></pre>
+<p>This time Python looks up <code>radius</code>, finds <code>11</code>, computes <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4445em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">π</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">11</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">11</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">121</span><span class="mord mathnormal" style="margin-right:0.0359em;">π</span></span></span></span></span>, and rebinds <code>area</code> to that fresh value. The rule, stated once so it sticks:</p>
+<pre class='code text'><code>A name holds the value computed at the moment of assignment.
+To get a new value, run a new assignment.</code></pre>
+</div></section>
+<section id='following-the-line-multiple-assignment' class='ls ls-default'>
+<h2 class='ls-h'><span>Following the Line: Multiple Assignment</span></h2>
+<div class='ls-body'>
+<p>Line (7) bound two names in one statement. Python allows this, and it has a precise rule for how the two sides line up.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (13)</span>
+<span style="color: #657b83">area,</span> <span style="color: #657b83">circumference</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">pi</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">radius</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">radius,</span> <span style="color: #2aa198">2</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">pi</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">radius</span>
+</code></pre>
+<pre class='code anatomy'><code>area, circumference = pi * radius * radius, 2 * pi * radius
+├─ pi * radius * radius .... evaluate the FIRST right-side expression → area&#x27;s value
+├─ 2 * pi * radius ........ evaluate the SECOND right-side expression → circumference&#x27;s value
+├─ = ...................... bind, pairing left names with right values in order
+├─ area .................. first name ← first value
+├─ circumference ......... second name ← second value
+└─ performs:              binds area and circumference to the two computed values</code></pre>
+<p>Python pairs the first value with the first name and the second value with the second name. The statement above is exactly equivalent to writing the two assignments separately:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (14)</span>
+<span style="color: #657b83">area</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">pi</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">radius</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">radius</span>
+<span style="color: #657b83">circumference</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">2</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">pi</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">radius</span>
+</code></pre>
+<p>The number of names on the left must match the number of values on the right. Multiple assignment is convenient, but mismatched counts are a common source of errors, so keep the two sides balanced.</p>
+</div></section>
+<section id='evaluate-everything-on-the-right-first-the-swap' class='ls ls-default'>
+<h2 class='ls-h'><span>Evaluate Everything on the Right First: The Swap</span></h2>
+<div class='ls-body'>
+<p>Multiple assignment hides a rule that matters enormously: <strong>all expressions to the right of <code>=</code> are evaluated before any name on the left is bound.</strong> The cleanest demonstration is swapping two values, which the source shows directly.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (15)</span>
+<span style="color: #657b83">x,</span> <span style="color: #657b83">y</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4.5</span>
+</code></pre>
+<pre class='code text'><code>Global frame
+x → 3
+y → 4.5</code></pre>
+<p>Now the swap:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (16)</span>
+<span style="color: #657b83">y,</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">x,</span> <span style="color: #657b83">y</span>
+</code></pre>
+<pre class='code anatomy'><code>y, x = x, y
+├─ x ........... evaluate first right expression → 3   (the OLD x)
+├─ y ........... evaluate second right expression → 4.5 (the OLD y)
+├─ = ........... only now bind, pairing left names with those captured values
+├─ y ........... first name ← 3
+├─ x ........... second name ← 4.5
+└─ performs:     x and y are exchanged</code></pre>
+<p>Because the right side is fully evaluated <strong>before</strong> any binding happens, Python captures the old values <code>3</code> and <code>4.5</code> first, and only then writes them into <code>y</code> and <code>x</code>. The assignment to <code>y</code> cannot clobber the value of <code>x</code> partway through, because <code>x</code> was already read. Confirm it:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (17)</span>
+<span style="color: #657b83">x</span>
+</code></pre>
+<pre class='code text'><code>4.5</code></pre>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (18)</span>
+<span style="color: #657b83">y</span>
+</code></pre>
+<pre class='code text'><code>3</code></pre>
+<p>If Python had bound <code>y</code> first and then evaluated <code>x</code>, both names would have ended up <code>3</code>. The &quot;evaluate the whole right side first&quot; rule is precisely what makes a one-line swap work.</p>
+</div></section>
+<section id='names-can-point-to-functions' class='ls ls-default'>
+<h2 class='ls-h'><span>Names Can Point to Functions</span></h2>
+<div class='ls-body'>
+<p>A name is bound to a value, and a function is a value, so a name can point to a function. The source demonstrates this with the built-in <code>max</code>.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (19)</span>
+<span style="color: #657b83">f</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">max</span>
+</code></pre>
+<p>Evaluating <code>f</code> now shows the function object it points to:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (20)</span>
+<span style="color: #657b83">f</span>
+</code></pre>
+<pre class='code text'><code>&lt;built-in function max&gt;</code></pre>
+<p>Because <code>f</code> points at the same function value as <code>max</code>, calling <code>f</code> does exactly what calling <code>max</code> does:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (21)</span>
+<span style="color: #657b83">f(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)</span>
+</code></pre>
+<pre class='code text'><code>4</code></pre>
+<pre class='code anatomy'><code>f(2, 3, 4)
+├─ f ........... look up the name → the built-in max function
+├─ ( ........... begin the inputs
+├─ 2, 3, 4 ..... three arguments, separated by commas
+├─ ) ........... end the inputs
+└─ evaluates to  4   (the largest argument)</code></pre>
+<p>This is not a special feature. It is ordinary assignment; the value just happens to be a function. And like any name, <code>f</code> can be rebound to something else entirely:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (22)</span>
+<span style="color: #657b83">f</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">2</span>
+</code></pre>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (23)</span>
+<span style="color: #657b83">f</span>
+</code></pre>
+<pre class='code text'><code>2</code></pre>
+<p>The name <code>f</code> was never permanently wired to <code>max</code>. It pointed at the same value for a while, and <code>f = 2</code> files a different value under the tag. Picture the frame before and after:</p>
+<pre class='code text'><code>Before f = 2:
+max → built-in max function
+f   → built-in max function
+
+After f = 2:
+max → built-in max function
+f   → 2</code></pre>
+</div></section>
+<section id='names-can-shadow-built-ins-and-why-that-bites' class='ls ls-default'>
+<h2 class='ls-h'><span>Names Can Shadow Built-ins (and Why That Bites)</span></h2>
+<div class='ls-body'>
+<p>Python lets you bind almost any valid name, even one that already names a useful built-in function. Nothing stops you from doing this:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (24)</span>
+<span style="color: #268bd2">max</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">5</span>
+</code></pre>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (25)</span>
+<span style="color: #268bd2">max</span>
+</code></pre>
+<pre class='code text'><code>5</code></pre>
+<p>After line (24), the name <code>max</code> in this environment points to the integer <code>5</code>, not to the function. When Python later sees <code>max</code>, it finds <code>5</code> first and stops looking; it does not keep searching for the built-in once a binding exists.</p>
+<p>So the very same kind of call that worked through <code>f</code> now fails:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (26)</span>
+<span style="color: #268bd2">max</span><span style="color: #657b83">(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>Python tries to call the value bound to <code>max</code>, but that value is <code>5</code>, and an integer is not callable. The call raises an error. The official text puts it plainly: attempting to call <code>max(2, 3, 4)</code> will cause an error, because <code>max</code> is no longer bound to a function.</p>
+<p>The lesson is not &quot;never reuse names.&quot; It is to avoid shadowing names you still need, especially common built-ins like <code>max</code>, <code>min</code>, <code>sum</code>, <code>len</code>, <code>list</code>, <code>str</code>, and <code>print</code>. When a built-in suddenly &quot;breaks,&quot; the first thing to check is whether you accidentally rebound its name.</p>
+</div></section>
+<section id='pure-functions-and-non-pure-functions' class='ls ls-default'>
+<h2 class='ls-h'><span>Pure Functions and Non-Pure Functions</span></h2>
+<div class='ls-body'>
+<p>Every function you have called so far has been <strong>pure</strong>: it takes inputs, returns a value, and does nothing else. A pure function has two defining properties. It has no <strong>side effects</strong> (no effect on the world beyond the value it returns), and it always returns the same value when called again with the same arguments. The function <code>abs</code> is pure:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (27)</span>
+<span style="color: #268bd2">abs</span><span style="color: #657b83">(</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">2</span><span style="color: #657b83">)</span>
+</code></pre>
+<pre class='code text'><code>2</code></pre>
+<p>Call <code>abs(-2)</code> a thousand times and you get <code>2</code> every time, and nothing else in the world changes.</p>
+<p>A <strong>non-pure</strong> function does something extra: it produces a <strong>side effect</strong>, an observable change beyond the returned value. The first and most important non-pure function in this course is <code>print</code>, whose side effect is displaying text on the screen.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (28)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)</span>
+</code></pre>
+<pre class='code text'><code>1 2 3</code></pre>
+<p>The commas separate the three arguments handed to <code>print</code>. The single spaces between the numbers in the output are part of how <code>print</code> formats its display; they are not commas and not part of any value.</p>
+<p>Here is the part that trips people up. When you run <code>print(1, 2, 3)</code>, the text <code>1 2 3</code> appears on screen, but that text is the <strong>side effect</strong>, not the return value. The value <code>print</code> hands back to your program is always <code>None</code>. The interactive interpreter (the prompt where you type one line and immediately see its value) automatically displays the value of any expression you type, but it makes one exception: it stays silent when that value is <code>None</code>. So it looks like <code>print</code> &quot;returned&quot; the text you see, when in fact it returned nothing useful.</p>
+<p>A clean way to hold this: a pure function like <code>abs</code> is a chef who hands you a finished dish (the return value). <code>print</code> is a town crier who shouts an announcement (the side effect) and then hands you nothing. Both did something; only one gave you back a value.</p>
+<p>Picture a single <code>print(2)</code> call sending its two results to two different places at once: the text goes to the screen, and the return value goes back to your program.</p>
+<p><img class="figure" src="figures/print-vs-return.svg" alt="A machine box labeled print of 2 with two arrows leaving it to different destinations. A blue arrow labeled shows on the screen points to a small console rectangle displaying 2, and a cyan arrow labeled returns the value points to a small box displaying None."></p>
+<p>So make a habit of asking two separate questions about every <code>print</code> call:</p>
+<pre class='code text'><code>What does it DISPLAY on screen?   (the side effect)
+What does it RETURN to the program? (always None)</code></pre>
+<p>For <code>print(1, 2, 3)</code>: it displays <code>1 2 3</code>, and it returns <code>None</code>.</p>
+</div></section>
+<section id='none-is-a-real-value' class='ls ls-default'>
+<h2 class='ls-h'><span>None Is a Real Value</span></h2>
+<div class='ls-body'>
+<p><code>None</code> is Python&#x27;s value for &quot;no useful value.&quot; It is what non-pure functions like <code>print</code> hand back. You cannot see it in the interactive interpreter by accident, because the interpreter hides <code>None</code> results, so you have to catch it deliberately by storing it.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (29)</span>
+<span style="color: #657b83">two</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #2aa198">2</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>Running line (29) does two things. As a side effect, it displays:</p>
+<pre class='code text'><code>2</code></pre>
+<p>Then it binds <code>two</code> to the return value of <code>print</code>, which is <code>None</code>. Now read the stored value back out:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (30)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(two)</span>
+</code></pre>
+<pre class='code text'><code>None</code></pre>
+<p>Trace the logic: <code>two</code> does not hold <code>2</code>, even though <code>2</code> appeared on screen during line (29). The <code>2</code> was the side effect; the return value was <code>None</code>, and that is what got filed under <code>two</code>. Passing <code>two</code> to <code>print</code> then displays <code>None</code>. The screen output of a function and its return value are two different things, and <code>print</code> is where that distinction first matters.</p>
+</div></section>
+<section id='nested-print-calls-a-stress-test-for-evaluation-order' class='ls ls-default'>
+<h2 class='ls-h'><span>Nested print Calls: A Stress Test for Evaluation Order</span></h2>
+<div class='ls-body'>
+<p>This next example looks small but quietly tests everything in the lesson: argument evaluation order, side effects, and return values all at once.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (31)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #2aa198">1</span><span style="color: #657b83">),</span> <span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #2aa198">2</span><span style="color: #657b83">))</span>
+</code></pre>
+<pre class='code text'><code>1
+2
+None None</code></pre>
+<p>To run the <strong>outer</strong> <code>print</code>, Python must first evaluate its two arguments, left to right. Each argument is itself a <code>print</code> call. Walk it step by step.</p>
+<pre class='code anatomy'><code>print(print(1), print(2))
+│
+├─ evaluate first argument: print(1)
+│     side effect: displays  1
+│     returns:                None
+│
+├─ evaluate second argument: print(2)
+│     side effect: displays  2
+│     returns:                None
+│
+└─ now call the OUTER print with the two returned values: None, None
+      side effect: displays  None None
+      returns:                None   (hidden by the interpreter)</code></pre>
+<p>That is why three lines appear, in this exact order: <code>1</code> from the inner left call, <code>2</code> from the inner right call, then <code>None None</code> from the outer call receiving the two <code>None</code> return values. If you tracked the displayed text and confused it with the return values, you would have predicted the wrong output. Separating &quot;what is displayed&quot; from &quot;what is returned&quot; is exactly the skill this example rewards.</p>
+</div></section>
+<section id='a-short-environment-trace' class='ls ls-default'>
+<h2 class='ls-h'><span>A Short Environment Trace</span></h2>
+<div class='ls-body'>
+<p>Let us combine the two big ideas, snapshot bindings and the <code>print</code>/<code>None</code> distinction, in one walk-through. Read each line and update the global frame in your head before checking the result.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (32)</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">math</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">pi</span>
+
+<span style="color: #657b83">radius</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">10</span>
+<span style="color: #657b83">area</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">pi</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">radius</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">radius</span>
+<span style="color: #657b83">radius</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">11</span>
+<span style="color: #657b83">new_area</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">pi</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">radius</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">radius</span>
+<span style="color: #657b83">shown</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">print</span><span style="color: #657b83">(new_area)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/30e36d87623e.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>Step by step:</p>
+<pre class='code text'><code>from math import pi
+  Global frame: pi → 3.141592653589793
+
+radius = 10
+  Global frame: pi → ... , radius → 10
+
+area = pi * radius * radius
+  look up radius (10), compute → 314.1592653589793
+  Global frame: ... , area → 314.1592653589793
+
+radius = 11
+  rebind only radius; area is untouched
+  Global frame: ... , radius → 11, area → 314.1592653589793
+
+new_area = pi * radius * radius
+  look up radius (now 11), compute → 380.1327110843649
+  Global frame: ... , new_area → 380.1327110843649
+
+shown = print(new_area)
+  side effect: displays 380.1327110843649
+  print returns None, so shown is bound to None
+  Global frame: ... , shown → None</code></pre>
+<p>Final global frame:</p>
+<pre class='code text'><code>Global frame
+pi       → 3.141592653589793
+radius   → 11
+area     → 314.1592653589793
+new_area → 380.1327110843649
+shown    → None</code></pre>
+<p>The frame makes two facts visible at a glance. <code>area</code> still holds the value it was given while <code>radius</code> was <code>10</code>, because reassigning <code>radius</code> never recomputes old bindings. And <code>shown</code> is <code>None</code>, not the number that appeared on screen, because <code>print</code> displays text as a side effect but returns <code>None</code>.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<div class='table-wrap'><table><thead><tr>
+<th>Mistake</th>
+<th>What Goes Wrong</th>
+<th>Safer Question</th>
+</tr></thead><tbody>
+<tr>
+<td>Reading <code>=</code> as permanent equality</td>
+<td>The student expects old results to update automatically, so a name computed earlier is read as the wrong, stale value</td>
+<td>When was the right side evaluated?</td>
+</tr>
+<tr>
+<td>Expecting an assignment to show output</td>
+<td>The student waits for a result on screen, but an assignment displays nothing; only the binding changes</td>
+<td>Is this line a statement that acts, or an expression that produces a value?</td>
+</tr>
+<tr>
+<td>Forgetting names can point to functions</td>
+<td><code>f = max</code> seems mysterious even though it is ordinary assignment</td>
+<td>What value is this name bound to right now?</td>
+</tr>
+<tr>
+<td>Shadowing a built-in name</td>
+<td>A useful name such as <code>max</code> now points to an integer, so a later call like <code>max(2, 3, 4)</code> raises an error because an integer is not callable</td>
+<td>Am I reusing a name Python already uses?</td>
+</tr>
+<tr>
+<td>Treating printed output as the return value</td>
+<td>A later expression receives <code>None</code> instead of the text it expected</td>
+<td>Did this function return a value, or only display one?</td>
+</tr>
+<tr>
+<td>Assuming the right side is bound left-to-right</td>
+<td>A swap like <code>y, x = x, y</code> is mispredicted, leaving both names holding the same value</td>
+<td>Are all right-side expressions evaluated before any binding?</td>
+</tr>
+</tbody></table></div>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>After running <code>side = 4</code>, then <code>area = side * side</code>, then <code>side = 6</code>, what does <code>print(area)</code> display, and what does <code>print(side * side)</code> display?</li>
+<li>After <code>radius = 11</code>, why does the earlier <code>area</code> keep its old value <code>314.1592653589793</code>?</li>
+<li>In <code>y, x = x, y</code>, why do <code>x</code> and <code>y</code> actually swap instead of both becoming the same value?</li>
+<li>After <code>f = max</code>, why can <code>f(2, 3, 4)</code> return <code>4</code>? And after <code>max = 5</code>, why does <code>max(2, 3, 4)</code> fail?</li>
+<li>What value does <code>two = print(2)</code> store in <code>two</code>, and what appears on screen while that line runs?</li>
+<li>Predict the full screen output of <code>print(print(1), print(2))</code> and explain the order.</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li><code>print(area)</code> displays <code>16</code>, because <code>area</code> was bound to the value computed while <code>side</code> was <code>4</code> and rebinding <code>side</code> does not recompute it. <code>print(side * side)</code> displays <code>36</code>, because that expression is evaluated now, with <code>side</code> currently <code>6</code>.</li>
+<li><code>area</code> was bound once, to the value computed while <code>radius</code> was <code>10</code>. A binding stores the finished value, not a live formula, so rebinding <code>radius</code> does not recompute <code>area</code>.</li>
+<li>Because all expressions on the right of <code>=</code> are evaluated before any name on the left is bound. Python reads the old <code>x</code> (3) and old <code>y</code> (4.5) first, then assigns them to <code>y</code> and <code>x</code>.</li>
+<li><code>f</code> is bound to the same function value as <code>max</code>, so calling it runs <code>max</code>. After <code>max = 5</code>, the name <code>max</code> points to the integer <code>5</code>, which is not callable, so the call raises an error.</li>
+<li><code>two</code> is bound to <code>None</code> (the return value of <code>print</code>). On screen, <code>2</code> is displayed as the side effect.</li>
+<li>The output is <code>1</code>, then <code>2</code>, then <code>None None</code>. Python evaluates the two inner calls first (displaying <code>1</code> and <code>2</code>, each returning <code>None</code>), then calls the outer <code>print</code> with <code>None</code> and <code>None</code>, which displays <code>None None</code>.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>A name is a label in an environment, not the value itself; at the top level those labels live in the global frame. Assignment evaluates the right-hand expression first, then binds the left-hand name to the finished value, and in multiple assignment the entire right side is evaluated before any binding happens, which is what makes a swap work. A binding is a snapshot, so reassigning one name never recomputes names derived from it earlier. Names can point to numbers, function values, or <code>None</code>, and rebinding a name simply changes what future lookups find, including when it shadows a built-in. Finally, <code>print</code> is the first non-pure function in the course: it displays text as a side effect but returns <code>None</code>, which forces the central distinction between what a function shows on screen and what value it hands back to your program.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>This block gathers the whole lesson into one short program: snapshot bindings, a swap, and the difference between what <code>print</code> displays and what it returns. Drawing it as an <strong>environment diagram</strong> keeps everything in one global frame, where you can watch the <code>radius</code> tag move from <code>10</code> to <code>11</code> while <code>area</code> stays pinned to its old number, the <code>x</code> and <code>y</code> tags trade values in the swap, and <code>shown</code> ends up bound to <code>None</code> rather than the figure that printed to the screen. Before you step through it, write down two predictions: which lines rebind a name that already exists rather than creating a new one, and the complete final global frame — every name it will hold, with the value bound to each, when the last line finishes.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (33)</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">math</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">pi</span>
+
+<span style="color: #657b83">radius</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">10</span>
+<span style="color: #657b83">area</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">pi</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">radius</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">radius</span>
+<span style="color: #657b83">radius</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">11</span>
+<span style="color: #657b83">new_area</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">pi</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">radius</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">radius</span>
+<span style="color: #657b83">x,</span> <span style="color: #657b83">y</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4.5</span>
+<span style="color: #657b83">y,</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">x,</span> <span style="color: #657b83">y</span>
+<span style="color: #657b83">shown</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">print</span><span style="color: #657b83">(new_area)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/ae8f77ab91d4.json' data-mount='st1'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st1' hidden></div></figure>
+<p>Step through it one line at a time and check each prediction as the bindings appear. The global frame ends with seven names. Two lines only rebind: <code>radius = 11</code> moves the <code>radius</code> tag without touching <code>area</code>, and the swap rewrites both <code>x</code> and <code>y</code>. Because the whole right side is read before either name is bound, the old <code>3</code> and <code>4.5</code> are captured first, so <code>x</code> ends at <code>4.5</code> and <code>y</code> at <code>3</code>. The number printed at the end is <code>new_area</code>&#x27;s value, computed from the current <code>radius</code>, while <code>area</code> still holds the snapshot it was given when <code>radius</code> was <code>10</code>. And <code>shown</code> is bound to <code>None</code>, because the text on screen was <code>print</code>&#x27;s side effect, not its return value.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>1.2-A Expressions, Calls, Imports, and Evaluation</span></a><a class='pg pg-next' href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>1.3-A Function Definitions, Calls, and Environment Frames</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#names-are-labels-not-the-thing-itself'>Names Are Labels, Not the Thing Itself</a></li><li><a href='#assignment-evaluate-the-right-then-bind-the-left'>Assignment: Evaluate the Right, Then Bind the Left</a></li><li><a href='#the-environment-stores-every-binding'>The Environment Stores Every Binding</a></li><li><a href='#imported-names-are-bindings-too'>Imported Names Are Bindings Too</a></li><li><a href='#reassigning-a-name-does-not-update-old-results'>Reassigning a Name Does Not Update Old Results</a></li><li><a href='#following-the-line-multiple-assignment'>Following the Line: Multiple Assignment</a></li><li><a href='#evaluate-everything-on-the-right-first-the-swap'>Evaluate Everything on the Right First: The Swap</a></li><li><a href='#names-can-point-to-functions'>Names Can Point to Functions</a></li><li><a href='#names-can-shadow-built-ins-and-why-that-bites'>Names Can Shadow Built-ins (and Why That Bites)</a></li><li><a href='#pure-functions-and-non-pure-functions'>Pure Functions and Non-Pure Functions</a></li><li><a href='#none-is-a-real-value'>None Is a Real Value</a></li><li><a href='#nested-print-calls-a-stress-test-for-evaluation-order'>Nested print Calls: A Stress Test for Evaluation Order</a></li><li><a href='#a-short-environment-trace'>A Short Environment Trace</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

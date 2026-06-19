@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>2.4 Dictionaries, Local State, and Nonlocal Assignment · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/' class='active'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 2</span><span class='dot'>/</span><span class='eb-sec'>2.4 Mutable Data</span></div><h1 class='lesson-title'>2.4 Dictionaries, Local State, and Nonlocal Assignment</h1><div class='reading-meta'>&#9719; approx. 15 min read <span class='rm-sep'>&middot;</span> 25 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>You have already seen that a list can change after you build it. This lesson takes mutation two steps further.</p>
+<p>First you will meet the <strong>dictionary</strong>, a built-in object that stores values under names you choose instead of under numeric positions. By the end you will be able to build one, look a value up by key, change it, ask it for all of its values at once, build one with a comprehension, and avoid the two mistakes that crash beginner code.</p>
+<p>Then you will build a function that <strong>remembers</strong>. So far every function call has started from a clean slate: call it twice with the same input and you get the same output. You will write a <code>withdraw</code> function whose answer depends on every withdrawal that came before it, and to do that you will need one new statement, <code>nonlocal</code>, plus a clear picture of which frame holds the changing value.</p>
+<p>The thread connecting both halves is the same one from the previous lesson: a name is a label that points to a value, and mutation lets the thing behind the label change over time.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='a-dictionary-is-a-set-of-labeled-drawers' class='ls ls-default'>
+<h2 class='ls-h'><span>A Dictionary Is a Set of Labeled Drawers</span></h2>
+<div class='ls-body'>
+<p>Picture a list as a row of numbered lockers. To get something out you have to know its locker number: locker <code>0</code>, locker <code>1</code>, locker <code>2</code>. The number is the only way in.</p>
+<p>The figure below contrasts the two ways of reaching a value: a list indexed by position versus a dictionary indexed by a written label.</p>
+<p><img class="figure" src="figures/dict-vs-list.svg" alt="Side-by-side comparison of a list as numbered lockers reached by position and a dictionary as drawers reached by written labels"></p>
+<p>A dictionary is a set of drawers with <strong>written labels</strong> instead of numbers. One drawer is labeled <code>&#x27;I&#x27;</code>, another <code>&#x27;V&#x27;</code>, another <code>&#x27;X&#x27;</code>. To get a value you read the label, not a position. You never ask &quot;what is in drawer two?&quot;; you ask &quot;what is filed under <code>&#x27;X&#x27;</code>?&quot; The labels are called <strong>keys</strong>, the things filed under them are called <strong>values</strong>, and the whole structure records a set of correspondences from keys to values.</p>
+<p>This matters because most real data is naturally labeled, not numbered. A phone book maps names to numbers. A menu maps dishes to prices. Roman numerals map letters to amounts. None of those are &quot;the third thing&quot;; they are &quot;the thing filed under this name.&quot;</p>
+</div></section>
+<section id='dictionaries-in-python' class='ls ls-default'>
+<h2 class='ls-h'><span>Dictionaries in Python</span></h2>
+<div class='ls-body'>
+<p>You write a dictionary with curly braces. Inside, each entry is a key, then a colon, then a value, and entries are separated by commas.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #657b83">numerals</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">{</span><span style="color: #2aa198">&#39;I&#39;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">1.0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;V&#39;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;X&#39;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">10</span><span style="color: #657b83">}</span>
+</code></pre>
+<p>This binds the name <code>numerals</code> to a dictionary that records three correspondences:</p>
+<pre class='code text'><code>&#x27;I&#x27; -&gt; 1.0
+&#x27;V&#x27; -&gt; 5
+&#x27;X&#x27; -&gt; 10</code></pre>
+<p>Read the literal one piece at a time. Each row says what that piece does, and the last row states the value the whole expression produces.</p>
+<pre class='code anatomy'><code>{&#x27;I&#x27;: 1.0, &#x27;V&#x27;: 5, &#x27;X&#x27;: 10}
+├─ { ............... begins a dictionary literal
+├─ &#x27;I&#x27; ............. the first key (a label you choose)
+├─ : ............... separates a key from its value
+├─ 1.0 ............. the value filed under &#x27;I&#x27;
+├─ , ............... separates one entry from the next
+├─ &#x27;V&#x27;: 5 .......... the second key and its value
+├─ &#x27;X&#x27;: 10 ......... the third key and its value
+├─ } ............... ends the dictionary literal
+└─ evaluates to     a dictionary with keys &#x27;I&#x27;, &#x27;V&#x27;, &#x27;X&#x27;</code></pre>
+<p>The colon is the connector: it is what joins a label to the thing behind it.</p>
+</div></section>
+<section id='looking-up-a-value-by-key' class='ls ls-default'>
+<h2 class='ls-h'><span>Looking Up a Value by Key</span></h2>
+<div class='ls-body'>
+<p>To read a value out, you use square brackets, the same brackets a list uses. The difference is what goes inside them: a list takes a position, a dictionary takes a key.</p>
+<p>Start with a tiny warm-up dictionary you can check at a glance.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #657b83">prices</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">{</span><span style="color: #2aa198">&#39;apple&#39;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;pear&#39;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">3</span><span style="color: #657b83">}</span>
+<span style="color: #657b83">prices[</span><span style="color: #2aa198">&#39;pear&#39;</span><span style="color: #657b83">]</span>
+</code></pre>
+<p>You filed <code>3</code> under <code>&#x27;pear&#x27;</code>, so reading <code>&#x27;pear&#x27;</code> back gives:</p>
+<pre class='code text'><code>3</code></pre>
+<p>Now the official example, on the Roman-numeral dictionary from (1):</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #657b83">numerals[</span><span style="color: #2aa198">&#39;X&#39;</span><span style="color: #657b83">]</span>
+</code></pre>
+<p>The result is:</p>
+<pre class='code text'><code>10</code></pre>
+<p>Here is the lookup broken down. Notice the value inside the brackets is a key to match, not a position to count to.</p>
+<pre class='code anatomy'><code>numerals[&#x27;X&#x27;]
+├─ numerals ........ the dictionary to search
+├─ [ ............... begins a key lookup
+├─ &#x27;X&#x27; ............. the key to find
+├─ ] ............... ends the lookup
+└─ evaluates to     10  (the value filed under &#x27;X&#x27;)</code></pre>
+</div></section>
+<section id='changing-a-dictionary' class='ls ls-default'>
+<h2 class='ls-h'><span>Changing a Dictionary</span></h2>
+<div class='ls-body'>
+<p>A dictionary is <strong>mutable</strong>, so you can change it in place after building it. Assigning to a bracketed key does one of two things: if the key already exists, it replaces that key&#x27;s value; if the key is new, it adds a fresh entry.</p>
+<p>Warm up on <code>prices</code>. The key <code>&#x27;apple&#x27;</code> already exists, so this replaces its value:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (4)</span>
+<span style="color: #657b83">prices[</span><span style="color: #2aa198">&#39;apple&#39;</span><span style="color: #657b83">]</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">5</span>
+<span style="color: #657b83">prices[</span><span style="color: #2aa198">&#39;banana&#39;</span><span style="color: #657b83">]</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">4</span>
+<span style="color: #657b83">prices</span>
+</code></pre>
+<pre class='code text'><code>{&#x27;apple&#x27;: 5, &#x27;pear&#x27;: 3, &#x27;banana&#x27;: 4}</code></pre>
+<p>The first line overwrote <code>&#x27;apple&#x27;</code> from <code>2</code> to <code>5</code>; the second line added a brand-new <code>&#x27;banana&#x27;</code> entry. Now the official example does the same two moves on <code>numerals</code>:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (5)</span>
+<span style="color: #657b83">numerals[</span><span style="color: #2aa198">&#39;I&#39;</span><span style="color: #657b83">]</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">1</span>
+<span style="color: #657b83">numerals[</span><span style="color: #2aa198">&#39;L&#39;</span><span style="color: #657b83">]</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">50</span>
+<span style="color: #657b83">numerals</span>
+</code></pre>
+<p>The transcript displays:</p>
+<pre class='code text'><code>{&#x27;I&#x27;: 1, &#x27;V&#x27;: 5, &#x27;X&#x27;: 10, &#x27;L&#x27;: 50}</code></pre>
+<p>Two distinct things happened, and they are the whole point:</p>
+<ul>
+<li><code>&#x27;I&#x27;</code> already existed, so its value changed from <code>1.0</code> to <code>1</code>.</li>
+<li><code>&#x27;L&#x27;</code> did not exist, so Python added a new key-value pair.</li>
+</ul>
+<p>Do not read meaning into the printed order. A dictionary is a mapping from keys to values, not a row of positions, so &quot;which entry comes first&quot; is not part of what it means. (Modern Python does keep entries in the order you inserted them, which is handy, but you should never rely on order to decide what a dictionary represents.)</p>
+</div></section>
+<section id='asking-a-dictionary-for-all-its-values' class='ls ls-default'>
+<h2 class='ls-h'><span>Asking a Dictionary for All Its Values</span></h2>
+<div class='ls-body'>
+<p>A dictionary carries methods, just like the string and list objects you have already met. The <code>values</code> method hands back an iterable view of every value in the dictionary, which you can feed straight into a function like <code>sum</code>.</p>
+<p>Warm-up first, where you can add the numbers in your head:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (6)</span>
+<span style="color: #657b83">prices</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">{</span><span style="color: #2aa198">&#39;apple&#39;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;pear&#39;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;banana&#39;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">4</span><span style="color: #657b83">}</span>
+<span style="color: #268bd2">sum</span><span style="color: #657b83">(prices</span><span style="color: #93a1a1">.</span><span style="color: #657b83">values())</span>
+</code></pre>
+<pre class='code text'><code>12</code></pre>
+<p>The official example sums the values of <code>numerals</code>:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (7)</span>
+<span style="color: #268bd2">sum</span><span style="color: #657b83">(numerals</span><span style="color: #93a1a1">.</span><span style="color: #657b83">values())</span>
+</code></pre>
+<p>The result is:</p>
+<pre class='code text'><code>66</code></pre>
+<p>Here is the call laid out. The <code>.values()</code> part runs first and produces the collection of values; <code>sum</code> then adds them.</p>
+<pre class='code anatomy'><code>sum(numerals.values())
+├─ numerals ............ the dictionary
+├─ .values() ........... produces a view of all its values: 1, 5, 10, 50
+├─ sum(...) ............ adds those values together
+└─ evaluates to        66</code></pre>
+</div></section>
+<section id='asking-a-dictionary-for-its-keys-and-its-pairs' class='ls ls-default'>
+<h2 class='ls-h'><span>Asking a Dictionary for Its Keys and Its Pairs</span></h2>
+<div class='ls-body'>
+<p>The <code>values</code> method has two companions, and together the three are the standard way to ask a dictionary what it contains. The <code>keys</code> method hands back a view of every key, and the <code>items</code> method hands back a view of every key-value pair as a two-element tuple. Like <code>values</code>, each returns a view you can loop over or hand to a function such as <code>list</code>.</p>
+<p>Use <code>numerals</code> again. Ask first for its keys:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (8)</span>
+<span style="color: #268bd2">list</span><span style="color: #657b83">(numerals</span><span style="color: #93a1a1">.</span><span style="color: #657b83">keys())</span>
+</code></pre>
+<p>The result is:</p>
+<pre class='code text'><code>[&#x27;I&#x27;, &#x27;V&#x27;, &#x27;X&#x27;, &#x27;L&#x27;]</code></pre>
+<p>Now ask for its pairs. Each entry comes back as a <code>(key, value)</code> tuple:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (9)</span>
+<span style="color: #268bd2">list</span><span style="color: #657b83">(numerals</span><span style="color: #93a1a1">.</span><span style="color: #657b83">items())</span>
+</code></pre>
+<p>The result is:</p>
+<pre class='code text'><code>[(&#x27;I&#x27;, 1), (&#x27;V&#x27;, 5), (&#x27;X&#x27;, 10), (&#x27;L&#x27;, 50)]</code></pre>
+<p>Here is <code>numerals.items()</code> broken down. The view it produces is a sequence of pairs, one pair per entry, which is exactly the shape <code>dict</code> accepts to rebuild a dictionary.</p>
+<pre class='code anatomy'><code>list(numerals.items())
+├─ numerals ............ the dictionary
+├─ .items() ............ produces a view of its (key, value) pairs
+├─ list(...) ........... collects those pairs into a list
+└─ evaluates to        [(&#x27;I&#x27;, 1), (&#x27;V&#x27;, 5), (&#x27;X&#x27;, 10), (&#x27;L&#x27;, 50)]</code></pre>
+<p>The same caution as before applies to all three views: the order you see reflects insertion order, not anything about what the dictionary means.</p>
+</div></section>
+<section id='building-a-dictionary-from-pairs' class='ls ls-default'>
+<h2 class='ls-h'><span>Building a Dictionary from Pairs</span></h2>
+<div class='ls-body'>
+<p>You do not have to type a dictionary literal. The built-in <code>dict</code> function builds a dictionary out of a list of two-element pairs: in each pair, the first element becomes a key and the second becomes its value.</p>
+<p>A small bridge you can verify by hand:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (10)</span>
+<span style="color: #268bd2">dict</span><span style="color: #657b83">([(</span><span style="color: #2aa198">&#39;a&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">),</span> <span style="color: #657b83">(</span><span style="color: #2aa198">&#39;b&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">)])</span>
+</code></pre>
+<pre class='code text'><code>{&#x27;a&#x27;: 1, &#x27;b&#x27;: 2}</code></pre>
+<p>The official example builds a squares table:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (11)</span>
+<span style="color: #268bd2">dict</span><span style="color: #657b83">([(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">9</span><span style="color: #657b83">),</span> <span style="color: #657b83">(</span><span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">16</span><span style="color: #657b83">),</span> <span style="color: #657b83">(</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">25</span><span style="color: #657b83">)])</span>
+</code></pre>
+<p>The result is:</p>
+<pre class='code text'><code>{3: 9, 4: 16, 5: 25}</code></pre>
+<p>The anatomy shows how each pair is split:</p>
+<pre class='code anatomy'><code>dict([(3, 9), (4, 16), (5, 25)])
+├─ dict ................ the dictionary-building function
+├─ [ ... ] ............. a list of pairs to convert
+├─ (3, 9) ............. first pair: key 3, value 9
+├─ (4, 16) ............ second pair: key 4, value 16
+├─ (5, 25) ............ third pair: key 5, value 25
+└─ evaluates to        {3: 9, 4: 16, 5: 25}</code></pre>
+</div></section>
+<section id='two-rules-about-keys' class='ls ls-default'>
+<h2 class='ls-h'><span>Two Rules About Keys</span></h2>
+<div class='ls-body'>
+<p>Dictionaries impose two restrictions, and both come straight from how lookup has to work.</p>
+<p>First, a key cannot be a mutable value or contain one. A list, for instance, cannot be a key. The reason is concrete: a key is the address Python uses to find a value, and if the address could change after you filed something under it, Python might never find that value again. Because tuples are immutable, they make good keys when you need a compound label:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (12)</span>
+<span style="color: #657b83">locations</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">{(</span><span style="color: #2aa198">&#39;Berkeley&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;CA&#39;</span><span style="color: #657b83">):</span> <span style="color: #2aa198">&#39;campus&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">(</span><span style="color: #2aa198">&#39;New York&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;NY&#39;</span><span style="color: #657b83">):</span> <span style="color: #2aa198">&#39;city&#39;</span><span style="color: #657b83">}</span>
+<span style="color: #657b83">locations[(</span><span style="color: #2aa198">&#39;Berkeley&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;CA&#39;</span><span style="color: #657b83">)]</span>
+</code></pre>
+<p>The result is:</p>
+<pre class='code text'><code>&#x27;campus&#x27;</code></pre>
+<p>Second, a single key can have at most one value at a time. A dictionary maps each key to one current value, so assigning to a key that already exists replaces the old value rather than keeping both. You saw exactly this when <code>numerals[&#x27;I&#x27;] = 1</code> overwrote <code>1.0</code>.</p>
+</div></section>
+<section id='looking-up-a-key-that-might-be-missing' class='ls ls-default'>
+<h2 class='ls-h'><span>Looking Up a Key That Might Be Missing</span></h2>
+<div class='ls-body'>
+<p>If you use square brackets on a key that is not in the dictionary, Python cannot produce a value and raises a <code>KeyError</code>. When a missing key is a normal possibility rather than a bug, the <code>get</code> method is the safe tool: you give it a key and a fallback, and it returns the stored value if the key exists or the fallback if it does not.</p>
+<p>A bridge on <code>prices</code>, which has no <code>&#x27;cherry&#x27;</code>:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (13)</span>
+<span style="color: #657b83">prices</span><span style="color: #93a1a1">.</span><span style="color: #657b83">get(</span><span style="color: #2aa198">&#39;cherry&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">prices</span><span style="color: #93a1a1">.</span><span style="color: #657b83">get(</span><span style="color: #2aa198">&#39;apple&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span>
+</code></pre>
+<pre class='code text'><code>0
+5</code></pre>
+<p>The official examples ask <code>numerals</code> for one missing key and one present key:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (14)</span>
+<span style="color: #657b83">numerals</span><span style="color: #93a1a1">.</span><span style="color: #657b83">get(</span><span style="color: #2aa198">&#39;A&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">numerals</span><span style="color: #93a1a1">.</span><span style="color: #657b83">get(</span><span style="color: #2aa198">&#39;V&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>The results are:</p>
+<pre class='code text'><code>0
+5</code></pre>
+<p>Here is <code>numerals.get(&#x27;A&#x27;, 0)</code> broken down. The second argument is the answer you get back precisely when the key is absent.</p>
+<pre class='code anatomy'><code>numerals.get(&#x27;A&#x27;, 0)
+├─ numerals ........ the dictionary
+├─ .get ............ the look-up-with-a-fallback method
+├─ ( ............... begins the arguments
+├─ &#x27;A&#x27; ............. the key to look for
+├─ , ............... separates the arguments
+├─ 0 ............... the fallback to return if &#x27;A&#x27; is missing
+├─ ) ............... ends the call
+└─ evaluates to     0  (because &#x27;A&#x27; is not a key here)</code></pre>
+</div></section>
+<section id='building-a-dictionary-with-a-comprehension' class='ls ls-default'>
+<h2 class='ls-h'><span>Building a Dictionary with a Comprehension</span></h2>
+<div class='ls-body'>
+<p>You met list comprehensions earlier; dictionaries have their own. A dictionary comprehension runs a loop and produces a key and a value on each pass, collecting them all into one new dictionary.</p>
+<p>A bridge you can compute in your head:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (15)</span>
+<span style="color: #657b83">{x:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span> <span style="color: #859900">for</span> <span style="color: #657b83">x</span> <span style="color: #859900">in</span> <span style="color: #268bd2">range</span><span style="color: #657b83">(</span><span style="color: #2aa198">3</span><span style="color: #657b83">)}</span>
+</code></pre>
+<pre class='code text'><code>{0: 1, 1: 2, 2: 3}</code></pre>
+<p>The official example maps each number to its square:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (16)</span>
+<span style="color: #657b83">{x:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">x</span> <span style="color: #859900">for</span> <span style="color: #657b83">x</span> <span style="color: #859900">in</span> <span style="color: #268bd2">range</span><span style="color: #657b83">(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">6</span><span style="color: #657b83">)}</span>
+</code></pre>
+<p>The result is:</p>
+<pre class='code text'><code>{3: 9, 4: 16, 5: 25}</code></pre>
+<p>The anatomy reads the comprehension left of the <code>for</code> as the recipe for one entry, and the part after <code>for</code> as the loop that supplies the values:</p>
+<pre class='code anatomy'><code>{x: x * x for x in range(3, 6)}
+├─ { ............... begins a dictionary comprehension
+├─ x ............... the key for this entry
+├─ : ............... separates the key from the value
+├─ x * x ........... the value for this entry
+├─ for x in ........ loops, binding x in turn
+├─ range(3, 6) ..... supplies the values 3, 4, 5
+├─ } ............... ends the comprehension
+└─ evaluates to     {3: 9, 4: 16, 5: 25}</code></pre>
+</div></section>
+<section id='a-value-that-has-state' class='ls ls-default'>
+<h2 class='ls-h'><span>A Value That Has State</span></h2>
+<div class='ls-body'>
+<p>Now we turn to functions that remember.</p>
+<p>A value has <strong>state</strong> when its current behavior depends on its history. A bank balance is the everyday example. Start an account with a balance of 100 dollars. A first withdrawal of 25 succeeds and leaves 75; the next withdrawal of 25 leaves 50; a withdrawal of 60 now fails because only 50 remains; a withdrawal of 15 then leaves 35. Each result depends on every withdrawal that came before.</p>
+<p>We want a <code>withdraw</code> function that behaves exactly like that account. Calling it should look like this:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (17)</span>
+<span style="color: #657b83">withdraw(</span><span style="color: #2aa198">25</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">withdraw(</span><span style="color: #2aa198">25</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">withdraw(</span><span style="color: #2aa198">60</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">withdraw(</span><span style="color: #2aa198">15</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>with these return values, in order:</p>
+<pre class='code text'><code>75
+50
+&#x27;Insufficient funds&#x27;
+35</code></pre>
+<p>Look closely at what that demands. The first and second lines are the <strong>same call</strong>, <code>withdraw(25)</code>, yet they return different numbers, <code>75</code> and <code>50</code>. A function whose answer can change between identical calls is a <strong>non-pure</strong> function: it depends on something beyond its arguments, namely the running balance it remembers between calls.</p>
+</div></section>
+<section id='a-function-that-builds-a-function-that-remembers' class='ls ls-default'>
+<h2 class='ls-h'><span>A Function That Builds a Function That Remembers</span></h2>
+<div class='ls-body'>
+<p>The trick is to let one function build another. The outer function <code>make_withdraw</code> takes a starting balance. Inside it, we define an inner function <code>withdraw</code> that does the actual subtracting, and then we return that inner function. The returned <code>withdraw</code> keeps access to the <code>balance</code> that lived in the outer call, and it updates that same <code>balance</code> every time it runs.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (18)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">make_withdraw</span><span style="color: #657b83">(balance):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return a withdraw function that draws down balance with each call.&quot;&quot;&quot;</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">withdraw</span><span style="color: #657b83">(amount):</span>
+        <span style="color: #859900">nonlocal</span> <span style="color: #657b83">balance</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">amount</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #657b83">balance:</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;Insufficient funds&#39;</span>
+        <span style="color: #657b83">balance</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">balance</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">amount</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">balance</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">withdraw</span>
+</code></pre>
+<p>To get a working account, call <code>make_withdraw</code> with a starting balance and keep the function it hands back:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (19)</span>
+<span style="color: #657b83">withdraw</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">make_withdraw(</span><span style="color: #2aa198">100</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">withdraw(</span><span style="color: #2aa198">25</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">withdraw(</span><span style="color: #2aa198">25</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">withdraw(</span><span style="color: #2aa198">60</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">withdraw(</span><span style="color: #2aa198">15</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>The return values are:</p>
+<pre class='code text'><code>75
+50
+&#x27;Insufficient funds&#x27;
+35</code></pre>
+<p>The single line that makes this possible is <code>nonlocal balance</code>. Read it as an instruction about where an assignment should land:</p>
+<pre class='code anatomy'><code>nonlocal balance
+├─ nonlocal ........ a declaration about the name that follows
+├─ balance ......... the name being declared
+└─ states that      assignments to balance rebind the balance
+                    in the enclosing make_withdraw frame, instead
+                    of creating a new local balance</code></pre>
+<p>Don&#x27;t worry if &quot;the enclosing make_withdraw frame&quot; still feels hand-wavy. The next section, Tracing the Frames, draws exactly which frame this is and why it survives between calls.</p>
+<p>Without that line, <code>balance = balance - amount</code> inside <code>withdraw</code> would create a brand-new local <code>balance</code> that exists only for the length of one call and vanishes when the call returns. Nothing would carry over, so the account could never remember anything. The <code>nonlocal</code> declaration redirects the assignment outward, to the <code>balance</code> that lives in the <code>make_withdraw</code> frame, so every call to <code>withdraw</code> reads and updates the one shared running total.</p>
+</div></section>
+<section id='tracing-the-frames' class='ls ls-default'>
+<h2 class='ls-h'><span>Tracing the Frames</span></h2>
+<div class='ls-body'>
+<p>Mutation across calls is exactly the situation where you should slow down and draw frames, because the whole behavior lives in which frame holds <code>balance</code>. Here is a smaller version you can step through frame by frame.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (20)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">make_withdraw</span><span style="color: #657b83">(balance):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">withdraw</span><span style="color: #657b83">(amount):</span>
+        <span style="color: #859900">nonlocal</span> <span style="color: #657b83">balance</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">amount</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #657b83">balance:</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;Insufficient funds&#39;</span>
+        <span style="color: #657b83">balance</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">balance</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">amount</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">balance</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">withdraw</span>
+
+<span style="color: #657b83">wd</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">make_withdraw(</span><span style="color: #2aa198">20</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">wd(</span><span style="color: #2aa198">5</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">wd(</span><span style="color: #2aa198">3</span><span style="color: #657b83">)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/859c62b37aa0.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>Step the block above and watch the frames open. Notice that the <code>make_withdraw</code> frame opens once and stays put, while each call to <code>wd</code> opens its own short-lived <code>withdraw</code> frame whose parent is that one <code>make_withdraw</code> frame. Watch <code>balance</code> in the parent fall from <code>20</code> to <code>15</code> when the first call runs its assignment, then from <code>15</code> to <code>12</code> on the second call, while each <code>withdraw</code> frame holds only its own <code>amount</code>.</p>
+<p>The two calls to <code>wd</code> create two separate withdraw frames, used and discarded one at a time. What they share is the <code>make_withdraw</code> frame (the stepper labels it <code>f1</code>), and that frame is the single place <code>balance</code> lives. That shared parent is the memory: it persists between calls even though each call&#x27;s own frame does not.</p>
+</div></section>
+<section id='reading-an-enclosing-name-versus-rebinding-it' class='ls ls-default'>
+<h2 class='ls-h'><span>Reading an Enclosing Name Versus Rebinding It</span></h2>
+<div class='ls-body'>
+<p>You only need <code>nonlocal</code> when you <strong>assign</strong> to an enclosing name. An inner function may freely <strong>read</strong> a name from an enclosing frame with no declaration at all.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (21)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">make_reader</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">reader</span><span style="color: #657b83">():</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">x</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">reader</span>
+</code></pre>
+<p>Here <code>reader</code> looks up <code>x</code> in its parent frame and returns it. Because it never assigns to <code>x</code>, no <code>nonlocal</code> is needed. The rule is precise: reading reaches outward automatically; only rebinding requires you to declare <code>nonlocal</code> first.</p>
+</div></section>
+<section id='the-unboundlocalerror-trap' class='ls ls-default'>
+<h2 class='ls-h'><span>The UnboundLocalError Trap</span></h2>
+<div class='ls-body'>
+<p>It is worth seeing what goes wrong when <code>nonlocal</code> is missing, because the error is surprising the first time. Take the withdraw example and delete the declaration:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (22)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">make_withdraw</span><span style="color: #657b83">(balance):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">withdraw</span><span style="color: #657b83">(amount):</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">amount</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #657b83">balance:</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;Insufficient funds&#39;</span>
+        <span style="color: #657b83">balance</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">balance</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">amount</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">balance</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">withdraw</span>
+
+<span style="color: #657b83">wd</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">make_withdraw(</span><span style="color: #2aa198">20</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">wd(</span><span style="color: #2aa198">5</span><span style="color: #657b83">)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/e938b33d886a.json' data-mount='st1'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st1' hidden></div></figure>
+<p>Calling <code>wd(5)</code> raises an <code>UnboundLocalError</code>.</p>
+<p>The cause is a decision Python makes about the whole function body before it runs a single line. Because <code>withdraw</code> contains an assignment to <code>balance</code> (<code>balance = balance - amount</code>), Python classifies <code>balance</code> as a <strong>local</strong> name for the entire body. So when execution reaches the earlier line:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (23)</span>
+<span style="color: #859900">if</span> <span style="color: #657b83">amount</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #657b83">balance:</span>
+</code></pre>
+<p>Python tries to read the local <code>balance</code>, but no local <code>balance</code> has been given a value yet. The name exists as a local slot but is unbound, and reading an unbound local is the error.</p>
+<p>That is why <code>nonlocal balance</code> belongs near the top of the inner function. It overrides the default classification before the body runs, telling both Python and the reader that <code>balance</code> refers to the enclosing frame&#x27;s name:</p>
+<pre class='code text'><code>without nonlocal:
+    balance = balance - amount
+    means &quot;create or change a balance that is local to withdraw&quot;
+
+with nonlocal:
+    balance = balance - amount
+    means &quot;change the balance in the nearest enclosing function frame&quot;</code></pre>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<p>The first trap is hearing <code>nonlocal</code> as a synonym for &quot;global.&quot; It is not. A nonlocal name lives in an <strong>enclosing function frame</strong>, one step out, not in the global frame. Using <code>global</code> here would point at the wrong place entirely.</p>
+<p>The second trap is believing every function call starts completely from scratch. The call&#x27;s own frame does start fresh, but the function can carry a parent frame that holds remembered state, and that parent is what survives between calls.</p>
+<p>The third trap is reaching a missing dictionary key with square brackets:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (24)</span>
+<span style="color: #657b83">numerals[</span><span style="color: #2aa198">&#39;A&#39;</span><span style="color: #657b83">]</span>
+</code></pre>
+<p>This raises a <code>KeyError</code>. When a missing key is a normal case and you want a fallback instead of a crash, use <code>get</code>.</p>
+<p>The fourth trap is treating the printed order of a dictionary as part of its meaning. A dictionary is a mapping from keys to values; &quot;which entry prints first&quot; is not information you should ever depend on.</p>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>What is the difference between a dictionary key and a list index?</li>
+<li>You run <code>wd = make_withdraw(50)</code> and then call <code>wd(30)</code> followed by a second <code>wd(30)</code>. What are the two return values, in order?</li>
+<li>What does <code>numerals.get(&#x27;A&#x27;, 0)</code> return when <code>&#x27;A&#x27;</code> is not a key, and why?</li>
+<li>Why does the same call <code>withdraw(25)</code> return <code>75</code> the first time and <code>50</code> the second time?</li>
+<li>Why does the line <code>balance = balance - amount</code> inside <code>withdraw</code> require <code>nonlocal balance</code>?</li>
+<li>An inner function returns <code>x</code> from its enclosing frame but never assigns to <code>x</code>. Does it need a <code>nonlocal</code> statement?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li>A list index is a position counted from zero. A dictionary key is a label the programmer chooses, such as a string or a number, and lookup matches that label rather than counting to a position.</li>
+<li><code>20</code> and then <code>&#x27;Insufficient funds&#x27;</code>. The first call lowers the shared <code>balance</code> from <code>50</code> to <code>20</code> and returns <code>20</code>; the second call finds <code>30</code> greater than the remaining <code>20</code>, so it returns <code>&#x27;Insufficient funds&#x27;</code> and leaves the balance unchanged.</li>
+<li>It returns <code>0</code>. The key <code>&#x27;A&#x27;</code> is missing, so <code>get</code> returns its second argument, the fallback, instead of raising a <code>KeyError</code>.</li>
+<li><code>withdraw</code> updates a <code>balance</code> that persists in its parent frame. The first call lowers it from <code>100</code> to <code>75</code>, and the second call sees that updated <code>75</code> and lowers it to <code>50</code>.</li>
+<li>Because <code>withdraw</code> assigns to <code>balance</code>, Python would otherwise treat <code>balance</code> as a new local name. <code>nonlocal balance</code> redirects the assignment to the <code>balance</code> in the enclosing <code>make_withdraw</code> frame, which is the value that must persist.</li>
+<li>No. Reading an enclosing name reaches outward automatically; only rebinding an enclosing name requires <code>nonlocal</code>.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>A dictionary stores correspondences from keys to values, where the keys are labels you choose rather than numeric positions. You build one with braces or with <code>dict</code>, read a value with <code>key</code> lookup in square brackets, change it in place by assigning to a key, ask for every value with <code>values</code>, look up safely with <code>get</code>, and construct one compactly with a comprehension. Keys must be immutable, and each key holds one value at a time. Local state extends mutation to functions: by returning an inner function from an outer one, you make a function that remembers a value across calls. The <code>nonlocal</code> statement is what lets the inner function rebind that remembered value in its enclosing frame rather than shadow it with a fresh local. Because names can now point at evolving state, frame-by-frame environment diagrams become the reliable way to predict what your code will do.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>This block is the lesson&#x27;s capstone: a withdraw function that remembers. Before you step through it, write down two predictions: how many local frames will open over the whole run, and how many times the line <code>balance = balance - amount</code> actually runs.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (25)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">make_withdraw</span><span style="color: #657b83">(balance):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">withdraw</span><span style="color: #657b83">(amount):</span>
+        <span style="color: #859900">nonlocal</span> <span style="color: #657b83">balance</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">amount</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #657b83">balance:</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;Insufficient funds&#39;</span>
+        <span style="color: #657b83">balance</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">balance</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">amount</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">balance</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">withdraw</span>
+
+<span style="color: #657b83">withdraw</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">make_withdraw(</span><span style="color: #2aa198">100</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">withdraw(</span><span style="color: #2aa198">25</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">withdraw(</span><span style="color: #2aa198">25</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">withdraw(</span><span style="color: #2aa198">60</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">withdraw(</span><span style="color: #2aa198">15</span><span style="color: #657b83">)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/44327d7adc95.json' data-mount='st2'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st2' hidden></div></figure>
+<p>Check both as you step. Five local frames open, one for <code>make_withdraw</code> and one per call to <code>withdraw</code>, but the subtraction line runs only three times: the third call returns early, so <code>balance</code> in the <code>make_withdraw</code> frame falls to 75, then 50, holds there, and ends at 35.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>2.4-A Objects, Mutable Sequences, and Identity</span></a><a class='pg pg-next' href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#a-dictionary-is-a-set-of-labeled-drawers'>A Dictionary Is a Set of Labeled Drawers</a></li><li><a href='#dictionaries-in-python'>Dictionaries in Python</a></li><li><a href='#looking-up-a-value-by-key'>Looking Up a Value by Key</a></li><li><a href='#changing-a-dictionary'>Changing a Dictionary</a></li><li><a href='#asking-a-dictionary-for-all-its-values'>Asking a Dictionary for All Its Values</a></li><li><a href='#asking-a-dictionary-for-its-keys-and-its-pairs'>Asking a Dictionary for Its Keys and Its Pairs</a></li><li><a href='#building-a-dictionary-from-pairs'>Building a Dictionary from Pairs</a></li><li><a href='#two-rules-about-keys'>Two Rules About Keys</a></li><li><a href='#looking-up-a-key-that-might-be-missing'>Looking Up a Key That Might Be Missing</a></li><li><a href='#building-a-dictionary-with-a-comprehension'>Building a Dictionary with a Comprehension</a></li><li><a href='#a-value-that-has-state'>A Value That Has State</a></li><li><a href='#a-function-that-builds-a-function-that-remembers'>A Function That Builds a Function That Remembers</a></li><li><a href='#tracing-the-frames'>Tracing the Frames</a></li><li><a href='#reading-an-enclosing-name-versus-rebinding-it'>Reading an Enclosing Name Versus Rebinding It</a></li><li><a href='#the-unboundlocalerror-trap'>The UnboundLocalError Trap</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

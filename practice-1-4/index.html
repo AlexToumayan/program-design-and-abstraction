@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>1.4 · Designing Functions — Coding Practice · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+
+</head>
+<body class='is-practice'>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/' class='active'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Practice</span><span class='dot'>/</span><span class='eb-sec'>Chapter 1 · Coding Practice</span></div><h1 class='lesson-title'>1.4 · Designing Functions — Coding Practice</h1><div class='reading-meta'>&#9719; approx. 11 min read <span class='rm-sep'>&middot;</span> 31 worked examples</div></div><div class='lesson-grid'><div class='lesson-body'><p>These problems drill the design tools of Section 1.4: writing a function that keeps one honest promise, documenting it with a <strong>docstring</strong>, leaving a <strong>comment</strong> on a single tricky line, and — above all — giving parameters <strong>default argument values</strong> so the common case is easy to call while a caller can still override it. No conditionals, loops, or recursion are needed; each solution is a short, well-documented arithmetic contract.</p>
+<p>&gt; Work each problem from the starter signature first. Run your function against the Examples, then open the matching solution below to check your approach and its time and space cost.</p>
+<section id='easy' class='ls ls-default'>
+<h2 class='ls-h'><span>Easy</span></h2>
+<div class='ls-body'>
+<h3>1. Shipping Cost</h3>
+<p>Define <code>shipping_cost(weight, rate=2.5)</code> that returns the cost to ship a parcel by weight. The standard rate is <code>2.5</code> per kilogram, so make that the <strong>default argument value</strong> for <code>rate</code>: a one-argument call falls back to it, a two-argument call overrides it. Give the function a docstring documenting both parameters.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  shipping_cost(4)
+Output: 10.0
+Explanation: rate defaults to 2.5, so 4 * 2.5 = 10.0.</code></pre>
+<pre class='code text'><code>Input:  shipping_cost(10)
+Output: 25.0
+Explanation: 10 * 2.5 = 25.0, still using the default rate.</code></pre>
+<pre class='code text'><code>Input:  shipping_cost(4, 3.0)
+Output: 12.0
+Explanation: the supplied 3.0 overrides the default; 4 * 3.0 = 12.0.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>weight</code> is a non-negative number; <code>rate</code> is a number.</li>
+<li>Make <code>rate</code> an optional parameter with default <code>2.5</code> in the header.</li>
+<li>Write a docstring whose first line states the job in one sentence.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">shipping_cost</span><span style="color: #657b83">(weight,</span> <span style="color: #657b83">rate</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">2.5</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>The <code>=</code> in the header sets a default; it does not run an assignment each call.</p></details>
+<h3>2. Final Grade</h3>
+<p>Define <code>final_grade(homework, exam, exam_weight=0.6)</code> that blends a homework score and an exam score into one grade. The exam is worth 60% by default, so <code>exam_weight=0.6</code>; the homework weight is whatever is left over. Bind that leftover to a <strong>local name</strong> in the body and comment the line.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  final_grade(100, 50)
+Output: 70.0
+Explanation: homework weight is 1 - 0.6 = 0.4, so 100 * 0.4 + 50 * 0.6 = 70.0.</code></pre>
+<pre class='code text'><code>Input:  final_grade(80, 90)
+Output: 86.0
+Explanation: 80 * 0.4 + 90 * 0.6 = 32 + 54 = 86.0.</code></pre>
+<pre class='code text'><code>Input:  final_grade(80, 90, 0.5)
+Output: 85.0
+Explanation: with exam_weight 0.5 the two weights are equal: (80 + 90) / 2 = 85.0.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>homework</code> and <code>exam</code> are numbers; <code>exam_weight</code> is a fraction between 0 and 1.</li>
+<li>Default <code>exam_weight</code> to <code>0.6</code>.</li>
+<li>The two weights must always sum to 1: derive the homework weight as <code>1 - exam_weight</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">final_grade</span><span style="color: #657b83">(homework,</span> <span style="color: #657b83">exam,</span> <span style="color: #657b83">exam_weight</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">0.6</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Compute <code>homework_weight = 1 - exam_weight</code> on its own line, then combine the two weighted scores.</p></details>
+<h3>3. Circle Area</h3>
+<p>Define <code>circle_area(radius, scale=1)</code> that returns the area of a circle, optionally multiplied by a <code>scale</code> factor. The mathematical constant <code>pi</code> never changes, so it lives in the formula directly; the scale is something a caller might vary, so it is an optional parameter defaulting to <code>1</code> (no scaling).</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  circle_area(1)
+Output: 3.141592653589793
+Explanation: pi * 1 * 1 * 1 = pi, and scale defaults to 1.</code></pre>
+<pre class='code text'><code>Input:  circle_area(2)
+Output: 12.566370614359172
+Explanation: pi * 2 * 2 = 4 * pi.</code></pre>
+<pre class='code text'><code>Input:  circle_area(1, 2)
+Output: 6.283185307179586
+Explanation: pi * 1 * 1 * 2 = 2 * pi; the supplied scale 2 overrides the default.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>radius</code> is a non-negative number; <code>scale</code> is a number.</li>
+<li>Use <code>pi</code> from the math module (shown in Setup); do not hard-code a rounded value.</li>
+<li>Default <code>scale</code> to <code>1</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">circle_area</span><span style="color: #657b83">(radius,</span> <span style="color: #657b83">scale</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">1</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>pi</code> is a fixed constant in the body; <code>scale</code> is the thing a caller might want to change, so it earns a default.</p></details>
+<h3>4. Rounded Quotient</h3>
+<p>Define <code>rounded_quotient(numerator, denominator, places=2)</code> that divides and rounds the result to a chosen number of decimal <code>places</code>. Two places is the common case, so make it the default. Use the built-in <code>round</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  rounded_quotient(10, 3)
+Output: 3.33
+Explanation: 10 / 3 = 3.333..., rounded to the default 2 places is 3.33.</code></pre>
+<pre class='code text'><code>Input:  rounded_quotient(10, 3, 4)
+Output: 3.3333
+Explanation: the supplied 4 overrides the default, giving 4 decimal places.</code></pre>
+<pre class='code text'><code>Input:  rounded_quotient(1, 8, 3)
+Output: 0.125
+Explanation: 1 / 8 = 0.125, already exact at 3 places.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>numerator</code> is a number; <code>denominator</code> is a nonzero number; <code>places</code> is a non-negative integer.</li>
+<li>Default <code>places</code> to <code>2</code>.</li>
+<li>Use the built-in <code>round(value, places)</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">rounded_quotient</span><span style="color: #657b83">(numerator,</span> <span style="color: #657b83">denominator,</span> <span style="color: #657b83">places</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">2</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>round</code> takes the number of decimal places as its second argument — pass <code>places</code> straight through.</p></details>
+</div></section>
+<section id='medium' class='ls ls-default'>
+<h2 class='ls-h'><span>Medium</span></h2>
+<div class='ls-body'>
+<h3>5. Future Balance</h3>
+<p>Define <code>future_balance(principal, rate=0.05, years=1)</code> that applies <strong>simple</strong> interest and returns the new balance. The standard rate is 5% and the common horizon is one year, so both get defaults. Introduce a local name <code>interest</code> for the amount earned and comment it.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  future_balance(1000)
+Output: 1050.0
+Explanation: interest = 1000 * 0.05 * 1 = 50.0, so the balance is 1050.0.</code></pre>
+<pre class='code text'><code>Input:  future_balance(1000, 0.1)
+Output: 1100.0
+Explanation: rate overridden to 0.1 for 1 year: interest = 100.0.</code></pre>
+<pre class='code text'><code>Input:  future_balance(1000, 0.1, 3)
+Output: 1300.0
+Explanation: interest = 1000 * 0.1 * 3 = 300.0, so the balance is 1300.0.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>principal</code> is a number; <code>rate</code> is a fraction; <code>years</code> is a non-negative number.</li>
+<li>Default <code>rate</code> to <code>0.05</code> and <code>years</code> to <code>1</code>.</li>
+<li>Use <strong>simple</strong> interest: <code>principal * rate * years</code>, bound to a local name.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">future_balance</span><span style="color: #657b83">(principal,</span> <span style="color: #657b83">rate</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">0.05</span><span style="color: #657b83">,</span> <span style="color: #657b83">years</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">1</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Because both <code>rate</code> and <code>years</code> have defaults, you can also override just one by name, e.g. <code>future_balance(500, years=2)</code>.</p></details>
+<h3>6. Discounted Checkout</h3>
+<p>Define two functions. <code>with_tax(price, tax_rate=0.08)</code> returns a price with sales tax added. Then <code>checkout_total(price, discount=0.0, tax_rate=0.08)</code> applies a <code>discount</code> fraction <strong>first</strong>, then adds tax by <em>reusing</em> <code>with_tax</code>. A zero discount default means &quot;no discount,&quot; so the simplest call just adds tax.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  with_tax(100)
+Output: 108.0
+Explanation: 100 + 100 * 0.08 = 108.0 at the default tax rate.</code></pre>
+<pre class='code text'><code>Input:  checkout_total(100)
+Output: 108.0
+Explanation: discount defaults to 0.0, so this is just with_tax(100).</code></pre>
+<pre class='code text'><code>Input:  checkout_total(100, 0.25)
+Output: 81.0
+Explanation: 25% off gives 75.0, then 8% tax gives 75 + 6 = 81.0.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>price</code> is a number; <code>discount</code> and <code>tax_rate</code> are fractions.</li>
+<li>Default <code>discount</code> to <code>0.0</code> and <code>tax_rate</code> to <code>0.08</code>.</li>
+<li><code>checkout_total</code> must call <code>with_tax</code> rather than re-deriving the tax (DRY).</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">with_tax</span><span style="color: #657b83">(price,</span> <span style="color: #657b83">tax_rate</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">0.08</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">checkout_total</span><span style="color: #657b83">(price,</span> <span style="color: #657b83">discount</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">0.0</span><span style="color: #657b83">,</span> <span style="color: #657b83">tax_rate</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">0.08</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Discount the price into a local name, then hand that and <code>tax_rate</code> to <code>with_tax</code>.</p></details>
+<h3>7. Rectangle Diagonal</h3>
+<p>Define <code>diagonal(width, height=1)</code> that returns the straight-line diagonal of a rectangle, reusing <code>sqrt</code>. A <code>height</code> of <code>1</code> is the default, turning the call into the diagonal of a unit-tall strip when only the width is given.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  diagonal(3, 4)
+Output: 5.0
+Explanation: sqrt(3*3 + 4*4) = sqrt(25) = 5.0.</code></pre>
+<pre class='code text'><code>Input:  diagonal(1)
+Output: 1.4142135623730951
+Explanation: height defaults to 1, so sqrt(1 + 1) = sqrt(2).</code></pre>
+<pre class='code text'><code>Input:  diagonal(5, 12)
+Output: 13.0
+Explanation: sqrt(25 + 144) = sqrt(169) = 13.0.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>width</code> and <code>height</code> are non-negative numbers.</li>
+<li>Default <code>height</code> to <code>1</code>.</li>
+<li>Use <code>sqrt</code> (shown in Setup); do not approximate the root by hand.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">diagonal</span><span style="color: #657b83">(width,</span> <span style="color: #657b83">height</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">1</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>The diagonal is <code>sqrt(width**2 + height**2)</code> — but write the squares as plain multiplication, since <code>**</code> is not part of this section&#x27;s toolbox.</p></details>
+<h3>8. Clamp With Defaults</h3>
+<p>Define <code>clamp(value, low=0, high=100)</code> that pushes <code>value</code> back into the closed range <code>[low, high]</code>. The common range is a percentage scale <code>0..100</code>, so default <code>low</code> to <code>0</code> and <code>high</code> to <code>100</code>. Compose <code>min</code> and <code>max</code> — no conditionals.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  clamp(50)
+Output: 50
+Explanation: 50 is inside the default range [0, 100], so it is unchanged.</code></pre>
+<pre class='code text'><code>Input:  clamp(-20)
+Output: 0
+Explanation: -20 is below the default low 0, so it is pulled up to 0.</code></pre>
+<pre class='code text'><code>Input:  clamp(7, 1, 5)
+Output: 5
+Explanation: overriding the bounds to [1, 5], 7 is capped down to 5.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>value</code>, <code>low</code>, and <code>high</code> are numbers with <code>low &lt;= high</code>.</li>
+<li>Default <code>low</code> to <code>0</code> and <code>high</code> to <code>100</code>.</li>
+<li>Use only <code>min</code> and <code>max</code>; do not use <code>if</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">clamp</span><span style="color: #657b83">(value,</span> <span style="color: #657b83">low</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #657b83">high</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">100</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>max(value, low)</code> lifts anything too small up to <code>low</code>; wrapping that in <code>min(..., high)</code> caps anything too large.</p></details>
+</div></section>
+<section id='hard' class='ls ls-default'>
+<h2 class='ls-h'><span>Hard</span></h2>
+<div class='ls-body'>
+<h3>9. Monthly Loan Payment</h3>
+<p>Define <code>monthly_payment(principal, annual_rate=0.06, months=12)</code> that returns the fixed monthly payment that fully pays off (amortizes) a loan. The default loan is a one-year loan at 6% annual interest. The amortization formula is</p>
+<pre class='code text'><code>payment = P * r / (1 - (1 + r) ** -months)</code></pre>
+<p>where <code>P</code> is the principal and <code>r</code> is the <strong>monthly</strong> rate. Bind <code>r</code> and the growth factor to local names so the formula reads cleanly, and comment the rate line.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  monthly_payment(1200)
+Output: 103.27971564849884
+Explanation: r = 0.06/12 = 0.005 over 12 months on a 1200 loan.</code></pre>
+<pre class='code text'><code>Input:  monthly_payment(1200, 0.06, 24)
+Output: 53.18473230330935
+Explanation: same loan stretched to 24 months halves each payment, roughly.</code></pre>
+<pre class='code text'><code>Input:  monthly_payment(10000, 0.12, 12)
+Output: 888.4878867834168
+Explanation: r = 0.12/12 = 0.01 over 12 months on a 10000 loan.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>principal</code> is a positive number; <code>annual_rate</code> is a positive fraction; <code>months</code> is a positive integer.</li>
+<li>Default <code>annual_rate</code> to <code>0.06</code> and <code>months</code> to <code>12</code>.</li>
+<li>Convert the annual rate to a monthly rate (<code>annual_rate / 12</code>) in the body.</li>
+<li>Use <code>pow(1 + r, months)</code> for the growth factor; <code>**</code> is not part of this section&#x27;s toolbox.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">monthly_payment</span><span style="color: #657b83">(principal,</span> <span style="color: #657b83">annual_rate</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">0.06</span><span style="color: #657b83">,</span> <span style="color: #657b83">months</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">12</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Compute <code>r</code> and <code>growth = pow(1 + r, months)</code> first, then the payment is <code>principal * r * growth / (growth - 1)</code>.</p></details>
+<h3>10. Quadratic Root</h3>
+<p>Define <code>quadratic_root(a, b, c, sign=1)</code> that returns one real root of <code>a*x**2 + b*x + c</code> using the quadratic formula. The <code>sign</code> parameter selects which root: <code>+1</code> (the default) takes the larger <code>(-b + sqrt(...))/(2a)</code> branch, and <code>-1</code> takes the smaller branch. One function, configured by a default, covers both roots.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  quadratic_root(1, -5, 6)
+Output: 3.0
+Explanation: x^2 - 5x + 6 = (x-2)(x-3); the larger root (sign +1) is 3.0.</code></pre>
+<pre class='code text'><code>Input:  quadratic_root(1, -5, 6, -1)
+Output: 2.0
+Explanation: passing sign -1 selects the smaller root, 2.0.</code></pre>
+<pre class='code text'><code>Input:  quadratic_root(2, -4, 2)
+Output: 1.0
+Explanation: 2x^2 - 4x + 2 = 2(x-1)^2 has a double root at 1.0.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>a</code> is nonzero; <code>b</code> and <code>c</code> are numbers; the discriminant <code>b*b - 4*a*c</code> is non-negative (real roots).</li>
+<li>Default <code>sign</code> to <code>1</code>.</li>
+<li>Bind the discriminant to a local name; use <code>sqrt</code> (shown in Setup).</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">quadratic_root</span><span style="color: #657b83">(a,</span> <span style="color: #657b83">b,</span> <span style="color: #657b83">c,</span> <span style="color: #657b83">sign</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">1</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Multiplying the <code>sqrt(discriminant)</code> term by <code>sign</code> (which is <code>+1</code> or <code>-1</code>) flips between the two roots without any <code>if</code>.</p></details>
+</div></section>
+<section id='solutions' class='ls ls-default'>
+<h2 class='ls-h'><span>Solutions</span></h2>
+<div class='ls-body'>
+<h3>Setup</h3>
+<p>These problems import the operator and math tools from earlier sections and use one float-comparison helper for the irrational answers. Run this block first in a fresh interpreter so every snippet below works:</p>
+<pre class='code python'><code><span style="color: #cb4b16">from</span> <span style="color: #268bd2">operator</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">add,</span> <span style="color: #657b83">sub,</span> <span style="color: #657b83">mul,</span> <span style="color: #657b83">truediv</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">math</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">sqrt,</span> <span style="color: #657b83">pi</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">almost_equal</span><span style="color: #657b83">(a,</span> <span style="color: #657b83">b,</span> <span style="color: #657b83">tol</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">1e-9</span><span style="color: #657b83">):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return True when a and b agree to within tol. Test helper only.&quot;&quot;&quot;</span>
+    <span style="color: #859900">return</span> <span style="color: #268bd2">abs</span><span style="color: #657b83">(a</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">b)</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #657b83">tol</span>
+</code></pre>
+<h3>1. Shipping Cost</h3>
+<p><strong>Approach — a default that captures the common case.</strong> Section 1.4&#x27;s headline tool is the default argument value: writing <code>rate=2.5</code> in the header makes <code>rate</code> optional, so the one-argument call uses the standard rate while a caller can still override it. The docstring states the job and documents both parameters.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">shipping_cost</span><span style="color: #657b83">(weight,</span> <span style="color: #657b83">rate</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">2.5</span><span style="color: #657b83">):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return the cost to ship a parcel by weight.</span>
+
+<span style="color: #93a1a1">    weight -- parcel weight in kilograms, a number</span>
+<span style="color: #93a1a1">    rate   -- price charged per kilogram (default: 2.5, the standard rate)</span>
+<span style="color: #93a1a1">    &quot;&quot;&quot;</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">weight</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">rate</span>
+</code></pre>
+<p><strong>Why it works.</strong> When <code>rate</code> is omitted, Python binds the header default <code>2.5</code> to it; when supplied, the argument wins. The body is one honest multiplication either way.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. One multiplication, one local frame.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">shipping_cost(</span><span style="color: #2aa198">4</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">10.0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">shipping_cost(</span><span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">25.0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">shipping_cost(</span><span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3.0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">12.0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">shipping_cost(</span><span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0.0</span>
+</code></pre>
+<h3>2. Final Grade</h3>
+<p><strong>Approach — a default weight plus a derived local name.</strong> <code>exam_weight=0.6</code> is the optional parameter; the homework weight is not a separate input because it is fully determined by the exam weight, so it becomes a <strong>local name</strong> computed in the body. A comment records the invariant that the two weights sum to 1.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">final_grade</span><span style="color: #657b83">(homework,</span> <span style="color: #657b83">exam,</span> <span style="color: #657b83">exam_weight</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">0.6</span><span style="color: #657b83">):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return a course grade as a weighted blend of two scores.</span>
+
+<span style="color: #93a1a1">    homework    -- the homework score, a number out of 100</span>
+<span style="color: #93a1a1">    exam        -- the exam score, a number out of 100</span>
+<span style="color: #93a1a1">    exam_weight -- the exam&#39;s share of the grade (default: 0.6)</span>
+<span style="color: #93a1a1">    &quot;&quot;&quot;</span>
+    <span style="color: #657b83">homework_weight</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">1</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">exam_weight</span>  <span style="color: #93a1a1; font-style: italic"># the two weights always sum to 1</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">homework</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">homework_weight</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">exam</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">exam_weight</span>
+</code></pre>
+<p><strong>Why it works.</strong> With the default, the exam counts 0.6 and homework 0.4; overriding <code>exam_weight</code> shifts the blend while keeping the weights summing to 1. <code>final_grade(80, 90, 0.5)</code> makes them equal, giving the plain average 85.0.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. One extra local binding and a fixed number of operations.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">final_grade(</span><span style="color: #2aa198">100</span><span style="color: #657b83">,</span> <span style="color: #2aa198">50</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">70.0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">final_grade(</span><span style="color: #2aa198">80</span><span style="color: #657b83">,</span> <span style="color: #2aa198">90</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">86.0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">final_grade(</span><span style="color: #2aa198">80</span><span style="color: #657b83">,</span> <span style="color: #2aa198">90</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0.5</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">85.0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">final_grade(</span><span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">100</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">60.0</span>
+</code></pre>
+<h3>3. Circle Area</h3>
+<p><strong>Approach — fixed constant in the body, variable option as a default.</strong> The lesson&#x27;s design rule: values a caller might reasonably vary become defaulted arguments, while truly fixed values stay in the body. <code>pi</code> never changes, so it sits in the formula; <code>scale</code> might change, so it is an optional parameter defaulting to <code>1</code>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">circle_area</span><span style="color: #657b83">(radius,</span> <span style="color: #657b83">scale</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">1</span><span style="color: #657b83">):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return the area of a circle, optionally scaled.</span>
+
+<span style="color: #93a1a1">    radius -- the circle&#39;s radius, a number</span>
+<span style="color: #93a1a1">    scale  -- a multiplier applied to the area (default: 1, no scaling)</span>
+<span style="color: #93a1a1">    &quot;&quot;&quot;</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">pi</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">radius</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">radius</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">scale</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>pi * radius * radius</code> is the area; multiplying by <code>scale</code> (default <code>1</code>, so harmless when omitted) lets a caller scale it. The answer is a float because <code>pi</code> is.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. A constant chain of multiplications.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">almost_equal(circle_area(</span><span style="color: #2aa198">1</span><span style="color: #657b83">),</span> <span style="color: #657b83">pi)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">almost_equal(circle_area(</span><span style="color: #2aa198">2</span><span style="color: #657b83">),</span> <span style="color: #2aa198">4</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">pi)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">almost_equal(circle_area(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">),</span> <span style="color: #2aa198">2</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">pi)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">almost_equal(circle_area(</span><span style="color: #2aa198">0</span><span style="color: #657b83">),</span> <span style="color: #2aa198">0.0</span><span style="color: #657b83">)</span>
+</code></pre>
+<h3>4. Rounded Quotient</h3>
+<p><strong>Approach — pass a default straight into a built-in.</strong> <code>round</code> already accepts a decimal-places argument; the design move is to expose that as an optional parameter <code>places=2</code>, so the common two-place case needs no extra argument and a caller can still ask for more precision.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">rounded_quotient</span><span style="color: #657b83">(numerator,</span> <span style="color: #657b83">denominator,</span> <span style="color: #657b83">places</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">2</span><span style="color: #657b83">):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return numerator / denominator rounded to a number of places.</span>
+
+<span style="color: #93a1a1">    numerator   -- the dividend, a number</span>
+<span style="color: #93a1a1">    denominator -- the divisor, a nonzero number</span>
+<span style="color: #93a1a1">    places      -- decimal places to round to (default: 2)</span>
+<span style="color: #93a1a1">    &quot;&quot;&quot;</span>
+    <span style="color: #859900">return</span> <span style="color: #268bd2">round</span><span style="color: #657b83">(numerator</span> <span style="color: #93a1a1">/</span> <span style="color: #657b83">denominator,</span> <span style="color: #657b83">places)</span>
+</code></pre>
+<p><strong>Why it works.</strong> The division produces a float, and <code>round(value, places)</code> trims it to the requested precision. Omitting <code>places</code> uses <code>2</code>; supplying <code>4</code> overrides it.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. One division and one round.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">rounded_quotient(</span><span style="color: #2aa198">10</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3.33</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">rounded_quotient(</span><span style="color: #2aa198">10</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3.3333</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">rounded_quotient(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">8</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0.125</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">rounded_quotient(</span><span style="color: #2aa198">7</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3.5</span>
+</code></pre>
+<h3>5. Future Balance</h3>
+<p><strong>Approach — two defaults plus a named intermediate.</strong> Both <code>rate</code> and <code>years</code> are values a caller might vary, so each earns a default (<code>0.05</code> and <code>1</code>). The interest earned is a meaningful intermediate, so it is bound to a local name with an explanatory comment before being added back to the principal.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">future_balance</span><span style="color: #657b83">(principal,</span> <span style="color: #657b83">rate</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">0.05</span><span style="color: #657b83">,</span> <span style="color: #657b83">years</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">1</span><span style="color: #657b83">):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return the balance after applying simple interest.</span>
+
+<span style="color: #93a1a1">    principal -- the starting amount, a number</span>
+<span style="color: #93a1a1">    rate      -- the annual interest rate as a fraction (default: 0.05)</span>
+<span style="color: #93a1a1">    years     -- the number of years the money is held (default: 1)</span>
+<span style="color: #93a1a1">    &quot;&quot;&quot;</span>
+    <span style="color: #657b83">interest</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">principal</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">rate</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">years</span>  <span style="color: #93a1a1; font-style: italic"># total simple interest earned</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">principal</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">interest</span>
+</code></pre>
+<p><strong>Why it works.</strong> Simple interest is <code>principal * rate * years</code>; adding it to the principal gives the balance. Because both extra parameters have defaults, a caller can override just one by name, as in <code>future_balance(500, years=2)</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. One local binding and a fixed number of operations.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">future_balance(</span><span style="color: #2aa198">1000</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1050.0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">future_balance(</span><span style="color: #2aa198">1000</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0.1</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1100.0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">future_balance(</span><span style="color: #2aa198">1000</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0.1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1300.0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">future_balance(</span><span style="color: #2aa198">500</span><span style="color: #657b83">,</span> <span style="color: #657b83">years</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">2</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">550.0</span>
+</code></pre>
+<h3>6. Discounted Checkout</h3>
+<p><strong>Approach — compose a helper, don&#x27;t repeat the tax math (DRY).</strong> <code>with_tax</code> owns the one job of adding tax. <code>checkout_total</code> reuses it instead of re-deriving tax, applying the discount first into a local name. A <code>discount</code> default of <code>0.0</code> makes &quot;no discount&quot; the easy default call.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">with_tax</span><span style="color: #657b83">(price,</span> <span style="color: #657b83">tax_rate</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">0.08</span><span style="color: #657b83">):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return a price with sales tax added.</span>
+
+<span style="color: #93a1a1">    price    -- the pre-tax price, a number</span>
+<span style="color: #93a1a1">    tax_rate -- the sales-tax fraction (default: 0.08)</span>
+<span style="color: #93a1a1">    &quot;&quot;&quot;</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">price</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">price</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">tax_rate</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">checkout_total</span><span style="color: #657b83">(price,</span> <span style="color: #657b83">discount</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">0.0</span><span style="color: #657b83">,</span> <span style="color: #657b83">tax_rate</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">0.08</span><span style="color: #657b83">):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return the final price after a discount, then tax.</span>
+
+<span style="color: #93a1a1">    price     -- the list price, a number</span>
+<span style="color: #93a1a1">    discount  -- fraction taken off before tax (default: 0.0, no discount)</span>
+<span style="color: #93a1a1">    tax_rate  -- the sales-tax fraction passed to with_tax (default: 0.08)</span>
+<span style="color: #93a1a1">    &quot;&quot;&quot;</span>
+    <span style="color: #657b83">discounted</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">price</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">price</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">discount</span>  <span style="color: #93a1a1; font-style: italic"># apply the discount first</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">with_tax(discounted,</span> <span style="color: #657b83">tax_rate)</span>
+</code></pre>
+<p><strong>Why it works.</strong> Discounting <code>100</code> by <code>0.25</code> gives <code>75.0</code>; handing that to <code>with_tax</code> at 8% yields <code>81.0</code>. Because <code>checkout_total</code> calls <code>with_tax</code>, the tax rule is written once and reused — the DRY principle from the lesson.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. A constant chain of calls; <code>with_tax</code> opens one nested frame.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">with_tax(</span><span style="color: #2aa198">100</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">108.0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">checkout_total(</span><span style="color: #2aa198">100</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">108.0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">checkout_total(</span><span style="color: #2aa198">100</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0.25</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">81.0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">checkout_total(</span><span style="color: #2aa198">100</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0.25</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0.0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">75.0</span>
+</code></pre>
+<h3>7. Rectangle Diagonal</h3>
+<p><strong>Approach — reuse <code>sqrt</code>, default the second side.</strong> The diagonal is the square root of the sum of the squared sides. <code>height</code> defaults to <code>1</code>, so a one-argument call still has a well-defined contract (the diagonal of a unit-tall strip). Squares are written as plain multiplication, since <code>**</code> is not yet in the toolbox.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">diagonal</span><span style="color: #657b83">(width,</span> <span style="color: #657b83">height</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">1</span><span style="color: #657b83">):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return the diagonal length of a rectangle.</span>
+
+<span style="color: #93a1a1">    width  -- the rectangle&#39;s width, a number</span>
+<span style="color: #93a1a1">    height -- the rectangle&#39;s height (default: 1, a unit-tall strip)</span>
+<span style="color: #93a1a1">    &quot;&quot;&quot;</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">sqrt(width</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">width</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">height</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">height)</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>width * width + height * height</code> is the squared diagonal (Pythagoras); <code>sqrt</code> finishes it. For <code>diagonal(1)</code>, <code>height</code> defaults to <code>1</code>, giving <code>sqrt(2)</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. Two multiplications, one addition, one root.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">almost_equal(diagonal(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">),</span> <span style="color: #2aa198">5.0</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">almost_equal(diagonal(</span><span style="color: #2aa198">1</span><span style="color: #657b83">),</span> <span style="color: #657b83">sqrt(</span><span style="color: #2aa198">2</span><span style="color: #657b83">))</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">almost_equal(diagonal(</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">12</span><span style="color: #657b83">),</span> <span style="color: #2aa198">13.0</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">almost_equal(diagonal(</span><span style="color: #2aa198">0</span><span style="color: #657b83">),</span> <span style="color: #2aa198">1.0</span><span style="color: #657b83">)</span>
+</code></pre>
+<h3>8. Clamp With Defaults</h3>
+<p><strong>Approach — defaults make a common range free, <code>min</code>/<code>max</code> replace <code>if</code>.</strong> No conditionals are available yet, but <code>max</code> and <code>min</code> already encode &quot;at least&quot; and &quot;at most.&quot; Defaulting the bounds to <code>0</code> and <code>100</code> turns the function into a ready-made percentage clamp, while a caller can still pass custom bounds.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">clamp</span><span style="color: #657b83">(value,</span> <span style="color: #657b83">low</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #657b83">high</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">100</span><span style="color: #657b83">):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return value pushed into the closed range [low, high].</span>
+
+<span style="color: #93a1a1">    value -- the number to constrain</span>
+<span style="color: #93a1a1">    low   -- the lower bound (default: 0)</span>
+<span style="color: #93a1a1">    high  -- the upper bound (default: 100)</span>
+<span style="color: #93a1a1">    &quot;&quot;&quot;</span>
+    <span style="color: #859900">return</span> <span style="color: #268bd2">min</span><span style="color: #657b83">(</span><span style="color: #268bd2">max</span><span style="color: #657b83">(value,</span> <span style="color: #657b83">low),</span> <span style="color: #657b83">high)</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>max(value, low)</code> is never below <code>low</code>; wrapping it in <code>min(..., high)</code> makes the result never above <code>high</code>; an in-range value passes through untouched. Defaults supply the 0..100 bounds when omitted.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. Two built-in comparisons.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">clamp(</span><span style="color: #2aa198">50</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">50</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">clamp(</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">20</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">clamp(</span><span style="color: #2aa198">150</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">100</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">clamp(</span><span style="color: #2aa198">7</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">5</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">clamp(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+</code></pre>
+<h3>9. Monthly Loan Payment</h3>
+<p><strong>Approach — defaults for the common loan, local names for a clear formula.</strong> The amortization formula is dense, so naming the monthly rate <code>r</code> and the growth factor turns it into a readable, single-job function. The common one-year 6% loan becomes the default, and <code>pow</code> stands in for <code>**</code>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">monthly_payment</span><span style="color: #657b83">(principal,</span> <span style="color: #657b83">annual_rate</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">0.06</span><span style="color: #657b83">,</span> <span style="color: #657b83">months</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">12</span><span style="color: #657b83">):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return the fixed monthly payment that amortizes a loan.</span>
+
+<span style="color: #93a1a1">    principal   -- the amount borrowed, a number</span>
+<span style="color: #93a1a1">    annual_rate -- the yearly interest rate as a fraction (default: 0.06)</span>
+<span style="color: #93a1a1">    months      -- the number of monthly payments (default: 12)</span>
+
+<span style="color: #93a1a1">    Uses the standard amortization formula</span>
+<span style="color: #93a1a1">        P * r / (1 - (1 + r)^-months)</span>
+<span style="color: #93a1a1">    where r is the monthly rate.</span>
+<span style="color: #93a1a1">    &quot;&quot;&quot;</span>
+    <span style="color: #657b83">r</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">annual_rate</span> <span style="color: #93a1a1">/</span> <span style="color: #2aa198">12</span>  <span style="color: #93a1a1; font-style: italic"># the per-month interest rate</span>
+    <span style="color: #657b83">growth</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">pow</span><span style="color: #657b83">(</span><span style="color: #2aa198">1</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">r,</span> <span style="color: #657b83">months)</span>  <span style="color: #93a1a1; font-style: italic"># (1 + r) raised to the number of months</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">principal</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">r</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">growth</span> <span style="color: #93a1a1">/</span> <span style="color: #657b83">(growth</span> <span style="color: #93a1a1">-</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+</code></pre>
+<p><strong>Why it works.</strong> Multiplying the formula&#x27;s numerator and denominator by <code>(1 + r) ** months</code> rewrites <code>P*r/(1 - (1+r)**-months)</code> as <code>P*r*growth/(growth - 1)</code>, which avoids a negative exponent. The defaults make <code>monthly_payment(1200)</code> a complete call.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. <code>pow</code> and a fixed number of arithmetic operations.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">almost_equal(monthly_payment(</span><span style="color: #2aa198">1200</span><span style="color: #657b83">),</span> <span style="color: #2aa198">103.27971564849884</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">almost_equal(monthly_payment(</span><span style="color: #2aa198">1200</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0.06</span><span style="color: #657b83">,</span> <span style="color: #2aa198">24</span><span style="color: #657b83">),</span> <span style="color: #2aa198">53.18473230330935</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">almost_equal(monthly_payment(</span><span style="color: #2aa198">10000</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0.12</span><span style="color: #657b83">,</span> <span style="color: #2aa198">12</span><span style="color: #657b83">),</span> <span style="color: #2aa198">888.4878867834168</span><span style="color: #657b83">)</span>
+</code></pre>
+<h3>10. Quadratic Root</h3>
+<p><strong>Approach — one function, configured by a default sign.</strong> Rather than writing two near-identical functions for the two roots (which would violate DRY), a single <code>sign</code> parameter defaulting to <code>+1</code> selects the branch. Multiplying the <code>sqrt</code> term by <code>sign</code> flips between roots with no conditional.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">quadratic_root</span><span style="color: #657b83">(a,</span> <span style="color: #657b83">b,</span> <span style="color: #657b83">c,</span> <span style="color: #657b83">sign</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">1</span><span style="color: #657b83">):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return one real root of a*x^2 + b*x + c using the quadratic formula.</span>
+
+<span style="color: #93a1a1">    a    -- the quadratic coefficient, a nonzero number</span>
+<span style="color: #93a1a1">    b    -- the linear coefficient, a number</span>
+<span style="color: #93a1a1">    c    -- the constant term, a number</span>
+<span style="color: #93a1a1">    sign -- which root to take: +1 for the larger, -1 for the smaller</span>
+<span style="color: #93a1a1">            (default: 1, the (-b + sqrt(...)) / (2a) branch)</span>
+<span style="color: #93a1a1">    &quot;&quot;&quot;</span>
+    <span style="color: #657b83">discriminant</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">b</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">b</span> <span style="color: #93a1a1">-</span> <span style="color: #2aa198">4</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">a</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">c</span>  <span style="color: #93a1a1; font-style: italic"># must be non-negative for real roots</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">(</span><span style="color: #93a1a1">-</span><span style="color: #657b83">b</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">sign</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">sqrt(discriminant))</span> <span style="color: #93a1a1">/</span> <span style="color: #657b83">(</span><span style="color: #2aa198">2</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">a)</span>
+</code></pre>
+<p><strong>Why it works.</strong> The roots are <code>(-b ± sqrt(b² - 4ac)) / (2a)</code>. With <code>sign = 1</code> the <code>+</code> branch (the larger root) is taken; with <code>sign = -1</code> the <code>-</code> branch (the smaller root) is taken. For a double root the discriminant is <code>0</code>, so both branches coincide.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. One local binding plus a constant chain of operations and one <code>sqrt</code>.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">almost_equal(quadratic_root(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">6</span><span style="color: #657b83">),</span> <span style="color: #2aa198">3.0</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">almost_equal(quadratic_root(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">6</span><span style="color: #657b83">,</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span><span style="color: #657b83">),</span> <span style="color: #2aa198">2.0</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">almost_equal(quadratic_root(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">),</span> <span style="color: #2aa198">2.0</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">almost_equal(quadratic_root(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span><span style="color: #657b83">),</span> <span style="color: #2aa198">1.0</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">almost_equal(quadratic_root(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">),</span> <span style="color: #2aa198">1.0</span><span style="color: #657b83">)</span>
+</code></pre>
+</div></section><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+
+</body>
+</html>

@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>1.3 Defining New Functions: Definitions, Calls, and Environment Frames · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/' class='active'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 1</span><span class='dot'>/</span><span class='eb-sec'>1.3 Defining New Functions</span></div><h1 class='lesson-title'>1.3 Defining New Functions: Definitions, Calls, and Environment Frames</h1><div class='reading-meta'>&#9719; approx. 21 min read <span class='rm-sep'>&middot;</span> 11 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>Up to now you have been a tool user. You called functions that someone else built — <code>max</code>, <code>pow</code>, <code>add</code>, <code>mul</code> — and you learned to read a call expression as &quot;find this function, hand it these arguments, take the value it gives back.&quot; This lesson turns you into a tool maker. By the end you will be able to do four things: write a <code>def</code> statement that builds a brand-new function, explain exactly what Python does the instant it reads that <code>def</code>, trace what happens when you later call your function, and draw the <strong>environment frames</strong> that make the whole machine work.</p>
+<p>The single habit to build here is separating two events that beginners constantly fuse: <strong>defining</strong> a function and <strong>calling</strong> it. They happen at different times, do different work, and leave different marks on the program&#x27;s state. Keep them apart and almost everything else in this lesson falls into place.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='a-recipe-card-is-not-a-cooked-meal' class='ls ls-default'>
+<h2 class='ls-h'><span>A Recipe Card Is Not a Cooked Meal</span></h2>
+<div class='ls-body'>
+<p>Imagine you write a recipe card titled &quot;square.&quot; On the card you write: take whatever number you are given, multiply it by itself, and report the result. Writing that card does not cook anything. No number gets multiplied. You have simply created a reusable instruction and filed it under a name.</p>
+<p>Later, someone walks up and says &quot;square, applied to 21.&quot; Only now does work happen. You pull the card, you treat 21 as the number you were given, you follow the steps, and you report 441. Then you put the card back, unchanged, ready for the next request, which might be &quot;square, applied to 3.&quot;</p>
+<p>That is the entire shape of this lesson. A <code>def</code> statement is writing the card. A call expression is handing the card a specific value and following it. The two are so different that we will say it plainly and keep it nearby:</p>
+<pre class='code text'><code>Defining a function builds the function and files it under a name.
+Calling a function pulls that function and runs it on a specific value.</code></pre>
+<p>The recipe-card image also explains why one card can serve many meals. The card never stores &quot;the number is 21.&quot; Each request brings its own number, used for that request only. In Python, that &quot;own number for this request only&quot; is what a <strong>local frame</strong> is, and it is the heart of the second half of this lesson.</p>
+</div></section>
+<section id='the-def-statement-building-a-new-function' class='ls ls-default'>
+<h2 class='ls-h'><span>The def Statement: Building a New Function</span></h2>
+<div class='ls-body'>
+<p>In Python, you build a new function with a <strong>def statement</strong>. Every def statement has the same general form. We write it as a template, with angle brackets marking the slots you fill in:</p>
+<pre class='code text'><code>def &lt;name&gt;(&lt;formal parameters&gt;):
+    return &lt;return expression&gt;</code></pre>
+<p>That template has three slots, and each one has a distinct job:</p>
+<ul>
+<li>The <strong>name</strong> is the label the function is filed under. You use this name later to call the function, exactly the way you already use <code>max</code> or <code>add</code>.</li>
+<li>The <strong>formal parameters</strong> are names for the inputs. They are placeholders. They give the function a way to talk about &quot;the number I was given&quot; without knowing yet what that number will be.</li>
+<li>The <strong>return expression</strong> is the expression the function evaluates and hands back when it is called. Its value becomes the value of the whole call.</li>
+</ul>
+<p>The colon at the end of the header line announces that an indented <strong>body</strong> follows. The indentation is not decoration. In Python, indentation is how the language physically marks which lines live inside the function. A line is part of the function&#x27;s body precisely because it is indented under the <code>def</code> header.</p>
+<p>Here is our first real def statement. We bring in <code>mul</code> so we can multiply, then define <code>square</code>:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">operator</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">mul</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">square</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">mul(x,</span> <span style="color: #657b83">x)</span>
+</code></pre>
+<p>Read the header line one piece at a time. This follow-the-line format — show the line, then split it into parts where each row says what that part <strong>does</strong> — is how we will dissect every new construct in this course.</p>
+<pre class='code anatomy'><code>def square(x):
+├─ def ......... begins a function definition (build a new function)
+├─ square ...... the name the new function is filed under
+├─ ( ........... opens the list of formal parameters
+├─ x ........... one formal parameter: a placeholder for the input
+├─ ) ........... closes the parameter list
+├─ : ........... announces the indented body that follows
+└─ the result   a function named square that takes one input, now filed under &quot;square&quot;</code></pre>
+<p>And the body line, which is the recipe&#x27;s single step:</p>
+<pre class='code anatomy'><code>    return mul(x, x)
+├─ return ...... hand a value back to whoever called this function
+├─ mul ......... the multiplication function brought in by the import
+├─ (x, x) ...... call mul with the input twice as its two arguments
+└─ evaluates to  whatever x times x is, sent back to the caller</code></pre>
+<p>Notice that the final branch describes what the line <strong>achieves</strong>, not merely its name. For the header, the action is &quot;a function now exists and is filed under square.&quot; For the body, the value is &quot;x times x, sent back.&quot; We end every anatomy this way: an action for a statement, a value for an expression.</p>
+</div></section>
+<section id='what-python-does-the-instant-it-reads-def' class='ls ls-default'>
+<h2 class='ls-h'><span>What Python Does the Instant It Reads def</span></h2>
+<div class='ls-body'>
+<p>This is the most important paragraph in the lesson, so slow down. When Python executes (1), it does <strong>not</strong> run <code>return mul(x, x)</code>. It does not multiply anything. There is no <code>x</code> with a value yet. Executing a def statement does exactly two things, and only these two:</p>
+<ol>
+<li>It builds a function value from the name, the formal parameters, and the body.</li>
+<li>It binds the function&#x27;s name in the current environment to that function value.</li>
+</ol>
+<p>After (1) runs, the program&#x27;s state — its environment — looks like this. Picture a table, called the <strong>global frame</strong>, that lists names and the values they point to:</p>
+<pre class='code text'><code>Global frame
+mul    -&gt; multiplication function
+square -&gt; function square(x)</code></pre>
+<p>That is the whole effect. The name <code>mul</code> points to the built-in multiplication function (from the import), and the name <code>square</code> now points to the function we just built. The formal parameter <code>x</code> is nowhere in this picture. It has no value. It is a placeholder that will receive a value only when <code>square</code> is actually called.</p>
+<p>It is worth saying what is <strong>not</strong> there. There is no line that computed anything. There is no <code>x -&gt; 21</code>. There is no 441. The body — <code>return mul(x, x)</code> — has not been touched. It is text on the recipe card, waiting. The kitchen does not start cooking just because a card exists. All of that waiting work begins only when a call expression like <code>square(21)</code> appears.</p>
+</div></section>
+<section id='calling-a-user-defined-function' class='ls ls-default'>
+<h2 class='ls-h'><span>Calling a User-Defined Function</span></h2>
+<div class='ls-body'>
+<p>Now we call the function:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #657b83">square(</span><span style="color: #2aa198">21</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>The good news: you already know the rule for evaluating a call expression, and Python uses the exact same rule whether the function is built-in or one you defined.</p>
+<pre class='code anatomy'><code>square(21)
+├─ square ...... evaluate the operator: look up square, find the function
+├─ ( ........... begins the arguments
+├─ 21 .......... evaluate the operand: the integer 21
+├─ ) ........... ends the arguments
+└─ evaluates to  441</code></pre>
+<p>What is new is the final step — applying the function — when the function is one you wrote. To apply a user-defined function to its arguments, Python follows a precise two-step procedure:</p>
+<ol>
+<li>Bind the arguments to the names of the function&#x27;s formal parameters, in a new <strong>local frame</strong>.</li>
+<li>Execute the body of the function in the environment that begins with this new frame.</li>
+</ol>
+<p>So calling <code>square(21)</code> first creates a fresh local frame and binds the formal parameter <code>x</code> to the argument <code>21</code>:</p>
+<pre class='code text'><code>Global frame
+mul    -&gt; multiplication function
+square -&gt; function square(x)
+
+Local frame for square
+x -&gt; 21</code></pre>
+<p>Then Python executes the body in that environment. It evaluates the return expression:</p>
+<pre class='code text'><code>return mul(x, x)</code></pre>
+<p>Inside this local frame, <code>x</code> is <code>21</code>, so Python computes</p>
+<div class='math'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">21</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">21</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">441</span></span></span></span></span></div>
+<p>and <code>square(21)</code> produces:</p>
+<pre class='code text'><code>441</code></pre>
+<p>The word <strong>return</strong> means the value travels back to wherever the call appeared. At the prompt, Python displays the returned value. Inside a larger expression, the returned value becomes one piece of that larger expression — which is exactly what lets you nest calls, as we will see in a moment.</p>
+<p>The local frame is temporary. Walk the life cycle of this one call:</p>
+<pre class='code text'><code>Call begins:  create a local frame, bind x -&gt; 21
+Body runs:    evaluate mul(x, x) in that frame
+Return:       send 441 back to the caller
+Call ends:    the local frame is no longer active</code></pre>
+<p>That temporariness is the whole point of local frames. It is what lets the same function run again and again — <code>square(3)</code>, then <code>square(10)</code>, then <code>square(21)</code> — without the calls colliding. Each call gets its own private frame, its own private <code>x</code>, and then throws it away.</p>
+</div></section>
+<section id='parameters-versus-arguments' class='ls ls-default'>
+<h2 class='ls-h'><span>Parameters Versus Arguments</span></h2>
+<div class='ls-body'>
+<p>Two words name the two sides of this exchange, and confusing them is one of the most common beginner stumbles.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">square</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">mul(x,</span> <span style="color: #657b83">x)</span>
+
+<span style="color: #657b83">square(</span><span style="color: #2aa198">21</span><span style="color: #657b83">)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/5ea43b5b1b8b.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>In (3):</p>
+<ul>
+<li><code>x</code> is the <strong>formal parameter</strong>. It lives in the definition. It is the labeled empty slot.</li>
+<li><code>21</code> is the <strong>argument</strong>. It lives in the call. It is the actual value supplied for this one use.</li>
+</ul>
+<p>The parameter is the labeled empty cup; the argument is the liquid poured into it for a single use of the recipe. The reason the distinction earns its own section is that one parameter name serves many different arguments across many different calls:</p>
+<pre class='code text'><code>square(3)   creates a frame where x -&gt; 3
+square(10)  creates a frame where x -&gt; 10
+square(21)  creates a frame where x -&gt; 21</code></pre>
+<p>The name <code>x</code> is reused, but there is no single permanent <code>x</code> sitting inside the function between calls. There is a brand-new local binding for <code>x</code> every time the function is called. Hold that thought; it is exactly what makes the nested-call example below work.</p>
+</div></section>
+<section id='when-the-argument-is-an-expression' class='ls ls-default'>
+<h2 class='ls-h'><span>When the Argument Is an Expression</span></h2>
+<div class='ls-body'>
+<p>An argument does not have to be a literal value. It can be any expression. Python&#x27;s rule is firm: it must know the value of the argument <strong>before</strong> it can apply the function, so it evaluates the argument first.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (4)</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">operator</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">add,</span> <span style="color: #657b83">mul</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">square</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">mul(x,</span> <span style="color: #657b83">x)</span>
+
+<span style="color: #657b83">square(add(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">))</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/a1b25c5e3ce0.json' data-mount='st1'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st1' hidden></div></figure>
+<p>The official transcript for this call is:</p>
+<pre class='code text'><code>&gt;&gt;&gt; square(add(2, 5))
+49</code></pre>
+<p>Here is why. Python cannot enter <code>square</code> until it has a concrete value for the argument, so it first evaluates the operand:</p>
+<pre class='code text'><code>add(2, 5) -&gt; 7</code></pre>
+<p>Now the call effectively becomes <code>square(7)</code>. A local frame is created with <code>x</code> bound to <code>7</code>, the body computes <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">7</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">7</span></span></span></span></span>, and the result is:</p>
+<pre class='code text'><code>49</code></pre>
+</div></section>
+<section id='when-a-function-is-nested-inside-itself' class='ls ls-default'>
+<h2 class='ls-h'><span>When a Function Is Nested Inside Itself</span></h2>
+<div class='ls-body'>
+<p>Because a returned value can serve as a piece of a larger expression, you can feed the result of one call straight into another. Watch what happens when both functions are <code>square</code>:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (5)</span>
+<span style="color: #657b83">square(square(</span><span style="color: #2aa198">3</span><span style="color: #657b83">))</span>
+</code></pre>
+<p>The official transcript:</p>
+<pre class='code text'><code>&gt;&gt;&gt; square(square(3))
+81</code></pre>
+<p>Python evaluates from the inside out, because the outer call needs a value for its argument before it can run. The inner call goes first:</p>
+<pre class='code text'><code>square(3) -&gt; 9</code></pre>
+<p>Then the outer call becomes <code>square(9)</code>:</p>
+<pre class='code text'><code>square(9) -&gt; 81</code></pre>
+<p>so the whole expression produces:</p>
+<pre class='code text'><code>81</code></pre>
+<p>The two calls to <code>square</code> are entirely separate events, and this is where the &quot;fresh local binding every call&quot; idea pays off. Each call builds its own local frame with its own <code>x</code>:</p>
+<pre class='code text'><code>Call 1: square(3)
+Local frame A
+x -&gt; 3
+return 9
+
+Call 2: square(9)
+Local frame B
+x -&gt; 9
+return 81</code></pre>
+<p>Same parameter name, two independent frames, two independent values of <code>x</code>. Neither call can disturb the other.</p>
+</div></section>
+<section id='building-a-function-out-of-other-functions' class='ls ls-default'>
+<h2 class='ls-h'><span>Building a Function Out of Other Functions</span></h2>
+<div class='ls-body'>
+<p>The real power arrives once a function has a name: you can use it inside the definition of another function, the same way you used <code>mul</code>. We define <code>sum_squares</code>, which squares two numbers and adds the results:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (6)</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">operator</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">add,</span> <span style="color: #657b83">mul</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">square</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">mul(x,</span> <span style="color: #657b83">x)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">sum_squares</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">add(square(x),</span> <span style="color: #657b83">square(y))</span>
+</code></pre>
+<p>The body of <code>sum_squares</code> calls <code>square</code> twice and feeds both results to <code>add</code>:</p>
+<pre class='code anatomy'><code>    return add(square(x), square(y))
+├─ return ........... hand a value back to the caller
+├─ add .............. the addition function
+├─ square(x) ........ square the first input
+├─ square(y) ........ square the second input
+└─ evaluates to       the sum of the two squares, sent back to the caller</code></pre>
+<p>Now call it:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (7)</span>
+<span style="color: #657b83">sum_squares(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>The official transcript:</p>
+<pre class='code text'><code>&gt;&gt;&gt; sum_squares(3, 4)
+25</code></pre>
+<p>Trace it. Applying <code>sum_squares</code> creates a local frame binding both formal parameters:</p>
+<pre class='code text'><code>sum_squares(3, 4)
+  x -&gt; 3
+  y -&gt; 4</code></pre>
+<p>Executing the body evaluates each piece in turn. Each <code>square(...)</code> is itself a call, so each one spins up its own local frame, runs, and returns:</p>
+<pre class='code text'><code>square(x) -&gt; square(3) -&gt; 9
+square(y) -&gt; square(4) -&gt; 16
+add(9, 16) -&gt; 25</code></pre>
+<p>So <code>sum_squares(3, 4)</code> returns:</p>
+<pre class='code text'><code>25</code></pre>
+<p>Notice the layering: while <code>sum_squares</code> is running, a call to <code>square</code> opens, runs, and closes; then a second call to <code>square</code> opens, runs, and closes. Functions calling functions is just frames opening and closing in a nested order.</p>
+<p>To make that layering unmistakable, the original text walks through one more call to <code>sum_squares</code> — this time with the arguments <code>5</code> and <code>12</code> — frame by frame. The setup is the same two definitions, with the call stored in a name:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (8)</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">operator</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">add,</span> <span style="color: #657b83">mul</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">square</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">mul(x,</span> <span style="color: #657b83">x)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">sum_squares</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">add(square(x),</span> <span style="color: #657b83">square(y))</span>
+
+<span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">sum_squares(</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">12</span><span style="color: #657b83">)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/c11ed387f84f.json' data-mount='st2'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st2' hidden></div></figure>
+<p>The official transcript for the call itself is:</p>
+<pre class='code text'><code>&gt;&gt;&gt; sum_squares(5, 12)
+169</code></pre>
+<p>Follow the frames in the exact order Python opens them. Python first evaluates the name <code>sum_squares</code>, found in the global frame, and the operands <code>5</code> and <code>12</code>, which evaluate to themselves. Applying <code>sum_squares</code> introduces a local frame that binds both parameters:</p>
+<pre class='code text'><code>Global frame
+add         -&gt; addition function
+mul         -&gt; multiplication function
+square      -&gt; function square(x)
+sum_squares -&gt; function sum_squares(x, y)
+
+Local frame for sum_squares
+x -&gt; 5
+y -&gt; 12</code></pre>
+<p>The body is <code>return add(square(x), square(y))</code>. Both operands must be evaluated before <code>add</code> runs. Operand 0 is <code>square(x)</code>: here <code>square</code> is found in the global frame and <code>x</code> is <code>5</code> in the local frame, so Python applies <code>square</code> to <code>5</code> by opening <strong>another</strong> local frame that binds its own <code>x</code> to <code>5</code>:</p>
+<pre class='code text'><code>Local frame for square
+x -&gt; 5</code></pre>
+<p>Using that environment, <code>mul(x, x)</code> evaluates to <code>25</code>. Python then turns to operand 1, <code>square(y)</code>, where <code>y</code> is <code>12</code>. It evaluates the body of <code>square</code> again, opening <strong>yet another</strong> local frame that binds <code>x</code> to <code>12</code>, so operand 1 evaluates to <code>144</code>:</p>
+<pre class='code text'><code>Local frame for square
+x -&gt; 12</code></pre>
+<p>Finally, applying addition to the two arguments yields the return value of <code>sum_squares</code>:</p>
+<pre class='code text'><code>add(25, 144) -&gt; 169</code></pre>
+<p>so <code>sum_squares(5, 12)</code> produces:</p>
+<pre class='code text'><code>169</code></pre>
+<p>This is the example the source uses to make one point unforgettable: all three local frames — the one for <code>sum_squares</code> and the two for <code>square</code> — contain a binding for the name <code>x</code>, but <code>x</code> is bound to a different value in each. A new local frame is introduced every time a function is called, even when it is the same function, and that is exactly what keeps the three <code>x</code> values from colliding.</p>
+</div></section>
+<section id='a-closer-look-at-environments-and-frames' class='ls ls-default'>
+<h2 class='ls-h'><span>A Closer Look at Environments and Frames</span></h2>
+<div class='ls-body'>
+<p>Everything above rests on one structure, so let us name it carefully. An <strong>environment</strong> is a sequence of <strong>frames</strong>. Each frame is a table of <strong>bindings</strong>, where a binding associates a name with a value. There is exactly one <strong>global frame</strong>, created when your program starts; it holds names bound by imports, by def statements, and by top-level assignments. Every time a user-defined function is applied, a new <strong>local frame</strong> is created to hold that call&#x27;s parameter bindings.</p>
+<p>The original text starts with the simplest possible case, where the whole environment is just the global frame. Import and assignment statements add entries to it:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (9)</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">math</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">pi</span>
+<span style="color: #657b83">tau</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">2</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">pi</span>
+</code></pre>
+<p>After these two lines run, the global frame holds two bindings — one added by the import, one added by the assignment:</p>
+<pre class='code text'><code>Global frame
+pi  -&gt; 3.1416
+tau -&gt; 6.2832</code></pre>
+<p>That is an <strong>environment diagram</strong>: a picture of the current environment&#x27;s frames and the values each name is bound to. Functions appear in these diagrams too — an import statement binds a name to a built-in function, and a def statement binds a name to a user-defined function — which is exactly what we saw when <code>mul</code> and <code>square</code> showed up in the global frame earlier.</p>
+<p>The one rule that ties names to values is this: a name evaluates to the value bound to it in the <strong>earliest frame of the current environment in which that name is found</strong>. While a function runs, its local frame comes first, and the global frame follows. So Python looks in the local frame first; if the name is not there, it looks in the global frame. The picture below shows both halves of that search happening at once while a call evaluates <code>mul(x, x)</code>: the name <code>x</code> is found right away in the local frame, while <code>mul</code> is missing there and the search falls through to the global frame.</p>
+<p><img class="figure" src="figures/name-lookup.svg" alt="Two stacked frames showing a name looked up in the local frame first then the global frame"></p>
+<p>The original text draws this with <code>square(-2)</code>. After importing <code>mul</code> and defining <code>square</code>, the global frame holds the two bindings; calling <code>square(-2)</code> adds a local frame for that call:</p>
+<pre class='code text'><code>Global frame
+mul    -&gt; multiplication function
+square -&gt; function square(x)
+
+Local frame for square
+x -&gt; -2</code></pre>
+<p>Inside that local frame, the name <code>x</code> is found immediately and evaluates to <code>-2</code>, so the body computes <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">−</span><span class="mord">2</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">−</span><span class="mord">2</span><span class="mclose">)</span></span></span></span></span> and the call returns <code>4</code>. The name <code>mul</code>, however, is <strong>not</strong> in the local frame, so Python looks in the next frame — the global frame — and finds the multiplication function there. That single example shows both halves of the lookup rule at once: a parameter resolved locally, a function name resolved globally.</p>
+<p>A function name actually appears twice in these diagrams: once in the frame, as the binding <code>square -&gt; function square(x)</code>, and once inside the function value itself. The source gives the two appearances names. The name inside the function value is the function&#x27;s <strong>intrinsic name</strong>; the name in a frame is its <strong>bound name</strong>. The difference matters: several different names may be bound to the same function, but the function carries only one intrinsic name. Crucially, it is the <strong>bound name</strong> that Python uses when it looks a function up to call it — the intrinsic name plays no part in evaluation. (This is exactly why the <code>f = max</code> / <code>max = 3</code> example later in this lesson behaves the way it does.)</p>
+<p>The <code>(x)</code> written next to <code>square</code> in the diagram is also worth naming. A description of the formal parameters a function takes is called the function&#x27;s <strong>signature</strong>. The signature <code>square(x)</code> records that <code>square</code> takes exactly one argument; supplying more or fewer is an error. Built-in functions are drawn with a signature like <code>mul(...)</code>, because they were never defined with named parameters in Python — the <code>...</code> stands in for &quot;however many arguments this primitive accepts.&quot;</p>
+<p>This is why an environment diagram is more than a drawing exercise. It answers the only question that ever matters when Python reads a name: <strong>right now, in the current environment, what value does this name find?</strong></p>
+</div></section>
+<section id='names-in-environments-can-be-rebound' class='ls ls-default'>
+<h2 class='ls-h'><span>Names in Environments Can Be Rebound</span></h2>
+<div class='ls-body'>
+<p>A function name is, in the end, just a name in a frame — and any name can be bound to a new value later. Both def statements and assignment statements bind names, and when they do, any earlier binding for that name is lost. The original text shows this with a name <code>g</code> that changes meaning three times.</p>
+<p>First, <code>g</code> is defined as a function that takes no arguments and returns <code>1</code>, and calling it returns <code>1</code>:</p>
+<pre class='code text'><code>&gt;&gt;&gt; def g():
+        return 1
+&gt;&gt;&gt; g()
+1</code></pre>
+<p>Then <code>g</code> is reassigned to an integer. Now the name no longer refers to any function:</p>
+<pre class='code text'><code>&gt;&gt;&gt; g = 2
+&gt;&gt;&gt; g
+2</code></pre>
+<p>Finally, the same name is defined as a brand-new function — this time taking two parameters and returning their sum — and calling it returns <code>3</code>:</p>
+<pre class='code text'><code>&gt;&gt;&gt; def g(h, i):
+        return h + i
+&gt;&gt;&gt; g(1, 2)
+3</code></pre>
+<p>The lesson is not &quot;reuse names freely&quot; — in practice you usually should not. The lesson is that Python always uses the <strong>current</strong> binding for a name. The letters <code>g</code> never changed; what changed each time was the value that <code>g</code> was bound to in the global frame: first a no-argument function, then the integer <code>2</code>, then a two-argument function. An environment diagram makes that history visible, which is exactly why we draw it.</p>
+<p>The same idea has a sharp edge that the original text demonstrates with the built-in <code>max</code>. Because only the <strong>bound name</strong> in a frame is used during a call, rebinding that name to a non-function makes it impossible to call:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (10)</span>
+<span style="color: #657b83">f</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">max</span>
+<span style="color: #268bd2">max</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">3</span>
+<span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">f(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)</span>
+<span style="color: #268bd2">max</span><span style="color: #657b83">(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">)</span>  <span style="color: #93a1a1; font-style: italic"># Causes an error</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/161be5d62c1c.json' data-mount='st3'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st3' hidden></div></figure>
+<p>Read it line by line. <code>f = max</code> binds <code>f</code> to the very same function <code>max</code> is bound to — now two names point to one function. <code>max = 3</code> rebinds the name <code>max</code> in the global frame to the integer <code>3</code>; the function it used to point to is untouched, and <code>f</code> still points to it. So <code>f(2, 3, 4)</code> works and binds <code>result</code> to <code>4</code>. But the last line tries to use <code>max</code> as the operator of a call, and <code>max</code> is now the number <code>3</code>:</p>
+<pre class='code text'><code>&gt;&gt;&gt; max(1, 2)
+TypeError: &#x27;int&#x27; object is not callable</code></pre>
+<p>The error says exactly what went wrong: the name <code>max</code> is currently bound to an integer, not a function, so it cannot be used as the operator in a call expression. This is the intrinsic-name-versus-bound-name distinction in action. The function still has its one intrinsic name, and <code>f</code> can still reach it — but the bound name <code>max</code> no longer leads to a callable value.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<div class='table-wrap'><table><thead><tr>
+<th>Mistake</th>
+<th>What Goes Wrong</th>
+<th>Safer Question</th>
+</tr></thead><tbody>
+<tr>
+<td>Expecting <code>def</code> to run the body right away</td>
+<td>Python only builds the function object and waits; nothing computes until a call appears</td>
+<td>Where is the line that actually calls the function?</td>
+</tr>
+<tr>
+<td>Writing the name without parentheses</td>
+<td>No call happens; the expression evaluates to the function object itself, such as <code>&lt;function square at 0x...&gt;</code>, instead of the result</td>
+<td>Did I add the parentheses that actually perform the call?</td>
+</tr>
+<tr>
+<td>Omitting the colon after the <code>def</code> header</td>
+<td>Python raises <code>SyntaxError: expected &#x27;:&#x27;</code> before the function is ever built</td>
+<td>Did I end the header line with the colon that announces the body?</td>
+</tr>
+<tr>
+<td>Forgetting <code>return</code></td>
+<td>The function ends and hands back <code>None</code> automatically, so the caller receives <code>None</code>, not the value you expected</td>
+<td>What value should the caller receive?</td>
+</tr>
+<tr>
+<td>Confusing parameters and arguments</td>
+<td>The definition and the call get read as if they were one line</td>
+<td>Which names are placeholders in the definition, and which values are supplied at this call?</td>
+</tr>
+<tr>
+<td>Misplacing indentation</td>
+<td>A line ends up outside the body, or Python raises an <code>IndentationError</code></td>
+<td>Which lines should belong to this function&#x27;s body?</td>
+</tr>
+<tr>
+<td>Assuming one permanent <code>x</code> lives in the function</td>
+<td>Two calls are imagined to share a value they never share</td>
+<td>Does each call get its own local frame and its own binding?</td>
+</tr>
+<tr>
+<td>Rebinding a function name by accident</td>
+<td>A later assignment or def replaces the function with another value, so a later call raises <code>TypeError: &#x27;int&#x27; object is not callable</code> (or similar)</td>
+<td>What is this name bound to at the moment of the call?</td>
+</tr>
+</tbody></table></div>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>Using the definitions of <code>square</code> and <code>sum_squares</code>, how many local frames open in total when <code>sum_squares(2, 3)</code> is evaluated, and what value does the call return?</li>
+<li>What new frame is created when <code>square(21)</code> is called, and what binding does it hold?</li>
+<li>In <code>def square(x): ...</code>, what is <code>x</code>, and in <code>square(21)</code>, what is <code>21</code>?</li>
+<li>Why do the two calls in <code>square(square(3))</code> get separate local frames, and what value does each return?</li>
+<li>While <code>square</code> is running, the name <code>x</code> is found in its local frame but <code>mul</code> is not. Where does Python find <code>mul</code>, and what rule is it following?</li>
+<li>After <code>g = 2</code>, why does the name <code>g</code> no longer call the function defined earlier?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li>Three local frames open: one for the call to <code>sum_squares</code> (binding <code>x -&gt; 2</code>, <code>y -&gt; 3</code>), and one for each of the two <code>square</code> calls (binding <code>x -&gt; 2</code>, then <code>x -&gt; 3</code>). The call returns <code>13</code>, since <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">4</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">9</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">13</span></span></span></span></span>.</li>
+<li>A local frame for that call to <code>square</code>, holding the binding <code>x -&gt; 21</code>.</li>
+<li><code>x</code> is the formal parameter (the placeholder in the definition); <code>21</code> is the argument (the value supplied for this call).</li>
+<li>Each call is a separate event, so Python creates a fresh local frame for each. The inner call <code>square(3)</code> returns <code>9</code>; the outer call <code>square(9)</code> returns <code>81</code>.</li>
+<li>Python looks in the next frame of the current environment — the global frame — and finds <code>mul</code> there. The rule is that a name evaluates to its value in the earliest frame of the current environment in which the name appears, so lookup goes from the local frame outward to the global frame.</li>
+<li>The assignment binds <code>g</code> to the integer <code>2</code> in the global frame, and the earlier binding is lost. Python always uses the current binding, which is now a number, not a function.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>Defining a function and calling a function are two distinct events. A def statement, of the general form <code>def &lt;name&gt;(&lt;formal parameters&gt;): return &lt;return expression&gt;</code>, builds a function value and binds a name to it in the current frame; it runs none of the body. Calling a user-defined function applies a precise two-step procedure: bind the arguments to the formal parameters in a new local frame, then execute the body in the environment that begins with that frame. The value of the return expression travels back to the caller, which lets calls nest and lets functions be built from other functions. All of this is bookkeeping in <strong>environments</strong> — sequences of frames whose bindings tie names to values — where a name always evaluates to the value bound to it in the earliest frame where it is found. Because both def and assignment statements bind names, the meaning of a name is never fixed; it is whatever the current environment says it is.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>This block gathers the whole lesson into one program: two imports, two def statements, and a final line whose call puts every rule about frames to work. Before you step through it, write down three predictions: how many local frames will open over the whole run, what <code>x</code> holds in each <code>square</code> frame, and what value <code>result</code> is bound to when the last line finishes.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (11)</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">operator</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">add,</span> <span style="color: #657b83">mul</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">square</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">mul(x,</span> <span style="color: #657b83">x)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">sum_squares</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">add(square(x),</span> <span style="color: #657b83">square(y))</span>
+
+<span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">sum_squares(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/7b3f723ba288.json' data-mount='st4'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st4' hidden></div></figure>
+<p>Step through it one line at a time and check each prediction as the frames appear. You should have seen the global frame collect <code>add</code>, <code>mul</code>, <code>square</code>, <code>sum_squares</code>, and finally <code>result -&gt; 25</code>, while the local frame for <code>sum_squares</code> (with <code>x -&gt; 3</code> and <code>y -&gt; 4</code>) opened and, inside it, two separate <code>square</code> frames appeared in turn — one binding <code>x -&gt; 3</code>, the next binding <code>x -&gt; 4</code>, three local frames in all. The two <code>square</code> frames never overwrite each other. They are two separate calls, each with its own private binding for <code>x</code>, opening and closing inside the single running call to <code>sum_squares</code>.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>1.2-B Names, Environments, Nested Expressions, and Print</span></a><a class='pg pg-next' href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#a-recipe-card-is-not-a-cooked-meal'>A Recipe Card Is Not a Cooked Meal</a></li><li><a href='#the-def-statement-building-a-new-function'>The def Statement: Building a New Function</a></li><li><a href='#what-python-does-the-instant-it-reads-def'>What Python Does the Instant It Reads def</a></li><li><a href='#calling-a-user-defined-function'>Calling a User-Defined Function</a></li><li><a href='#parameters-versus-arguments'>Parameters Versus Arguments</a></li><li><a href='#when-the-argument-is-an-expression'>When the Argument Is an Expression</a></li><li><a href='#when-a-function-is-nested-inside-itself'>When a Function Is Nested Inside Itself</a></li><li><a href='#building-a-function-out-of-other-functions'>Building a Function Out of Other Functions</a></li><li><a href='#a-closer-look-at-environments-and-frames'>A Closer Look at Environments and Frames</a></li><li><a href='#names-in-environments-can-be-rebound'>Names in Environments Can Be Rebound</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>4.3 · SQL Queries — Coding Practice · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+
+</head>
+<body class='is-practice'>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/' class='active'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Practice</span><span class='dot'>/</span><span class='eb-sec'>Chapter 4 · Coding Practice</span></div><h1 class='lesson-title'>4.3 · SQL Queries — Coding Practice</h1><div class='reading-meta'>&#9719; approx. 11 min read</div></div><div class='lesson-grid'><div class='lesson-body'><p>These problems build fluency with SQL as a declarative query language: projecting and computing columns with <code>select</code> and <code>as</code>, filtering rows with <code>where</code>, sorting with <code>order by</code>, combining tables with joins and self-joins, summarizing with the aggregate functions and <code>group by</code> / <code>having</code>, and generating sequences with recursive <code>with</code> clauses.</p>
+<p>&gt; Work each problem from the schema in the Setup block first. Write a query that produces the rows shown in the Examples, then open the matching solution below to check your SQL and the idea behind it.</p>
+<p>All problems run against the same small library database, defined once in the <strong>Setup</strong> block at the top of the Solutions section. Each Example shows the query&#x27;s output the way the <code>sqlite&gt;</code> prompt prints it: one row per line, with column values separated by a vertical bar.</p>
+<section id='easy' class='ls ls-default'>
+<h2 class='ls-h'><span>Easy</span></h2>
+<div class='ls-body'>
+<h3>1. List Titles by Year</h3>
+<p>Write a query that returns each book&#x27;s <code>title</code> and <code>year</code>, sorted from the earliest publication year to the latest.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Query:  select title, year from books order by year;
+Output:
+Emma|1815
+Persuasion|1817
+The Hobbit|1937
+I, Robot|1950
+Foundation|1951
+Dune|1965
+The Silmarillion|1977
+Explanation: every row of books, projected to two columns and sorted by year ascending.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Use only <code>select</code>, <code>from</code>, and <code>order by</code>.</li>
+<li>Project exactly the <code>title</code> and <code>year</code> columns, in that order.</li>
+</ul>
+<p><strong>Task</strong></p>
+<pre class='code sql'><code>-- Return: title, year  (one row per book, ordered by year ascending)</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>order by</code> sorts in increasing order of the expression you give it, so a bare column name sorts ascending.</p></details>
+<h3>2. Long Books</h3>
+<p>Write a query that returns the <code>title</code> and <code>pages</code> of every book longer than 300 pages, sorted alphabetically by title.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Query:  select title, pages from books where pages &gt; 300 order by title;
+Output:
+Dune|412
+Emma|474
+The Hobbit|310
+The Silmarillion|365
+Explanation: where keeps only rows whose pages exceed 300; order by title sorts them by name.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Use a <code>where</code> clause to keep only the qualifying rows.</li>
+<li>The comparison is strict: a 300-page book is <em>not</em> longer than 300.</li>
+</ul>
+<p><strong>Task</strong></p>
+<pre class='code sql'><code>-- Return: title, pages  (only books with pages &gt; 300, ordered by title)</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>where</code> filters rows; the column list after <code>select</code> chooses which columns appear.</p></details>
+<h3>3. Book Ages</h3>
+<p>Treating the current year as 2024, write a query that returns the <code>title</code> and the age (<code>2024 - year</code>, named <code>age</code>) of every science-fiction book (<code>genre = &quot;scifi&quot;</code>), sorted from newest to oldest.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Query:  select title, 2024 - year as age from books where genre = &quot;scifi&quot; order by age;
+Output:
+Dune|59
+Foundation|73
+I, Robot|74
+Explanation: age is computed per row as 2024 - year; sorting by age ascending puts the smallest age (newest book) first.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Compute the age as a column expression and name it with <code>as</code>.</li>
+<li>Filter to <code>genre = &quot;scifi&quot;</code> (SQL uses a single <code>=</code> for equality).</li>
+</ul>
+<p><strong>Task</strong></p>
+<pre class='code sql'><code>-- Return: title, age  where age = 2024 - year, scifi only, ordered by age</code></pre>
+<details class='hint'><summary>Hint</summary><p>A column description can be any expression, not just a stored column; <code>as</code> gives the computed column a name.</p></details>
+<h3>4. Heaviest First</h3>
+<p>Write a query that returns the <code>title</code> and <code>pages</code> of every book, sorted from the most pages to the fewest.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Query:  select title, pages from books order by -pages;
+Output:
+Emma|474
+Dune|412
+The Silmarillion|365
+The Hobbit|310
+Persuasion|277
+I, Robot|253
+Foundation|244
+Explanation: order by sorts ascending, so negating pages puts the largest page count first.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Sort with a single <code>order by</code> clause.</li>
+<li>Do not assume a <code>desc</code> keyword; use the negation trick from the lesson.</li>
+</ul>
+<p><strong>Task</strong></p>
+<pre class='code sql'><code>-- Return: title, pages  (every book, most pages first)</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>order by -pages</code> makes the largest page count the smallest (most negative) sort key.</p></details>
+</div></section>
+<section id='medium' class='ls ls-default'>
+<h2 class='ls-h'><span>Medium</span></h2>
+<div class='ls-body'>
+<h3>5. Who Borrowed What</h3>
+<p>The <code>loans</code> table records a <code>title</code>, a <code>patron</code>, and the loan length in <code>days</code>, but it does not store the author. Write a query that joins <code>loans</code> to <code>books</code> on the title and returns the <code>patron</code>, the book&#x27;s <code>author</code>, and the loan <code>days</code>. Sort by <code>patron</code>, then by <code>days</code>, then by <code>author</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Query:  select patron, books.author, days
+               from books, loans where books.title = loans.title
+               order by patron, days, books.author;
+Output:
+Liang|Herbert|21
+Liang|Austen|30
+Maria|Herbert|7
+Maria|Asimov|14
+Maria|Tolkien|14
+Priya|Asimov|10
+Priya|Asimov|14
+Explanation: every loan paired with the matching book row, keeping only pairs whose titles agree.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Join <code>books</code> and <code>loans</code> by listing both in the <code>from</code> clause.</li>
+<li>Match the related rows with <code>where</code>; use a dot expression where a column name could be ambiguous.</li>
+</ul>
+<p><strong>Task</strong></p>
+<pre class='code sql'><code>-- Return: patron, author, days  (each loan with its book&#x27;s author),
+-- ordered by patron, then days, then author</code></pre>
+<details class='hint'><summary>Hint</summary><p>A raw join pairs every loan with every book; the <code>where</code> condition keeps only the pairs whose <code>title</code> columns match.</p></details>
+<h3>6. Genre Summary</h3>
+<p>Write a query that, for each <code>genre</code>, returns the genre, the number of books in it (<code>count(*)</code>), and the average page count (<code>avg(pages)</code>). Sort the result alphabetically by genre.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Query:  select genre, count(*), avg(pages) from books group by genre order by genre;
+Output:
+fantasy|2|337.5
+romance|2|375.5
+scifi|3|303.0
+Explanation: group by genre forms one pile per genre; the aggregates summarize each pile independently.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Use <code>group by</code> so the aggregates apply per genre, not over the whole table.</li>
+<li>Include the grouping column in the select list so you can tell which row is which.</li>
+</ul>
+<p><strong>Task</strong></p>
+<pre class='code sql'><code>-- Return: genre, count(*), avg(pages)  (one row per genre, ordered by genre)</code></pre>
+<details class='hint'><summary>Hint</summary><p>Aggregates like <code>count(*)</code> and <code>avg(...)</code> collapse a group of rows into a single summary row.</p></details>
+<h3>7. Frequently Borrowed Titles</h3>
+<p>Write a query that returns each <code>title</code> that has been borrowed more than once, together with how many times it was borrowed (named <code>times</code>). Sort alphabetically by title.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Query:  select title, count(*) as times from loans group by title having count(*) &gt; 1 order by title;
+Output:
+Dune|2
+I, Robot|2
+Explanation: group by title counts the loans per book; having keeps only the groups whose count exceeds one.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Group the <code>loans</code> rows by <code>title</code>.</li>
+<li>The &quot;more than once&quot; test depends on a group&#x27;s count, so it belongs in <code>having</code>, not <code>where</code>.</li>
+</ul>
+<p><strong>Task</strong></p>
+<pre class='code sql'><code>-- Return: title, times  (titles borrowed more than once, ordered by title)</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>count(*) &gt; 1</code> cannot be checked for a single row; it can only be tested after a group is formed, which is exactly what <code>having</code> is for.</p></details>
+<h3>8. Same-Author Pairs</h3>
+<p>Write a query that returns every pair of distinct books written by the same author, as two title columns <code>a.title</code> and <code>b.title</code>. List each pair only once, with the alphabetically earlier title first. Sort by the first title, then the second.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Query:  select a.title, b.title from books as a, books as b
+               where a.author = b.author and a.title &lt; b.title
+               order by a.title, b.title;
+Output:
+Emma|Persuasion
+Foundation|I, Robot
+The Hobbit|The Silmarillion
+Explanation: self-join books with itself, keep same-author pairs, and a.title &lt; b.title removes self-pairs and mirror duplicates.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Join <code>books</code> to a second copy of itself using table aliases (<code>as a</code>, <code>as b</code>).</li>
+<li>Use a dot expression to say which copy each column comes from.</li>
+<li>The condition <code>a.title &lt; b.title</code> should keep exactly one ordering of each pair.</li>
+</ul>
+<p><strong>Task</strong></p>
+<pre class='code sql'><code>-- Return: a.title, b.title  (distinct same-author book pairs, earlier title first)</code></pre>
+<details class='hint'><summary>Hint</summary><p>Two aliases turn one table into two independently named copies; comparing the titles alphabetically fixes a single order per pair.</p></details>
+</div></section>
+<section id='hard' class='ls ls-default'>
+<h2 class='ls-h'><span>Hard</span></h2>
+<div class='ls-body'>
+<h3>9. Powers of Two</h3>
+<p>Using a recursive <code>with</code> clause, build a temporary table of the powers of two from <code>2^0</code> up to <code>2^8</code>, then return each <code>value</code>, sorted in increasing order.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Query:  with powers(n, value) as (
+          select 0, 1 union
+          select n + 1, value * 2 from powers where n &lt; 8
+        )
+        select value from powers order by value;
+Output:
+1
+2
+4
+8
+16
+32
+64
+128
+256
+Explanation: the base row is (0, 1); each recursive row doubles value and increments n, stopping once n reaches 8.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Define the sequence with a recursive <code>with</code> clause (a base row unioned with a recursive <code>select</code> that reads from the table being defined).</li>
+<li>The exponent column <code>n</code> is the loop counter; stop extending once <code>n</code> is no longer below 8.</li>
+</ul>
+<p><strong>Task</strong></p>
+<pre class='code sql'><code>-- Build powers(n, value): n from 0..8, value = 2^n, then return value sorted ascending</code></pre>
+<details class='hint'><summary>Hint</summary><p>Each row carries enough state to make the next: increment <code>n</code> and double <code>value</code>, and let <code>where n &lt; 8</code> halt the growth.</p></details>
+<h3>10. Management Chain</h3>
+<p>The <code>staff</code> table pairs each employee <code>name</code> with their direct <code>manager</code>. Starting from <code>Eve</code>, write a recursive <code>with</code> clause that walks up the chain of managers, recording each person&#x27;s <code>depth</code> (Eve is <code>0</code>, her manager is <code>1</code>, and so on), and stops before reaching the top boss <code>Reed</code>. Return one sentence per person of the form <code>&quot;&lt;name&gt; is level &lt;depth&gt;&quot;</code>, ordered by depth.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Query:  with chain(name, depth) as (
+          select name, 0 from staff where name = &quot;Eve&quot; union
+          select staff.manager, chain.depth + 1
+                 from staff, chain where staff.name = chain.name and staff.manager != &quot;Reed&quot;
+        )
+        select name || &quot; is level &quot; || depth from chain order by depth;
+Output:
+Eve is level 0
+Di is level 1
+Bo is level 2
+Ada is level 3
+Explanation: each recursive step joins the current person to their staff row to find the next manager up, adding one to depth, until the manager would be Reed.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>The base row is Eve at depth <code>0</code>; each recursive row climbs one level toward the top.</li>
+<li>Join the table being built (<code>chain</code>) to <code>staff</code> to look up the current person&#x27;s manager.</li>
+<li>Use <code>||</code> to build each output sentence, and <code>!=</code> to stop before <code>Reed</code>.</li>
+</ul>
+<p><strong>Task</strong></p>
+<pre class='code sql'><code>-- Build chain(name, depth) from Eve upward (excluding Reed),
+-- then return &quot;&lt;name&gt; is level &lt;depth&gt;&quot; ordered by depth</code></pre>
+<details class='hint'><summary>Hint</summary><p>Each recursive row reads a <code>chain</code> row, finds that person&#x27;s <code>staff</code> entry, and emits their manager at <code>depth + 1</code>; the <code>!=</code> guard stops the climb before the top boss.</p></details>
+</div></section>
+<section id='solutions' class='ls ls-default'>
+<h2 class='ls-h'><span>Solutions</span></h2>
+<div class='ls-body'>
+<h3>Setup</h3>
+<p>Every query runs against this in-memory SQLite database. Create the three tables once, then each solution below is a single query against them:</p>
+<pre class='code sql'><code>create table books as
+  select &quot;The Hobbit&quot;        as title, &quot;Tolkien&quot;   as author, &quot;fantasy&quot;  as genre, 310 as pages, 1937 as year union
+  select &quot;Dune&quot;                       , &quot;Herbert&quot;             , &quot;scifi&quot;             , 412         , 1965         union
+  select &quot;Foundation&quot;                 , &quot;Asimov&quot;              , &quot;scifi&quot;             , 244         , 1951         union
+  select &quot;Emma&quot;                       , &quot;Austen&quot;              , &quot;romance&quot;           , 474         , 1815         union
+  select &quot;Persuasion&quot;                 , &quot;Austen&quot;              , &quot;romance&quot;           , 277         , 1817         union
+  select &quot;I, Robot&quot;                   , &quot;Asimov&quot;              , &quot;scifi&quot;             , 253         , 1950         union
+  select &quot;The Silmarillion&quot;           , &quot;Tolkien&quot;             , &quot;fantasy&quot;           , 365         , 1977;
+
+create table loans as
+  select &quot;The Hobbit&quot;  as title, &quot;Maria&quot; as patron, 14 as days union
+  select &quot;Dune&quot;                 , &quot;Liang&quot;          , 21         union
+  select &quot;Dune&quot;                 , &quot;Maria&quot;          , 7          union
+  select &quot;Foundation&quot;           , &quot;Priya&quot;          , 14         union
+  select &quot;Emma&quot;                 , &quot;Liang&quot;          , 30         union
+  select &quot;I, Robot&quot;             , &quot;Priya&quot;          , 10         union
+  select &quot;I, Robot&quot;             , &quot;Maria&quot;          , 14;
+
+create table staff as
+  select &quot;Ada&quot;   as name, &quot;Reed&quot;  as manager union
+  select &quot;Bo&quot;           , &quot;Ada&quot;             union
+  select &quot;Cy&quot;           , &quot;Ada&quot;             union
+  select &quot;Di&quot;           , &quot;Bo&quot;              union
+  select &quot;Eve&quot;          , &quot;Di&quot;;</code></pre>
+<p>The verification harness loads exactly these tables with Python&#x27;s <code>sqlite3</code> module, runs each query below, and asserts the returned rows match the Examples.</p>
+<h3>1. List Titles by Year</h3>
+<p><strong>Approach — projection plus order.</strong> A <code>select</code> describes a new table built from <code>books</code>: name the two columns you want, and let <code>order by year</code> sort the rows in increasing year. No row is filtered, so all seven books appear.</p>
+<pre class='code sql'><code>select title, year from books order by year;</code></pre>
+<p><strong>Why it works.</strong> Each book row is projected to its <code>title</code> and <code>year</code>, and <code>order by</code> sorts the result by the <code>year</code> expression in ascending order.</p>
+<p><strong>Complexity.</strong> A full scan of the table plus a sort: time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.0139em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> for the result rows.</p>
+<pre class='code text'><code>Emma|1815
+Persuasion|1817
+The Hobbit|1937
+I, Robot|1950
+Foundation|1951
+Dune|1965
+The Silmarillion|1977</code></pre>
+<h3>2. Long Books</h3>
+<p><strong>Approach — filter then project.</strong> A <code>where</code> clause keeps only the rows whose <code>pages</code> value exceeds 300; the column list projects <code>title</code> and <code>pages</code>, and <code>order by title</code> sorts the survivors.</p>
+<pre class='code sql'><code>select title, pages from books where pages &gt; 300 order by title;</code></pre>
+<p><strong>Why it works.</strong> The filtering expression <code>pages &gt; 300</code> is evaluated once per row; only rows for which it is true are projected. Four of the seven books qualify.</p>
+<p><strong>Complexity.</strong> One pass to filter plus a sort of the survivors: time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.0139em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>.</p>
+<pre class='code text'><code>Dune|412
+Emma|474
+The Hobbit|310
+The Silmarillion|365</code></pre>
+<h3>3. Book Ages</h3>
+<p><strong>Approach — computed column.</strong> The output column <code>2024 - year</code> is an expression evaluated per row, named <code>age</code> with <code>as</code> so <code>order by age</code> can refer to it. The <code>where</code> clause restricts the rows to science fiction first.</p>
+<pre class='code sql'><code>select title, 2024 - year as age from books where genre = &quot;scifi&quot; order by age;</code></pre>
+<p><strong>Why it works.</strong> A column description can be any expression; <code>2024 - year</code> produces a fresh number for each row, and naming it <code>age</code> lets the <code>order by</code> clause sort by that computed value. Smaller age means a newer book, so the newest scifi book sorts first.</p>
+<p><strong>Complexity.</strong> Filter plus sort over the scifi rows: time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.0139em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>.</p>
+<pre class='code text'><code>Dune|59
+Foundation|73
+I, Robot|74</code></pre>
+<h3>4. Heaviest First</h3>
+<p><strong>Approach — negated sort key.</strong> <code>order by</code> always sorts in increasing order, so negating <code>pages</code> turns the largest page count into the smallest key, placing the longest book first.</p>
+<pre class='code sql'><code>select title, pages from books order by -pages;</code></pre>
+<p><strong>Why it works.</strong> For two books with pages <code>p1 &gt; p2</code>, the keys satisfy <code>-p1 &lt; -p2</code>, so the heavier book sorts ahead. Every book appears, longest first.</p>
+<p><strong>Complexity.</strong> A full scan plus a sort: time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.0139em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>.</p>
+<pre class='code text'><code>Emma|474
+Dune|412
+The Silmarillion|365
+The Hobbit|310
+Persuasion|277
+I, Robot|253
+Foundation|244</code></pre>
+<h3>5. Who Borrowed What</h3>
+<p><strong>Approach — join on a shared key.</strong> Listing <code>books</code> and <code>loans</code> in the <code>from</code> clause pairs every book with every loan; the <code>where</code> condition <code>books.title = loans.title</code> keeps only the pairs that describe the same book, so each loan picks up its book&#x27;s author.</p>
+<pre class='code sql'><code>select patron, books.author, days
+       from books, loans where books.title = loans.title
+       order by patron, days, books.author;</code></pre>
+<p><strong>Why it works.</strong> A raw join builds every combination of a <code>books</code> row and a <code>loans</code> row; matching the two <code>title</code> columns with <code>=</code> keeps exactly the meaningful pairs. The dot expression <code>books.author</code> says which table the author comes from, and the three-key <code>order by</code> makes the result fully determined.</p>
+<p><strong>Complexity.</strong> The raw join considers <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4445em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span></span> pairs before filtering, then sorts the survivors: time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">mn</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.0139em;">g</span></span><span class="mopen">(</span><span class="mord mathnormal">mn</span><span class="mclose">))</span></span></span></span></span>, space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">mn</span><span class="mclose">)</span></span></span></span></span> in the worst case.</p>
+<pre class='code text'><code>Liang|Herbert|21
+Liang|Austen|30
+Maria|Herbert|7
+Maria|Asimov|14
+Maria|Tolkien|14
+Priya|Asimov|10
+Priya|Asimov|14</code></pre>
+<h3>6. Genre Summary</h3>
+<p><strong>Approach — group then aggregate.</strong> <code>group by genre</code> partitions the books into one pile per genre, and the aggregate functions <code>count(*)</code> and <code>avg(pages)</code> summarize each pile independently into a single row.</p>
+<pre class='code sql'><code>select genre, count(*), avg(pages) from books group by genre order by genre;</code></pre>
+<p><strong>Why it works.</strong> Without <code>group by</code>, the aggregates would fold the whole table into one row; grouping by <code>genre</code> makes them apply per group, so each genre reports its own count and average page count.</p>
+<p><strong>Complexity.</strong> One pass to assign rows to groups plus a sort of the groups: time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.0139em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0359em;">g</span><span class="mclose">)</span></span></span></span></span> for the <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">g</span></span></span></span></span> groups.</p>
+<pre class='code text'><code>fantasy|2|337.5
+romance|2|375.5
+scifi|3|303.0</code></pre>
+<h3>7. Frequently Borrowed Titles</h3>
+<p><strong>Approach — having on a group count.</strong> Group the loans by <code>title</code>, then keep only the groups whose row count exceeds one. The test <code>count(*) &gt; 1</code> depends on a whole group, so it lives in <code>having</code>, evaluated after the groups are formed.</p>
+<pre class='code sql'><code>select title, count(*) as times from loans group by title having count(*) &gt; 1 order by title;</code></pre>
+<p><strong>Why it works.</strong> <code>group by title</code> collects all loans of a book into one group; <code>having count(*) &gt; 1</code> discards the single-loan groups, leaving only titles borrowed more than once.</p>
+<p><strong>Complexity.</strong> One grouping pass plus a sort of the surviving groups: time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.0139em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0359em;">g</span><span class="mclose">)</span></span></span></span></span>.</p>
+<pre class='code text'><code>Dune|2
+I, Robot|2</code></pre>
+<h3>8. Same-Author Pairs</h3>
+<p><strong>Approach — self-join with aliases.</strong> Two aliases <code>a</code> and <code>b</code> make <code>books</code> appear twice in one query. Pairing every <code>a</code> row with every <code>b</code> row and keeping <code>a.author = b.author</code> finds books sharing an author; <code>a.title &lt; b.title</code> keeps a single, ordered copy of each pair and drops self-pairs.</p>
+<pre class='code sql'><code>select a.title, b.title from books as a, books as b
+       where a.author = b.author and a.title &lt; b.title
+       order by a.title, b.title;</code></pre>
+<p><strong>Why it works.</strong> Without the <code>a.title &lt; b.title</code> guard, each unordered pair would appear twice (and every book would pair with itself). Demanding the first title sort before the second leaves exactly one row per distinct same-author pair.</p>
+<p><strong>Complexity.</strong> The self-join forms <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span> pairs before filtering, then sorts the survivors: time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.0139em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span> in the worst case.</p>
+<pre class='code text'><code>Emma|Persuasion
+Foundation|I, Robot
+The Hobbit|The Silmarillion</code></pre>
+<h3>9. Powers of Two</h3>
+<p><strong>Approach — recursive with clause.</strong> A <code>with</code> clause defines a query-local table <code>powers</code> with a base row <code>(0, 1)</code> and a recursive row that reads from <code>powers</code> itself, incrementing the exponent <code>n</code> and doubling <code>value</code>. The guard <code>where n &lt; 8</code> stops the growth.</p>
+<pre class='code sql'><code>with powers(n, value) as (
+  select 0, 1 union
+  select n + 1, value * 2 from powers where n &lt; 8
+)
+select value from powers order by value;</code></pre>
+<p><strong>Why it works.</strong> Each row carries both the exponent <code>n</code> and the current power <code>value</code>, which is exactly the state needed to compute the next row. The recursion halts once <code>n</code> reaches 8, yielding <code>2^0</code> through <code>2^8</code>.</p>
+<p><strong>Complexity.</strong> The recursion produces <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span></span> rows for exponents <code>0..k</code>, each in constant work, then a sort: time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.0139em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mclose">)</span></span></span></span></span>, space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mclose">)</span></span></span></span></span>.</p>
+<pre class='code text'><code>1
+2
+4
+8
+16
+32
+64
+128
+256</code></pre>
+<h3>10. Management Chain</h3>
+<p><strong>Approach — recursive join up the hierarchy.</strong> The base row places <code>Eve</code> at depth <code>0</code>. Each recursive row joins the current <code>chain</code> row to its <code>staff</code> entry to find that person&#x27;s manager, emitting the manager at <code>depth + 1</code>, and the <code>!=</code> guard stops the climb before the top boss <code>Reed</code>. The final <code>||</code> expression formats each sentence.</p>
+<pre class='code sql'><code>with chain(name, depth) as (
+  select name, 0 from staff where name = &quot;Eve&quot; union
+  select staff.manager, chain.depth + 1
+         from staff, chain where staff.name = chain.name and staff.manager != &quot;Reed&quot;
+)
+select name || &quot; is level &quot; || depth from chain order by depth;</code></pre>
+<p><strong>Why it works.</strong> Joining <code>chain</code> to <code>staff</code> on <code>staff.name = chain.name</code> looks up the current person&#x27;s row, whose <code>manager</code> becomes the next <code>name</code> one level higher. The condition <code>staff.manager != &quot;Reed&quot;</code> prevents adding the row that would climb to Reed, so the recursion terminates at <code>Ada</code>.</p>
+<p><strong>Complexity.</strong> The chain has one row per level of the hierarchy; each step does a constant lookup, so for a chain of length <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">d</span></span></span></span></span> the cost is time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.0139em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">d</span><span class="mclose">)</span></span></span></span></span> with the final sort, space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mclose">)</span></span></span></span></span>.</p>
+<pre class='code text'><code>Eve is level 0
+Di is level 1
+Bo is level 2
+Ada is level 3</code></pre>
+</div></section><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 528" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- ===== title ===== -->
+  <text x="350" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#073642">The Repeated Variable Reaches Across</text>
+
+  <!-- ===== step badges down the side ===== -->
+  <text x="34" y="118" text-anchor="middle" font-size="12" font-weight="bold" fill="#657b83">STEP 1</text>
+  <text x="34" y="232" text-anchor="middle" font-size="12" font-weight="bold" fill="#657b83">STEP 2</text>
+
+  <!-- ===== pattern 1 row (top): two repeated variable boxes ===== -->
+  <text x="90" y="78" text-anchor="middle" font-size="13" fill="#93a1a1">pattern 1</text>
+
+  <!-- left ?x box (the binding source) -->
+  <rect x="120" y="60" width="120" height="46" rx="12" fill="#fdf6e3" stroke="#073642" stroke-width="2"/>
+  <text x="180" y="90" text-anchor="middle" font-size="22" font-family="monospace" fill="#268bd2">?x</text>
+
+  <!-- right ?x box (gets substituted): struck through -->
+  <rect x="440" y="60" width="120" height="46" rx="12" fill="#fdf6e3" stroke="#073642" stroke-width="2"/>
+  <text x="500" y="90" text-anchor="middle" font-size="22" font-family="monospace" fill="#93a1a1">?x</text>
+  <!-- strike-through on the second ?x -->
+  <line x1="478" y1="84" x2="522" y2="84" stroke="#dc322f" stroke-width="2.5"/>
+
+  <!-- the substituted value written ABOVE the struck-through ?x -->
+  <text x="500" y="48" text-anchor="middle" font-size="18" font-family="monospace" fill="#268bd2">(a ?y c)</text>
+
+  <!-- ===== curved dashed arrow: the "reaching across" focal point ===== -->
+  <!-- it originates from the step 1 binding (left value box) and sweeps up to the right ?x -->
+  <path d="M 360 188 C 480 150, 520 110, 500 60" fill="none" stroke="#268bd2" stroke-width="2.5" stroke-dasharray="6 5"/>
+  <polygon points="494,66 500,53 506,67" fill="#268bd2"/>
+  <text x="556" y="150" text-anchor="start" font-size="12" font-style="italic" fill="#657b83">lookup</text>
+  <text x="556" y="166" text-anchor="start" font-size="12" font-style="italic" fill="#657b83">substitutes ?x</text>
+
+  <!-- ===== STEP 1 solid arrow: bind ?x to (a ?y c) ===== -->
+  <line x1="180" y1="106" x2="180" y2="176" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="174,170 180,183 186,170" fill="#268bd2"/>
+  <text x="196" y="148" text-anchor="start" font-size="13" font-family="monospace" fill="#073642">bind ?x &#8594; (a ?y c)</text>
+
+  <!-- ===== pattern 2 row (bottom): two value boxes ===== -->
+  <text x="90" y="200" text-anchor="middle" font-size="13" fill="#93a1a1">pattern 2</text>
+
+  <!-- (a ?y c) value box: the binding made in step 1 -->
+  <rect x="120" y="178" width="140" height="46" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="190" y="208" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">(a ?y c)</text>
+
+  <!-- (a b ?z) value box -->
+  <rect x="440" y="178" width="140" height="46" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="510" y="208" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">(a b ?z)</text>
+
+  <!-- ===== now compare position by position ===== -->
+  <text x="350" y="266" text-anchor="middle" font-size="13" fill="#93a1a1">now both sides are (a ?y c) vs (a b ?z) &#8212; compare position by position</text>
+
+  <!-- the two aligned forms, laid out per element for the brace -->
+  <!-- left form (a ?y c) -->
+  <text x="220" y="312" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">a</text>
+  <text x="290" y="312" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">?y</text>
+  <text x="360" y="312" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">c</text>
+  <text x="220" y="290" text-anchor="middle" font-size="11" fill="#93a1a1">pos 1</text>
+  <text x="290" y="290" text-anchor="middle" font-size="11" fill="#93a1a1">pos 2</text>
+  <text x="360" y="290" text-anchor="middle" font-size="11" fill="#93a1a1">pos 3</text>
+
+  <!-- vertical brace spanning the three comparisons -->
+  <path d="M 396 296 C 408 296, 408 330, 420 330 C 408 330, 408 364, 396 364" fill="none" stroke="#93a1a1" stroke-width="2"/>
+
+  <!-- right form (a b ?z) -->
+  <text x="220" y="392" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">a</text>
+  <text x="290" y="392" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">b</text>
+  <text x="360" y="392" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">?z</text>
+
+  <!-- pos 1: a = a, equal (no new binding) -->
+  <line x1="220" y1="320" x2="220" y2="376" stroke="#93a1a1" stroke-width="2" stroke-dasharray="4 4"/>
+  <text x="450" y="312" text-anchor="start" font-size="13" font-family="monospace" fill="#2aa198">a = a</text>
+  <text x="508" y="312" text-anchor="start" font-size="12" fill="#93a1a1">equal</text>
+
+  <!-- pos 2: ?y vs b, solid arrow, new binding -->
+  <line x1="290" y1="320" x2="290" y2="376" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="284,370 290,383 296,370" fill="#268bd2"/>
+  <text x="450" y="340" text-anchor="start" font-size="13" font-family="monospace" fill="#073642">bind ?y &#8594; b</text>
+
+  <!-- pos 3: c vs ?z, solid arrow, new binding -->
+  <line x1="360" y1="320" x2="360" y2="376" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="354,370 360,383 366,370" fill="#268bd2"/>
+  <text x="450" y="368" text-anchor="start" font-size="13" font-family="monospace" fill="#073642">bind ?z &#8594; c</text>
+
+  <!-- ===== bottom results strip ===== -->
+  <rect x="120" y="430" width="460" height="58" rx="10" fill="#ffffff" stroke="#2aa198" stroke-width="2.5"/>
+  <text x="350" y="455" text-anchor="middle" font-size="12" fill="#93a1a1">final bindings</text>
+  <text x="350" y="478" text-anchor="middle" font-size="17" font-family="monospace" fill="#2aa198">{ ?x &#8594; (a ?y c), ?y &#8594; b, ?z &#8594; c }</text>
+
+  <!-- ===== closing caption ===== -->
+  <text x="350" y="512" text-anchor="middle" font-size="13" fill="#93a1a1">binding ?x once makes its second appearance carry (a ?y c) across.</text>
+</svg>

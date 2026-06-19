@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#073642">Producer and Consumer Through a Shared Queue</text>
+
+  <rect x="20" y="96" width="150" height="72" rx="12" fill="#fdf6e3" stroke="#073642" stroke-width="2.5"/>
+  <text x="95" y="130" text-anchor="middle" font-size="15" font-weight="bold" fill="#073642">Producer thread</text>
+  <text x="95" y="152" text-anchor="middle" font-size="12" fill="#93a1a1">only calls put</text>
+
+  <rect x="550" y="96" width="150" height="72" rx="12" fill="#fdf6e3" stroke="#073642" stroke-width="2.5"/>
+  <text x="625" y="130" text-anchor="middle" font-size="15" font-weight="bold" fill="#073642">Consumer thread</text>
+  <text x="625" y="152" text-anchor="middle" font-size="12" fill="#93a1a1">only calls get</text>
+
+  <rect x="290" y="108" width="48" height="48" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="314" y="139" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">3</text>
+  <rect x="338" y="108" width="48" height="48" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="362" y="139" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">2</text>
+  <rect x="386" y="108" width="48" height="48" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="410" y="139" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">1</text>
+  <rect x="434" y="108" width="48" height="48" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="458" y="139" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">0</text>
+
+  <text x="314" y="98" text-anchor="middle" font-size="12" fill="#268bd2">back (put here)</text>
+  <text x="458" y="98" text-anchor="middle" font-size="12" fill="#2aa198">front (get here)</text>
+
+  <line x1="170" y1="132" x2="282" y2="132" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="280,126 291,132 280,138" fill="#268bd2"/>
+  <text x="226" y="122" text-anchor="middle" font-size="13" font-family="monospace" fill="#268bd2">put(i)</text>
+
+  <line x1="482" y1="132" x2="542" y2="132" stroke="#2aa198" stroke-width="2.5"/>
+  <polygon points="540,126 551,132 540,138" fill="#2aa198"/>
+  <text x="512" y="122" text-anchor="middle" font-size="13" font-family="monospace" fill="#2aa198">get()</text>
+
+  <path d="M 470 180 C 430 204, 354 204, 314 180" fill="none" stroke="#657b83" stroke-width="2"/>
+  <polygon points="318,186 306,178 320,174" fill="#657b83"/>
+  <text x="386" y="218" text-anchor="middle" font-size="12" font-style="italic" fill="#93a1a1">first in, first out</text>
+
+  <text x="386" y="244" text-anchor="middle" font-size="13" fill="#93a1a1">the queue serializes every put and get</text>
+
+  <line x1="170" y1="288" x2="550" y2="288" stroke="#dc322f" stroke-width="2" stroke-dasharray="5 5" opacity="0.45"/>
+  <line x1="350" y1="276" x2="370" y2="300" stroke="#dc322f" stroke-width="2.5"/>
+  <line x1="370" y1="276" x2="350" y2="300" stroke="#dc322f" stroke-width="2.5"/>
+  <text x="360" y="320" text-anchor="middle" font-size="12" fill="#dc322f">no direct contact</text>
+</svg>

@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>3.5.1 Scheme Interpreter Structure · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/' class='active'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 3</span><span class='dot'>/</span><span class='eb-sec'>3.5 Interpreters for Languages with Abstraction</span></div><h1 class='lesson-title'>3.5.1 Scheme Interpreter Structure</h1><div class='reading-meta'>&#9719; approx. 18 min read <span class='rm-sep'>&middot;</span> 3 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>In Section 3.4 you built an interpreter for the Calculator language. It could read an expression, parse it into data, evaluate it, and loop. That was enough to compute arithmetic, but Calculator could not name anything. It could work out <code>(+ 2 (* 3 4))</code>, yet it had no way to remember a result, no way to define a procedure, and no way to grow a vocabulary.</p>
+<p>Scheme adds exactly that missing power. By the end of this lesson you will be able to do four things. You will explain why a Scheme interpreter needs an <strong>environment</strong> that the Calculator interpreter did not. You will read the official <code>scheme_eval</code> function and name, for any Scheme expression, which of its four cases applies. You will describe how a procedure gets <strong>applied</strong> to its arguments, and why primitive procedures and user-defined procedures are handled differently. And you will explain why the evaluator and the applicator are <strong>mutually recursive</strong> — why neither can do its job without calling the other.</p>
+<p>You do not need to have written an interpreter before. You do need the habit this course keeps returning to: when something looks dense, slow down and separate it into the smallest meaningful pieces.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='from-a-calculator-to-a-language-you-can-teach' class='ls ls-default'>
+<h2 class='ls-h'><span>From a Calculator to a Language You Can Teach</span></h2>
+<div class='ls-body'>
+<p>Picture a basic desk calculator. You press buttons, it gives answers. It is fast and exact, but it is frozen. There is no button labeled <code>square</code>, and there is no way for you to add one. Every session starts from the same fixed set of operations.</p>
+<p>Now picture a programmable calculator. You can teach it a new operation once and reuse it forever:</p>
+<pre class='code scheme'><code>(define (square x) (* x x))</code></pre>
+<p>After that single definition, the machine understands a button it did not have a moment ago:</p>
+<pre class='code scheme'><code>(square 5)</code></pre>
+<p>That is the whole jump from Calculator to Scheme. The interpreter is no longer only carrying out built-in arithmetic. It now has to manage names, remember user-defined procedures, and obey special rules such as <code>define</code>, <code>lambda</code>, and <code>if</code> that do not behave like ordinary arithmetic combinations.</p>
+<p>So the interpreter&#x27;s job description grows. The Calculator pipeline turned text into expression data into a value. The Scheme pipeline adds one phrase:</p>
+<pre class='code text'><code>text  -&gt;  expression data  -&gt;  meaning in an environment</code></pre>
+<p>The new phrase is &quot;in an environment.&quot; A Scheme expression can mention a name like <code>x</code> or <code>square</code>, and a name has no meaning on its own. It only means something once the interpreter knows what it is bound to. The environment is what supplies that knowledge.</p>
+</div></section>
+<section id='the-same-loop-a-richer-eval' class='ls ls-default'>
+<h2 class='ls-h'><span>The Same Loop, a Richer Eval</span></h2>
+<div class='ls-body'>
+<p>A Scheme interpreter reuses the broad shape of the Calculator interpreter. A parser turns text into an expression, and an evaluator works out what that expression means. The familiar loop is unchanged:</p>
+<pre class='code text'><code>Read  -&gt;  Eval  -&gt;  Print  -&gt;  Loop</code></pre>
+<p>What changes is the Eval step. Before it can compute anything, the evaluator has to decide what kind of expression it is looking at, because different kinds are handled by completely different rules:</p>
+<pre class='code text'><code>number or string  -&gt;  already a value
+symbol            -&gt;  look up its value in the environment
+special form      -&gt;  use a special evaluation rule
+call expression   -&gt;  evaluate operator and operands, then apply a procedure</code></pre>
+<p>This split is why a Scheme interpreter is built from two cooperating functions rather than one. One function evaluates expressions; the other applies procedures to arguments.</p>
+<ul>
+<li><code>scheme_eval</code> evaluates an expression in an environment.</li>
+<li><code>scheme_apply</code> applies a procedure to already-evaluated arguments.</li>
+</ul>
+<p>These are the Scheme counterparts of <code>calc_eval</code> and <code>calc_apply</code> from the Calculator interpreter, but now they have to support abstraction: names, user-defined procedures, and the environment model. Almost everything that makes Scheme harder than Calculator lives in special forms, user-defined procedures, and the environment model of computation.</p>
+<p>A note on language before we go further. The interpreter you are studying is written in <strong>Python</strong>. The expressions it consumes — the programs a user types — are written in <strong>Scheme</strong>. Keep those two layers separate in your mind. When you see a Python function like <code>scheme_eval</code>, that is the machinery. When you see <code>(square 5)</code>, that is a Scheme program the machinery is chewing on.</p>
+</div></section>
+<section id='parsing-the-reader-turns-scheme-text-into-data' class='ls ls-default'>
+<h2 class='ls-h'><span>Parsing: The Reader Turns Scheme Text Into Data</span></h2>
+<div class='ls-body'>
+<p>Before evaluation can begin, the reader has to turn the characters the user typed into structured data. The Calculator reader already handled Scheme-style parentheses, so it is nearly enough to parse any valid Scheme expression. Scheme adds two pieces of notation that need a little extra care.</p>
+<p>The first is <strong>quotation</strong>, written with a single quote mark <code>&#x27;</code>. The second is the <strong>dotted list</strong>, written with a <code>.</code>, which lets you build a pair whose second element is not another list.</p>
+<p>The official source gives this parsing example. The function <code>read_line</code> takes a string of Scheme text and returns the parsed data structure:</p>
+<pre class='code text'><code>&gt;&gt;&gt; read_line(&quot;(car &#x27;(1 . 2))&quot;)
+Pair(&#x27;car&#x27;, Pair(Pair(&#x27;quote&#x27;, Pair(Pair(1, 2), nil)), nil))</code></pre>
+<p>That output looks intimidating, so take the input apart first. The Scheme the user wrote was:</p>
+<pre class='code scheme'><code>(car &#x27;(1 . 2))</code></pre>
+<p>This is a call to <code>car</code> with a single operand, and that operand is a quoted dotted pair. Read it in two pieces.</p>
+<p>The quote mark is shorthand. Writing <code>&#x27;X</code> is the same as writing <code>(quote X)</code>, so the reader does not keep the <code>&#x27;</code> character around. It expands the shorthand into a tree whose first element is the symbol <code>quote</code>. That expansion is exactly why a <code>quote</code> symbol shows up in the parsed output even though you never typed the word.</p>
+<p>The dotted pair is the inner data being quoted:</p>
+<pre class='code scheme'><code>(1 . 2)</code></pre>
+<p>An ordinary Scheme list ends in <code>nil</code>. A dotted pair does not. <code>(1 . 2)</code> is a single pair whose <code>first</code> is <code>1</code> and whose <code>second</code> is <code>2</code>, with no trailing <code>nil</code>. That is why the parsed form contains <code>Pair(1, 2)</code> directly rather than a list-shaped chain.</p>
+<p>Putting it together, the parsed data says: call <code>car</code> on the quoted data <code>Pair(1, 2)</code>. This is the first key idea of the section. After reading, the user&#x27;s Scheme program is no longer text. It is Python data — <code>Pair</code> objects, symbols, and numbers — that the interpreter can inspect piece by piece.</p>
+</div></section>
+<section id='the-evaluator-scheme-eval' class='ls ls-default'>
+<h2 class='ls-h'><span>The Evaluator: scheme_eval</span></h2>
+<div class='ls-body'>
+<p>Once an expression has been parsed into data, it is handed to <code>scheme_eval</code>. Its interface is two arguments:</p>
+<pre class='code text'><code>scheme_eval(expr, env)</code></pre>
+<ul>
+<li><code>expr</code> is the Scheme expression, represented as Python data.</li>
+<li><code>env</code> is the current environment, where any names in <code>expr</code> can be looked up.</li>
+</ul>
+<p>Here is the official evaluator. It is written in Python, because it is part of the interpreter&#x27;s machinery:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">scheme_eval</span><span style="color: #657b83">(expr,</span> <span style="color: #657b83">env):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Evaluate Scheme expression expr in environment env.&quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">scheme_symbolp(expr):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">env[expr]</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">scheme_atomp(expr):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">expr</span>
+    <span style="color: #657b83">first,</span> <span style="color: #657b83">rest</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">expr</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">expr</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">first</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;lambda&quot;</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">do_lambda_form(rest,</span> <span style="color: #657b83">env)</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">first</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;define&quot;</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">do_define_form(rest,</span> <span style="color: #657b83">env)</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">None</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">procedure</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">scheme_eval(first,</span> <span style="color: #657b83">env)</span>
+        <span style="color: #657b83">args</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">map(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">operand:</span> <span style="color: #657b83">scheme_eval(operand,</span> <span style="color: #657b83">env))</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">scheme_apply(procedure,</span> <span style="color: #657b83">args,</span> <span style="color: #657b83">env)</span>
+</code></pre>
+<p>This function is dense because it folds all four expression kinds into one body. The rest of this lesson pulls those four cases apart, one at a time, in the order they appear.</p>
+</div></section>
+<section id='case-1-a-symbol-is-looked-up' class='ls ls-default'>
+<h2 class='ls-h'><span>Case 1: A Symbol Is Looked Up</span></h2>
+<div class='ls-body'>
+<p>If the expression is a symbol, the interpreter treats it as a <strong>name</strong> and asks the environment for its value:</p>
+<pre class='code text'><code>if scheme_symbolp(expr):
+    return env[expr]</code></pre>
+<p>The helper <code>scheme_symbolp</code> answers the yes-or-no question &quot;is this expression a symbol?&quot; If the answer is yes, <code>env[expr]</code> performs the lookup. Suppose the user evaluates the bare expression:</p>
+<pre class='code scheme'><code>x</code></pre>
+<p>Reading <code>env[x]</code> as an anatomy of one line makes the lookup explicit:</p>
+<pre class='code anatomy'><code>env[x]
+├─ env ......... the current environment
+├─ [ ........... begin a name lookup
+├─ x ........... the name being looked up
+├─ ] ........... end the lookup
+└─ evaluates to  the value x is bound to in env</code></pre>
+<p>If <code>x</code> is bound to <code>10</code>, evaluating <code>x</code> returns <code>10</code>. The crucial point is that the symbol is not the value. The symbol <code>x</code> is only a label. The environment is what supplies the value the label points to.</p>
+</div></section>
+<section id='case-2-an-atom-evaluates-to-itself' class='ls ls-default'>
+<h2 class='ls-h'><span>Case 2: An Atom Evaluates to Itself</span></h2>
+<div class='ls-body'>
+<p>An <strong>atom</strong> is an expression with no internal subexpressions to evaluate — there is nothing inside it to take apart. Numbers, strings, and booleans are atoms:</p>
+<pre class='code scheme'><code>3
+&quot;hello&quot;
+#t</code></pre>
+<p>The evaluator handles them in a single line:</p>
+<pre class='code text'><code>elif scheme_atomp(expr):
+    return expr</code></pre>
+<p>The helper <code>scheme_atomp</code> checks whether the expression is a self-evaluating atom. If so, <code>scheme_eval</code> returns it unchanged. A number like <code>3</code> needs no lookup and no further work, because it already is a value. This is the base case of evaluation: the place where the work stops instead of recursing further.</p>
+<p>Tracing <code>3</code> through the evaluator is short, but it shows the shape:</p>
+<pre class='code anatomy'><code>scheme_eval(3, env)
+├─ scheme_eval ... the evaluator
+├─ ( ............. begins the inputs
+├─ 3 ............. the atom being evaluated
+├─ , ............. separates the inputs
+├─ env ........... the current environment
+├─ ) ............. ends the inputs
+└─ evaluates to .. 3</code></pre>
+</div></section>
+<section id='case-3-special-forms-have-their-own-rules' class='ls ls-default'>
+<h2 class='ls-h'><span>Case 3: Special Forms Have Their Own Rules</span></h2>
+<div class='ls-body'>
+<p>If the expression is not an atom, the evaluator pulls it apart into its <code>first</code> element and the <code>rest</code>:</p>
+<pre class='code text'><code>first, rest = expr.first, expr.second</code></pre>
+<p>Most combinations evaluate every operand and then apply a procedure. <strong>Special forms</strong> are the exception. They are written like combinations — parentheses, a first element, more elements after it — but they deliberately do not follow the ordinary call rule. The evaluator recognizes them by checking the <code>first</code> element against the names of the special forms it knows.</p>
+<p>Consider <code>define</code>:</p>
+<pre class='code scheme'><code>(define x 10)</code></pre>
+<p>If this were an ordinary call, the evaluator would try to evaluate <code>x</code> as an operand. But <code>x</code> here is not a value to compute; it is the name being defined. Looking it up would either fail or find the wrong thing. So <code>define</code> needs its own rule.</p>
+<p>The same is true of <code>lambda</code>:</p>
+<pre class='code scheme'><code>(lambda (x) (* x x))</code></pre>
+<p>An ordinary call would evaluate the body <code>(* x x)</code> immediately. But <code>lambda</code> is not supposed to run its body. It is supposed to build a procedure that will run the body later, when it is eventually called. So <code>lambda</code> needs its own rule too.</p>
+<p>That is why the evaluator checks <code>first</code> before doing anything else:</p>
+<pre class='code text'><code>if first == &quot;lambda&quot;:
+    return do_lambda_form(rest, env)
+elif first == &quot;define&quot;:
+    do_define_form(rest, env)
+    return None</code></pre>
+<p>When <code>first</code> is <code>&quot;lambda&quot;</code>, the helper <code>do_lambda_form</code> builds a procedure from the parameters and body in <code>rest</code>, and that procedure is returned. When <code>first</code> is <code>&quot;define&quot;</code>, the helper <code>do_define_form</code> carries out the binding, and <code>scheme_eval</code> returns <code>None</code>, because a definition performs an action rather than producing a value to print. The Scheme conditional form <code>if</code> is another special form handled the same way: it is recognized by its first element rather than evaluated like a call. In short, the first item in a combination tells the evaluator whether it is staring at a special rule or an ordinary call.</p>
+</div></section>
+<section id='case-4-a-call-expression-uses-eval-and-apply' class='ls ls-default'>
+<h2 class='ls-h'><span>Case 4: A Call Expression Uses Eval and Apply</span></h2>
+<div class='ls-body'>
+<p>If <code>first</code> is none of the special-form keywords, the expression is an ordinary <strong>call expression</strong>, and the <code>else</code> branch handles it:</p>
+<pre class='code text'><code>else:
+    procedure = scheme_eval(first, env)
+    args = rest.map(lambda operand: scheme_eval(operand, env))
+    return scheme_apply(procedure, args, env)</code></pre>
+<p>This branch does three things, in order:</p>
+<ol>
+<li>Evaluate the operator expression <code>first</code> to get the procedure.</li>
+<li>Evaluate every operand in <code>rest</code> to get the argument values. The <code>rest.map(...)</code> call evaluates each operand with <code>scheme_eval</code> and collects the results.</li>
+<li>Hand the procedure and the argument values to <code>scheme_apply</code>.</li>
+</ol>
+<p>Take a concrete call:</p>
+<pre class='code scheme'><code>(square (+ 2 3))</code></pre>
+<p>The operator is the symbol:</p>
+<pre class='code scheme'><code>square</code></pre>
+<p>The single operand is itself a call expression:</p>
+<pre class='code scheme'><code>(+ 2 3)</code></pre>
+<p>Walking the <code>else</code> branch over this call, token by token, gives:</p>
+<pre class='code anatomy'><code>scheme_apply(procedure, args, env)
+├─ procedure ... scheme_eval(square, env): looks up square, a procedure
+├─ args ........ scheme_eval((+ 2 3), env): evaluates the operand to 5
+├─ env ......... the environment passed along to the application
+└─ evaluates to  square applied to the argument list (5)</code></pre>
+<p>So the evaluator first looks up <code>square</code>, then evaluates <code>(+ 2 3)</code> down to <code>5</code>, then asks <code>scheme_apply</code> to apply the <code>square</code> procedure to the argument list containing <code>5</code>. Notice that step 1 and step 2 are themselves calls to <code>scheme_eval</code>. Evaluating a call expression means evaluating its parts first.</p>
+</div></section>
+<section id='procedure-application-scheme-apply' class='ls ls-default'>
+<h2 class='ls-h'><span>Procedure Application: scheme_apply</span></h2>
+<div class='ls-body'>
+<p><code>scheme_apply</code> takes over once the evaluator has produced a procedure and a list of argument values. Its job is to actually carry out the call. Scheme has two broad kinds of procedure, and <code>scheme_apply</code> treats them differently.</p>
+<ul>
+<li>A <code>PrimitiveProcedure</code> represents a procedure built into the interpreter and implemented in Python. The built-in primitives <code>+</code>, <code>*</code>, <code>car</code>, and <code>cdr</code> (the pair accessors you have seen in Scheme) are like this.</li>
+<li>A <code>LambdaProcedure</code> represents a user-defined procedure, created by Scheme code with <code>lambda</code> or with the procedure form of <code>define</code>.</li>
+</ul>
+<p>A <code>PrimitiveProcedure</code> holds an attribute, <code>fn</code>, that is bound to a Python function. Applying the primitive means calling that Python function on the argument values. Some primitives may or may not require access to the current environment, but the essential idea is simple: a primitive procedure is carried out directly by Python code. When you see these class names in the Scheme project, read them as implementation labels. <code>PrimitiveProcedure</code> is shorthand for &quot;this Scheme procedure is performed by a Python function.&quot;</p>
+<p>A <code>LambdaProcedure</code> is richer, because it represents Scheme code rather than Python code. It stores three things:</p>
+<ul>
+<li>its formal parameters (the parameter names),</li>
+<li>its body (a Scheme expression), and</li>
+<li>its parent environment (the environment in which it was created).</li>
+</ul>
+<p>Applying a <code>LambdaProcedure</code> is the heart of the environment model. A new frame is added to the environment, the formal parameters are bound to the argument values in that frame, and the body is evaluated with <code>scheme_eval</code> in the resulting environment. That last step is the important one: applying a user-defined procedure ends in a call back to <code>scheme_eval</code>.</p>
+<p>This is also what the procedure form of <code>define</code> builds. Writing</p>
+<pre class='code scheme'><code>(define (square x) (* x x))</code></pre>
+<p>is shorthand. It creates a <code>LambdaProcedure</code> with the formal parameter <code>x</code>, the body <code>(* x x)</code>, and the current environment as its parent, then binds that procedure to the name <code>square</code> in the current frame. After that, <code>square</code> is a name in the environment that points to a <code>LambdaProcedure</code>, exactly like any other binding.</p>
+</div></section>
+<section id='one-complete-pass-through-a-user-defined-call' class='ls ls-default'>
+<h2 class='ls-h'><span>One Complete Pass Through a User-Defined Call</span></h2>
+<div class='ls-body'>
+<p>The single most important new idea in this section is what happens when you apply a procedure you defined yourself. Slow it all the way down.</p>
+<p>Assume the environment already contains the definition:</p>
+<pre class='code scheme'><code>(define (square x) (* x x))</code></pre>
+<p>Now the user evaluates:</p>
+<pre class='code scheme'><code>(square 5)</code></pre>
+<p>Here is the full machine trace, with every step the interpreter takes:</p>
+<pre class='code text'><code>1.  scheme_eval sees an ordinary call expression.
+2.  It evaluates the operator symbol square.
+3.  The environment lookup returns a LambdaProcedure.
+4.  It evaluates the operand 5.
+5.  The operand is self-evaluating, so the argument value is 5.
+6.  scheme_apply applies the LambdaProcedure to the argument value 5.
+7.  Applying the LambdaProcedure creates a new frame.
+8.  The new frame binds x -&gt; 5.
+9.  The interpreter evaluates the body (* x x) in that new frame.
+10. Looking up x returns 5, so (* x x) becomes (* 5 5).
+11. The primitive * returns 25.</code></pre>
+<p>The detail worth pinning down is timing. The body <code>(* x x)</code> is not evaluated when <code>square</code> is defined. At definition time there is no value for <code>x</code> yet. The body waits, stored inside the <code>LambdaProcedure</code>, until the procedure is actually called. Only then does a new frame give <code>x</code> the value <code>5</code>, and only then does the body run.</p>
+</div></section>
+<section id='eval-and-apply-are-mutually-recursive' class='ls ls-default'>
+<h2 class='ls-h'><span>Eval and Apply Are Mutually Recursive</span></h2>
+<div class='ls-body'>
+<p>Step back from the trace and look at the overall shape. The evaluator and the applicator keep calling each other:</p>
+<pre class='code text'><code>scheme_eval sees a call expression
+  scheme_eval evaluates the operator
+  scheme_eval evaluates the operands
+  scheme_apply applies the procedure
+    if it is a user-defined procedure, scheme_eval evaluates its body</code></pre>
+<p>This is <strong>mutual recursion</strong>. Evaluation requires application whenever it meets a call expression. Application requires evaluation twice over: once to turn operand expressions into argument values, and again to evaluate the body of a user-defined procedure. Neither function can do the whole job alone. <code>scheme_eval</code> understands the forms of expressions; <code>scheme_apply</code> understands what it means to call a procedure; user-defined procedures are the hinge that connects them into a cycle.</p>
+<p>A recursion this tight would never stop without base cases, and the evaluator has several:</p>
+<ul>
+<li>a self-evaluating atom evaluates to itself, with no further calls,</li>
+<li>a symbol lookup returns a value already stored in the environment,</li>
+<li>a special form may finish without making an ordinary call at all, and</li>
+<li>a primitive procedure is applied directly by Python, ending the cycle.</li>
+</ul>
+<p>Every Scheme evaluation eventually bottoms out in one of these. That eval/apply cycle, grounded by these base cases, is the core engine of language interpretation.</p>
+</div></section>
+<section id='a-small-python-model-of-eval-and-apply' class='ls ls-default'>
+<h2 class='ls-h'><span>A Small Python Model of Eval and Apply</span></h2>
+<div class='ls-body'>
+<p>The official <code>scheme_eval</code> is part of a full interpreter, with <code>Pair</code> objects, a reader, and an environment class behind it. To watch the control flow on its own, here is a stripped-down model. It uses ordinary Python lists to stand in for Scheme calls, so there is nothing to parse and the recursion is easy to follow. This is not a full Scheme interpreter; it is a teaching skeleton of the same two functions.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">scheme_eval</span><span style="color: #657b83">(expr,</span> <span style="color: #657b83">env):</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(expr,</span> <span style="color: #268bd2">int</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">expr</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(expr,</span> <span style="color: #268bd2">str</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">env[expr]</span>
+
+    <span style="color: #657b83">first</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">expr[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span>
+    <span style="color: #657b83">rest</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">expr[</span><span style="color: #2aa198">1</span><span style="color: #657b83">:]</span>
+
+    <span style="color: #859900">if</span> <span style="color: #657b83">first</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;define&quot;</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">name</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">rest[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span>
+        <span style="color: #657b83">value</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">scheme_eval(rest[</span><span style="color: #2aa198">1</span><span style="color: #657b83">],</span> <span style="color: #657b83">env)</span>
+        <span style="color: #657b83">env[name]</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">value</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">None</span>
+
+    <span style="color: #657b83">procedure</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">scheme_eval(first,</span> <span style="color: #657b83">env)</span>
+    <span style="color: #657b83">args</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[scheme_eval(operand,</span> <span style="color: #657b83">env)</span> <span style="color: #859900">for</span> <span style="color: #657b83">operand</span> <span style="color: #859900">in</span> <span style="color: #657b83">rest]</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">scheme_apply(procedure,</span> <span style="color: #657b83">args,</span> <span style="color: #657b83">env)</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">scheme_apply</span><span style="color: #657b83">(procedure,</span> <span style="color: #657b83">args,</span> <span style="color: #657b83">env):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">procedure(</span><span style="color: #93a1a1">*</span><span style="color: #657b83">args)</span>
+
+
+<span style="color: #657b83">global_env</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">{</span>
+    <span style="color: #2aa198">&quot;+&quot;</span><span style="color: #657b83">:</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">x,</span> <span style="color: #657b83">y:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">y,</span>
+    <span style="color: #2aa198">&quot;*&quot;</span><span style="color: #657b83">:</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">x,</span> <span style="color: #657b83">y:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">y,</span>
+<span style="color: #657b83">}</span>
+
+<span style="color: #268bd2">print</span><span style="color: #657b83">(scheme_eval([</span><span style="color: #2aa198">&quot;+&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #657b83">[</span><span style="color: #2aa198">&quot;*&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">]],</span> <span style="color: #657b83">global_env))</span>
+<span style="color: #657b83">scheme_eval([</span><span style="color: #2aa198">&quot;define&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;x&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">],</span> <span style="color: #657b83">global_env)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(scheme_eval(</span><span style="color: #2aa198">&quot;x&quot;</span><span style="color: #657b83">,</span> <span style="color: #657b83">global_env))</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/52d6e4696779.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>14
+10</code></pre>
+<p>Each of the four cases from the official evaluator is visible here in miniature. An <code>int</code> is self-evaluating. A <code>str</code> is a symbol, looked up in <code>env</code>. <code>define</code> is a special form that binds a name and returns <code>None</code>. Anything else is a call: evaluate the operator, evaluate the operands, then apply. The whole movement is one short sentence:</p>
+<pre class='code text'><code>expression  -&gt;  evaluate parts  -&gt;  apply procedure  -&gt;  return value</code></pre>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<p><strong>Trap 1: Thinking a parsed expression is still text.</strong> After the reader runs, the interpreter holds structured data — <code>Pair</code> objects, symbols, numbers — not a string. It never goes back to guessing meaning from characters.</p>
+<p><strong>Trap 2: Evaluating every combination the same way.</strong> Special forms such as <code>define</code>, <code>lambda</code>, and <code>if</code> look like calls but are not. The evaluator checks the first element precisely so it can give them their own rules instead of evaluating their parts as operands.</p>
+<p><strong>Trap 3: Confusing a symbol with its value.</strong> The symbol <code>x</code> is a name. Its value lives in the environment. Evaluating a symbol always means a lookup, never reading the name as data.</p>
+<p><strong>Trap 4: Applying before evaluating operands.</strong> For an ordinary call, every operand is fully evaluated first, and only then is the procedure applied. The argument values, not the argument expressions, are what get handed to the procedure.</p>
+<p><strong>Trap 5: Forgetting that user-defined procedures restart evaluation.</strong> Applying a <code>LambdaProcedure</code> evaluates its body, which is another call to <code>scheme_eval</code>. Application does not end the recursion for user-defined procedures; it feeds back into it.</p>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>What extra power does Scheme have that Calculator did not have?</li>
+<li>Why does <code>scheme_eval</code> need an environment argument?</li>
+<li>Which of <code>scheme_eval</code>&#x27;s four cases applies to the expression <code>(* 4 5)</code>, and what value does evaluating it produce?</li>
+<li>Why does <code>define</code> need a special evaluation rule instead of being treated as an ordinary call?</li>
+<li>What is the difference between a <code>PrimitiveProcedure</code> and a <code>LambdaProcedure</code>, and how is each applied?</li>
+<li>Why are <code>scheme_eval</code> and <code>scheme_apply</code> mutually recursive?</li>
+<li>In <code>(square 5)</code>, when does the body <code>(* x x)</code> finally run?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li>Scheme adds names, definitions, <code>lambda</code> procedures, special forms, and environments. Calculator only handled arithmetic combinations and could not name or define anything.</li>
+<li>Because a Scheme expression can mention names, and a name only has a value relative to an environment. The environment tells <code>scheme_eval</code> what each name means at the moment the expression is evaluated.</li>
+<li>It is a call expression, so the fourth case (the <code>else</code> branch) applies. The evaluator looks up the operator <code>*</code> to get the multiplication procedure, evaluates the operands <code>4</code> and <code>5</code> to themselves, and applies the procedure, producing <code>20</code>.</li>
+<li>Because <code>define</code> must treat its first argument as the name being bound, not as an operand to evaluate. Evaluating that name as an ordinary operand would be wrong, so the evaluator recognizes <code>define</code> by its first element and runs <code>do_define_form</code> instead.</li>
+<li>A <code>PrimitiveProcedure</code> is built into the interpreter and implemented in Python; it is applied by calling its Python function (<code>fn</code>) on the arguments. A <code>LambdaProcedure</code> is created by Scheme code and stores formal parameters, a body, and a parent environment; it is applied by making a new frame, binding the parameters to the arguments, and evaluating the body in that new frame.</li>
+<li>Because evaluating a call expression requires applying a procedure, and applying a user-defined procedure requires evaluating its body and its operands. Each function depends on the other to finish its work.</li>
+<li>The body runs during <code>scheme_apply</code>, after the interpreter creates a new frame and binds the parameter <code>x</code> to the argument value <code>5</code>. It does not run at definition time.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>A Scheme interpreter extends the Calculator interpreter by supporting abstraction, and that extra power lives in special forms, user-defined procedures, and the environment model. The reader turns Scheme text into Python data, expanding quotation shorthand and handling dotted pairs along the way. The evaluator, <code>scheme_eval</code>, receives an expression and an environment and sorts the expression into one of four cases: a symbol is looked up, a self-evaluating atom is returned as is, a special form such as <code>lambda</code> or <code>define</code> follows its own rule, and an ordinary call expression evaluates its operator and operands and then applies a procedure. Application, <code>scheme_apply</code>, runs primitive procedures directly in Python and runs user-defined <code>LambdaProcedure</code> objects by building a new frame, binding parameters, and evaluating the body — which sends control back into <code>scheme_eval</code>. That eval/apply cycle, stopped by a handful of base cases, is the engine at the center of language interpretation.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>This is the small eval/apply model again, trimmed to a single program so the recursion is easy to watch. Stepping through this Python model draws the <strong>environment diagram</strong> of the interpreter calling itself: each <code>scheme_eval</code> frame holds its own <code>expr</code>, but they all share the one <code>env</code> dictionary that maps <code>&quot;+&quot;</code> and <code>&quot;*&quot;</code> to their functions. The outer frame stays open, with <code>arguments</code> only half-filled, while the nested <code>scheme_eval</code> frame for <code>[&quot;*&quot;, 3, 4]</code> runs. Between them, a <code>scheme_apply</code> frame opens to call the looked-up function on its finished argument values. Before you step through the block below, write down three predictions: how many <code>scheme_eval</code> frames will open over the whole run, what the outer frame&#x27;s <code>arguments</code> list holds at the moment the frame for <code>[&quot;*&quot;, 3, 4]</code> opens, and which of the two <code>scheme_apply</code> frames opens first.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">scheme_eval</span><span style="color: #657b83">(expr,</span> <span style="color: #657b83">env):</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(expr,</span> <span style="color: #268bd2">int</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">expr</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(expr,</span> <span style="color: #268bd2">str</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">env[expr]</span>
+
+    <span style="color: #657b83">operator</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">scheme_eval(expr[</span><span style="color: #2aa198">0</span><span style="color: #657b83">],</span> <span style="color: #657b83">env)</span>
+    <span style="color: #657b83">arguments</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[]</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">operand</span> <span style="color: #859900">in</span> <span style="color: #657b83">expr[</span><span style="color: #2aa198">1</span><span style="color: #657b83">:]:</span>
+        <span style="color: #657b83">arguments</span><span style="color: #93a1a1">.</span><span style="color: #657b83">append(scheme_eval(operand,</span> <span style="color: #657b83">env))</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">scheme_apply(operator,</span> <span style="color: #657b83">arguments)</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">scheme_apply</span><span style="color: #657b83">(procedure,</span> <span style="color: #657b83">arguments):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">procedure(</span><span style="color: #93a1a1">*</span><span style="color: #657b83">arguments)</span>
+
+
+<span style="color: #657b83">env</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">{</span>
+    <span style="color: #2aa198">&quot;+&quot;</span><span style="color: #657b83">:</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">x,</span> <span style="color: #657b83">y:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">y,</span>
+    <span style="color: #2aa198">&quot;*&quot;</span><span style="color: #657b83">:</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">x,</span> <span style="color: #657b83">y:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">y,</span>
+<span style="color: #657b83">}</span>
+
+<span style="color: #657b83">program</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[</span><span style="color: #2aa198">&quot;+&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #657b83">[</span><span style="color: #2aa198">&quot;*&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">]]</span>
+<span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">scheme_eval(program,</span> <span style="color: #657b83">env)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/10b7174de347.json' data-mount='st1'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st1' hidden></div></figure>
+<p>Step through it one line at a time and check each prediction as the frames appear. Seven <code>scheme_eval</code> frames open in all: one for the whole program, one each for <code>&quot;+&quot;</code>, <code>2</code>, and <code>[&quot;*&quot;, 3, 4]</code>, and three more inside that last call. The outer frame waits with <code>operator</code> bound to the <code>+</code> function and <code>arguments</code> holding only <code>2</code> until the nested call returns <code>12</code>. <code>scheme_apply</code> runs first for <code>*</code>, and only then for <code>+</code>, which turns <code>2</code> and <code>12</code> into the <code>14</code> bound to <code>result</code>. That pause-and-resume is mutual recursion made visible.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>3.4-D Calculator Evaluation and REPL</span></a><a class='pg pg-next' href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>3.5-B Environments, Frames, and Name Lookup</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#from-a-calculator-to-a-language-you-can-teach'>From a Calculator to a Language You Can Teach</a></li><li><a href='#the-same-loop-a-richer-eval'>The Same Loop, a Richer Eval</a></li><li><a href='#parsing-the-reader-turns-scheme-text-into-data'>Parsing: The Reader Turns Scheme Text Into Data</a></li><li><a href='#the-evaluator-scheme-eval'>The Evaluator: scheme_eval</a></li><li><a href='#case-1-a-symbol-is-looked-up'>Case 1: A Symbol Is Looked Up</a></li><li><a href='#case-2-an-atom-evaluates-to-itself'>Case 2: An Atom Evaluates to Itself</a></li><li><a href='#case-3-special-forms-have-their-own-rules'>Case 3: Special Forms Have Their Own Rules</a></li><li><a href='#case-4-a-call-expression-uses-eval-and-apply'>Case 4: A Call Expression Uses Eval and Apply</a></li><li><a href='#procedure-application-scheme-apply'>Procedure Application: scheme_apply</a></li><li><a href='#one-complete-pass-through-a-user-defined-call'>One Complete Pass Through a User-Defined Call</a></li><li><a href='#eval-and-apply-are-mutually-recursive'>Eval and Apply Are Mutually Recursive</a></li><li><a href='#a-small-python-model-of-eval-and-apply'>A Small Python Model of Eval and Apply</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>1.6 Higher-Order Functions: Lambda, Currying, First-Class Functions, and Decorators · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/' class='active'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 1</span><span class='dot'>/</span><span class='eb-sec'>1.6 Higher-Order Functions</span></div><h1 class='lesson-title'>1.6 Higher-Order Functions: Lambda, Currying, First-Class Functions, and Decorators</h1><div class='reading-meta'>&#9719; approx. 15 min read <span class='rm-sep'>&middot;</span> 17 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>By now you can write a function, pass numbers into it, and get a value back. This lesson stretches that idea in a direction that surprises most beginners: in Python, a function is itself a value you can move around. You can store a function in a variable, hand it to another function as an argument, and return a brand-new function as a result.</p>
+<p>Four tools grow out of that single fact, and this lesson covers all four. <strong>Currying</strong> rebuilds a two-argument function as a chain of one-argument functions. <strong>Lambda expressions</strong> let you write a tiny function inline, without a <code>def</code> statement. <strong>First-class functions</strong> is the name for the property that makes all of this legal. And <strong>decorators</strong> use a function to wrap another function in extra behavior. The mental habit to build is a single question you will ask over and over: does this name point to a function right now, or to the value that calling the function produced?</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='functions-are-values' class='ls ls-default'>
+<h2 class='ls-h'><span>Functions Are Values</span></h2>
+<div class='ls-body'>
+<p>Python treats functions as values. That means a function can be:</p>
+<ul>
+<li>bound to a name</li>
+<li>passed as an argument</li>
+<li>returned as a value</li>
+<li>stored inside other data structures</li>
+</ul>
+<p>This property has a name: Python has <strong>first-class functions</strong>. The phrase &quot;first-class&quot; means functions are not second-tier objects with special restrictions. They travel through a program exactly the way numbers and strings do.</p>
+<p>One helpful picture is a sealed instruction card. The card has steps written on it, but nothing happens while the card is merely being carried around. A function value can be placed in a variable, passed into another function, or returned from a function, and through all of that it just sits there as an unopened card. It only does its work when Python evaluates a call expression — a name followed by parentheses.</p>
+<pre class='code text'><code>square      carry the function card around; nothing runs
+square(5)   open the card and follow its steps on the input 5</code></pre>
+<p>Higher-order functions live on that distinction. A higher-order function is one that takes a function as an argument or returns a function as a result. It passes the card around first, then calls it at the right moment.</p>
+</div></section>
+<section id='currying-one-argument-at-a-time' class='ls ls-default'>
+<h2 class='ls-h'><span>Currying: One Argument at a Time</span></h2>
+<div class='ls-body'>
+<p>Some functions take several arguments at once. The built-in <code>pow</code> raises a base to an exponent, and you give it both at the same time:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #268bd2">pow</span><span style="color: #657b83">(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>The value is <code>8</code>, because:</p>
+<div class='math'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8641em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">8</span></span></span></span></span></div>
+<p><strong>Currying</strong> transforms a multi-argument function into a chain of single-argument functions. Instead of supplying both arguments together, you supply them one at a time, and each call hands back a function that is waiting for the next argument.</p>
+<p>Think of a two-stage vending machine. The first slot chooses the base. The machine then hands you a smaller machine that already remembers that base. The second slot, on the smaller machine, chooses the exponent. You did not do anything magical; you operated two machines in sequence.</p>
+<pre class='code text'><code>curried_pow(2)      choose base 2, get back a new machine
+curried_pow(2)(3)   feed that new machine the exponent 3</code></pre>
+<p>Here are those two steps as a picture: the first call hands back a function card, and only the second call turns that card into a number.</p>
+<p><img class="figure" src="figures/currying-returns-function.svg" alt="A two-step diagram of a curried call. On the left, curried_pow open paren 2 close paren has a blue arrow to a card shaped like a function labeled a function waiting for y with x equals 2 baked in, showing that the first call returns a function rather than a number. On the right, that card is called with 3 and a cyan arrow points down to a box holding 8, the final value."></p>
+<p>This is not a new kind of arithmetic. It is two ordinary function calls placed next to each other.</p>
+<h3>A Curried Power Function</h3>
+<p>Here is a curried power function, exactly as it appears in the original text:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">curried_pow</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">h</span><span style="color: #657b83">(y):</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">pow</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">h</span>
+</code></pre>
+<p>The outer function <code>curried_pow</code> takes the base <code>x</code> and does not compute anything with it directly. Instead it defines an inner function <code>h</code>, which takes the exponent <code>y</code>, and returns <code>h</code>. The returned <code>h</code> remembers <code>x</code> because <code>x</code> lives in the enclosing frame. This is the same parent-frame idea from earlier in 1.6; the Step-Through Checkpoint at the end of this lesson draws exactly where <code>x</code> is stored. Follow the structure line by line:</p>
+<pre class='code anatomy'><code>def curried_pow(x):
+├─ curried_pow ... the outer function: receives the base x
+├─ x ............. the first argument, captured for later
+├─ def h(y): .... defines an inner function awaiting the exponent y
+├─ pow(x, y) .... h&#x27;s body: the actual power, once both are known
+├─ return h ..... hands back the inner function, not a number
+└─ produces ..... a one-argument function that remembers x</code></pre>
+<p>Now look at what a two-stage call does. In the interactive interpreter:</p>
+<pre class='code text'><code>&gt;&gt;&gt; def curried_pow(x):
+        def h(y):
+            return pow(x, y)
+        return h
+
+&gt;&gt;&gt; curried_pow(2)(3)
+8</code></pre>
+<p>Read <code>curried_pow(2)(3)</code> as two calls written next to each other, and break the line apart:</p>
+<pre class='code anatomy'><code>curried_pow(2)(3)
+├─ curried_pow(2) .... first call: returns h, which remembers x -&gt; 2
+├─ (3) .............. second call: calls that returned h with y -&gt; 3
+├─ inside h .......... runs pow(2, 3)
+└─ evaluates to ...... 8</code></pre>
+<p>The first pair of parentheses is attached to <code>curried_pow</code>. The second pair is attached to the value the first call produced. Python evaluates left to right:</p>
+<pre class='code text'><code>curried_pow(2)(3)
+=&gt; h(3)          where h remembers x -&gt; 2
+=&gt; pow(2, 3)
+=&gt; 8</code></pre>
+<p>If that double-parenthesis line feels strange, cover the second <code>(3)</code> with your hand. Ask, &quot;What does <code>curried_pow(2)</code> return?&quot; Once the answer is &quot;a function,&quot; the second call is ordinary.</p>
+<h3>Calling It in Two Steps</h3>
+<p>You do not have to write both calls on one line. You can name the intermediate function and call it later, which makes the two stages obvious:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #657b83">two_to_the</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">curried_pow(</span><span style="color: #2aa198">2</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">two_to_the(</span><span style="color: #2aa198">3</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>The first line runs <code>curried_pow(2)</code>, which returns <code>h</code>, and binds the name <code>two_to_the</code> to that function. The second line calls <code>two_to_the(3)</code>, which runs <code>pow(2, 3)</code>.</p>
+<pre class='code text'><code>curried_pow(2) returns h
+h remembers x -&gt; 2
+two_to_the(3) calls h with y -&gt; 3
+pow(2, 3) -&gt; 8</code></pre>
+<p>So <code>result</code> is <code>8</code>. Splitting the call into two lines does not change the answer; it only gives a name to the in-between function.</p>
+<h3>Passing a Curried Function Around</h3>
+<p>Because <code>curried_pow(2)</code> is itself a function value, you can hand it to another higher-order function. The original text defines a small driver that prints a function applied across a range:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (4)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">map_to_range</span><span style="color: #657b83">(start,</span> <span style="color: #657b83">end,</span> <span style="color: #657b83">f):</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">start</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #657b83">end:</span>
+        <span style="color: #268bd2">print</span><span style="color: #657b83">(f(start))</span>
+        <span style="color: #657b83">start</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">start</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+</code></pre>
+<p>The parameter <code>f</code> is a local name bound to a function. Each loop iteration calls <code>f(start)</code> and prints the result. Now feed it <code>curried_pow(2)</code>, which is the function &quot;raise 2 to the given exponent&quot;:</p>
+<pre class='code text'><code>&gt;&gt;&gt; def map_to_range(start, end, f):
+        while start &lt; end:
+            print(f(start))
+            start = start + 1
+
+&gt;&gt;&gt; map_to_range(0, 10, curried_pow(2))
+1
+2
+4
+8
+16
+32
+64
+128
+256
+512</code></pre>
+<p>The argument <code>curried_pow(2)</code> is evaluated once, before <code>map_to_range</code> runs, producing the function <code>h</code> that remembers base <code>2</code>. Inside the loop, <code>f(start)</code> is <code>h(0)</code>, then <code>h(1)</code>, and so on up through <code>h(9)</code>, printing the powers of two from exponent <code>0</code> through exponent <code>9</code>.</p>
+</div></section>
+<section id='a-general-curry2-function' class='ls ls-default'>
+<h2 class='ls-h'><span>A General curry2 Function</span></h2>
+<div class='ls-body'>
+<p>Currying a single function by hand is fine, but we can write one higher-order function that curries any two-argument function. Here it is, verbatim, docstring included:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (5)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">curry2</span><span style="color: #657b83">(f):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return a curried version of the given two-argument function.&quot;&quot;&quot;</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">g</span><span style="color: #657b83">(x):</span>
+        <span style="color: #859900">def</span> <span style="color: #268bd2">h</span><span style="color: #657b83">(y):</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">f(x,</span> <span style="color: #657b83">y)</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">h</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">g</span>
+</code></pre>
+<p>There are three nested layers, each capturing one more piece of information:</p>
+<pre class='code anatomy'><code>def curry2(f):
+├─ curry2 .. receives a two-argument function f
+├─ g(x) .... receives the first argument x, returns h
+├─ h(y) .... receives the second argument y
+├─ f(x, y) . h&#x27;s body: calls the original f with both arguments
+└─ produces  a function you call one argument at a time</code></pre>
+<p>Each returned layer carries a parent environment that stores what was supplied earlier:</p>
+<pre class='code text'><code>curry2(add)        returns g, a function waiting for x
+curry2(add)(3)     returns h, waiting for y and remembering x -&gt; 3
+curry2(add)(3)(2)  runs add(3, 2)</code></pre>
+<p>In the interactive interpreter, build a curried <code>pow</code> and use it. The original text binds the curried function to the name <code>pow_curried</code>:</p>
+<pre class='code text'><code>&gt;&gt;&gt; def curry2(f):
+        &quot;&quot;&quot;Return a curried version of the given two-argument function.&quot;&quot;&quot;
+        def g(x):
+            def h(y):
+                return f(x, y)
+            return h
+        return g
+
+&gt;&gt;&gt; pow_curried = curry2(pow)
+&gt;&gt;&gt; pow_curried(2)(5)
+32
+&gt;&gt;&gt; map_to_range(0, 10, pow_curried(2))
+1
+2
+4
+8
+16
+32
+64
+128
+256
+512</code></pre>
+<p>Trace the single-line call <code>pow_curried(2)(5)</code>:</p>
+<pre class='code anatomy'><code>pow_curried       is curry2(pow), i.e. the function g
+├─ pow_curried(2) first call: returns h, remembering x -&gt; 2
+├─ (5) ........... second call: runs the body with y -&gt; 5
+├─ inside h ...... runs pow(2, 5)
+└─ evaluates to .. 32</code></pre>
+<p>The last line, <code>map_to_range(0, 10, pow_curried(2))</code>, reuses the same driver from before. <code>pow_curried(2)</code> is the function &quot;raise 2 to the given exponent,&quot; so the loop prints powers of two from exponent <code>0</code> to <code>9</code> — the same output as the hand-written <code>curried_pow(2)</code>.</p>
+</div></section>
+<section id='uncurrying' class='ls ls-default'>
+<h2 class='ls-h'><span>Uncurrying</span></h2>
+<div class='ls-body'>
+<p>If currying changes a two-argument function into nested one-argument calls, <strong>uncurrying</strong> reverses the direction. It takes a curried function and returns one that accepts both arguments at once. Here it is verbatim, docstring included:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (6)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">uncurry2</span><span style="color: #657b83">(g):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return a two-argument version of the given curried function.&quot;&quot;&quot;</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">f</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">g(x)(y)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">f</span>
+</code></pre>
+<p>The returned <code>f</code> takes <code>x</code> and <code>y</code> together, then internally performs the two-stage curried call <code>g(x)(y)</code>:</p>
+<pre class='code anatomy'><code>def uncurry2(g):
+├─ uncurry2 .. receives a curried function g
+├─ f(x, y) ... receives both arguments at once
+├─ g(x)(y) ... performs the curried call: g(x) first, then (y)
+├─ return f .. hands back the two-argument function
+└─ produces .. a function called like f(2, 5)</code></pre>
+<p>Used on <code>pow_curried</code>, it recovers the ordinary two-argument calling shape:</p>
+<pre class='code text'><code>&gt;&gt;&gt; def uncurry2(g):
+        &quot;&quot;&quot;Return a two-argument version of the given curried function.&quot;&quot;&quot;
+        def f(x, y):
+            return g(x)(y)
+        return f
+
+&gt;&gt;&gt; uncurry2(pow_curried)(2, 5)
+32</code></pre>
+<p>Trace <code>uncurry2(pow_curried)(2, 5)</code>:</p>
+<pre class='code anatomy'><code>uncurry2(pow_curried)
+├─ uncurry2(pow_curried) ... returns f, which remembers g -&gt; pow_curried
+├─ (2, 5) .................. calls f with x -&gt; 2 and y -&gt; 5
+├─ inside f ................ runs pow_curried(2)(5)
+└─ evaluates to ............ 32</code></pre>
+<p>Uncurrying does not change what &quot;power&quot; means. It only changes the calling shape from two one-argument calls back into one two-argument call.</p>
+</div></section>
+<section id='lambda-expressions' class='ls ls-default'>
+<h2 class='ls-h'><span>Lambda Expressions</span></h2>
+<div class='ls-body'>
+<p>A <code>lambda</code> expression creates a function without a <code>def</code> statement. It is an expression, so it produces a function value on the spot, which you can use immediately or bind to a name. Here is the original text&#x27;s example in the interactive interpreter:</p>
+<pre class='code text'><code>&gt;&gt;&gt; s = lambda x: x * x
+&gt;&gt;&gt; s
+&lt;function &lt;lambda&gt; at 0xf3f490&gt;
+&gt;&gt;&gt; s(12)
+144</code></pre>
+<p>Notice two things. Typing <code>s</code> by itself shows that <code>s</code> is a function value — the interpreter prints something like <code>&lt;function &lt;lambda&gt; at 0xf3f490&gt;</code>, and the exact address will differ on your machine. Then <code>s(12)</code> actually calls it and returns <code>144</code>. The same code as a script:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (7)</span>
+<span style="color: #657b83">s</span> <span style="color: #93a1a1">=</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">x</span>
+</code></pre>
+<p>Follow the pieces of the <code>lambda</code> expression:</p>
+<pre class='code anatomy'><code>s = lambda x: x * x
+├─ lambda ... begins an anonymous function expression
+├─ x ........ the parameter
+├─ : ........ separates the parameter from the return expression
+├─ x * x .... the expression returned when the function is called
+├─ s = ...... binds the name s to this function value
+└─ produces . a one-argument function equivalent to &quot;square&quot;</code></pre>
+<p>This is similar in behavior to a <code>def</code>:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (8)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">square</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">x</span>
+</code></pre>
+<p>Both create a one-argument function that squares its input. Calling either version on <code>12</code> returns <code>144</code>. The main difference is that <code>lambda</code> is an expression that yields the function value directly, so it fits in places where a small function is needed right away.</p>
+<p>The word &quot;anonymous&quot; often attaches to <code>lambda</code>, but do not let it sound mysterious. Anonymous just means the function value is created before it necessarily has a name. In <code>s = lambda x: x * x</code>, the right side creates a nameless function value, and then the assignment gives it the name <code>s</code>:</p>
+<pre class='code text'><code>right side: create a function value (no name yet)
+left side:  bind the name s to that value</code></pre>
+<p>The colon in a <code>lambda</code> is not the colon in a <code>def</code> header. A <code>def</code> colon begins an indented suite of statements. A <code>lambda</code> colon separates the parameter list from one return expression. That is the hard limit on <code>lambda</code>: the body must be a single expression, never a multi-line block of statements.</p>
+</div></section>
+<section id='lambda-with-higher-order-functions' class='ls ls-default'>
+<h2 class='ls-h'><span>Lambda with Higher-Order Functions</span></h2>
+<div class='ls-body'>
+<p>Lambda expressions earn their keep when a function is short and used in exactly one place. A classic case is function composition. The original <code>compose1</code> returns a <code>lambda</code>:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (9)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">compose1</span><span style="color: #657b83">(f,</span> <span style="color: #657b83">g):</span>
+    <span style="color: #859900">return</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">f(g(x))</span>
+</code></pre>
+<p>The function returned by <code>compose1</code> takes <code>x</code> and returns <code>f(g(x))</code> — it applies <code>g</code> first, then <code>f</code> to that result. Because the returned function is so small, writing it as a <code>lambda</code> is cleaner than defining a named inner function.</p>
+<p>The same idea can be written entirely with lambdas, as the original text shows:</p>
+<pre class='code text'><code>compose1 = lambda f,g: lambda x: f(g(x))</code></pre>
+<p>Read this from the outside in, in layers:</p>
+<pre class='code text'><code>lambda f,g:     receive two functions f and g
+lambda x:       return a new one-argument function
+f(g(x))         when that function is called, apply g first, then f</code></pre>
+<p>The double-lambda form is compact, so it helps to see what it produces before calling it on a number. The original text calls <code>compose1</code> with two lambdas and then applies the result:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (10)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">compose1</span><span style="color: #657b83">(f,</span> <span style="color: #657b83">g):</span> 
+    <span style="color: #859900">return</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">f(g(x))</span>
+<span style="color: #657b83">f</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">compose1(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">x,</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">y:</span> <span style="color: #657b83">y</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)</span> 
+<span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">f(</span><span style="color: #2aa198">12</span><span style="color: #657b83">)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/2f60044ab18d.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>Work the outer call first, then the inner call:</p>
+<pre class='code anatomy'><code>compose1(lambda x: x * x, lambda y: y + 1)
+  runs with f = (lambda x: x * x) and g = (lambda y: y + 1)
+  returns a one-argument function that, given x, first adds 1 to x and then squares that result
+f(12)
+├─ g(12) ......... (lambda y: y + 1) applied to 12 -&gt; 13
+├─ f(13) ......... (lambda x: x * x) applied to 13 -&gt; 169
+└─ evaluates to .. 169</code></pre>
+<p>So <code>compose1(lambda x: x * x, lambda y: y + 1)</code> is a function value, and calling it on <code>12</code> is the second step that yields <code>169</code>. This is the function-card idea again: the outer call builds a card that says &quot;when someone gives me <code>x</code>, run <code>g(x)</code>, then run <code>f</code> on that result.&quot; Nothing happens to a number until that returned card is actually called.</p>
+</div></section>
+<section id='lambda-is-an-expression-not-a-statement' class='ls ls-default'>
+<h2 class='ls-h'><span>Lambda Is an Expression, Not a Statement</span></h2>
+<div class='ls-body'>
+<p>It is worth nailing down the difference in kind. A <code>def</code> statement binds a name as part of executing the statement:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (11)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">double</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">2</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">x</span>
+</code></pre>
+<p>A <code>lambda</code> expression, by contrast, just evaluates to a function value:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (12)</span>
+<span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #2aa198">2</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">x</span>
+</code></pre>
+<p>On its own that value is not stored anywhere. If you want to reuse it, bind it to a name like any other value:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (13)</span>
+<span style="color: #657b83">double</span> <span style="color: #93a1a1">=</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #2aa198">2</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">x</span>
+</code></pre>
+<p>The expression after the <code>lambda</code> colon must be a single expression — it cannot contain a multi-line suite of statements, an assignment, or a loop. That is exactly why <code>lambda</code> is best for small functions. When the logic needs several statements, reach for <code>def</code>.</p>
+</div></section>
+<section id='function-decorators' class='ls ls-default'>
+<h2 class='ls-h'><span>Function Decorators</span></h2>
+<div class='ls-body'>
+<p>A <strong>decorator</strong> is a higher-order function that transforms a function into another function. You hand it a function, and it hands back a replacement — usually one that wraps extra behavior around the original.</p>
+<p>A decorator is like placing a receptionist in front of a worker. The worker still does the original job. The receptionist can announce the visit, log it, check something, or adjust the interaction before passing the work along to the original function. Here is a tracing decorator from the original text:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (14)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">trace</span><span style="color: #657b83">(fn):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">wrapped</span><span style="color: #657b83">(x):</span>
+        <span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #2aa198">&#39;-&gt; &#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">fn,</span> <span style="color: #2aa198">&#39;(&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">x,</span> <span style="color: #2aa198">&#39;)&#39;</span><span style="color: #657b83">)</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">fn(x)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">wrapped</span>
+</code></pre>
+<p>The decorator <code>trace</code> receives a function <code>fn</code> and returns a new function <code>wrapped</code>. When <code>wrapped</code> is later called on an argument <code>x</code>, it prints a trace message, then calls the original <code>fn(x)</code> and returns that result. The crucial promise is the final <code>return fn(x)</code>: after the bookkeeping, the original computation is preserved, not discarded.</p>
+<pre class='code anatomy'><code>def trace(fn):
+├─ trace ...... receives the function fn to be wrapped
+├─ wrapped(x) . the replacement function, awaiting an argument x
+├─ print(...) . wrapped&#x27;s extra job: announce the call
+├─ fn(x) ...... wrapped still performs the original computation
+├─ return fn(x) hands back the original function&#x27;s result
+└─ produces ... a new function that traces, then delegates to fn</code></pre>
+<h3>Decorator Syntax</h3>
+<p>Python provides shorthand for applying a decorator at definition time, the <code>@</code> syntax:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (15)</span>
+<span style="color: #268bd2">@trace</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">triple</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">3</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">x</span>
+</code></pre>
+<p>The <code>@trace</code> line on top of the <code>def</code> means: build <code>triple</code>, then immediately replace the name <code>triple</code> with <code>trace(triple)</code>. It is exactly equivalent to defining the function normally and reassigning the name:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (16)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">triple</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">3</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">x</span>
+
+<span style="color: #657b83">triple</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">trace(triple)</span>
+</code></pre>
+<p>So <code>@trace</code> is not a separate hidden rule. Read it as a two-step process every time:</p>
+<pre class='code text'><code>1. Build the function written below the decorator line.
+2. Replace that name with trace(that_function).</code></pre>
+<p>After the decorator is applied, the name <code>triple</code> points to the wrapper, not to the original. The original is not deleted — the wrapper remembers it through the name <code>fn</code> in the wrapper&#x27;s parent environment. Calling the decorated <code>triple</code> now traces and then computes:</p>
+<pre class='code text'><code>&gt;&gt;&gt; @trace
+    def triple(x):
+        return 3 * x
+
+&gt;&gt;&gt; triple(12)
+-&gt;  &lt;function triple at 0x102a39848&gt; ( 12 )
+36</code></pre>
+<p>The first output line is the trace message that <code>wrapped</code> printed. The printed function object shows with a memory address such as <code>0x102a39848</code>; the exact address is not important and will differ on your machine. The second line, <code>36</code>, is the value <code>fn(12)</code> returned — that is, <code>3 * 12</code>. The reassignment is what redirected the name:</p>
+<pre class='code text'><code>before wrapping: triple -&gt; original triple function
+after wrapping:  triple -&gt; wrapped function returned by trace</code></pre>
+</div></section>
+<section id='abstractions-and-first-class-functions' class='ls ls-default'>
+<h2 class='ls-h'><span>Abstractions and First-Class Functions</span></h2>
+<div class='ls-body'>
+<p>Step back and notice the through-line. Currying, lambdas, and decorators are not three unrelated tricks. They are three uses of one property: functions are first-class values. Currying returns functions from functions. A lambda is a function value written as an expression. A decorator takes a function and returns a function. In every case, the moves that feel exotic — calling the result of a call, returning a <code>lambda</code>, putting <code>@</code> above a <code>def</code> — reduce to passing function values around and calling them at the right time. The decorator <code>@</code> syntax in particular is just a higher-order function call plus a reassignment, with no magic underneath.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<div class='table-wrap'><table><thead><tr>
+<th>Mistake</th>
+<th>What Goes Wrong</th>
+<th>Safer Question</th>
+</tr></thead><tbody>
+<tr>
+<td>Treating <code>curried_pow(2)(3)</code> as one call</td>
+<td>Python calls <code>curried_pow(2)</code> first, then calls the returned function on <code>3</code></td>
+<td>What value does the first pair of parentheses produce?</td>
+</tr>
+<tr>
+<td>Expecting <code>curried_pow(2)</code> to be a number</td>
+<td>It is a function value, so using it like a number, as in <code>curried_pow(2) + 1</code>, raises <code>TypeError: unsupported operand type(s) for +: &#x27;function&#x27; and &#x27;int&#x27;</code></td>
+<td>Do I have the function, or the number from calling it a second time?</td>
+</tr>
+<tr>
+<td>Putting statements inside a <code>lambda</code></td>
+<td>A <code>lambda</code> body must be a single expression; an assignment or extra line raises a <code>SyntaxError</code></td>
+<td>Does this logic need multiple statements, and therefore <code>def</code>?</td>
+</tr>
+<tr>
+<td>Confusing the <code>lambda</code> colon with the <code>def</code> colon</td>
+<td>The <code>def</code> colon starts an indented suite while the <code>lambda</code> colon separates the parameter list from one return expression; mixing them raises a <code>SyntaxError</code></td>
+<td>Am I writing one return expression, or a block of statements?</td>
+</tr>
+<tr>
+<td>Forgetting <code>return wrapped</code> in a decorator</td>
+<td>The decorated name is rebound to <code>None</code>, so calling it raises <code>TypeError: &#x27;NoneType&#x27; object is not callable</code></td>
+<td>Which function should replace the original name?</td>
+</tr>
+<tr>
+<td>Confusing a function value with a function result</td>
+<td>First-class functions can be stored without being called</td>
+<td>Do I need the function itself, or the value from calling it?</td>
+</tr>
+</tbody></table></div>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>Given <code>pow_curried = curry2(pow)</code>, what value does <code>pow_curried(3)(2)</code> produce, and what is the function returned by <code>pow_curried(3)</code> waiting for?</li>
+<li>Why can <code>map_to_range(0, 10, pow_curried(2))</code> print the powers of two?</li>
+<li>What restriction does a <code>lambda</code> body have, and when should you use <code>def</code> instead?</li>
+<li>In <code>compose1 = lambda f,g: lambda x: f(g(x))</code>, which function runs first when the returned function is called?</li>
+<li>What two steps does <code>@trace</code> above a <code>def</code> perform?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li><code>pow_curried(3)</code> returns a one-argument function that remembers <code>x -&gt; 3</code> and is waiting for the second argument <code>y</code>; calling it with <code>(2)</code> runs <code>pow(3, 2)</code>, so <code>pow_curried(3)(2)</code> produces <code>9</code>.</li>
+<li><code>pow_curried(2)</code> returns a one-argument function that maps each exponent to <code>2</code> raised to that exponent, so calling it on <code>0</code> through <code>9</code> inside <code>map_to_range</code> prints <code>1, 2, 4, ..., 512</code>.</li>
+<li>The body must be a single expression, not a multi-statement suite. Use <code>def</code> when the logic needs several statements.</li>
+<li><code>g</code> runs first, then <code>f</code> receives the result, because the body is <code>f(g(x))</code>.</li>
+<li>It builds the function written below the decorator line, then rebinds that name to <code>trace(that_function)</code>, the wrapper returned by <code>trace</code>.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>In Python, functions are first-class values: they can be bound to names, passed as arguments, returned as results, and stored in data structures. That single property powers everything in this lesson. Currying rebuilds a multi-argument function as a chain of one-argument functions, with each call returning a function that remembers the arguments supplied so far; <code>curry2</code> and <code>uncurry2</code> convert between the curried and ordinary shapes. Lambda expressions create small functions as expressions, fitting neatly where a short function is needed inline, with the firm limit that their body is one expression. Decorators wrap a function in extra behavior, and the <code>@</code> syntax is just a higher-order call plus a reassignment of the name. The central habit is to keep asking, at every step, whether a name points to a function value or to the result of calling it.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>This program is the lesson&#x27;s capstone: it defines a curried function, applies the first argument to get an intermediate function, and ends on the interesting second call. Stepping through it draws the <strong>environment diagram</strong> that makes currying concrete: the <code>curried_pow(2)</code> frame holds <code>x -&gt; 2</code> and the inner <code>h</code>, and when <code>two_to_the(3)</code> runs, the new <code>h</code> frame holds only <code>y -&gt; 3</code> while a parent arrow points back to that first frame, showing exactly where the still-live <code>x</code> lives. Before you step through the block below, write down three predictions: how many local frames open over the whole run, whether the name <code>h</code> ever appears in the global frame, and which names get their own binding inside the frame for the final call <code>two_to_the(3)</code>.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (17)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">curried_pow</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">h</span><span style="color: #657b83">(y):</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">pow</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">h</span>
+
+<span style="color: #657b83">two_to_the</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">curried_pow(</span><span style="color: #2aa198">2</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">two_to_the(</span><span style="color: #2aa198">3</span><span style="color: #657b83">)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/482b89fdf231.json' data-mount='st1'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st1' hidden></div></figure>
+<p>Step through it one line at a time and check each prediction. Two local frames open: one for <code>curried_pow(2)</code>, holding <code>x -&gt; 2</code> and <code>h</code>, and one for the call to <code>h</code>, holding only <code>y -&gt; 3</code>. The name <code>h</code> never reaches the global frame, which collects <code>curried_pow</code>, <code>two_to_the</code>, and <code>result -&gt; 8</code>. The second frame links back to the first, and that parent link is why the final call can still reach <code>x</code> and compute <code>pow(2, 3)</code>.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</span></a><a class='pg pg-next' href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#functions-are-values'>Functions Are Values</a></li><li><a href='#currying-one-argument-at-a-time'>Currying: One Argument at a Time</a></li><li><a href='#a-general-curry2-function'>A General curry2 Function</a></li><li><a href='#uncurrying'>Uncurrying</a></li><li><a href='#lambda-expressions'>Lambda Expressions</a></li><li><a href='#lambda-with-higher-order-functions'>Lambda with Higher-Order Functions</a></li><li><a href='#lambda-is-an-expression-not-a-statement'>Lambda Is an Expression, Not a Statement</a></li><li><a href='#function-decorators'>Function Decorators</a></li><li><a href='#abstractions-and-first-class-functions'>Abstractions and First-Class Functions</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

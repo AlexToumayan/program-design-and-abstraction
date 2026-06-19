@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>4.3.6 Aggregation and Grouping · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/' class='active'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 4</span><span class='dot'>/</span><span class='eb-sec'>4.3 Declarative Programming</span></div><h1 class='lesson-title'>4.3.6 Aggregation and Grouping</h1><div class='reading-meta'>&#9719; approx. 16 min read <span class='rm-sep'>&middot;</span> 1 worked example <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>Until now, almost every row in your results came from a single input row, or from a single row built by joining two tables. One row in, one row out. This lesson is about the opposite move: collapsing <strong>many</strong> rows into a single summary value, and doing it group by group.</p>
+<p>By the end you will be able to do five things. Write an <strong>aggregate function</strong> like <code>max</code>, <code>min</code>, <code>count</code>, <code>sum</code>, or <code>avg</code> that summarizes a whole column into one number. Count rows with <code>count(*)</code> and count unique values with <code>count(distinct ...)</code>. Split a table into groups with <code>group by</code> so an aggregate applies to each group separately. Group by more than one expression at once. And choose correctly between <code>where</code> and <code>having</code>, the two filters that act at different moments in the process.</p>
+<p>The mental shift is the whole lesson: stop thinking &quot;one row at a time&quot; and start thinking &quot;a pile of rows, summarized.&quot;</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='an-intuitive-analogy' class='ls ls-default'>
+<h2 class='ls-h'><span>An Intuitive Analogy</span></h2>
+<div class='ls-body'>
+<p>Picture a teacher holding a stack of graded exams, one paper per student. Most questions you could ask are about a single paper: &quot;show me Maria&#x27;s score,&quot; &quot;which papers scored above 90.&quot; Those are the row-at-a-time questions you already know how to answer with <code>where</code>.</p>
+<p>Now the principal walks in and asks, &quot;What was the highest score on the exam?&quot; The teacher does not hand over one student&#x27;s paper as an answer. Instead she fans through the entire stack, keeping a running &quot;biggest so far&quot; in her head, and reports a single number. That single number was computed <strong>from</strong> many papers but belongs to <strong>none</strong> of them in particular. That is aggregation.</p>
+<p>Then the principal asks something sharper: &quot;What was the highest score in each class period?&quot; Now the teacher first sorts the stack into piles, one pile per period, and computes a highest score <strong>within each pile</strong>. One number comes out per pile. That sorting-into-piles step is <code>group by</code>, and the per-pile summary is an aggregate applied to each group.</p>
+<p>Hold onto those two pictures: fanning through one stack for a single summary, and splitting into piles before summarizing each pile.</p>
+</div></section>
+<section id='aggregate-functions' class='ls ls-default'>
+<h2 class='ls-h'><span>Aggregate Functions</span></h2>
+<div class='ls-body'>
+<p>A <code>select</code> statement can do more than join, project, and filter individual rows. It can also perform <strong>aggregation</strong> across many rows at once. An <strong>aggregate function</strong> reads down a column and folds all of its values into one result.</p>
+<p>The four aggregate functions used most often are:</p>
+<div class='table-wrap'><table><thead><tr>
+<th>Function</th>
+<th>What it returns</th>
+</tr></thead><tbody>
+<tr>
+<td><code>max</code></td>
+<td>the largest value in the column</td>
+</tr>
+<tr>
+<td><code>min</code></td>
+<td>the smallest value in the column</td>
+</tr>
+<tr>
+<td><code>count</code></td>
+<td>the number of values (or rows)</td>
+</tr>
+<tr>
+<td><code>sum</code></td>
+<td>the total of the values</td>
+</tr>
+<tr>
+<td><code>avg</code></td>
+<td>the average (mean) of the values</td>
+</tr>
+</tbody></table></div>
+<p><code>avg</code> belongs to the same family: it adds the values and divides by how many there are. You can apply several aggregate functions to the same set of rows by listing more than one column in the <code>select</code> clause. One important rule controls which rows get folded in: only rows that survive the <code>where</code> clause are considered in the aggregation.</p>
+<p>We will work with the <code>animals</code> table the official text uses. Create it once and every query below runs against it:</p>
+<pre class='code sql'><code>create table animals as
+  select &quot;dog&quot; as name, 4 as legs, 20 as weight union
+  select &quot;cat&quot;        , 4        , 10           union
+  select &quot;ferret&quot;     , 4        , 10           union
+  select &quot;t-rex&quot;      , 2        , 12000        union
+  select &quot;penguin&quot;    , 2        , 10           union
+  select &quot;bird&quot;       , 2        , 6;</code></pre>
+<p>Here is that same table as a grid so you can see every value at a glance:</p>
+<div class='table-wrap'><table><thead><tr>
+<th>name</th>
+<th>legs</th>
+<th>weight</th>
+</tr></thead><tbody>
+<tr>
+<td>dog</td>
+<td>4</td>
+<td>20</td>
+</tr>
+<tr>
+<td>cat</td>
+<td>4</td>
+<td>10</td>
+</tr>
+<tr>
+<td>ferret</td>
+<td>4</td>
+<td>10</td>
+</tr>
+<tr>
+<td>t-rex</td>
+<td>2</td>
+<td>12000</td>
+</tr>
+<tr>
+<td>penguin</td>
+<td>2</td>
+<td>10</td>
+</tr>
+<tr>
+<td>bird</td>
+<td>2</td>
+<td>6</td>
+</tr>
+</tbody></table></div>
+<h3>Following an Aggregate Query Token by Token</h3>
+<p>Before running anything, read a <code>select</code> that contains an aggregate the same careful way you read any line of code: one token at a time, ending with what it produces. Here is <code>select max(legs) from animals;</code> broken into its pieces:</p>
+<pre class='code anatomy'><code>select max(legs) from animals
+├─ select ...... begin a query; describe the columns to return
+├─ max ......... aggregate function: keep the largest value seen
+├─ ( ........... begin the aggregate&#x27;s input
+├─ legs ........ the column to summarize
+├─ ) ........... end the aggregate&#x27;s input
+├─ from ........ name the source table
+├─ animals ..... read rows from the animals table
+└─ returns ..... one row, one column: the largest legs value, 4</code></pre>
+<p>Notice the final row. An aggregate query does not return one row per animal; it returns a <strong>single</strong> row holding the summary. Every token before the last describes how that one value is built; the last row is the result.</p>
+<h3>Warm-Up: One Aggregate Over a Tiny Table</h3>
+<p>Start smaller than the official example so the idea is unmistakable. Imagine a two-row table of just <code>legs</code> values, <code>4</code> and <code>2</code>. Asking for <code>max(legs)</code> fans through both values and keeps the larger:</p>
+<pre class='code anatomy'><code>max over [4, 2]
+├─ 4 ........... largest so far is 4
+├─ 2 ........... 2 is not larger; largest stays 4
+└─ evaluates to  4</code></pre>
+<p>That is the entire mechanism. <code>min</code> keeps the smaller instead, <code>sum</code> keeps a running total, and <code>count</code> keeps a running tally. The official table just has more rows.</p>
+<h3>Bridge: Summing By Hand Before Trusting <code>sum</code></h3>
+<p><code>sum(weight)</code> is worth slowing down on, because the answer looks surprising until you add it up yourself. The weights are <code>20, 10, 10, 12000, 10, 6</code>. Add them in order:</p>
+<div class='math'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">20</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">10</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">10</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">12000</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">10</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">6</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">12056</span></span></span></span></span></div>
+<p>The single huge value (the t-rex at <code>12000</code>) dominates the total, which is exactly why the sum is so large. Now you can predict the official output instead of being surprised by it.</p>
+<h3>The Official Aggregate Queries</h3>
+<p>Here are the official aggregate queries verbatim, run against the <code>animals</code> table:</p>
+<pre class='code text'><code>sqlite&gt; select max(legs) from animals;
+4
+sqlite&gt; select sum(weight) from animals;
+12056
+sqlite&gt; select min(legs), max(weight) from animals where name &lt;&gt; &quot;t-rex&quot;;
+2|20</code></pre>
+<p>Read the third query carefully, because it combines two ideas. It applies <strong>two</strong> aggregate functions at once, <code>min(legs)</code> and <code>max(weight)</code>, producing a row with two columns. It also filters first: <code>name &lt;&gt; &quot;t-rex&quot;</code> keeps every animal <strong>except</strong> the t-rex (<code>&lt;&gt;</code> is SQL&#x27;s &quot;not equal&quot;). Because the t-rex is excluded before aggregation, <code>max(weight)</code> is computed over the remaining animals, whose heaviest is the dog at <code>20</code>. The smallest leg count among those same rows is <code>2</code>, so the result is <code>2|20</code>. This shows the rule in action: only rows that pass <code>where</code> reach the aggregate.</p>
+</div></section>
+<section id='counting-rows-and-counting-distinct-values' class='ls ls-default'>
+<h2 class='ls-h'><span>Counting Rows and Counting Distinct Values</span></h2>
+<div class='ls-body'>
+<p><code>count</code> deserves its own section because it has two special behaviors that trip people up.</p>
+<p>The first is <code>count(*)</code>. The <code>*</code> is not a column; it is a signal that means &quot;count the rows themselves,&quot; regardless of any particular column&#x27;s contents. The second is the <code>distinct</code> keyword, which removes repeated values from a column <strong>before</strong> the aggregate sees them, so each value is considered only once.</p>
+<p>Read <code>select count(distinct legs) from animals;</code> token by token:</p>
+<pre class='code anatomy'><code>select count(distinct legs) from animals
+├─ select ...... begin a query
+├─ count ....... aggregate function: tally how many values
+├─ ( ........... begin the aggregate&#x27;s input
+├─ distinct .... drop repeated values first; keep each one once
+├─ legs ........ the column whose distinct values are tallied
+├─ ) ........... end the aggregate&#x27;s input
+├─ from ........ name the source table
+├─ animals ..... read rows from the animals table
+└─ returns ..... one row: how many distinct legs values exist, 2</code></pre>
+<p>The <code>animals</code> table has only two distinct leg counts, <code>2</code> and <code>4</code>, so <code>count(distinct legs)</code> is <code>2</code>, even though six rows have a <code>legs</code> value. Here are the three official counting queries:</p>
+<pre class='code text'><code>sqlite&gt; select count(legs) from animals;
+6
+sqlite&gt; select count(*) from animals;
+6
+sqlite&gt; select count(distinct legs) from animals;
+2</code></pre>
+<p>Compare them directly. There are six rows, so <code>count(*)</code> is <code>6</code>. Every row has a non-empty <code>legs</code> value, so <code>count(legs)</code> is also <code>6</code> here. But there are only two <strong>different</strong> leg counts, so <code>count(distinct legs)</code> is <code>2</code>. The gap between <code>6</code> and <code>2</code> is the entire point of <code>distinct</code>: it counts variety, not volume.</p>
+</div></section>
+<section id='grouping-rows-with-group-by' class='ls ls-default'>
+<h2 class='ls-h'><span>Grouping Rows With <code>group by</code></span></h2>
+<div class='ls-body'>
+<p>Each query so far returned a table with a single row, because each one summarized the whole table at once. The <code>group by</code> and <code>having</code> clauses change that. They <strong>partition</strong> rows into groups and let you keep only a subset of those groups. Crucially, any aggregate function in the <code>having</code> clause or the column list then applies to <strong>each group independently</strong>, not to the entire table.</p>
+<p>This is the &quot;sort into piles, then summarize each pile&quot; picture from the analogy. Read the clause token by token:</p>
+<pre class='code anatomy'><code>select legs, max(weight) from animals group by legs
+├─ select ........ begin a query
+├─ legs .......... return the grouping value for each group
+├─ , ............. separate the columns
+├─ max(weight) ... per group, the largest weight in that group
+├─ from .......... name the source table
+├─ animals ....... read rows from the animals table
+├─ group ......... begin the grouping clause
+├─ by ............ specify what to group on
+├─ legs .......... form one group per distinct legs value
+└─ returns ....... one row per group: its legs value and its max weight</code></pre>
+<p>To compute the heaviest four-legged animal and the heaviest two-legged animal at the same time, group the rows by <code>legs</code>. That forms a two-legged group (t-rex, penguin, bird) and a four-legged group (dog, cat, ferret), and computes the maximum weight inside each. The second query below lists the <code>legs</code> values that have at least two rows sharing the same weight.</p>
+<pre class='code text'><code>sqlite&gt; select legs, max(weight) from animals group by legs;
+2|12000
+4|20
+sqlite&gt; select weight from animals group by weight having count(*)&gt;1;
+10</code></pre>
+<h3>A Step-by-Step Trace of the Grouped Query</h3>
+<p>It is worth watching the first grouped query build its rows, because the model becomes obvious once you see it staged.</p>
+<p>Step one, partition the six rows by their <code>legs</code> value:</p>
+<div class='table-wrap'><table><thead><tr>
+<th>legs group</th>
+<th>rows in the group</th>
+<th>their weights</th>
+</tr></thead><tbody>
+<tr>
+<td>2</td>
+<td>t-rex, penguin, bird</td>
+<td>12000, 10, 6</td>
+</tr>
+<tr>
+<td>4</td>
+<td>dog, cat, ferret</td>
+<td>20, 10, 10</td>
+</tr>
+</tbody></table></div>
+<p>Step two, compute <code>max(weight)</code> inside each group on its own:</p>
+<div class='table-wrap'><table><thead><tr>
+<th>legs</th>
+<th>max(weight)</th>
+</tr></thead><tbody>
+<tr>
+<td>2</td>
+<td>12000</td>
+</tr>
+<tr>
+<td>4</td>
+<td>20</td>
+</tr>
+</tbody></table></div>
+<p>Step three, emit one result row per group, which is exactly the official output <code>2|12000</code> and <code>4|20</code>. The two-legged maximum is <code>12000</code> (the t-rex), and the four-legged maximum is <code>20</code> (the dog).</p>
+<h3>How <code>having</code> Filters Whole Groups</h3>
+<p>The second query, <code>select weight from animals group by weight having count(*)&gt;1;</code>, groups by <code>weight</code> and then keeps only groups containing more than one row. Trace it the same way. Grouping by <code>weight</code> makes these groups:</p>
+<div class='table-wrap'><table><thead><tr>
+<th>weight group</th>
+<th>rows in the group</th>
+<th>count(*)</th>
+</tr></thead><tbody>
+<tr>
+<td>6</td>
+<td>bird</td>
+<td>1</td>
+</tr>
+<tr>
+<td>10</td>
+<td>cat, ferret, penguin</td>
+<td>3</td>
+</tr>
+<tr>
+<td>20</td>
+<td>dog</td>
+<td>1</td>
+</tr>
+<tr>
+<td>12000</td>
+<td>t-rex</td>
+<td>1</td>
+</tr>
+</tbody></table></div>
+<p>The condition <code>count(*) &gt; 1</code> keeps only the group whose row count exceeds one. Only the weight <code>10</code> qualifies, because three animals weigh <code>10</code>. So the single output row is <code>10</code>. The key insight: <code>count(*) &gt; 1</code> cannot be evaluated for a row in isolation. It can only be checked <strong>after</strong> a group has been formed, which is exactly why it lives in <code>having</code> and not <code>where</code>.</p>
+</div></section>
+<section id='grouping-by-multiple-expressions' class='ls ls-default'>
+<h2 class='ls-h'><span>Grouping by Multiple Expressions</span></h2>
+<div class='ls-body'>
+<p>The <code>group by</code> clause is not limited to one column. You can list several columns, or even full expressions, and a separate group is formed for every unique <strong>combination</strong> of the resulting values. By convention the grouping expression also appears in the column list, so you can tell which result row came from which group.</p>
+<p>Three official queries show the range of what <code>group by</code> accepts:</p>
+<pre class='code text'><code>sqlite&gt; select max(name) from animals group by legs, weight order by name;
+bird
+dog
+ferret
+penguin
+t-rex
+sqlite&gt; select max(name), legs, weight from animals group by legs, weight
+  ....&gt;   having max(weight) &lt; 100;
+bird|2|6
+penguin|2|10
+ferret|4|10
+dog|4|20
+sqlite&gt; select count(*), weight/legs from animals group by weight/legs;
+2|2
+1|3
+2|5
+1|6000</code></pre>
+<p>The first two queries group by the <strong>pair</strong> <code>legs, weight</code>. Two rows land in the same group only if they agree on both values. In this table every animal has a distinct <code>(legs, weight)</code> pair except cat and ferret (both <code>4, 10</code>), so there are five groups, and <code>max(name)</code> picks the alphabetically largest name in each. The second query adds <code>having max(weight) &lt; 100</code>, which drops the t-rex&#x27;s group (its weight <code>12000</code> is not under <code>100</code>), leaving four rows.</p>
+<p>The third query groups by an <strong>expression</strong>, <code>weight/legs</code>. SQLite does integer division here, so each animal&#x27;s quotient is computed first, and animals that share a quotient share a group:</p>
+<div class='table-wrap'><table><thead><tr>
+<th>animal</th>
+<th>weight</th>
+<th>legs</th>
+<th>weight/legs</th>
+</tr></thead><tbody>
+<tr>
+<td>bird</td>
+<td>6</td>
+<td>2</td>
+<td>3</td>
+</tr>
+<tr>
+<td>penguin</td>
+<td>10</td>
+<td>2</td>
+<td>5</td>
+</tr>
+<tr>
+<td>t-rex</td>
+<td>12000</td>
+<td>2</td>
+<td>6000</td>
+</tr>
+<tr>
+<td>dog</td>
+<td>20</td>
+<td>4</td>
+<td>5</td>
+</tr>
+<tr>
+<td>cat</td>
+<td>10</td>
+<td>4</td>
+<td>2</td>
+</tr>
+<tr>
+<td>ferret</td>
+<td>10</td>
+<td>4</td>
+<td>2</td>
+</tr>
+</tbody></table></div>
+<p>Group by that quotient and the counts fall out: quotient <code>2</code> has two animals (cat, ferret), quotient <code>3</code> has one (bird), quotient <code>5</code> has two (penguin, dog), and quotient <code>6000</code> has one (t-rex). That matches the official output rows <code>2|2</code>, <code>1|3</code>, <code>2|5</code>, and <code>1|6000</code>, where each row is the count followed by the shared quotient.</p>
+</div></section>
+<section id='where-versus-having' class='ls ls-default'>
+<h2 class='ls-h'><span><code>where</code> Versus <code>having</code></span></h2>
+<div class='ls-body'>
+<p>Both <code>where</code> and <code>having</code> filter, and the syntax looks similar, so it is easy to reach for the wrong one. The difference is <strong>when</strong> each filter runs.</p>
+<pre class='code text'><code>where:  filters individual rows, before any grouping or aggregation
+having: filters whole groups, after aggregates have been computed</code></pre>
+<p>A <code>having</code> clause can contain the same kind of row condition a <code>where</code> clause can, but it can <strong>also</strong> call aggregate functions like <code>count</code> and <code>max</code>. For the fastest execution and the clearest code, follow this rule: if a condition depends only on a single row&#x27;s contents, put it in <code>where</code>; reserve <code>having</code> for conditions that genuinely require aggregation, such as demanding a minimum <code>count</code> for a group.</p>
+<p>Use <code>where</code> when the test depends on one row:</p>
+<pre class='code sql'><code>select name from animals where legs = 4;</code></pre>
+<p>Use <code>having</code> when the test depends on a group summary:</p>
+<pre class='code sql'><code>select weight from animals group by weight having count(*) &gt; 1;</code></pre>
+<p>The expression <code>count(*) &gt; 1</code> is impossible to evaluate before grouping, because a count only exists once a group has been assembled. That single fact tells you which clause to use every time.</p>
+</div></section>
+<section id='non-aggregate-columns-in-grouped-queries' class='ls ls-default'>
+<h2 class='ls-h'><span>Non-Aggregate Columns in Grouped Queries</span></h2>
+<div class='ls-body'>
+<p>There is a subtle case the official text warns about. When you use <code>group by</code>, your column list can include expressions that do <strong>not</strong> aggregate. In some situations SQLite will fill such a column with a value taken from the same row that produced an aggregate. For example, this query reports the <code>name</code> of the animal that has the maximal <code>weight</code>:</p>
+<pre class='code text'><code>sqlite&gt; select name, max(weight) from animals;
+t-rex|12000
+sqlite&gt; select name, legs, max(weight) from animals group by legs;
+t-rex|2|12000
+dog|4|20</code></pre>
+<p>In the first query, <code>max(weight)</code> is <code>12000</code>, and SQLite pairs it with <code>t-rex</code>, the name from the very row that held that maximum. In the second, grouping by <code>legs</code> produces a two-legged row and a four-legged row, and each non-aggregate <code>name</code> comes from that group&#x27;s maximum-weight row: <code>t-rex</code> for the heaviest two-legged animal and <code>dog</code> for the heaviest four-legged one.</p>
+<p>This is convenient, but it is only reliable when the chosen row is unambiguous. Whenever the row that corresponds to the aggregation is unclear, for instance when you aggregate with <code>count</code> instead of <code>max</code>, the value placed in a non-aggregate column may be arbitrary. For the clearest and most predictable code, a <code>select</code> statement that includes a <code>group by</code> clause should include at least one aggregate column, and should include non-aggregate columns only when their contents are determined by the aggregation.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<ul>
+<li>Thinking an aggregate runs on one row at a time. <code>max</code>, <code>min</code>, <code>count</code>, <code>sum</code>, and <code>avg</code> summarize a <strong>collection</strong> of rows into a single value.</li>
+<li>Confusing <code>count(legs)</code> with <code>count(distinct legs)</code>. The first counts how many rows have a <code>legs</code> value; the second counts how many <strong>different</strong> leg values exist.</li>
+<li>Writing <code>where count(*) &gt; 1</code>. An aggregate condition cannot be checked per row, so SQLite rejects it with the error <code>misuse of aggregate function count()</code>; the condition belongs in <code>having</code>, not <code>where</code>.</li>
+<li>Forgetting that only rows passing the <code>where</code> clause are included in an aggregate, as in <code>min(legs), max(weight) ... where name &lt;&gt; &quot;t-rex&quot;</code>.</li>
+<li>Expecting a grouped query to return one row per input row. It returns one row per <strong>group</strong>.</li>
+<li>Treating <code>group by weight/legs</code> as if it grouped by <code>weight</code> or <code>legs</code> alone. It groups by the value of the whole expression, so animals with the same quotient share a group.</li>
+<li>Selecting an arbitrary non-aggregate column in a grouped query and trusting the value. It is predictable only when the aggregation determines which row it comes from.</li>
+</ul>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>Why does <code>select sum(weight) from animals;</code> return a single row instead of one row per animal?</li>
+<li>The <code>animals</code> table has six rows with <code>legs</code> values, yet <code>count(distinct legs)</code> is <code>2</code>. Explain the difference between that result and <code>count(legs)</code>.</li>
+<li>Predict the full output of <code>select count(*), legs from animals group by legs;</code>, including how many rows it has and the values in each. Which animals contribute to each row?</li>
+<li>In <code>select legs, max(weight) from animals group by legs;</code>, why does the result have exactly two rows, and where do the values <code>12000</code> and <code>20</code> come from?</li>
+<li>The query <code>select count(*), weight/legs from animals group by weight/legs;</code> returns the row <code>2|2</code>. Which animals produced that row, and what do the two numbers mean?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li>With no <code>group by</code>, <code>sum(weight)</code> aggregates over the entire selected table at once, folding all six weight values into one total (<code>12056</code>). Aggregation produces a single summary value, so the result is one row.</li>
+<li><code>count(legs)</code> counts how many rows have a <code>legs</code> value, which is <code>6</code>. <code>count(distinct legs)</code> first removes repeated values, leaving only the two distinct leg counts <code>2</code> and <code>4</code>, then counts those, giving <code>2</code>. One measures volume; the other measures variety.</li>
+<li>Grouping by <code>legs</code> forms two groups, so the output has two rows: <code>3|2</code> and <code>3|4</code>. The two-legged group (t-rex, penguin, bird) has three rows, giving <code>count(*)</code> of <code>3</code> paired with <code>legs</code> value <code>2</code>; the four-legged group (dog, cat, ferret) also has three rows, giving <code>3</code> paired with <code>legs</code> value <code>4</code>.</li>
+<li>Grouping by <code>legs</code> creates one group per distinct leg count, and there are two distinct counts (<code>2</code> and <code>4</code>), so two rows result. Within the two-legged group the maximum weight is <code>12000</code> (the t-rex); within the four-legged group it is <code>20</code> (the dog).</li>
+<li>The quotient <code>weight/legs</code> equals <code>2</code> for both cat (<code>10/4</code>) and ferret (<code>10/4</code>) under integer division, so those two animals form one group. The row <code>2|2</code> means that group has a count of <code>2</code> rows sharing the quotient <code>2</code>.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>Aggregation collapses many rows into a single summary value. The aggregate functions <code>max</code>, <code>min</code>, <code>count</code>, <code>sum</code>, and <code>avg</code> fold a column down to one result, and only rows that survive the <code>where</code> clause are included. <code>count(*)</code> counts rows, while <code>count(distinct ...)</code> counts how many different values a column holds. The <code>group by</code> clause partitions rows into groups so that aggregates apply to each group independently, and you can group by several columns or by a full expression, with one group per unique combination of values. <code>having</code> filters whole groups after aggregation and may itself call aggregate functions, whereas <code>where</code> filters individual rows beforehand; the deciding question is always whether the condition needs a group summary. Finally, in a grouped query, include at least one aggregate column and trust a non-aggregate column only when the aggregation determines which row supplies it.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>This checkpoint models the grouping idea in plain Python: each animal is a tuple, <code>groups</code> plays the role of <code>group by legs</code>, and the final loop computes one <code>max(weight)</code> per group. Everything here uses only Python you have already seen earlier in the course (tuple unpacking in a <code>for</code> loop, a dictionary, and appending to a list), so read it slowly and match each piece to the SQL it mirrors. Stepping through it draws the <strong>environment diagram</strong> of that accumulation: the <code>animals</code> tuples sit on the heap while the <code>groups</code> dict grows two keys, <code>4</code> then <code>2</code>, each pointing at a weight list that lengthens as the loop rebinds <code>name</code>, <code>legs</code>, and <code>weight</code> per row, before the final loop reads each <code>max(groups[legs])</code> back out. Before you step through the block below, write down three predictions: which animal is the first whose weight lands in an existing bucket, how many times <code>groups[legs] = []</code> runs, and, since the four-legged rows come first, which legs value prints first.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #657b83">animals</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[</span>
+    <span style="color: #657b83">(</span><span style="color: #2aa198">&quot;dog&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">20</span><span style="color: #657b83">),</span>
+    <span style="color: #657b83">(</span><span style="color: #2aa198">&quot;cat&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">),</span>
+    <span style="color: #657b83">(</span><span style="color: #2aa198">&quot;ferret&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">),</span>
+    <span style="color: #657b83">(</span><span style="color: #2aa198">&quot;t-rex&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">12000</span><span style="color: #657b83">),</span>
+    <span style="color: #657b83">(</span><span style="color: #2aa198">&quot;penguin&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">),</span>
+    <span style="color: #657b83">(</span><span style="color: #2aa198">&quot;bird&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">6</span><span style="color: #657b83">),</span>
+<span style="color: #657b83">]</span>
+
+<span style="color: #657b83">groups</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">{}</span>
+<span style="color: #859900">for</span> <span style="color: #657b83">name,</span> <span style="color: #657b83">legs,</span> <span style="color: #657b83">weight</span> <span style="color: #859900">in</span> <span style="color: #657b83">animals:</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">legs</span> <span style="color: #859900">not</span> <span style="color: #859900">in</span> <span style="color: #657b83">groups:</span>
+        <span style="color: #657b83">groups[legs]</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[]</span>
+    <span style="color: #657b83">groups[legs]</span><span style="color: #93a1a1">.</span><span style="color: #657b83">append(weight)</span>
+
+<span style="color: #859900">for</span> <span style="color: #657b83">legs</span> <span style="color: #859900">in</span> <span style="color: #268bd2">sorted</span><span style="color: #657b83">(groups):</span>
+    <span style="color: #268bd2">print</span><span style="color: #657b83">(legs,</span> <span style="color: #268bd2">max</span><span style="color: #657b83">(groups[legs]))</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/f0831cd6dbc0.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>Step through it and check each prediction. The dog creates the first bucket, so cat is the first weight to join an existing one, and the bucket-creating line runs only twice, once per distinct key, not per row. Although <code>4</code> enters <code>groups</code> first, <code>sorted(groups)</code> puts <code>2</code> ahead, so the printed lines are <code>2 12000</code> then <code>4 20</code>, the same rows the SQL query returns.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>4.3-E Recursive Select Statements</span></a><a class='pg pg-next' href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>4.4-A Facts, Queries, and Logical Matching</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#an-intuitive-analogy'>An Intuitive Analogy</a></li><li><a href='#aggregate-functions'>Aggregate Functions</a></li><li><a href='#counting-rows-and-counting-distinct-values'>Counting Rows and Counting Distinct Values</a></li><li><a href='#grouping-rows-with-group-by'>Grouping Rows With group by</a></li><li><a href='#grouping-by-multiple-expressions'>Grouping by Multiple Expressions</a></li><li><a href='#where-versus-having'>where Versus having</a></li><li><a href='#non-aggregate-columns-in-grouped-queries'>Non-Aggregate Columns in Grouped Queries</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

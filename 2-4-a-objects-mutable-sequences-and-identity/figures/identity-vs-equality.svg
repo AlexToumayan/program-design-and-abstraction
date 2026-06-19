@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 332" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- ===== panel titles ===== -->
+  <text x="170" y="32" text-anchor="middle" font-size="16" font-weight="bold" fill="#073642">Same object (aliasing)</text>
+  <text x="510" y="32" text-anchor="middle" font-size="16" font-weight="bold" fill="#073642">Equal but separate</text>
+
+  <!-- divider between panels -->
+  <line x1="340" y1="18" x2="340" y2="270" stroke="#93a1a1" stroke-width="1.5" stroke-dasharray="4 5"/>
+
+  <!-- ================= LEFT panel: a and b share ONE list ================= -->
+  <!-- name tag a -->
+  <rect x="20" y="64" width="80" height="44" rx="12" fill="#fdf6e3" stroke="#073642" stroke-width="2"/>
+  <text x="60" y="92" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">a</text>
+  <!-- name tag b -->
+  <rect x="20" y="178" width="80" height="44" rx="12" fill="#fdf6e3" stroke="#073642" stroke-width="2"/>
+  <text x="60" y="206" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">b</text>
+
+  <!-- a -> list arrow (blue, converging) -->
+  <line x1="102" y1="86" x2="186" y2="134" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="180,131 191,137 179,143" fill="#268bd2"/>
+  <!-- b -> list arrow (blue, converging) -->
+  <line x1="102" y1="200" x2="186" y2="152" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="179,143 191,149 180,155" fill="#268bd2"/>
+
+  <!-- the ONE shared list box -->
+  <rect x="192" y="120" width="120" height="46" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="252" y="150" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">[1, 2, 3]</text>
+  <text x="252" y="190" text-anchor="middle" font-size="12" fill="#93a1a1">one list, two names</text>
+
+  <!-- left caption: identity result -->
+  <text x="170" y="250" text-anchor="middle" font-size="14" font-family="monospace" fill="#2aa198">a is b  &#8594;  True</text>
+
+  <!-- ================= RIGHT panel: c and d, two separate lists ================= -->
+  <!-- name tag c -->
+  <rect x="360" y="64" width="80" height="44" rx="12" fill="#fdf6e3" stroke="#073642" stroke-width="2"/>
+  <text x="400" y="92" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">c</text>
+  <!-- name tag d -->
+  <rect x="360" y="178" width="80" height="44" rx="12" fill="#fdf6e3" stroke="#073642" stroke-width="2"/>
+  <text x="400" y="206" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">d</text>
+
+  <!-- c -> list 1 arrow (blue) -->
+  <line x1="442" y1="86" x2="526" y2="86" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="524,80 535,86 524,92" fill="#268bd2"/>
+  <!-- d -> list 2 arrow (blue) -->
+  <line x1="442" y1="200" x2="526" y2="200" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="524,194 535,200 524,206" fill="#268bd2"/>
+
+  <!-- list box 1 (c) -->
+  <rect x="536" y="63" width="120" height="46" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="596" y="93" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">[1, 2, 3]</text>
+  <!-- list box 2 (d): soft red outline, a DIFFERENT object -->
+  <rect x="536" y="177" width="120" height="46" rx="10" fill="#ffffff" stroke="#dc322f" stroke-width="2"/>
+  <text x="596" y="207" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">[1, 2, 3]</text>
+
+  <!-- right caption: equality true, identity false -->
+  <text x="510" y="250" text-anchor="middle" font-size="14" font-family="monospace" fill="#2aa198">c == d  &#8594;  True,</text>
+  <text x="510" y="268" text-anchor="middle" font-size="14" font-family="monospace" fill="#073642">but c is d  &#8594;  False</text>
+
+  <!-- ===== bottom caption ===== -->
+  <text x="340" y="306" text-anchor="middle" font-size="13" fill="#93a1a1">== compares contents; is compares identity</text>
+  <text x="340" y="324" text-anchor="middle" font-size="13" fill="#93a1a1">(the same object in memory).</text>
+</svg>

@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 384" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- ===== title ===== -->
+  <text x="350" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#073642">The Bookmark: Iterator Position Advancing Over a Fixed List</text>
+
+  <!-- ===== the list, drawn ONCE at the top (the data that never changes) ===== -->
+  <!-- box 10 -->
+  <rect x="120" y="56" width="72" height="46" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="156" y="85" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">10</text>
+  <!-- box 20 -->
+  <rect x="192" y="56" width="72" height="46" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="228" y="85" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">20</text>
+  <!-- box 30 -->
+  <rect x="264" y="56" width="72" height="46" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="300" y="85" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">30</text>
+
+  <!-- bracket + label for the list -->
+  <line x1="120" y1="44" x2="336" y2="44" stroke="#93a1a1" stroke-width="1.5"/>
+  <line x1="120" y1="44" x2="120" y2="52" stroke="#93a1a1" stroke-width="1.5"/>
+  <line x1="336" y1="44" x2="336" y2="52" stroke="#93a1a1" stroke-width="1.5"/>
+  <text x="352" y="84" text-anchor="start" font-size="13" fill="#93a1a1">list values (never changes)</text>
+
+  <!-- ============================================================ -->
+  <!-- ROW 1: it = iter(values)  ->  position before 10            -->
+  <!-- ============================================================ -->
+  <!-- faint list outlines, identical in every row, to show data is unchanged -->
+  <rect x="120" y="148" width="72" height="40" rx="10" fill="#ffffff" stroke="#073642" stroke-width="1.5"/>
+  <text x="156" y="174" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">10</text>
+  <rect x="192" y="148" width="72" height="40" rx="10" fill="#ffffff" stroke="#073642" stroke-width="1.5"/>
+  <text x="228" y="174" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">20</text>
+  <rect x="264" y="148" width="72" height="40" rx="10" fill="#ffffff" stroke="#073642" stroke-width="1.5"/>
+  <text x="300" y="174" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">30</text>
+  <!-- bookmark caret: before the 10 box (just left of x=120) -->
+  <polygon points="116,196 124,196 120,206" fill="#268bd2"/>
+  <line x1="120" y1="206" x2="120" y2="216" stroke="#268bd2" stroke-width="2"/>
+  <!-- row code + caption -->
+  <text x="372" y="162" font-size="14" font-family="monospace" fill="#268bd2">it = iter(values)</text>
+  <text x="372" y="184" font-size="13" fill="#93a1a1">position: before 10</text>
+
+  <!-- curved next() arrow from row 1 caret to row 2 caret -->
+  <path d="M 120 220 C 96 232, 96 244, 120 256" fill="none" stroke="#073642" stroke-width="2"/>
+  <polygon points="115,250 121,258 124,248" fill="#073642"/>
+  <text x="88" y="241" text-anchor="end" font-size="12" fill="#93a1a1">next()</text>
+
+  <!-- ============================================================ -->
+  <!-- ROW 2: first = next(it) -> returns 10 ; position before 20  -->
+  <!-- ============================================================ -->
+  <rect x="120" y="232" width="72" height="40" rx="10" fill="#ffffff" stroke="#073642" stroke-width="1.5"/>
+  <text x="156" y="258" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">10</text>
+  <rect x="192" y="232" width="72" height="40" rx="10" fill="#ffffff" stroke="#073642" stroke-width="1.5"/>
+  <text x="228" y="258" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">20</text>
+  <rect x="264" y="232" width="72" height="40" rx="10" fill="#ffffff" stroke="#073642" stroke-width="1.5"/>
+  <text x="300" y="258" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">30</text>
+  <!-- bookmark caret: before the 20 box (just left of x=192) -->
+  <polygon points="188,280 196,280 192,290" fill="#268bd2"/>
+  <line x1="192" y1="290" x2="192" y2="300" stroke="#268bd2" stroke-width="2"/>
+  <!-- row code + caption -->
+  <text x="372" y="246" font-size="14" font-family="monospace" fill="#073642">first = next(it)  &#8594;  <tspan fill="#2aa198">10</tspan></text>
+  <text x="372" y="268" font-size="13" fill="#93a1a1">position: before 20</text>
+
+  <!-- curved next() arrow from row 2 caret to row 3 caret -->
+  <path d="M 192 304 C 168 316, 168 328, 192 340" fill="none" stroke="#073642" stroke-width="2"/>
+  <polygon points="187,334 193,342 196,332" fill="#073642"/>
+  <text x="160" y="325" text-anchor="end" font-size="12" fill="#93a1a1">next()</text>
+
+  <!-- ============================================================ -->
+  <!-- ROW 3: second = next(it) -> returns 20 ; position before 30 -->
+  <!-- ============================================================ -->
+  <rect x="120" y="316" width="72" height="40" rx="10" fill="#ffffff" stroke="#073642" stroke-width="1.5"/>
+  <text x="156" y="342" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">10</text>
+  <rect x="192" y="316" width="72" height="40" rx="10" fill="#ffffff" stroke="#073642" stroke-width="1.5"/>
+  <text x="228" y="342" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">20</text>
+  <rect x="264" y="316" width="72" height="40" rx="10" fill="#ffffff" stroke="#073642" stroke-width="1.5"/>
+  <text x="300" y="342" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">30</text>
+  <!-- bookmark caret: before the 30 box (just left of x=264) -->
+  <polygon points="260,364 268,364 264,374" fill="#268bd2"/>
+  <!-- row code + caption -->
+  <text x="372" y="330" font-size="14" font-family="monospace" fill="#073642">second = next(it)  &#8594;  <tspan fill="#2aa198">20</tspan></text>
+  <text x="372" y="352" font-size="13" fill="#93a1a1">position: before 30</text>
+</svg>

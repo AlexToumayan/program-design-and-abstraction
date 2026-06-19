@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>4.1 Data, Streams, and Processing Pipelines · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/' class='active'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 4</span><span class='dot'>/</span><span class='eb-sec'>4.1 Introduction</span></div><h1 class='lesson-title'>4.1 Data, Streams, and Processing Pipelines</h1><div class='reading-meta'>&#9719; approx. 19 min read <span class='rm-sep'>&middot;</span> 6 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>Everything you have built so far asked a focused question: what is the value of this one expression, what does this one function return for this one input. This lesson opens a different door. Real programs often work through enormous collections of information, far more than any person could read by hand, and they do it by moving that information through a sequence of steps.</p>
+<p>By the end of this lesson you will be able to do five things: explain what <strong>data processing</strong> means and why big data needs a program rather than a person, describe a processing <strong>pipeline</strong> as a chain of small steps, name what a <strong>stream</strong> is and what &quot;one at a time&quot; buys you, connect the <strong>sequence interface</strong> you already met in Chapter 2 to the new world of unbounded data, and explain why an <strong>infinite</strong> sequence is a rule, not a giant stored list.</p>
+<p>You will not write iterators or generators today. This lesson builds the mental picture that the rest of Chapter 4 fills in with real Python tools. The habit to carry in is the same one this course has used from day one: when something looks large or abstract, slow down and break it into the smallest meaningful pieces.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='a-conveyor-belt-in-a-factory' class='ls ls-default'>
+<h2 class='ls-h'><span>A Conveyor Belt in a Factory</span></h2>
+<div class='ls-body'>
+<p>Picture a factory line. Boxes ride along a conveyor belt past a row of workers. The first worker glances at each box and reads a label. The second worker pulls off any box that is not a real order and lets the rest pass. The third worker opens each remaining box and writes down just the order total. At the end of the belt, a clerk adds those totals into one number.</p>
+<p>Notice three things about that line. No single worker holds the whole day&#x27;s shipment at once; each one touches a single box, does one small job, and passes it along. The boxes arrive in an order, and that order is part of how the line works. And the line keeps running whether ten boxes come through or ten million, because each worker follows the same rule on every box without getting bored or tired.</p>
+<p>That factory line is the whole idea of this chapter. The boxes are <strong>data</strong>. The moving belt is a <strong>stream</strong>. The row of workers is a <strong>pipeline</strong> of processing steps. The rest of this lesson makes each of those words precise and shows the smallest version of each in Python.</p>
+</div></section>
+<section id='observations-written-down' class='ls ls-default'>
+<h2 class='ls-h'><span>Observations Written Down</span></h2>
+<div class='ls-body'>
+<p>Before we talk about &quot;big data,&quot; start with something small that fits in your hand.</p>
+<p>Imagine standing near a doorway and writing down every person who walks into a room:</p>
+<pre class='code text'><code>9:00  student
+9:01  teacher
+9:03  student
+9:04  visitor</code></pre>
+<p>Each line is one <strong>observation</strong>. It records something that happened: who entered, and when.</p>
+<p>A computer can store observations as data. Each observation might be kept as a small record with two parts, a time and a kind:</p>
+<pre class='code text'><code>time -&gt; &quot;9:00&quot;
+kind -&gt; &quot;student&quot;</code></pre>
+<p>Once the observations are stored, a program can answer questions about them: How many people entered? How many were students? At what times did visitors arrive? This is the smallest possible version of data processing. You collect observations, represent them in a program, and compute something useful from them. Everything later in this chapter is this same loop, scaled up.</p>
+</div></section>
+<section id='from-small-data-to-big-data' class='ls ls-default'>
+<h2 class='ls-h'><span>From Small Data to Big Data</span></h2>
+<div class='ls-body'>
+<p>The phrase <strong>big data</strong> usually means a collection that is too large, too fast-moving, or too tangled for a person to inspect by eye. The important word is not really &quot;big.&quot; The important idea is that the data demands systematic processing.</p>
+<p>A handful of items can be read directly:</p>
+<pre class='code text'><code>student, teacher, student, visitor</code></pre>
+<p>A flood of items cannot:</p>
+<pre class='code text'><code>millions of phone calls
+millions of clicks
+millions of sensor readings</code></pre>
+<p>For a small list, your eyes do the reading, filtering, and counting. For a large collection, the computer must do all of it: reading each item, filtering out what does not matter, counting, organizing, and summarizing.</p>
+<p>The official text frames the payoff this way: modern computers can process vast amounts of data representing many aspects of the world, and from these big data sets we can learn about human behavior in unprecedented ways. The examples it gives are concrete. We can study how language is used, what photos are taken, what topics are discussed, and how people engage with their surroundings. The point is not that every dataset is about people. The point is that real programs routinely process records produced by real activity in the world, and that scale is exactly what makes a program, rather than a person, the right tool.</p>
+</div></section>
+<section id='what-a-stream-is' class='ls ls-default'>
+<h2 class='ls-h'><span>What a Stream Is</span></h2>
+<div class='ls-body'>
+<p>Go back to the conveyor belt. In programming, a moving sequence of values like that is often called a <strong>stream</strong>.</p>
+<p>A stream is a sequence of values made available one at a time.</p>
+<p>That short sentence has three load-bearing parts:</p>
+<ul>
+<li><strong>sequence</strong> means the values come in an order; there is a first, a next, and so on.</li>
+<li><strong>values</strong> means each item is real data the program can use, not a placeholder.</li>
+<li><strong>one at a time</strong> means the program does not necessarily need the entire collection in hand at once; it can take the current value, work on it, and then ask for the next.</li>
+</ul>
+<p>This &quot;one at a time&quot; idea is the bridge from the sequences of Chapter 2 to the data processing of Chapter 4. The official text states the design directly: to process large data sets efficiently, programs are organized into pipelines of manipulations on sequential streams of data, and this chapter presents a suite of techniques to process and manipulate those streams efficiently. Hold onto two words from that sentence, <strong>pipelines</strong> and <strong>streams</strong>, because the next two sections give each one a precise meaning and a small Python example.</p>
+</div></section>
+<section id='remembering-the-chapter-2-sequence-interface' class='ls ls-default'>
+<h2 class='ls-h'><span>Remembering the Chapter 2 Sequence Interface</span></h2>
+<div class='ls-body'>
+<p>The official text begins this chapter by reminding you where streams come from: in Chapter 2 you met a <strong>sequence interface</strong>, implemented in Python by built-in data types such as <code>list</code> and <code>range</code>. Before extending that interface to unbounded data, it helps to see the two examples it names, side by side.</p>
+<p>A sequence gives you a way to treat many values as one organized collection. A <code>list</code> is the most direct kind: it stores its values right there in memory.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #657b83">events</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[</span><span style="color: #2aa198">&quot;student&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;teacher&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;student&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;visitor&quot;</span><span style="color: #657b83">]</span>
+
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">len</span><span style="color: #657b83">(events))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(events[</span><span style="color: #2aa198">0</span><span style="color: #657b83">])</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(events[</span><span style="color: #2aa198">2</span><span style="color: #657b83">])</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/2e3b7afe3074.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>4
+student
+student</code></pre>
+<p>The line that does the indexing is worth reading token by token:</p>
+<pre class='code anatomy'><code>events[0]
+├─ events ...... the list of four entry observations
+├─ [ .......... begins an index into the list
+├─ 0 .......... the position to select; positions start at 0
+├─ ] .......... ends the index
+└─ evaluates to  &quot;student&quot;</code></pre>
+<p>The first element sits at position <code>0</code>, not <code>1</code>, because Python list positions start counting at zero. So <code>events[0]</code> is <code>&quot;student&quot;</code>, and <code>events[2]</code> reaches past the teacher to the second student. The call <code>len(events)</code> reports how many elements the list holds, which is <code>4</code>.</p>
+<p>A <code>range</code> represents a sequence of numbers without writing every one of them out:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #657b83">numbers</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">range</span><span style="color: #657b83">(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">6</span><span style="color: #657b83">)</span>
+
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">list</span><span style="color: #657b83">(numbers))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">len</span><span style="color: #657b83">(numbers))</span>
+</code></pre>
+<p>Expected output:</p>
+<pre class='code text'><code>[1, 2, 3, 4, 5]
+5</code></pre>
+<p>Look at how the range is built:</p>
+<pre class='code anatomy'><code>range(1, 6)
+├─ range ...... builds a sequence of integers from a rule
+├─ ( .......... begins the inputs
+├─ 1 .......... the first value in the sequence
+├─ , .......... separates the inputs
+├─ 6 .......... the stop value, which is not included
+├─ ) .......... ends the inputs
+└─ evaluates to  the sequence 1, 2, 3, 4, 5</code></pre>
+<p>The stop value <code>6</code> marks where the sequence ends but is itself left out, so the values run <code>1, 2, 3, 4, 5</code>. The call <code>list(numbers)</code> forces that compact range to display as an ordinary list so you can see the values directly.</p>
+<p>The text names <code>list</code> and <code>range</code> together on purpose, because they show two different styles of sequence. A <code>list</code> stores all of its elements explicitly. A <code>range</code> stores only a small rule, a start, a stop, and a step, and produces values from that rule on demand. Chapter 4 is built on exactly this difference: some sequences are worth storing in full, and some are better described by a rule that hands you the next value when you ask.</p>
+</div></section>
+<section id='processing-as-a-pipeline' class='ls ls-default'>
+<h2 class='ls-h'><span>Processing as a Pipeline</span></h2>
+<div class='ls-body'>
+<p>A <strong>pipeline</strong> is a sequence of processing steps, each one taking the output of the step before it. The conveyor belt, written as a pipeline, looks like this:</p>
+<pre class='code text'><code>raw data -&gt; clean it -&gt; filter it -&gt; transform it -&gt; summarize it</code></pre>
+<p><img class="figure" src="figures/pipeline-conveyor-belt.svg" alt="The Pipeline as a Conveyor Belt"></p>
+<p>This is the same assembly line you used for transform/filter/aggregate in Section 2.3 — now the belt never has to stop, because the items arrive one at a time.</p>
+<p>Each arrow passes data forward; each step has one job. Here is that shape in real Python. Suppose you record room-entry events as small records, then keep only the student events, then reduce each of those to just its time:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #657b83">events</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[</span>
+    <span style="color: #657b83">{</span><span style="color: #2aa198">&quot;time&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&quot;9:00&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;kind&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&quot;student&quot;</span><span style="color: #657b83">},</span>
+    <span style="color: #657b83">{</span><span style="color: #2aa198">&quot;time&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&quot;9:01&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;kind&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&quot;teacher&quot;</span><span style="color: #657b83">},</span>
+    <span style="color: #657b83">{</span><span style="color: #2aa198">&quot;time&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&quot;9:03&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;kind&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&quot;student&quot;</span><span style="color: #657b83">},</span>
+    <span style="color: #657b83">{</span><span style="color: #2aa198">&quot;time&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&quot;9:04&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;kind&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&quot;visitor&quot;</span><span style="color: #657b83">},</span>
+<span style="color: #657b83">]</span>
+
+<span style="color: #657b83">student_events</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[]</span>
+<span style="color: #859900">for</span> <span style="color: #657b83">event</span> <span style="color: #859900">in</span> <span style="color: #657b83">events:</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">event[</span><span style="color: #2aa198">&quot;kind&quot;</span><span style="color: #657b83">]</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;student&quot;</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">student_events</span><span style="color: #93a1a1">.</span><span style="color: #657b83">append(event)</span>
+
+<span style="color: #657b83">student_times</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[]</span>
+<span style="color: #859900">for</span> <span style="color: #657b83">event</span> <span style="color: #859900">in</span> <span style="color: #657b83">student_events:</span>
+    <span style="color: #657b83">student_times</span><span style="color: #93a1a1">.</span><span style="color: #657b83">append(event[</span><span style="color: #2aa198">&quot;time&quot;</span><span style="color: #657b83">])</span>
+
+<span style="color: #268bd2">print</span><span style="color: #657b83">(student_times)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/1f3dfa2cdff4.json' data-mount='st1'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st1' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>[&#x27;9:00&#x27;, &#x27;9:03&#x27;]</code></pre>
+<p>This program has a clear pipeline shape, the same three stations as the factory line:</p>
+<pre class='code text'><code>all events -&gt; student events -&gt; student times</code></pre>
+<p>The condition that drives the filter is worth reading one token at a time, because dictionary lookup inside an <code>if</code> is the heart of this pipeline:</p>
+<pre class='code anatomy'><code>if event[&quot;kind&quot;] == &quot;student&quot;:
+├─ if .......... begins a conditional; run the body only when the test is true
+├─ event ....... the current record, one dictionary from the list
+├─ [&quot;kind&quot;] .... looks up the value stored under the key &quot;kind&quot;
+├─ == .......... compares the two sides for equality
+├─ &quot;student&quot; ... the kind we want to keep
+├─ : ........... ends the header and begins the indented body
+└─ action: when this record&#x27;s kind is &quot;student&quot;, keep the record</code></pre>
+<p>Nothing magical is happening here. The list <code>events</code> holds four dictionaries, each one observation. The strings <code>&quot;time&quot;</code> and <code>&quot;kind&quot;</code> are keys, and <code>event[&quot;kind&quot;]</code> asks for the kind stored in one record. The first <code>for</code> loop filters the records down to students; the second <code>for</code> loop transforms each surviving record into just its time. The power is not in any one step. It is in applying the same simple steps, in order, to every record.</p>
+</div></section>
+<section id='why-pipelines-and-laziness-matter' class='ls ls-default'>
+<h2 class='ls-h'><span>Why Pipelines and Laziness Matter</span></h2>
+<div class='ls-body'>
+<p>For four events, the pipeline in (3) looks like overkill. A person can read four records. For four million events, the pipeline is the only thing that works, and the reason connects directly to streams.</p>
+<p>First, the pipeline scales because the rule never changes. The same logic applies to event number four and to event number four million:</p>
+<pre class='code text'><code>read an event
+check whether it is a student event
+if yes, keep its time
+move to the next event</code></pre>
+<p>The program does not get tired, and it does not skip a record because the list got boring. It follows the same rule every time. This is why data processing is a natural extension of abstraction: you write one small rule, then apply it across many values.</p>
+<p>Second, and this is the idea Chapter 4 will keep returning to, processing items one at a time lets a program avoid building giant intermediate collections. Look again at (3): it builds a whole <code>student_events</code> list, then walks it again to build <code>student_times</code>. For four records that waste is invisible. For four million records, that intermediate list is four million dictionaries sitting in memory just to be read once and thrown away. A streaming version would instead read one event, and if it is a student event, immediately hand its time downstream, keeping only one record in flight at a time:</p>
+<pre class='code text'><code>read one event ──▶ is it a student? ──▶ if yes, emit its time ──▶ next event</code></pre>
+<p>Doing work only when a value is actually needed, instead of computing a whole collection up front, is called <strong>lazy</strong> evaluation. Laziness is what makes the &quot;one at a time&quot; promise of a stream pay off: a lazy pipeline can run over a collection far larger than memory, because it never holds more than the item it is currently working on. It is also what lets a pipeline run over a sequence that has no end at all, which is the next idea.</p>
+</div></section>
+<section id='unbounded-collections' class='ls ls-default'>
+<h2 class='ls-h'><span>Unbounded Collections</span></h2>
+<div class='ls-body'>
+<p>The official text now extends the sequence interface in a specific direction. In Chapter 2, the sequences you met already existed and had a current size. A list has a length right now. A string has a length right now. A tree has a shape right now. Chapter 4 extends the concept of sequential data to include collections that have <strong>unbounded</strong> or even <strong>infinite</strong> size: collections too large to store completely, or that conceptually keep going forever.</p>
+<p>There are two different reasons a collection can be unbounded, and the text names an example of each.</p>
+<p>First, some sequences are infinite because they follow a mathematical rule with no last term:</p>
+<pre class='code text'><code>1, 2, 3, 4, 5, ...</code></pre>
+<p>The positive integers never run out. Whatever integer you name, there is always one more.</p>
+<p>Second, some sequences are unbounded because the world keeps producing new events while the program runs:</p>
+<pre class='code text'><code>telephone calls through a cell tower
+mouse movements made by a user
+acceleration measurements from aircraft sensors</code></pre>
+<p>These are the exact real-world examples the official text gives. The collection is not finished simply because time has not stopped.</p>
+</div></section>
+<section id='infinite-does-not-mean-stored-forever' class='ls ls-default'>
+<h2 class='ls-h'><span>Infinite Does Not Mean Stored Forever</span></h2>
+<div class='ls-body'>
+<p>Here is the trap to avoid. It is tempting to imagine an infinite sequence as an impossibly long list, somehow already sitting in memory. That is not the right mental model, and no computer could hold it.</p>
+<p>An infinite sequence is represented by a <strong>rule for producing the next value</strong>, plus just enough remembered state to apply the rule. For the positive integers, the rule and state are tiny:</p>
+<pre class='code text'><code>start at 1
+add 1 whenever the next value is needed</code></pre>
+<p>Here is a finite slice of that idea in Python. It counts five values, but the underlying rule could run forever:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (4)</span>
+<span style="color: #657b83">current</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">for</span> <span style="color: #657b83">step</span> <span style="color: #859900">in</span> <span style="color: #268bd2">range</span><span style="color: #657b83">(</span><span style="color: #2aa198">5</span><span style="color: #657b83">):</span>
+    <span style="color: #268bd2">print</span><span style="color: #657b83">(current)</span>
+    <span style="color: #657b83">current</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">current</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/5b05b989bdd1.json' data-mount='st2'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st2' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>1
+2
+3
+4
+5</code></pre>
+<p>The single statement that advances the sequence is the whole rule:</p>
+<pre class='code anatomy'><code>current = current + 1
+├─ current ..... the name that will hold the next value
+├─ = ........... assignment: bind the name on the left to the value on the right
+├─ current ..... the value shown a moment ago
+├─ + ........... addition
+├─ 1 .......... the step that moves to the next integer
+└─ action: replace current with the integer that follows it</code></pre>
+<p>The variable <code>current</code> holds the number the program is ready to show. After printing it, the program updates <code>current</code> to the next number. This code stops after five values only because <code>range(5)</code> tells the loop to run five times. The rule itself has no stopping point:</p>
+<pre class='code text'><code>1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; 6 -&gt; ...</code></pre>
+<p>The program never stores every positive integer. It stores one number, <code>current</code>, and the rule for moving past it. That is the pattern the rest of Chapter 4 generalizes: represent a possibly endless sequence by state plus a rule, and produce values lazily, one at a time, only as they are needed.</p>
+</div></section>
+<section id='a-gentle-bridge-to-fibonacci-numbers' class='ls ls-default'>
+<h2 class='ls-h'><span>A Gentle Bridge to Fibonacci Numbers</span></h2>
+<div class='ls-body'>
+<p>The official text names a second mathematical infinite sequence: the <strong>Fibonacci numbers</strong>. They are a small step harder than counting, and seeing why is instructive.</p>
+<p>The Fibonacci sequence begins:</p>
+<pre class='code text'><code>0, 1, 1, 2, 3, 5, 8, 13, ...</code></pre>
+<p>Each new value is the sum of the two values before it:</p>
+<pre class='code text'><code>next value = previous value + value before previous value</code></pre>
+<p>This is harder than counting because the next value depends on two remembered pieces of information instead of one. Counting needs a single memory slot, the current number:</p>
+<pre class='code text'><code>current -&gt; next
+1       -&gt; 2
+2       -&gt; 3
+3       -&gt; 4</code></pre>
+<p>Fibonacci needs two memory slots, the previous value and the current value:</p>
+<pre class='code text'><code>previous  current  -&gt; next
+0         1        -&gt; 1
+1         1        -&gt; 2
+1         2        -&gt; 3
+2         3        -&gt; 5</code></pre>
+<p>Here is a finite program that prints the first several Fibonacci numbers using exactly those two slots:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (5)</span>
+<span style="color: #657b83">previous</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+<span style="color: #657b83">current</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">1</span>
+
+<span style="color: #859900">for</span> <span style="color: #657b83">step</span> <span style="color: #859900">in</span> <span style="color: #268bd2">range</span><span style="color: #657b83">(</span><span style="color: #2aa198">8</span><span style="color: #657b83">):</span>
+    <span style="color: #268bd2">print</span><span style="color: #657b83">(previous)</span>
+    <span style="color: #657b83">next_value</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">previous</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">current</span>
+    <span style="color: #657b83">previous</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">current</span>
+    <span style="color: #657b83">current</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">next_value</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/22dced5a3863.json' data-mount='st3'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st3' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>0
+1
+1
+2
+3
+5
+8
+13</code></pre>
+<p>The three assignments at the bottom of the loop must run in this order, and the line that computes the new value reads like this:</p>
+<pre class='code anatomy'><code>next_value = previous + current
+├─ next_value .. a temporary name for the value about to join the sequence
+├─ = ........... assignment
+├─ previous .... the older of the two remembered values
+├─ + ........... addition
+├─ current ..... the newer of the two remembered values
+└─ action: compute the next Fibonacci number and hold it aside</code></pre>
+<p>After that, <code>previous = current</code> slides the current value back into the previous slot, and <code>current = next_value</code> moves the freshly computed value into the current slot. The temporary name <code>next_value</code> matters: without it, overwriting <code>previous</code> first would destroy the value the next line still needs. The program is not storing the whole infinite sequence; it is storing only the two numbers it needs to produce the next one. That state-plus-rule pattern is the key idea Chapter 4 uses again and again.</p>
+</div></section>
+<section id='real-streams-from-the-world' class='ls ls-default'>
+<h2 class='ls-h'><span>Real Streams from the World</span></h2>
+<div class='ls-body'>
+<p>The official text closes the introduction with three real-world unbounded streams, the same three named earlier: the sequence of telephone calls sent through a cell tower, the sequence of mouse movements made by a computer user, and the sequence of acceleration measurements from sensors on an aircraft. Each one shares the same basic shape:</p>
+<pre class='code text'><code>event 1 -&gt; event 2 -&gt; event 3 -&gt; event 4 -&gt; ...</code></pre>
+<p>A cell tower receives call records throughout the day. A mouse reports movement events many times per second. An aircraft sensor measures acceleration continuously while the plane flies.</p>
+<p>Strictly speaking, these are not infinite in the mathematical sense. A particular sensor can fail, a flight ends, a computer shuts down. They are unbounded from the program&#x27;s point of view, because the program does not know in advance how many events will arrive. That uncertainty changes how you design the program. Instead of always saying:</p>
+<pre class='code text'><code>load the whole collection, then process it</code></pre>
+<p>you often want to say:</p>
+<pre class='code text'><code>process each item as it arrives</code></pre>
+<p>That shift, from &quot;store everything, then work&quot; to &quot;work on each value as it comes,&quot; is the bridge to the rest of Chapter 4: iterators, generators, streams, and lazy computation, which give you real Python tools for exactly this pattern.</p>
+</div></section>
+<section id='step-by-step-trace-one-item-at-a-time' class='ls ls-default'>
+<h2 class='ls-h'><span>Step-by-Step Trace: One Item at a Time</span></h2>
+<div class='ls-body'>
+<p>To make &quot;one at a time&quot; concrete, trace the filter loop from (3) by hand. The table shows the loop variable <code>event</code> and the growing result <code>student_events</code> after each pass. Read it top to bottom; each row is one trip through the loop.</p>
+<div class='table-wrap'><table><thead><tr>
+<th>Pass</th>
+<th><code>event</code> (current record)</th>
+<th>kind</th>
+<th>kept?</th>
+<th><code>student_events</code> after pass</th>
+</tr></thead><tbody>
+<tr>
+<td>start</td>
+<td>(none yet)</td>
+<td>—</td>
+<td>—</td>
+<td><code>[]</code></td>
+</tr>
+<tr>
+<td>1</td>
+<td><code>{&quot;time&quot;: &quot;9:00&quot;, &quot;kind&quot;: &quot;student&quot;}</code></td>
+<td>student</td>
+<td>yes</td>
+<td><code>[{9:00 student}]</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>{&quot;time&quot;: &quot;9:01&quot;, &quot;kind&quot;: &quot;teacher&quot;}</code></td>
+<td>teacher</td>
+<td>no</td>
+<td><code>[{9:00 student}]</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>{&quot;time&quot;: &quot;9:03&quot;, &quot;kind&quot;: &quot;student&quot;}</code></td>
+<td>student</td>
+<td>yes</td>
+<td><code>[{9:00 student}, {9:03 student}]</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>{&quot;time&quot;: &quot;9:04&quot;, &quot;kind&quot;: &quot;visitor&quot;}</code></td>
+<td>visitor</td>
+<td>no</td>
+<td><code>[{9:00 student}, {9:03 student}]</code></td>
+</tr>
+</tbody></table></div>
+<p>Two things stand out. The name <code>event</code> is rebound to a different record on every pass; it never holds more than one record at a time. And the result grows only on the passes where the test is true. The machine is not looking at the whole list at once; it is looking at exactly one record, deciding, and moving on. That is the streaming picture in miniature, and it is why the same loop works whether the list has four records or four million.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<p>One trap is assuming &quot;data processing&quot; must involve advanced mathematics. Many useful pipelines are built from a few plain operations: read, filter, transform, count, and summarize. The skill is composing simple steps, not inventing hard math.</p>
+<p>Another trap is believing a stream must already exist as a list. A list is one way to represent a sequence, but the rest of Chapter 4 studies ways to work with values that are produced over time and never fully stored.</p>
+<p>A third trap is imagining an infinite sequence as something held in memory. A program cannot store infinitely many values. It stores a rule, plus just enough state, to produce the next value when it is needed.</p>
+<p>A fourth trap is assuming a pipeline must build each intermediate collection in full. Building a whole list just to read it once and discard it can waste enormous memory at scale. A lazy, one-at-a-time pipeline keeps only the value it is currently processing, which is what lets it handle collections larger than memory.</p>
+<p>A fifth trap is rushing past order. Streams are sequential. The program sees one item, then the next, then the next, and that order is part of the mental model, not a detail to ignore.</p>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>Why is a list of four events easy to inspect by eye, while a list of four million events needs a program?</li>
+<li>In your own words, what does it mean for a stream to provide values &quot;one at a time&quot;?</li>
+<li>Run the filter-then-transform pipeline from (3) by hand on this new list, keeping the time of each student event: <code>[{&quot;time&quot;: &quot;10:00&quot;, &quot;kind&quot;: &quot;teacher&quot;}, {&quot;time&quot;: &quot;10:02&quot;, &quot;kind&quot;: &quot;student&quot;}, {&quot;time&quot;: &quot;10:05&quot;, &quot;kind&quot;: &quot;visitor&quot;}, {&quot;time&quot;: &quot;10:06&quot;, &quot;kind&quot;: &quot;student&quot;}]</code>. What does <code>student_times</code> print?</li>
+<li>Why is the sequence of positive integers not stored as one enormous list in memory?</li>
+<li>What two pieces of information does the Fibonacci program keep in order to produce the next value, and why does it need a temporary name?</li>
+<li>Why are mouse movements and aircraft sensor readings treated as unbounded streams rather than fixed lists?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li>Four events fit in your working memory, so you can read every item directly. Four million events hide whatever pattern you care about inside far too many records, so a program must do the reading, filtering, and counting for you.</li>
+<li>The stream does not hand over the whole collection at once. It gives the program the current value, and later, when the program asks, it gives the next value. The program can work on each value without holding the entire collection.</li>
+<li><code>[&#x27;10:02&#x27;, &#x27;10:06&#x27;]</code>. The first loop keeps only the two student records, and the second loop reduces each kept record to its <code>&quot;time&quot;</code>, in order.</li>
+<li>There is no final positive integer, so Python can never finish building a complete list of all of them. Instead the sequence is described by a rule, &quot;add one to get the next,&quot; that produces values as needed.</li>
+<li>It keeps the previous Fibonacci number and the current one; their sum is the next value. It needs the temporary name <code>next_value</code> so that computing and storing the new value does not overwrite a slot the following assignment still depends on.</li>
+<li>Those events keep being produced by the world over time, and the program does not know in advance how many will arrive. So the program is written to handle the next event as it comes, rather than expecting a fixed, finished list.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>Chapter 4 begins with <strong>data processing</strong>: using programs to work through collections of information that are too large, too fast, or too complex to handle by hand. The core mental model is a <strong>stream</strong> of values riding through a <strong>pipeline</strong> of small steps, where each step can filter, transform, count, or summarize. Some sequences are finite and stored directly, like a small <code>list</code>. Some are described compactly by a rule, like a <code>range</code>. And some are <strong>unbounded</strong> or <strong>infinite</strong>, like the positive integers, the Fibonacci numbers, or the endless stream of calls, mouse movements, and sensor readings the world produces, so a program must represent them as state plus a rule and process their values <strong>lazily</strong>, one at a time. Working this way lets a program run over collections larger than memory, and even over sequences with no end. That sets up the next step: building Python tools, iterators, generators, and streams, that represent sequential data without requiring every value to be stored at once.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>The following program is small enough to trace by hand but has the same pipeline shape as a real data-processing task: read records, keep only the ones that match, and accumulate a summary. Stepping through it draws the <strong>environment diagram</strong> this loop builds: a single global frame where <code>event</code> is rebound to one dictionary at a time and <code>total_call_time</code> is updated in place, with no new frame ever pushed onto the stack. Because this loop never calls a function, the environment stays simple — recall from Chapter 1 that a new frame only opens on a function call, so this trace is meant to be straightforward, not a trick. Before you step through the block below, write down three predictions: how many frames will appear over the whole run, what <code>total_call_time</code> holds after each of the three loop passes, and which line runs immediately after the test on the move event.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (6)</span>
+<span style="color: #657b83">events</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[</span>
+    <span style="color: #657b83">{</span><span style="color: #2aa198">&quot;kind&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&quot;call&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;duration&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">3</span><span style="color: #657b83">},</span>
+    <span style="color: #657b83">{</span><span style="color: #2aa198">&quot;kind&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&quot;move&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;duration&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">1</span><span style="color: #657b83">},</span>
+    <span style="color: #657b83">{</span><span style="color: #2aa198">&quot;kind&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&quot;call&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;duration&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">5</span><span style="color: #657b83">},</span>
+<span style="color: #657b83">]</span>
+
+<span style="color: #657b83">total_call_time</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">for</span> <span style="color: #657b83">event</span> <span style="color: #859900">in</span> <span style="color: #657b83">events:</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">event[</span><span style="color: #2aa198">&quot;kind&quot;</span><span style="color: #657b83">]</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;call&quot;</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">total_call_time</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">total_call_time</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">event[</span><span style="color: #2aa198">&quot;duration&quot;</span><span style="color: #657b83">]</span>
+
+<span style="color: #268bd2">print</span><span style="color: #657b83">(total_call_time)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/332731a462c0.json' data-mount='st4'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st4' hidden></div></figure>
+<p>Step through it one line at a time and check each prediction. Everything happens in a single global frame, which holds <code>events</code>, <code>total_call_time</code>, and <code>event</code>; no other frame ever opens, because this pipeline is just a loop. You should have seen <code>event</code> rebound to a different dictionary on each pass, never holding more than one record at a time, and <code>total_call_time</code> change only when the current event&#x27;s kind is <code>&quot;call&quot;</code>: it starts at <code>0</code>, becomes <code>3</code> after the first call event, stays <code>3</code> through the move event, where the failed test skips the accumulation line and control returns straight to the <code>for</code> line, and becomes <code>8</code> after the second call event. The final printed value is <code>8</code>, and the loop visits the sequence strictly in order, one item then the next.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>3.5-C Data as Programs and Universal Machines</span></a><a class='pg pg-next' href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>4.2-A Lazy Computation and Iterator State</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#a-conveyor-belt-in-a-factory'>A Conveyor Belt in a Factory</a></li><li><a href='#observations-written-down'>Observations Written Down</a></li><li><a href='#from-small-data-to-big-data'>From Small Data to Big Data</a></li><li><a href='#what-a-stream-is'>What a Stream Is</a></li><li><a href='#remembering-the-chapter-2-sequence-interface'>Remembering the Chapter 2 Sequence Interface</a></li><li><a href='#processing-as-a-pipeline'>Processing as a Pipeline</a></li><li><a href='#why-pipelines-and-laziness-matter'>Why Pipelines and Laziness Matter</a></li><li><a href='#unbounded-collections'>Unbounded Collections</a></li><li><a href='#infinite-does-not-mean-stored-forever'>Infinite Does Not Mean Stored Forever</a></li><li><a href='#a-gentle-bridge-to-fibonacci-numbers'>A Gentle Bridge to Fibonacci Numbers</a></li><li><a href='#real-streams-from-the-world'>Real Streams from the World</a></li><li><a href='#step-by-step-trace-one-item-at-a-time'>Step-by-Step Trace: One Item at a Time</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

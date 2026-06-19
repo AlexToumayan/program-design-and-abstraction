@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>1.7 Mutual Recursion and Recursive Printing · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/' class='active'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 1</span><span class='dot'>/</span><span class='eb-sec'>1.7 Recursive Functions</span></div><h1 class='lesson-title'>1.7 Mutual Recursion and Recursive Printing</h1><div class='reading-meta'>&#9719; approx. 16 min read <span class='rm-sep'>&middot;</span> 5 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>You already know that a recursive function can call itself. This lesson covers two ideas that grow out of that.</p>
+<p>The first is <strong>mutual recursion</strong>: a recursive process that is split across two functions that call each other instead of one function that calls itself. By the end you will be able to read a pair like <code>is_even</code> and <code>is_odd</code>, explain why each call still gets its own frame, and turn a mutually recursive pair back into a single function when you want to.</p>
+<p>The second is <strong>recursive printing</strong>: using <code>print</code> inside a recursive function to make the shape of the computation visible. You will learn the single most important habit for this, which is that code written <strong>before</strong> a recursive call runs on the way down, and code written <strong>after</strong> it runs on the way back up. That one distinction explains the entire output of the <code>cascade</code> function below.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='two-functions-passing-the-same-task-back-and-forth' class='ls ls-default'>
+<h2 class='ls-h'><span>Two Functions Passing the Same Task Back and Forth</span></h2>
+<div class='ls-body'>
+<p>Picture two clerks at adjacent desks who refuse to do each other&#x27;s job. Clerk E only knows how to answer &quot;is this number even?&quot; and Clerk O only knows how to answer &quot;is this number odd?&quot; Neither one can solve a problem alone. When Clerk E is handed the number 4, the only move E knows is to subtract one and slide the number 3 over to Clerk O, asking &quot;is 3 odd?&quot; O subtracts one and slides 2 back to E. The number shrinks by one with every handoff until it reaches 0, where each clerk has a memorized answer: E knows 0 is even, so E can answer without passing anything along.</p>
+<p>That back-and-forth between two functions that depend on each other is <strong>mutual recursion</strong>. The work is genuinely shared: neither function is complete on its own, but together they decide the question.</p>
+</div></section>
+<section id='even-and-odd-defined-in-terms-of-each-other' class='ls ls-default'>
+<h2 class='ls-h'><span>Even and Odd, Defined in Terms of Each Other</span></h2>
+<div class='ls-body'>
+<p>The cleanest example of mutual recursion is the definition of even and odd for non-negative integers. We can describe these two properties entirely in terms of each other, plus one fact we just know outright:</p>
+<ul>
+<li>A number is <strong>even</strong> if it is one more than an odd number.</li>
+<li>A number is <strong>odd</strong> if it is one more than an even number.</li>
+<li><code>0</code> is even.</li>
+</ul>
+<p>Notice that the first two bullets are circular on purpose. &quot;Even&quot; is defined using &quot;odd,&quot; and &quot;odd&quot; is defined using &quot;even.&quot; The third bullet is what stops the circle from spinning forever. It is the base case: a fact that needs no further question.</p>
+<p>Reading the definition the way the code will use it, each property points at the smaller number just below it. To decide whether 4 is even, look at whether 3 is odd. To decide whether 3 is odd, look at whether 2 is even. The number marches down toward 0, and 0 has a fixed answer.</p>
+<p>Here is the same idea as two Python functions. This is the official definition from the text, reproduced exactly:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">is_even</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">True</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">is_odd(n</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">is_odd</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">False</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">is_even(n</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+
+<span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">is_even(</span><span style="color: #2aa198">4</span><span style="color: #657b83">)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/8a259bac2fc8.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>Each function has the same shape you saw in ordinary recursion: a base case (<code>n == 0</code>) and a recursive case. The only new thing is that the recursive case calls the <strong>other</strong> function, not itself.</p>
+</div></section>
+<section id='follow-the-line-the-recursive-case-of-is-even' class='ls ls-default'>
+<h2 class='ls-h'><span>Follow the Line: The Recursive Case of <code>is_even</code></span></h2>
+<div class='ls-body'>
+<p>No new Python rule appears in mutual recursion. The line <code>return is_odd(n-1)</code> is just a return statement wrapped around a call expression, the same machinery you already know. What is worth slowing down on is exactly what each piece does, because the call hands control to a different function:</p>
+<pre class='code anatomy'><code>return is_odd(n-1)
+├─ n-1 ............ build the next-smaller number to ask about
+├─ is_odd(...) .... ask the partner function whether that number is odd
+├─ return ........ hand that partner&#x27;s answer straight back to whoever called is_even
+└─ performs ...... return the result of the is_odd call as this call&#x27;s own value</code></pre>
+<p>The whole statement does not compute anything new on its own. It delegates: it builds a smaller argument, calls the partner, and returns whatever the partner returns. The <code>is_odd</code> function works the same way in reverse. This is why mutual recursion feels no harder than ordinary recursion once you see it: the next frame simply belongs to a different function.</p>
+</div></section>
+<section id='tracing-is-even4-by-hand' class='ls ls-default'>
+<h2 class='ls-h'><span>Tracing <code>is_even(4)</code> by Hand</span></h2>
+<div class='ls-body'>
+<p>Let us walk the handoffs down to the base case. Each function checks <code>n == 0</code>; if not, it calls its partner with <code>n-1</code>.</p>
+<pre class='code text'><code>is_even(4)
+  n is not 0, so return is_odd(3)
+
+is_odd(3)
+  n is not 0, so return is_even(2)
+
+is_even(2)
+  n is not 0, so return is_odd(1)
+
+is_odd(1)
+  n is not 0, so return is_even(0)
+
+is_even(0)
+  base case: return True</code></pre>
+<p>The argument shrinks by one at every step and the function name flips even, odd, even, odd. When <code>is_even(0)</code> finally hits its base case, it produces <code>True</code>. Now that value travels back up the chain. Because every recursive case is just <code>return &lt;partner call&gt;</code>, nobody modifies the answer on the way up; each call returns exactly what it received:</p>
+<pre class='code text'><code>is_even(0) -&gt; True
+is_odd(1)  -&gt; True
+is_even(2) -&gt; True
+is_odd(3)  -&gt; True
+is_even(4) -&gt; True</code></pre>
+<p>So <code>result</code> is bound to <code>True</code>. That is correct: 4 really is even.</p>
+</div></section>
+<section id='a-bridge-you-can-check-is-even3' class='ls ls-default'>
+<h2 class='ls-h'><span>A Bridge You Can Check: <code>is_even(3)</code></span></h2>
+<div class='ls-body'>
+<p>Run the same machine on an odd number to convince yourself it reports odd numbers correctly. The handoffs are identical, but the base case lands on the other function:</p>
+<pre class='code text'><code>is_even(3)
+  n is not 0, so return is_odd(2)
+
+is_odd(2)
+  n is not 0, so return is_even(1)
+
+is_even(1)
+  n is not 0, so return is_odd(0)
+
+is_odd(0)
+  base case: return False</code></pre>
+<p>This time the chain bottoms out in <code>is_odd(0)</code>, whose base case is <code>return False</code>. That <code>False</code> rides back up unchanged, so <code>is_even(3)</code> is <code>False</code>. The two base cases, <code>True</code> in <code>is_even</code> and <code>False</code> in <code>is_odd</code>, are what give the pair its opposite answers.</p>
+</div></section>
+<section id='turning-two-functions-back-into-one' class='ls ls-default'>
+<h2 class='ls-h'><span>Turning Two Functions Back Into One</span></h2>
+<div class='ls-body'>
+<p>Mutual recursion is a convenience, not a new kind of power. Anything you can do with two functions calling each other, you can do with one function calling itself. To see this, you can <strong>inline</strong> one function into the other: take the body of <code>is_odd</code>, paste it where <code>is_odd(n-1)</code> was called, and replace each <code>n</code> in that pasted body with <code>n-1</code> to account for the argument that was passed in.</p>
+<p>Here is the result from the text, written as an interactive session exactly as it appears in the original:</p>
+<pre class='code text'><code>&gt;&gt;&gt; def is_even(n):
+        if n == 0:
+            return True
+        else:
+            if (n-1) == 0:
+                return False
+            else:
+                return is_even((n-1)-1)</code></pre>
+<p>Read what happened to the structure. The outer <code>if n == 0: return True</code> is the original <code>is_even</code> base case, untouched. The <code>else</code> branch used to be <code>return is_odd(n-1)</code>; in its place we now have the entire body of <code>is_odd</code>, with every <code>n</code> rewritten as <code>n-1</code>. So <code>is_odd</code>&#x27;s base case <code>if n == 0: return False</code> became <code>if (n-1) == 0: return False</code>, and <code>is_odd</code>&#x27;s recursive case <code>return is_even(n-1)</code> became <code>return is_even((n-1)-1)</code>. We leave it written as <code>(n-1)-1</code> rather than simplifying to <code>n-2</code> so you can see exactly where it came from — they are the same number.</p>
+<p>This single function behaves identically to the pair. The lesson is that mutual recursion is no more mysterious than simple recursion. What it buys you is <strong>abstraction</strong>: keeping <code>is_even</code> and <code>is_odd</code> as separate, individually meaningful functions is easier to read and modify than one function with a nested base case buried inside it.</p>
+</div></section>
+<section id='recursive-printing-making-the-call-stack-visible' class='ls ls-default'>
+<h2 class='ls-h'><span>Recursive Printing: Making the Call Stack Visible</span></h2>
+<div class='ls-body'>
+<p>Return values are not the only thing a recursive function can produce. It can also <code>print</code>, and where you place the <code>print</code> relative to the recursive call lets you watch the computation unfold. The text demonstrates this with <code>cascade</code>, a function that prints all prefixes of a number from largest, down to the single leading digit, and back up to largest. A &quot;prefix&quot; of 2013 means 2013, then 201, then 20, then 2, formed by repeatedly dropping the last digit with <code>n // 10</code>.</p>
+<p>Here is the official definition, reproduced exactly, including its docstring:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">cascade</span><span style="color: #657b83">(n):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Print a cascade of prefixes of n.&quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">10</span><span style="color: #657b83">:</span>
+        <span style="color: #268bd2">print</span><span style="color: #657b83">(n)</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #268bd2">print</span><span style="color: #657b83">(n)</span>
+        <span style="color: #657b83">cascade(n</span><span style="color: #93a1a1">//</span><span style="color: #2aa198">10</span><span style="color: #657b83">)</span>
+        <span style="color: #268bd2">print</span><span style="color: #657b83">(n)</span>
+</code></pre>
+<p>The base case is a single-digit number (<code>n &lt; 10</code>), which is simply printed. Otherwise a recursive call to <code>cascade(n//10)</code> is placed <strong>between</strong> two calls to <code>print(n)</code>. That sandwich is the whole trick.</p>
+<p>Calling <code>cascade(2013)</code> produces this session, exactly as in the text:</p>
+<pre class='code text'><code>&gt;&gt;&gt; cascade(2013)
+2013
+201
+20
+2
+20
+201
+2013</code></pre>
+</div></section>
+<section id='follow-the-line-n-10' class='ls ls-default'>
+<h2 class='ls-h'><span>Follow the Line: <code>n // 10</code></span></h2>
+<div class='ls-body'>
+<p>The shrinking step in <code>cascade</code> is <code>n // 10</code>. The <code>//</code> operator is <strong>floor division</strong>: it divides and throws away any remainder, so it chops off the last digit of an integer.</p>
+<pre class='code anatomy'><code>cascade(n//10)
+├─ n .......... the current number, for example 2013
+├─ // 10 ...... floor-divide by ten, dropping the final digit
+├─ n//10 ...... the prefix with one fewer digit, here 201
+├─ cascade(...) call cascade on that shorter prefix
+└─ evaluates to  None (cascade returns nothing; it prints as a side effect)</code></pre>
+<p>Notice the final line: <code>cascade</code> has no <code>return</code> statement, so its value is <code>None</code>. It is run entirely for its side effect of printing. Keep that in mind for the traps section, because mixing up &quot;prints&quot; and &quot;returns&quot; is a classic mistake.</p>
+</div></section>
+<section id='the-order-is-the-lesson' class='ls ls-default'>
+<h2 class='ls-h'><span>The Order Is the Lesson</span></h2>
+<div class='ls-body'>
+<p>Why does <code>2013</code> appear at both the top and the bottom of the output, while <code>2</code> appears only once in the middle? Look at where each <code>print(n)</code> sits relative to the recursive call.</p>
+<p>In the <code>else</code> branch, the first <code>print(n)</code> runs <strong>before</strong> <code>cascade(n//10)</code>. A line before a recursive call runs while the call stack is still <strong>growing</strong> — on the way down. The second <code>print(n)</code> runs <strong>after</strong> <code>cascade(n//10)</code> returns. A line after a recursive call runs while the stack is <strong>unwinding</strong> — on the way back up.</p>
+<p>So the descent prints the prefixes large to small, and the ascent prints them small to large:</p>
+<pre class='code text'><code>printed on the way down (before the call):  2013, 201, 20, 2
+printed on the way back up (after the call):     20, 201, 2013</code></pre>
+<p>The single digit <code>2</code> is the base case. It has no second <code>print</code> waiting after it, because the base case branch only prints once and never recurses. That is why <code>2</code> sits alone at the fold in the middle. This before-versus-after rule is the most important habit in recursive printing: code before the recursive call runs as frames are created, and code after the recursive call runs as frames return.</p>
+</div></section>
+<section id='a-more-compact-cascade' class='ls ls-default'>
+<h2 class='ls-h'><span>A More Compact Cascade</span></h2>
+<div class='ls-body'>
+<p>You do not have to write base cases before recursive calls. Look again at <code>cascade</code>: <code>print(n)</code> appears in <strong>both</strong> branches of the conditional, the <code>n &lt; 10</code> branch and the <code>else</code> branch. Anything that happens no matter which branch you take can be lifted out and run before the conditional. Pulling that shared <code>print(n)</code> to the top gives a shorter version with identical behavior. This is the official compact form from the text, reproduced exactly:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">cascade</span><span style="color: #657b83">(n):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Print a cascade of prefixes of n.&quot;&quot;&quot;</span>
+    <span style="color: #268bd2">print</span><span style="color: #657b83">(n)</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&gt;=</span> <span style="color: #2aa198">10</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">cascade(n</span><span style="color: #93a1a1">//</span><span style="color: #2aa198">10</span><span style="color: #657b83">)</span>
+        <span style="color: #268bd2">print</span><span style="color: #657b83">(n)</span>
+</code></pre>
+<p>The base case did not disappear; it just changed shape. Before, the base case was &quot;if <code>n &lt; 10</code>, only print.&quot; Now the base case is expressed as the <strong>absence</strong> of recursion: when <code>n &lt; 10</code>, the condition <code>n &gt;= 10</code> is false, so the <code>if</code> block is skipped and the function simply returns after its single <code>print(n)</code>. The first <code>print(n)</code> still runs on the way down for every call, and the <code>print(n)</code> inside the <code>if</code> still runs on the way back up only for the multi-digit calls. Trace <code>cascade(2013)</code> against this version and you will get the same seven lines.</p>
+<p>Both versions are worth being able to read. The first makes the base case explicit and obvious for a beginner; the second is more compact and is the kind of factoring you will see in real code.</p>
+</div></section>
+<section id='the-pebble-game-mutual-recursion-as-turn-taking' class='ls ls-default'>
+<h2 class='ls-h'><span>The Pebble Game: Mutual Recursion as Turn-Taking</span></h2>
+<div class='ls-body'>
+<p>Mutual recursion shines when each function represents a different <strong>state</strong> or <strong>role</strong>, and the recursive call is what switches between them. The text illustrates this with a two-player game.</p>
+<p>There are <code>n</code> pebbles on a table. The two players take turns removing either one or two pebbles, and whoever removes the <strong>final</strong> pebble wins. Alice and Bob each follow a fixed, simple strategy:</p>
+<ul>
+<li>Alice always removes a single pebble.</li>
+<li>Bob removes two pebbles when an even number of pebbles is on the table, and one pebble otherwise.</li>
+</ul>
+<p>Given <code>n</code> starting pebbles with Alice going first, who wins? We can answer this by giving each player their own function. Keeping the strategies in separate functions means you could change Alice&#x27;s strategy without touching Bob&#x27;s, preserving the abstraction barrier between them. Because the game alternates turns, each function ends by calling the other.</p>
+<p>Here are the two functions, reproduced exactly as a session in the original text:</p>
+<pre class='code text'><code>&gt;&gt;&gt; def play_alice(n):
+        if n == 0:
+            print(&quot;Bob wins!&quot;)
+        else:
+            play_bob(n-1)</code></pre>
+<pre class='code text'><code>&gt;&gt;&gt; def play_bob(n):
+        if n == 0:
+            print(&quot;Alice wins!&quot;)
+        elif is_even(n):
+            play_alice(n-2)
+        else:
+            play_alice(n-1)</code></pre>
+<p>The argument <code>n</code> is the number of pebbles left, and the function you are in is whose turn it is. The base case is <code>n == 0</code>: there are no pebbles to take, which means the <strong>previous</strong> player took the last one and won. That is why <code>play_alice</code> prints <code>&quot;Bob wins!&quot;</code> when it is handed an empty table — if it is Alice&#x27;s turn and nothing is left, Bob must have cleared the table on the move before.</p>
+<p>Here it is as runnable Python so you can study and trace it. Note that <code>play_bob</code> calls <code>is_even</code> from earlier in the lesson, so we define that here too:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (4)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">is_even</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">True</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">is_odd(n</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">is_odd</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">False</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">is_even(n</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">play_alice</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #2aa198">&quot;Bob wins!&quot;</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">play_bob(n</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">play_bob</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #2aa198">&quot;Alice wins!&quot;</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">is_even(n):</span>
+        <span style="color: #657b83">play_alice(n</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">2</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">play_alice(n</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+
+<span style="color: #657b83">play_alice(</span><span style="color: #2aa198">20</span><span style="color: #657b83">)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/f27ecdb1d302.json' data-mount='st1'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st1' hidden></div></figure>
+<p>Running it reproduces the result from the text:</p>
+<pre class='code text'><code>&gt;&gt;&gt; play_alice(20)
+Bob wins!</code></pre>
+<p>One detail worth flagging: <code>play_bob</code> contains <strong>two</strong> different recursive calls, <code>play_alice(n-2)</code> and <code>play_alice(n-1)</code>, one in each branch of its conditional. That is allowed. But notice that only one of them runs on any given turn, because they sit in separate branches. So each call to <code>play_bob</code> calls <code>play_alice</code> at most once. The next lesson explores what happens when a single call makes several recursive calls at once.</p>
+</div></section>
+<section id='walking-the-pebble-game-from-20' class='ls ls-default'>
+<h2 class='ls-h'><span>Walking the Pebble Game from 20</span></h2>
+<div class='ls-body'>
+<p>You can verify <code>Bob wins!</code> by hand. Track whose turn it is and how many pebbles remain. Remember Alice always takes 1, and Bob takes 2 when the count is even and 1 when it is odd.</p>
+<pre class='code text'><code>play_alice(20)  Alice takes 1  -&gt;  play_bob(19)
+play_bob(19)    19 is odd, Bob takes 1  -&gt;  play_alice(18)
+play_alice(18)  Alice takes 1  -&gt;  play_bob(17)
+play_bob(17)    17 is odd, Bob takes 1  -&gt;  play_alice(16)
+play_alice(16)  Alice takes 1  -&gt;  play_bob(15)
+play_bob(15)    15 is odd, Bob takes 1  -&gt;  play_alice(14)
+...
+play_alice(2)   Alice takes 1  -&gt;  play_bob(1)
+play_bob(1)     1 is odd, Bob takes 1  -&gt;  play_alice(0)
+play_alice(0)   n == 0, print &quot;Bob wins!&quot;</code></pre>
+<p>From 20, the count stays even on Alice&#x27;s turns and odd on Bob&#x27;s turns the whole way down, so each player keeps taking a single pebble. The table empties on Bob&#x27;s move, and when Alice is finally handed 0 pebbles she announces that Bob won.</p>
+</div></section>
+<section id='why-split-a-process-across-functions' class='ls ls-default'>
+<h2 class='ls-h'><span>Why Split a Process Across Functions</span></h2>
+<div class='ls-body'>
+<p>The single-function rewrite of <code>is_even</code> showed that mutual recursion adds no raw power. So why use it? Because naming each state keeps the program honest. Instead of one tangled function that has to track every possible situation with extra parameters and nested conditionals, you give each situation its own clearly named function:</p>
+<ul>
+<li><code>play_alice</code> versus <code>play_bob</code> — whose turn it is.</li>
+<li><code>is_even</code> versus <code>is_odd</code> — which property you are currently checking.</li>
+</ul>
+<p>Each function stays small and individually meaningful, and the recursive call is the moment the program moves to the next state. That is the practical payoff of mutual recursion: abstraction inside a recursive process.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<div class='table-wrap'><table><thead><tr>
+<th>Mistake</th>
+<th>What Goes Wrong</th>
+<th>Safer Question</th>
+</tr></thead><tbody>
+<tr>
+<td>Forgetting a base case in one of the partner functions</td>
+<td>One side keeps calling forever, never reaching <code>n == 0</code>, until Python raises <code>RecursionError: maximum recursion depth exceeded</code></td>
+<td>Does every possible state eventually hit a base case?</td>
+</tr>
+<tr>
+<td>Calling the wrong partner (or calling yourself instead of the partner)</td>
+<td>The state machine is wrong, so the answer is wrong even though it terminates</td>
+<td>After this action, whose turn or which state comes next?</td>
+</tr>
+<tr>
+<td>Confusing print order with return order</td>
+<td>Output appears in the wrong sequence</td>
+<td>Is this line before or after the recursive call?</td>
+</tr>
+<tr>
+<td>Using <code>print</code> when the problem wants a <code>return</code></td>
+<td>The function&#x27;s value is <code>None</code>, so a grader checking the returned value sees nothing</td>
+<td>Is the task asking me to display a value or to compute one?</td>
+</tr>
+<tr>
+<td>Assuming the base case must come before the recursive call</td>
+<td>You miss simpler factorings like the compact <code>cascade</code></td>
+<td>Can I express the base case as &quot;do not recurse&quot; instead?</td>
+</tr>
+</tbody></table></div>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>Trace <code>is_even(5)</code>. Which function reaches the base case, and what does <code>is_even(5)</code> return?</li>
+<li>Why does <code>cascade(2013)</code> print <code>2013</code> twice but <code>2</code> only once?</li>
+<li>Which lines of <code>cascade</code> run while the call stack is growing, and which run while it is unwinding?</li>
+<li>The compact <code>cascade</code> has no explicit <code>if n &lt; 10</code> base case. How does it still stop?</li>
+<li>In the pebble game, why does <code>play_alice</code> print <code>&quot;Bob wins!&quot;</code> exactly when it is called with <code>n == 0</code>?</li>
+<li>What does it mean to &quot;turn mutual recursion into a single recursive function,&quot; and what do you gain by keeping the two functions separate instead?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li>The handoffs go <code>is_even(5)</code> to <code>is_odd(4)</code> to <code>is_even(3)</code> to <code>is_odd(2)</code> to <code>is_even(1)</code> to <code>is_odd(0)</code>, so <code>is_odd</code> reaches the base case and returns <code>False</code>. Every recursive case passes that value straight back up unchanged, so <code>is_even(5)</code> returns <code>False</code>.</li>
+<li>The first <code>print(n)</code> runs before the recursive call (on the way down) and the second <code>print(n)</code> runs after the call returns (on the way back up), so every multi-digit prefix is printed twice. <code>2</code> is the base case, which prints once and never recurses, so it has no second print waiting.</li>
+<li>The line before the recursive call (the first <code>print(n)</code>) runs while the stack is growing; the line after the recursive call (the second <code>print(n)</code>) runs while the stack is unwinding.</li>
+<li>The base case is written as the absence of recursion. When <code>n &lt; 10</code>, the condition <code>n &gt;= 10</code> is false, so the <code>if</code> block is skipped, the function prints once and returns without recursing.</li>
+<li><code>n == 0</code> means no pebbles remain on Alice&#x27;s turn, which means the previous player, Bob, removed the last pebble. Removing the final pebble wins, so Bob is the winner.</li>
+<li>You inline one function&#x27;s body into the other, replacing <code>n</code> with <code>n-1</code> to match the argument that was passed, producing one function that calls itself with nested base cases. Keeping the functions separate preserves abstraction: each stays small, individually meaningful, and easy to modify on its own.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>Mutual recursion splits a single recursive process across two or more functions that call each other, like <code>is_even</code> and <code>is_odd</code>, or the turn-taking <code>play_alice</code> and <code>play_bob</code>. Each call still receives its own frame; the only difference from ordinary recursion is that the next frame may belong to a different function. Any mutually recursive pair can be collapsed into one self-calling function by inlining, which shows that mutual recursion adds convenience and abstraction rather than new power. Recursive printing uses <code>print</code> to expose the shape of a computation: in <code>cascade</code>, a <code>print</code> before the recursive call runs on the way down and a <code>print</code> after it runs on the way back up, which is why the prefixes appear large-to-small-to-large. That before-versus-after rule — code before the recursive call runs as frames are created, code after runs as frames return — is the key habit for reasoning about any recursive function that produces output.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>This is the cascade you traced by hand. Stepping through it draws the <strong>environment diagram</strong> that explains the two-sided output: each call to <code>cascade</code> opens a frame holding its own <code>n</code>, the frames stack as <code>n</code> loses a digit on every recursive call, and each frame&#x27;s second <code>print(n)</code> sits paused inside it, so you can see the whole stack still standing when the single digit prints and watch it drain back through those waiting lines. Before you step through the block below, write down three predictions: how many <code>cascade</code> frames open, what <code>n</code> each holds, and how many are open at the moment the single digit prints.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (5)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">cascade</span><span style="color: #657b83">(n):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Print a cascade of prefixes of n.&quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">10</span><span style="color: #657b83">:</span>
+        <span style="color: #268bd2">print</span><span style="color: #657b83">(n)</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #268bd2">print</span><span style="color: #657b83">(n)</span>
+        <span style="color: #657b83">cascade(n</span><span style="color: #93a1a1">//</span><span style="color: #2aa198">10</span><span style="color: #657b83">)</span>
+        <span style="color: #268bd2">print</span><span style="color: #657b83">(n)</span>
+
+<span style="color: #657b83">cascade(</span><span style="color: #2aa198">2013</span><span style="color: #657b83">)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/fa425d4797fd.json' data-mount='st2'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st2' hidden></div></figure>
+<p>Step through it one line at a time and check each prediction as the frames appear. The frame whose <code>n</code> is below 10 stops without recursing; every other frame stays open, its second <code>print(n)</code> still waiting, and that waiting line is exactly what reprints the prefixes on the way back up.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</span></a><a class='pg pg-next' href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#two-functions-passing-the-same-task-back-and-forth'>Two Functions Passing the Same Task Back and Forth</a></li><li><a href='#even-and-odd-defined-in-terms-of-each-other'>Even and Odd, Defined in Terms of Each Other</a></li><li><a href='#follow-the-line-the-recursive-case-of-is-even'>Follow the Line: The Recursive Case of is_even</a></li><li><a href='#tracing-is-even4-by-hand'>Tracing is_even(4) by Hand</a></li><li><a href='#a-bridge-you-can-check-is-even3'>A Bridge You Can Check: is_even(3)</a></li><li><a href='#turning-two-functions-back-into-one'>Turning Two Functions Back Into One</a></li><li><a href='#recursive-printing-making-the-call-stack-visible'>Recursive Printing: Making the Call Stack Visible</a></li><li><a href='#follow-the-line-n-10'>Follow the Line: n // 10</a></li><li><a href='#the-order-is-the-lesson'>The Order Is the Lesson</a></li><li><a href='#a-more-compact-cascade'>A More Compact Cascade</a></li><li><a href='#the-pebble-game-mutual-recursion-as-turn-taking'>The Pebble Game: Mutual Recursion as Turn-Taking</a></li><li><a href='#walking-the-pebble-game-from-20'>Walking the Pebble Game from 20</a></li><li><a href='#why-split-a-process-across-functions'>Why Split a Process Across Functions</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

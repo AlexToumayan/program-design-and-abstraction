@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>4.5.5 Search and Unique Variable Names · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/' class='active'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 4</span><span class='dot'>/</span><span class='eb-sec'>4.5 Unification</span></div><h1 class='lesson-title'>4.5.5 Search and Unique Variable Names</h1><div class='reading-meta'>&#9719; approx. 15 min read <span class='rm-sep'>&middot;</span> 4 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>By now you have met <strong>unification</strong>: the operation that pattern matches two expressions and, when it succeeds, records the variable bindings that made them match. Unification answers one small question at a time: can this expression and that expression be made equal?</p>
+<p>That is not yet enough to answer a query. A query usually has several clauses, the database has many facts and rules, and rules can chain into other rules. Something has to decide which fact to try, in what order, and what to do when a rule has its own hypotheses that must be proved first. That something is <strong>search</strong>.</p>
+<p>By the end of this lesson you will be able to do five things: say in one sentence what the job of search is, recognize the base case that ends a successful proof, read the official <code>search</code> procedure layer by layer (negated clauses, trying every fact, proving a rule&#x27;s hypotheses), explain why a generator with <code>yield</code> is the right shape for it, and explain why the interpreter must rename variables before it unifies. The last point is subtle and is where beginners most often go wrong, so we give it its own section.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='the-difference-between-unification-and-search' class='ls ls-default'>
+<h2 class='ls-h'><span>The Difference Between Unification and Search</span></h2>
+<div class='ls-body'>
+<p>Imagine you are solving a maze with a ring of keys. Unification is the act of taking one key and checking whether it fits the door in front of you: a yes-or-no test on a single door. Search is everything else: deciding which hallway to walk down, which door to try next, backing up when a hallway dead-ends, and remembering which keys you have already used so a turn you took earlier still holds as you go deeper.</p>
+<p>The source draws the same line. To establish a query from the facts already in the system, the query interpreter performs a search over the space of all possible facts, and unification is the primitive operation that pattern matches two expressions inside that search. One is the strategy; the other is the single step the strategy keeps invoking.</p>
+<pre class='code text'><code>unification: can this query clause match this fact&#x27;s conclusion right now?
+search:      which facts and rules do we try, in what order, and what carries forward?</code></pre>
+<p>Hold onto a second idea from the previous lesson, because search is built to satisfy it. Each query asserts that there is some assignment to its variables such that all of its sub-expressions simultaneously follow from the facts of the system. The role of the query interpreter is to verify that this is so. Search is the procedure that does the verifying.</p>
+</div></section>
+<section id='the-job-of-search' class='ls ls-default'>
+<h2 class='ls-h'><span>The Job of <code>search</code></span></h2>
+<div class='ls-body'>
+<p>The source states the design directly: the recursive <code>search</code> function implements the search procedure for the logic language. It is recursive because proving one clause can require proving a rule, and proving that rule&#x27;s hypotheses is itself a search.</p>
+<p><code>search</code> takes three inputs. Reading them as the columns of a single line:</p>
+<pre class='code anatomy'><code>search( clauses, env, depth )
+├─ search ..... the recursive procedure that establishes clauses
+├─ clauses .... the clauses still left to prove, as a Scheme list
+├─ env ........ the unifier so far: the bindings already committed
+├─ depth ...... how many rules have been chained to get here
+└─ produces ... a stream of environments, one per successful proof</code></pre>
+<p>The docstring states its contract: it searches for an application of rules to establish all the clauses, non-destructively extending the unifier <code>env</code>, and it limits the search to the nested application of <code>depth</code> rules. Non-destructively matters: each path through the search gets its own copy of the bindings, so a guess that fails on one path cannot corrupt another.</p>
+<p>A word on <code>depth</code>. The docstring is the only place the source explains it: search is limited to the nested application of <code>depth</code> rules. The practical reason is that a recursive rule, such as a rule for <code>ancestor</code> that refers to <code>ancestor</code> again, could otherwise chain forever. Capping the depth gives the interpreter a stopping point. The source does not editorialize beyond the docstring, so treat the runaway-recursion rationale as the standard reason for a depth limit rather than a quoted claim.</p>
+</div></section>
+<section id='the-base-case-no-clauses-left' class='ls ls-default'>
+<h2 class='ls-h'><span>The Base Case: No Clauses Left</span></h2>
+<div class='ls-body'>
+<p>Every recursion needs a stopping condition that signals success. For <code>search</code> it is the plainest possible one: if there are no clauses left to prove, every part of the query has already been established, so the bindings you are holding are a complete answer.</p>
+<p>Walk the base-case line token by token:</p>
+<pre class='code anatomy'><code>if clauses is nil: yield env
+├─ if .......... begin the success test
+├─ clauses ..... the clauses still left to prove
+├─ is nil ...... there are none; the list is empty
+├─ yield ....... hand back a result without ending the procedure
+├─ env ......... the current environment: the answer found so far
+└─ result ...... emit env as one successful proof, then keep searching</code></pre>
+<p>The choice of <code>yield</code> rather than <code>return</code> is deliberate and is the key to how the whole interpreter behaves. <code>yield</code> makes <code>search</code> a <strong>generator</strong>: it can produce one successful environment, pause exactly where it is, and later resume to look for more answers. A query like &quot;who are the common ancestors&quot; may have several answers, and a generator lets search surface them one at a time instead of computing all of them up front or stopping after the first.</p>
+</div></section>
+<section id='the-official-search-structure' class='ls ls-default'>
+<h2 class='ls-h'><span>The Official <code>search</code> Structure</span></h2>
+<div class='ls-body'>
+<p>Here is the complete procedure from the source. It is dense on purpose; we will read it in three layers right after.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #93a1a1">&gt;&gt;&gt;</span> <span style="color: #859900">def</span> <span style="color: #268bd2">search</span><span style="color: #657b83">(clauses,</span> <span style="color: #657b83">env,</span> <span style="color: #657b83">depth):</span>
+<span style="color: #93a1a1">...</span>     <span style="color: #2aa198">&quot;&quot;&quot;Search for an application of rules to establish all the CLAUSES,</span>
+<span style="color: #2aa198">...     non-destructively extending the unifier ENV. Limit the search to</span>
+<span style="color: #2aa198">...     the nested application of DEPTH rules.&quot;&quot;&quot;</span>
+<span style="color: #93a1a1">...</span>     <span style="color: #859900">if</span> <span style="color: #657b83">clauses</span> <span style="color: #859900">is</span> <span style="color: #657b83">nil:</span>
+<span style="color: #93a1a1">...</span>         <span style="color: #859900">yield</span> <span style="color: #657b83">env</span>
+<span style="color: #93a1a1">...</span>     <span style="color: #859900">elif</span> <span style="color: #657b83">DEPTH_LIMIT</span> <span style="color: #859900">is</span> <span style="color: #2aa198">None</span> <span style="color: #859900">or</span> <span style="color: #657b83">depth</span> <span style="color: #93a1a1">&lt;=</span> <span style="color: #657b83">DEPTH_LIMIT:</span>
+<span style="color: #93a1a1">...</span>         <span style="color: #859900">if</span> <span style="color: #657b83">clauses</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span> <span style="color: #859900">in</span> <span style="color: #657b83">(</span><span style="color: #2aa198">&#39;not&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;~&#39;</span><span style="color: #657b83">):</span>
+<span style="color: #93a1a1">...</span>             <span style="color: #657b83">clause</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">ground(clauses</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second,</span> <span style="color: #657b83">env)</span>
+<span style="color: #93a1a1">...</span>             <span style="color: #859900">try</span><span style="color: #657b83">:</span>
+<span style="color: #93a1a1">...</span>                 <span style="color: #268bd2">next</span><span style="color: #657b83">(search(clause,</span> <span style="color: #657b83">glob,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">))</span>
+<span style="color: #93a1a1">...</span>             <span style="color: #859900">except</span> <span style="color: #268bd2">StopIteration</span><span style="color: #657b83">:</span>
+<span style="color: #93a1a1">...</span>                 <span style="color: #657b83">env_head</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Frame(env)</span>
+<span style="color: #93a1a1">...</span>                 <span style="color: #859900">for</span> <span style="color: #657b83">result</span> <span style="color: #859900">in</span> <span style="color: #657b83">search(clauses</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second,</span> <span style="color: #657b83">env_head,</span> <span style="color: #657b83">depth</span><span style="color: #93a1a1">+</span><span style="color: #2aa198">1</span><span style="color: #657b83">):</span>
+<span style="color: #93a1a1">...</span>                     <span style="color: #859900">yield</span> <span style="color: #657b83">result</span>
+<span style="color: #93a1a1">...</span>         <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+<span style="color: #93a1a1">...</span>             <span style="color: #859900">for</span> <span style="color: #657b83">fact</span> <span style="color: #859900">in</span> <span style="color: #657b83">facts:</span>
+<span style="color: #93a1a1">...</span>                 <span style="color: #657b83">fact</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">rename_variables(fact,</span> <span style="color: #657b83">get_unique_id())</span>
+<span style="color: #93a1a1">...</span>                 <span style="color: #657b83">env_head</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Frame(env)</span>
+<span style="color: #93a1a1">...</span>                 <span style="color: #859900">if</span> <span style="color: #657b83">unify(fact</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">clauses</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">env_head):</span>
+<span style="color: #93a1a1">...</span>                     <span style="color: #859900">for</span> <span style="color: #657b83">env_rule</span> <span style="color: #859900">in</span> <span style="color: #657b83">search(fact</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second,</span> <span style="color: #657b83">env_head,</span> <span style="color: #657b83">depth</span><span style="color: #93a1a1">+</span><span style="color: #2aa198">1</span><span style="color: #657b83">):</span>
+<span style="color: #93a1a1">...</span>                         <span style="color: #859900">for</span> <span style="color: #657b83">result</span> <span style="color: #859900">in</span> <span style="color: #657b83">search(clauses</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second,</span> <span style="color: #657b83">env_rule,</span> <span style="color: #657b83">depth</span><span style="color: #93a1a1">+</span><span style="color: #2aa198">1</span><span style="color: #657b83">):</span>
+<span style="color: #93a1a1">...</span>                             <span style="color: #859900">yield</span> <span style="color: #657b83">result</span>
+</code></pre>
+<p>The outer <code>elif</code> is the depth guard: if there is no limit, or we have not yet hit it, keep going. Everything below splits into two cases, and the very first decision search makes is whether the clause it is looking at is negated.</p>
+</div></section>
+<section id='layer-1-negated-clauses' class='ls ls-default'>
+<h2 class='ls-h'><span>Layer 1: Negated Clauses</span></h2>
+<div class='ls-body'>
+<p>The first clause of the remaining query might be a negation, written with <code>not</code> or <code>~</code>. Search detects this by looking at the head of the head of the clause list:</p>
+<pre class='code anatomy'><code>if clauses.first.first in (&#x27;not&#x27;, &#x27;~&#x27;):
+├─ clauses ......... the clauses still to prove
+├─ .first .......... the first clause in that list
+├─ .first .......... the operator at the front of that clause
+├─ in .............. test membership
+├─ (&#x27;not&#x27;, &#x27;~&#x27;) .... the two ways a negation can be written
+└─ branch taken .... this clause is a negation; handle it specially</code></pre>
+<p>Negation here means <strong>negation as failure</strong>: a negated clause succeeds precisely when its inside cannot be proved. So rather than trying to unify the first clause with a fact, search tries to prove the positive version, and reads success or failure from whether that inner search produces anything. The source says it directly: in the special case where the first clause is negated, rather than trying to unify the first clause of the query with a fact, we check that there is no such unification possible through a recursive call to search; if this recursive call yields nothing, we continue the search process with the rest of the clauses.</p>
+<p>Here <code>ground</code> simply fills in any variables in the inner clause that already have bindings in <code>env</code>, producing a concrete expression to test; the helper itself is defined in the accompanying logic example. In code that check is a <code>try</code>/<code>except</code> around pulling the very first result out of the inner search:</p>
+<pre class='code anatomy'><code>next(search(clause, glob, 0))
+├─ search .......... a fresh proof attempt on the inner clause
+├─ clause .......... the grounded inside of the negation
+├─ glob ............ the shared global environment that holds the database&#x27;s own facts (defined with the rest of the helpers in the source), used here because the negation is checked against the database as a whole rather than the current partial bindings
+├─ 0 ............... start its depth counter over
+├─ next(...) ....... demand the first result from that generator
+└─ outcome ......... a result means the inside is provable; raising StopIteration means it is not</code></pre>
+<p>If <code>next</code> succeeds, the inside was provable, so the negation fails and this path is abandoned. If <code>next</code> raises <code>StopIteration</code>, the inner search produced nothing, the negation holds, and search proceeds with the remaining clauses on a fresh frame:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #93a1a1">&gt;&gt;&gt;</span> <span style="color: #859900">try</span><span style="color: #657b83">:</span>
+<span style="color: #93a1a1">...</span>     <span style="color: #268bd2">next</span><span style="color: #657b83">(search(clause,</span> <span style="color: #657b83">glob,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">))</span>
+<span style="color: #93a1a1">...</span> <span style="color: #859900">except</span> <span style="color: #268bd2">StopIteration</span><span style="color: #657b83">:</span>
+<span style="color: #93a1a1">...</span>     <span style="color: #657b83">env_head</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Frame(env)</span>
+<span style="color: #93a1a1">...</span>     <span style="color: #859900">for</span> <span style="color: #657b83">result</span> <span style="color: #859900">in</span> <span style="color: #657b83">search(clauses</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second,</span> <span style="color: #657b83">env_head,</span> <span style="color: #657b83">depth</span><span style="color: #93a1a1">+</span><span style="color: #2aa198">1</span><span style="color: #657b83">):</span>
+<span style="color: #93a1a1">...</span>         <span style="color: #859900">yield</span> <span style="color: #657b83">result</span>
+</code></pre>
+<p>Read negation as failure carefully: it does not mean &quot;false everywhere in the universe.&quot; It means &quot;cannot be proved from the facts currently in this database.&quot; That is a real and important difference, and it is the second item in the traps section below.</p>
+</div></section>
+<section id='layer-2-trying-every-fact' class='ls ls-default'>
+<h2 class='ls-h'><span>Layer 2: Trying Every Fact</span></h2>
+<div class='ls-body'>
+<p>If the clause is not negated, search has to find a fact or rule whose conclusion matches it. It does the obvious, exhaustive thing: it loops over every fact in the database.</p>
+<pre class='code anatomy'><code>for fact in facts:
+├─ for ......... begin a loop
+├─ fact ........ the loop variable: one fact or rule at a time
+├─ in .......... iterate over
+├─ facts ....... the whole database of facts and rules
+└─ each pass ... attempt to use this one fact to satisfy the clause</code></pre>
+<p>Inside the loop, before anything else, it renames the fact&#x27;s variables (Layer 3 below explains why this step is not optional) and then opens a fresh frame for this single attempt:</p>
+<pre class='code anatomy'><code>env_head = Frame(env)
+├─ Frame ....... make a new environment layer
+├─ env ......... built on top of the bindings committed so far
+├─ env_head ... the name for this attempt&#x27;s private scratch space
+└─ effect ...... a sandbox so a failed guess cannot corrupt other paths</code></pre>
+<p>Then it attempts the match. The conclusion of the fact is its head; the clause we are trying to prove is the head of the remaining clauses:</p>
+<pre class='code anatomy'><code>unify(fact.first, clauses.first, env_head)
+├─ unify ......... try to make two expressions equal
+├─ fact.first .... the conclusion (head) of this fact or rule
+├─ clauses.first . the current query clause we are trying to prove
+├─ env_head ...... the frame that will hold any new bindings
+└─ result ........ True if they match, recording bindings in env_head; otherwise no match</code></pre>
+<p>If unification is successful, then the clause matches the conclusion of the current rule. That is the green light to move into the rule&#x27;s hypotheses, which is Layer 3.</p>
+</div></section>
+<section id='layer-3-proving-the-rules-hypotheses' class='ls ls-default'>
+<h2 class='ls-h'><span>Layer 3: Proving the Rule&#x27;s Hypotheses</span></h2>
+<div class='ls-body'>
+<p>A fact may be a bare fact with no conditions, or it may be a rule: a conclusion that holds only if some hypotheses hold. Recall the recursive ancestor rule from the proofs lesson:</p>
+<pre class='code scheme'><code>(fact (ancestor ?a ?y) (parent ?a ?z) (ancestor ?z ?y))</code></pre>
+<p>In the stored structure, <code>fact.first</code> is the conclusion and <code>fact.second</code> is the list of hypotheses. For this rule:</p>
+<pre class='code scheme'><code>(ancestor ?a ?y)</code></pre>
+<p>is the conclusion, and</p>
+<pre class='code scheme'><code>(parent ?a ?z)
+(ancestor ?z ?y)</code></pre>
+<p>are the hypotheses. Once the conclusion has matched the clause, the conclusion is only actually established if those hypotheses can be established too. The following <code>for</code> statement attempts to establish the hypotheses of the rule, so that the conclusion can be established:</p>
+<pre class='code anatomy'><code>for env_rule in search(fact.second, env_head, depth+1):
+├─ search ......... recursively prove the hypotheses
+├─ fact.second .... the list of hypotheses of this rule
+├─ env_head ....... starting from the bindings that made the head match
+├─ depth+1 ........ one rule deeper, counting toward the limit
+├─ env_rule ....... an environment in which the hypotheses all hold
+└─ each pass ...... one full way the hypotheses can be satisfied</code></pre>
+<p>Each <code>env_rule</code> is a complete set of bindings under which the matched rule&#x27;s conclusion genuinely holds. But the conclusion was only the first clause of the original query. The rest of the query still has to be proved, now carrying those bindings forward:</p>
+<pre class='code anatomy'><code>for result in search(clauses.second, env_rule, depth+1):
+├─ search ......... recursively prove the rest of the query
+├─ clauses.second . the remaining query clauses after the first
+├─ env_rule ....... bindings carried forward from proving the first clause
+├─ depth+1 ........ stay at the deeper level
+├─ result ......... an environment satisfying the whole remaining query
+└─ yield result ... emit it as one complete answer, then keep searching</code></pre>
+<p>This forward flow of bindings is exactly why the clauses of a query can cooperate. A variable bound while proving the first clause is already bound when the second clause is attempted, so a shared variable forces the clauses to agree. Each successful <code>result</code> is yielded, the generator pauses, and on the next request the loops resume to look for more answers.</p>
+</div></section>
+<section id='why-variable-names-must-be-renamed' class='ls ls-default'>
+<h2 class='ls-h'><span>Why Variable Names Must Be Renamed</span></h2>
+<div class='ls-body'>
+<p>Here is the subtle point, and it is worth slowing down for. Unification assumes that no variable is shared between the two expressions it compares. But the facts and queries of the logic language reuse variable names constantly. Two completely unrelated rules might both be written with <code>?x</code>. Those two <code>?x</code> symbols are local to their own rules; they are not meant to be the same logical variable. If unification treated them as one, proving one rule could silently force a value onto a variable in another rule that has nothing to do with it.</p>
+<p>The source states the problem and the fix together: unification assumes that no variable is shared among both <code>e</code> and <code>f</code>; however, we often reuse variable names in the facts and queries of the logic language; we would not like to confuse an <code>?x</code> in one fact with an <code>?x</code> in another, because these variables are unrelated; to ensure that names are not confused, before a fact is passed into <code>unify</code>, its variable names are replaced by unique names using <code>rename_variables</code> by appending a unique integer for the fact.</p>
+<p>That is the line you already saw at the top of the fact loop:</p>
+<pre class='code anatomy'><code>fact = rename_variables(fact, get_unique_id())
+├─ get_unique_id() ... produce a fresh integer not used before
+├─ rename_variables .. rewrite this fact with that integer stamped on every variable
+├─ fact .............. rebind the loop variable to the renamed copy
+└─ effect ............ this attempt&#x27;s variables can never collide with another&#x27;s</code></pre>
+<p>The renaming procedure itself is a straightforward recursion over the structure of an expression. A variable gets the integer appended; a pair recurses into both halves; anything else is left untouched:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #93a1a1">&gt;&gt;&gt;</span> <span style="color: #859900">def</span> <span style="color: #268bd2">rename_variables</span><span style="color: #657b83">(expr,</span> <span style="color: #657b83">n):</span>
+<span style="color: #93a1a1">...</span>     <span style="color: #2aa198">&quot;&quot;&quot;Rename all variables in EXPR with an identifier N.&quot;&quot;&quot;</span>
+<span style="color: #93a1a1">...</span>     <span style="color: #859900">if</span> <span style="color: #657b83">isvar(expr):</span>
+<span style="color: #93a1a1">...</span>         <span style="color: #859900">return</span> <span style="color: #657b83">expr</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&#39;_&#39;</span> <span style="color: #93a1a1">+</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(n)</span>
+<span style="color: #93a1a1">...</span>     <span style="color: #859900">elif</span> <span style="color: #657b83">scheme_pairp(expr):</span>
+<span style="color: #93a1a1">...</span>         <span style="color: #859900">return</span> <span style="color: #657b83">Pair(rename_variables(expr</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">n),</span>
+<span style="color: #93a1a1">...</span>                     <span style="color: #657b83">rename_variables(expr</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second,</span> <span style="color: #657b83">n))</span>
+<span style="color: #93a1a1">...</span>     <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+<span style="color: #93a1a1">...</span>         <span style="color: #859900">return</span> <span style="color: #657b83">expr</span>
+</code></pre>
+<p>A single line of it walks like this:</p>
+<pre class='code anatomy'><code>return expr + &#x27;_&#x27; + str(n)
+├─ expr ........ the variable symbol, e.g. ?x
+├─ + &#x27;_&#x27; ....... an underscore separator
+├─ + str(n) .... the unique integer rendered as text
+└─ result ...... a fresh, collision-proof name such as ?x_12</code></pre>
+<p>So a <code>?x</code> stamped with id 12 becomes <code>?x_12</code>, and a <code>?x</code> from a different rule stamped with id 13 becomes <code>?x_13</code>. They can never again be mistaken for the same variable.</p>
+</div></section>
+<section id='a-step-by-step-trace-renaming-a-rule' class='ls ls-default'>
+<h2 class='ls-h'><span>A Step-By-Step Trace: Renaming a Rule</span></h2>
+<div class='ls-body'>
+<p>Before reading the official <code>rename_variables</code>, it helps to watch what it produces. Take the ancestor rule and rename it with the id 7. The procedure recurses through every position in the nested structure, replacing each variable and leaving each plain symbol alone.</p>
+<p>Starting expression:</p>
+<pre class='code scheme'><code>(fact (ancestor ?a ?y) (parent ?a ?z) (ancestor ?z ?y))</code></pre>
+<p>What <code>rename_variables</code> decides at each kind of token:</p>
+<div class='table-wrap'><table><thead><tr>
+<th>Token encountered</th>
+<th><code>isvar</code>?</th>
+<th><code>scheme_pairp</code>?</th>
+<th>What is returned</th>
+</tr></thead><tbody>
+<tr>
+<td><code>fact</code></td>
+<td>no</td>
+<td>no</td>
+<td><code>fact</code> unchanged</td>
+</tr>
+<tr>
+<td><code>ancestor</code></td>
+<td>no</td>
+<td>no</td>
+<td><code>ancestor</code> unchanged</td>
+</tr>
+<tr>
+<td><code>parent</code></td>
+<td>no</td>
+<td>no</td>
+<td><code>parent</code> unchanged</td>
+</tr>
+<tr>
+<td><code>?a</code></td>
+<td>yes</td>
+<td>—</td>
+<td><code>?a_7</code></td>
+</tr>
+<tr>
+<td><code>?y</code></td>
+<td>yes</td>
+<td>—</td>
+<td><code>?y_7</code></td>
+</tr>
+<tr>
+<td><code>?z</code></td>
+<td>yes</td>
+<td>—</td>
+<td><code>?z_7</code></td>
+</tr>
+<tr>
+<td>any pair, e.g. <code>(ancestor ?a ?y)</code></td>
+<td>no</td>
+<td>yes</td>
+<td>recurse into both halves, rebuild the pair</td>
+</tr>
+</tbody></table></div>
+<p>Result after renaming with id 7:</p>
+<pre class='code scheme'><code>(fact (ancestor ?a_7 ?y_7) (parent ?a_7 ?z_7) (ancestor ?z_7 ?y_7))</code></pre>
+<p>Notice that every <code>?a</code> became <code>?a_7</code>, every <code>?y</code> became <code>?y_7</code>, and so on: within this one copy the variables stay linked to each other, which is correct, but they are now sealed off from any other rule&#x27;s variables. Run the same rule through again with a different id and you get a second, independent copy. That is precisely what lets the same recursive rule be used twice in one proof without its two uses contaminating each other.</p>
+</div></section>
+<section id='the-whole-picture-in-order' class='ls ls-default'>
+<h2 class='ls-h'><span>The Whole Picture in Order</span></h2>
+<div class='ls-body'>
+<p>The source describes the algorithm in prose and code, not as a numbered list. Here is the order of operations restated so you can hold it in your head, but read it as a summary of the code above, not as text quoted from the source:</p>
+<pre class='code text'><code>1. No clauses left?          yield the current environment; this proof is done.
+2. Past the depth limit?     stop; do not search deeper.
+3. First clause negated?     prove the inside; if that fails, continue with the rest.
+4. Otherwise, for each fact: rename its variables to be unique,
+                             open a fresh frame,
+                             unify the fact&#x27;s conclusion with the clause.
+5. If that unifies:          recursively prove the fact&#x27;s hypotheses,
+                             then recursively prove the remaining query clauses,
+                             yielding every environment that satisfies the whole query.</code></pre>
+<p>That loop, with unification as its single repeated step, is the search through the space of possible proofs. The remaining details, including the user interface to the logic language and the definition of various helper functions, appear in the logic example accompanying the source.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<ul>
+<li>Thinking <code>search</code> finds only one answer. Because it is a generator built on <code>yield</code>, it can produce many successful environments, one at a time, on demand.</li>
+<li>Reading negation as &quot;false in the whole universe.&quot; Negation as failure means only &quot;cannot be proved from the facts currently in the database.&quot; Add a fact and a previously failing negation can start succeeding.</li>
+<li>Forgetting that <code>fact.second</code> holds a rule&#x27;s hypotheses while <code>fact.first</code> holds its conclusion. Search proves the conclusion only by first establishing the hypotheses.</li>
+<li>Not seeing why a fresh <code>Frame(env)</code> is opened for each fact. It sandboxes one attempt so a guess that fails cannot leak bindings into another search path; this is what &quot;non-destructively extending the unifier&quot; means.</li>
+<li>Skipping the renaming step in your mental model. Without <code>rename_variables</code>, an <code>?x</code> in one rule and an unrelated <code>?x</code> in another would be forced to share a binding, and proofs that should succeed would fail (or worse, succeed wrongly).</li>
+<li>Assuming <code>clauses.first.first</code> is a variable. It is the operator at the front of the first clause; search inspects it only to spot <code>not</code> or <code>~</code>.</li>
+</ul>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>What does <code>search</code> yield, and when, in the base case?</li>
+<li>Why is <code>search</code> written with <code>yield</code> instead of <code>return</code>?</li>
+<li>How does the interpreter decide whether a negated clause succeeds?</li>
+<li>In the fact loop, what is the purpose of <code>env_head = Frame(env)</code>?</li>
+<li>For a rule, what does <code>fact.first</code> hold and what does <code>fact.second</code> hold, and how does search use each?</li>
+<li>Apply the renaming step by hand: what does <code>rename_variables</code> return for the clause <code>(sibling ?x ?y)</code> stamped with the id 4?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li>It yields the current environment <code>env</code> when <code>clauses is nil</code>, that is, when no clauses remain to prove. Every part of the query has been established, so the bindings in <code>env</code> are a complete answer.</li>
+<li><code>yield</code> makes <code>search</code> a generator, so it can surface one successful environment, pause, and resume later to find more. A query can have several answers, and a generator delivers them one at a time instead of all at once or only the first.</li>
+<li>It tries to prove the positive inside of the negation through a recursive call to <code>search</code>. If that inner search yields nothing (it raises <code>StopIteration</code>), the negation succeeds and search continues with the remaining clauses. If the inner search produces a result, the negation fails.</li>
+<li>It opens a fresh environment layer for that single attempt, built on the bindings committed so far. This sandboxes the attempt so a failed unification cannot corrupt the bindings used on other search paths; it is what makes the extension of the unifier non-destructive.</li>
+<li><code>fact.first</code> is the conclusion (head) of the fact or rule; <code>fact.second</code> is the list of its hypotheses. Search unifies the clause with <code>fact.first</code>, and if that succeeds it recursively proves <code>fact.second</code> so the conclusion is actually established.</li>
+<li><code>(sibling ?x_4 ?y_4)</code>. The plain symbol <code>sibling</code> is neither a variable nor a pair, so it comes back untouched, while each variable gets the id 4 stamped on it as <code>?x_4</code> and <code>?y_4</code>.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>Search is the strategy that decides how the primitive operation, unification, gets applied to prove a query. The recursive <code>search(clauses, env, depth)</code> procedure stops with success when no clauses remain, yielding its environment; it guards against runaway recursion with a depth limit; it handles a negated first clause by negation as failure (the negation holds only if its inside cannot be proved); and otherwise it loops over every fact, renames the fact&#x27;s variables to keep them unique, opens a fresh frame, and unifies the fact&#x27;s conclusion with the clause. On a match it recursively establishes the rule&#x27;s hypotheses and then the rest of the query, carrying bindings forward so the clauses must agree, and it yields every environment that satisfies the whole query. Renaming variables before unification is the quiet but essential step that keeps an <code>?x</code> in one rule from being confused with an unrelated <code>?x</code> in another. Together, unification and search are the core of the logic query interpreter.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>This block reproduces the shape of <code>rename_variables</code> using ordinary Python lists in place of the interpreter&#x27;s <code>Pair</code> structure: a Python model of the renaming step, not the logic interpreter itself. Stepping through it draws the <strong>environment diagram</strong> of that recursion: the nested <code>rule</code> list lives on the heap, and each <code>rename_variables</code> call opens its own frame holding one <code>expr</code> and the shared <code>n</code> of 7, the frames stacking as the comprehension descends into a sublist and then a single element before unwinding to assemble the renamed copy. Before you step through the block below, write down three predictions: which branch the first call takes, how many <code>rename_variables</code> frames are open at the deepest moment, and how many open in total before the last line prints.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (4)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">isvar</span><span style="color: #657b83">(expr):</span>
+    <span style="color: #859900">return</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(expr,</span> <span style="color: #268bd2">str</span><span style="color: #657b83">)</span> <span style="color: #859900">and</span> <span style="color: #657b83">expr</span><span style="color: #93a1a1">.</span><span style="color: #657b83">startswith(</span><span style="color: #2aa198">&quot;?&quot;</span><span style="color: #657b83">)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">rename_variables</span><span style="color: #657b83">(expr,</span> <span style="color: #657b83">n):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">isvar(expr):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">expr</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&quot;_&quot;</span> <span style="color: #93a1a1">+</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(n)</span>
+    <span style="color: #859900">elif</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(expr,</span> <span style="color: #268bd2">list</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">[rename_variables(part,</span> <span style="color: #657b83">n)</span> <span style="color: #859900">for</span> <span style="color: #657b83">part</span> <span style="color: #859900">in</span> <span style="color: #657b83">expr]</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">expr</span>
+
+<span style="color: #657b83">rule</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[[</span><span style="color: #2aa198">&quot;ancestor&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;?a&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;?y&quot;</span><span style="color: #657b83">],</span>
+        <span style="color: #657b83">[</span><span style="color: #2aa198">&quot;parent&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;?a&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;?z&quot;</span><span style="color: #657b83">],</span>
+        <span style="color: #657b83">[</span><span style="color: #2aa198">&quot;ancestor&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;?z&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;?y&quot;</span><span style="color: #657b83">]]</span>
+
+<span style="color: #657b83">renamed_rule</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">rename_variables(rule,</span> <span style="color: #2aa198">7</span><span style="color: #657b83">)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(renamed_rule)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/635805e2e1b9.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>Step through it and check each prediction as the calls open. The first call takes the list branch; only the innermost calls, on single strings, ever find a variable. Three frames stack at the deepest point, one each for the whole rule, a sublist, and a single element, and thirteen open over the whole run. Every variable, any string starting with <code>?</code>, comes back carrying <code>_7</code>, while plain symbols such as <code>&quot;ancestor&quot;</code> and <code>&quot;parent&quot;</code> are returned untouched:</p>
+<pre class='code text'><code>[[&#x27;ancestor&#x27;, &#x27;?a_7&#x27;, &#x27;?y_7&#x27;], [&#x27;parent&#x27;, &#x27;?a_7&#x27;, &#x27;?z_7&#x27;], [&#x27;ancestor&#x27;, &#x27;?z_7&#x27;, &#x27;?y_7&#x27;]]</code></pre>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>4.5-D Proofs as Structured Reasoning</span></a><a class='pg pg-next' href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>4.6-A Messages, Protocols, and TCP-IP</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#the-difference-between-unification-and-search'>The Difference Between Unification and Search</a></li><li><a href='#the-job-of-search'>The Job of search</a></li><li><a href='#the-base-case-no-clauses-left'>The Base Case: No Clauses Left</a></li><li><a href='#the-official-search-structure'>The Official search Structure</a></li><li><a href='#layer-1-negated-clauses'>Layer 1: Negated Clauses</a></li><li><a href='#layer-2-trying-every-fact'>Layer 2: Trying Every Fact</a></li><li><a href='#layer-3-proving-the-rules-hypotheses'>Layer 3: Proving the Rule&amp;#x27;s Hypotheses</a></li><li><a href='#why-variable-names-must-be-renamed'>Why Variable Names Must Be Renamed</a></li><li><a href='#a-step-by-step-trace-renaming-a-rule'>A Step-By-Step Trace: Renaming a Rule</a></li><li><a href='#the-whole-picture-in-order'>The Whole Picture in Order</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>4.5.4 Proofs · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/' class='active'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 4</span><span class='dot'>/</span><span class='eb-sec'>4.5 Unification</span></div><h1 class='lesson-title'>4.5.4 Proofs</h1><div class='reading-meta'>&#9719; approx. 14 min read <span class='rm-sep'>&middot;</span> 1 worked example</div><div class='lead'>
+<p>By now you can run a query and read back the variable bindings it produces. This lesson reframes what is actually happening underneath. A query is not just a lookup. It is an <strong>assertion</strong>, and the interpreter&#x27;s job is to <strong>prove</strong> it.</p>
+<p>By the end you will be able to do four things: explain why each stated fact counts as an <strong>axiom</strong>, read the official common-ancestor query and say what it asserts, work out by hand why three different answers satisfy it, and distinguish a bare <strong>answer</strong> (the variable bindings) from a <strong>proof</strong> (the chain of facts and rules that justifies those bindings). That last distinction is the whole point of the lesson.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='a-detective-building-a-case' class='ls ls-default'>
+<h2 class='ls-h'><span>A Detective Building a Case</span></h2>
+<div class='ls-body'>
+<p>Think about how a detective argues that a suspect was at a scene. The detective does not just announce a conclusion. They build a chain: this receipt places the suspect in the building, the building&#x27;s camera places them on the third floor, the third floor is where the safe is. Each link is something already accepted as established. The conclusion is only as good as the chain that supports it.</p>
+<p>A logic query works the same way. When you ask the interpreter to find a common ancestor of two dogs, you are not asking it to look something up in a row. You are asking it to <strong>build a case</strong>: to assemble a chain of accepted facts and rules whose end is exactly the claim you made. The variable values it hands back are the names in the conclusion. The chain that got there is the proof.</p>
+<p>Two pieces of vocabulary make this precise. The facts you typed in are the things the detective treats as already established. A <strong>fact</strong> the system accepts without justifying it from anything deeper is called an <strong>axiom</strong>. A <strong>rule</strong> is a license to manufacture new accepted statements from old ones. The interpreter proves a query by starting from axioms and applying rules until it reaches your claim.</p>
+</div></section>
+<section id='the-logic-language-as-a-prover' class='ls ls-default'>
+<h2 class='ls-h'><span>The Logic Language as a Prover</span></h2>
+<div class='ls-body'>
+<p>The official text states the idea directly:</p>
+<p>One way to think about the logic language is as a prover of assertions in a formal system. <strong>Each stated fact establishes an axiom in a formal system, and each query must be established by the query interpreter from these axioms.</strong> That is, each query asserts that there is some assignment to its variables such that all of its sub-expressions simultaneously follow from the facts of the system. The role of the query interpreter is to verify that this is so.</p>
+<p>Here a &quot;formal system&quot; just means the collection of facts and rules you typed in — the axioms and rules below, together with the dog database. Nothing outside that database counts.</p>
+<p>Unpack that one clause at a time, because every clause carries weight.</p>
+<p>An <strong>axiom</strong> is a statement the system accepts as true without proving it from anything else. When you write a plain fact, you are handing the interpreter an axiom:</p>
+<pre class='code scheme'><code>(fact (parent abraham clinton))</code></pre>
+<p>There is nothing underneath this. The interpreter does not ask why Abraham is Clinton&#x27;s parent. Inside this database, that is simply granted.</p>
+<p>A <strong>rule</strong> is different in kind. A rule has a conclusion and one or more conditions, and it says the conclusion holds whenever the conditions do:</p>
+<pre class='code scheme'><code>(fact (ancestor ?a ?y) (parent ?a ?y))</code></pre>
+<p>Read this as: for any <code>?a</code> and <code>?y</code>, if <code>?a</code> is the parent of <code>?y</code>, then <code>?a</code> is an ancestor of <code>?y</code>. A rule does not assert a finished fact. It is a machine for producing new accepted statements from ones the system already has.</p>
+<p>So a query &quot;must be established from these axioms&quot;: the interpreter must reach your claim by starting from axioms and feeding facts through rules. And a query asserts that &quot;all of its sub-expressions simultaneously follow&quot; — every clause must hold at once, under one consistent assignment to the variables. We will see exactly why &quot;simultaneously&quot; matters when the same variable appears in two clauses.</p>
+<h3>A proof has a tree shape</h3>
+<p>Spelling out one chain of reasoning in plain sentences looks like this:</p>
+<pre class='code text'><code>Claim: Fillmore is an ancestor of Herbert.
+Because:
+  Fillmore is the parent of Delano.   (an axiom)
+  Delano is the parent of Herbert.    (an axiom)
+  The ancestor rule turns a chain of parent links into an ancestor link.
+Therefore:
+  Fillmore is an ancestor of Herbert.</code></pre>
+<p>The same proof has a tree shape, and drawing it that way makes the structure explicit:</p>
+<pre class='code text'><code>                  (ancestor fillmore herbert)
+                            |
+              applies rule: ancestor via parent + ancestor
+                          /         \
+        (parent fillmore delano)   (ancestor delano herbert)
+                  |                            |
+              direct axiom             applies rule: ancestor via parent
+                                                 |
+                                       (parent delano herbert)
+                                                 |
+                                            direct axiom</code></pre>
+<p>The leaves are axioms (direct facts). The interior nodes are conclusions justified by a rule. The root is the original claim. The interpreter performs exactly this kind of reasoning mechanically: it searches through facts and rules until it can justify the query, and the chain of justifications it finds is this tree.</p>
+<p><img class="figure" src="figures/proof-is-a-tree.svg" alt="A Proof Is a Tree: Tiny Answer, Tall Justification"></p>
+</div></section>
+<section id='reading-a-fact-as-an-axiom' class='ls ls-default'>
+<h2 class='ls-h'><span>Reading a Fact as an Axiom</span></h2>
+<div class='ls-body'>
+<p>When you look at a single fact, read it token by token and finish with what it commits the system to. A plain fact commits the system to one axiom.</p>
+<pre class='code scheme'><code>(fact (parent abraham clinton))</code></pre>
+<pre class='code anatomy'><code>(fact (parent abraham clinton))
+├─ fact ........... declares a statement the database will accept
+├─ parent ......... the relation being asserted
+├─ abraham ........ the first name in the relation
+├─ clinton ........ the second name in the relation
+└─ accepts axiom:   inside this database, Abraham is the parent of Clinton</code></pre>
+<p>A rule is read the same way, but the final row records that it produces a license rather than a finished axiom. The first inner list is the conclusion; the rest are the conditions.</p>
+<pre class='code scheme'><code>(fact (ancestor ?a ?y) (parent ?a ?y))</code></pre>
+<pre class='code anatomy'><code>(fact (ancestor ?a ?y) (parent ?a ?y))
+├─ fact ............. declares a statement the database will accept
+├─ (ancestor ?a ?y)  the conclusion this rule can justify
+├─ (parent ?a ?y) ... the single condition that must hold first
+└─ accepts rule:     if ?a is parent of ?y, conclude ?a is ancestor of ?y</code></pre>
+<p>The two-condition ancestor rule is the recursive one. Its final row records that it chains a parent link to a shorter ancestor link.</p>
+<pre class='code scheme'><code>(fact (ancestor ?a ?y) (parent ?a ?z) (ancestor ?z ?y))</code></pre>
+<pre class='code anatomy'><code>(fact (ancestor ?a ?y) (parent ?a ?z) (ancestor ?z ?y))
+├─ fact ............. declares a statement the database will accept
+├─ (ancestor ?a ?y)  the conclusion this rule can justify
+├─ (parent ?a ?z) ... condition one: ?a is the parent of some middle name ?z
+├─ (ancestor ?z ?y)  condition two: that ?z is itself an ancestor of ?y
+└─ accepts rule:     a parent link plus a shorter ancestor link makes a longer one</code></pre>
+</div></section>
+<section id='the-official-dog-database' class='ls ls-default'>
+<h2 class='ls-h'><span>The Official Dog Database</span></h2>
+<div class='ls-body'>
+<p>The proofs section works over the same dog genealogy used earlier on the page. The source reprints the full database here, so we reproduce it in full. It comes in three groups: parent axioms, the two ancestor rules, and the dog-color axioms.</p>
+<pre class='code scheme'><code>(fact (parent abraham barack))
+(fact (parent abraham clinton))
+(fact (parent delano herbert))
+(fact (parent fillmore abraham))
+(fact (parent fillmore delano))
+(fact (parent fillmore grover))
+(fact (parent eisenhower fillmore))
+
+(fact (ancestor ?a ?y) (parent ?a ?y))
+(fact (ancestor ?a ?y) (parent ?a ?z) (ancestor ?z ?y))
+
+(fact (dog (name abraham) (color white)))
+(fact (dog (name barack) (color tan)))
+(fact (dog (name clinton) (color white)))
+(fact (dog (name delano) (color white)))
+(fact (dog (name eisenhower) (color tan)))
+(fact (dog (name fillmore) (color brown)))
+(fact (dog (name grover) (color tan)))
+(fact (dog (name herbert) (color brown)))</code></pre>
+<p>Three groups, three jobs:</p>
+<pre class='code text'><code>parent axioms:  the direct family links
+ancestor rules: how to extend parent links into ancestor links
+dog axioms:     the color recorded for each named dog</code></pre>
+<p>Two pieces of this database matter for the proof ahead, so pull them out now by reading the axioms directly.</p>
+<pre class='code text'><code>brown dogs (color brown):        fillmore, herbert
+ancestors of clinton (via rules): abraham, fillmore, eisenhower</code></pre>
+<p>The brown dogs come straight from two dog axioms. The ancestors of Clinton are not stated directly anywhere; they are produced by the ancestor rules. Abraham is Clinton&#x27;s parent (one rule application). Fillmore is Abraham&#x27;s parent, so Fillmore is an ancestor of Clinton through the recursive rule. Eisenhower is Fillmore&#x27;s parent, extending the chain one link further. We will lean on both of these lists in a moment.</p>
+</div></section>
+<section id='the-official-proof-query' class='ls ls-default'>
+<h2 class='ls-h'><span>The Official Proof Query</span></h2>
+<div class='ls-body'>
+<p>With the database in place, the source poses a single question: is there a common ancestor of Clinton and a dog of a particular color? Before the official query, here is a smaller warm-up in the same shape so the structure is familiar.</p>
+<p>A one-clause warm-up just asks for an ancestor of Clinton:</p>
+<pre class='code scheme'><code>(query (ancestor ?a clinton))</code></pre>
+<p>That asserts only that some <code>?a</code> is an ancestor of Clinton. A two-clause bridge ties two requirements together with a shared variable:</p>
+<pre class='code scheme'><code>(query (ancestor ?a clinton)
+       (ancestor ?a herbert))</code></pre>
+<p>This asserts that some single <code>?a</code> is an ancestor of Clinton <strong>and</strong> an ancestor of Herbert. The same <code>?a</code> has to satisfy both lines, so it asks for a common ancestor of the two named dogs. The official query adds one more clause that pins down the second dog by color instead of by name.</p>
+<p>Here is the official query exactly as the source gives it:</p>
+<pre class='code scheme'><code>(query (ancestor ?a clinton)
+       (ancestor ?a ?brown-dog)
+       (dog (name ?brown-dog) (color brown)))</code></pre>
+<p>A note on the surrounding text, stated plainly rather than smoothed over. The source&#x27;s prose describes this example as finding &quot;some common ancestor of Clinton and a <strong>tan</strong> dog&quot; and says the interpreter reports &quot;the name of that common ancestor and the <strong>tan</strong> dog.&quot; But the query code itself requires <code>(color brown)</code>, and the supporting discussion afterward names brown dogs. The prose and the code disagree on the color word. The code is what the interpreter actually runs, so the worked result below follows the code: a <strong>brown</strong> dog. Treat the word &quot;tan&quot; in the source sentence as a slip; the query proves a brown-dog claim.</p>
+<p>Read the official query one clause at a time, finishing each with what it requires.</p>
+<pre class='code scheme'><code>(ancestor ?a clinton)</code></pre>
+<pre class='code anatomy'><code>(ancestor ?a clinton)
+├─ ancestor ... the relation that must hold
+├─ ?a ......... the variable to solve for
+├─ clinton .... the fixed second name
+└─ requires:    ?a is some ancestor of Clinton</code></pre>
+<pre class='code scheme'><code>(ancestor ?a ?brown-dog)</code></pre>
+<pre class='code anatomy'><code>(ancestor ?a ?brown-dog)
+├─ ancestor ..... the relation that must hold
+├─ ?a ........... the SAME ?a as in clause one
+├─ ?brown-dog ... a variable for the second dog
+└─ requires:      that same ?a is an ancestor of some dog ?brown-dog</code></pre>
+<pre class='code scheme'><code>(dog (name ?brown-dog) (color brown))</code></pre>
+<pre class='code anatomy'><code>(dog (name ?brown-dog) (color brown))
+├─ dog ............... look up a dog record
+├─ (name ?brown-dog)  the SAME ?brown-dog as in clause two
+├─ (color brown) .... that dog&#x27;s recorded color must be brown
+└─ requires:          ?brown-dog is a dog whose color axiom says brown</code></pre>
+<p>The repeated variables are the glue that makes &quot;simultaneously&quot; meaningful:</p>
+<pre class='code text'><code>?a         must mean the same ancestor in clauses one and two
+?brown-dog must mean the same dog in clauses two and three</code></pre>
+<p>If the interpreter could choose a different <code>?a</code> for each clause, the query would say almost nothing. Because <code>?a</code> is shared, it forces one name to be an ancestor of Clinton <strong>and</strong> an ancestor of the brown dog at the same time. That single shared binding is what turns three independent-looking clauses into one joint claim.</p>
+</div></section>
+<section id='why-three-answers-appear' class='ls ls-default'>
+<h2 class='ls-h'><span>Why Three Answers Appear</span></h2>
+<div class='ls-body'>
+<p>The source says the interpreter outputs <code>Success!</code> and reports an assignment whenever it can establish the assertion, and that for this query there are three such assignments. The exact wording: &quot;The query interpreter only outputs <code>Success!</code> if it is able to establish that this assertion is true. As a byproduct, it informs us of the name of that common ancestor and the [brown] dog.&quot; The result is rendered by an interactive widget on the source page rather than printed as static text, so the three assignments are described, not listed verbatim, in the source. We can still work them out directly from the axioms, and doing so by hand is the best way to see why there are exactly three.</p>
+<p>Start from the two lists we extracted from the database:</p>
+<pre class='code text'><code>brown dogs:            fillmore, herbert
+ancestors of clinton:  abraham, fillmore, eisenhower</code></pre>
+<p>Now apply the joint requirement. We need a name that is an ancestor of Clinton (so it must come from the second list) and is also an ancestor of one of the brown dogs (so it must be an ancestor of <code>fillmore</code> or of <code>herbert</code>). Check each candidate ancestor of Clinton against each brown dog.</p>
+<pre class='code text'><code>candidate ?a   brown-dog   is ?a an ancestor of that brown-dog?
+abraham        fillmore    no  (fillmore is an ancestor of abraham, not the reverse)
+abraham        herbert     no  (abraham and herbert are on different branches)
+fillmore       fillmore    no  (nothing is its own ancestor here)
+fillmore       herbert     YES (fillmore -&gt; delano -&gt; herbert)
+eisenhower     fillmore    YES (eisenhower -&gt; fillmore)
+eisenhower     herbert     YES (eisenhower -&gt; fillmore -&gt; delano -&gt; herbert)</code></pre>
+<p>Three rows pass, which is exactly why the interpreter finds three assignments. Writing only the passing combinations:</p>
+<pre class='code text'><code>?a = fillmore     ?brown-dog = herbert
+?a = eisenhower   ?brown-dog = fillmore
+?a = eisenhower   ?brown-dog = herbert</code></pre>
+<p>Each line is one way to make all three clauses true at once, so each is one successful proof route. (These three combinations are derived here from the axioms; the source page shows them through its interactive query widget rather than as a static block, so do not read this as a verbatim copy of printed output.)</p>
+</div></section>
+<section id='a-step-by-step-trace-of-one-proof' class='ls ls-default'>
+<h2 class='ls-h'><span>A Step-by-Step Trace of One Proof</span></h2>
+<div class='ls-body'>
+<p>Take the first route, <code>?a = fillmore</code>, <code>?brown-dog = herbert</code>, and walk the interpreter&#x27;s reasoning clause by clause. This is the chain that a full proof would record.</p>
+<pre class='code text'><code>Goal: prove all three clauses with ?a = fillmore, ?brown-dog = herbert.
+
+Clause 1: (ancestor fillmore clinton)
+  Apply the recursive ancestor rule with ?a = fillmore, ?y = clinton, ?z = abraham.
+    Condition (parent fillmore abraham)  -&gt; axiom. holds.
+    Condition (ancestor abraham clinton) -&gt; apply the base ancestor rule:
+      Condition (parent abraham clinton) -&gt; axiom. holds.
+    so (ancestor abraham clinton) holds.
+  so (ancestor fillmore clinton) holds.
+
+Clause 2: (ancestor fillmore herbert)
+  Apply the recursive ancestor rule with ?a = fillmore, ?y = herbert, ?z = delano.
+    Condition (parent fillmore delano)   -&gt; axiom. holds.
+    Condition (ancestor delano herbert)  -&gt; apply the base ancestor rule:
+      Condition (parent delano herbert)  -&gt; axiom. holds.
+    so (ancestor delano herbert) holds.
+  so (ancestor fillmore herbert) holds.
+
+Clause 3: (dog (name herbert) (color brown))
+  Match against the axiom (fact (dog (name herbert) (color brown))). holds.
+
+All three clauses hold under one assignment -&gt; Success!
+Answer:  ?a -&gt; fillmore,  ?brown-dog -&gt; herbert</code></pre>
+<p>Notice how many axioms had to participate even for this single answer: <code>(parent fillmore abraham)</code>, <code>(parent abraham clinton)</code>, <code>(parent fillmore delano)</code>, <code>(parent delano herbert)</code>, and the dog axiom for Herbert, plus two applications of each ancestor rule. The binding <code>?a -&gt; fillmore</code> is short. The justification behind it is not.</p>
+</div></section>
+<section id='a-proof-is-more-than-an-answer' class='ls ls-default'>
+<h2 class='ls-h'><span>A Proof Is More Than an Answer</span></h2>
+<div class='ls-body'>
+<p>This is the heart of the lesson. The interpreter hands you back the bindings:</p>
+<pre class='code text'><code>?a -&gt; fillmore
+?brown-dog -&gt; herbert</code></pre>
+<p>Those bindings are the <strong>answer</strong>. But the trace above is the <strong>proof</strong>, and it contains strictly more information.</p>
+<pre class='code text'><code>answer:  the variables and the values they took
+proof:   the chain of axioms and rule applications that makes those values valid</code></pre>
+<p>The official text closes on exactly this point: &quot;Each of the three assignments shown in the result is a trace of a larger proof that the query is true given the facts. A full proof would include all of the facts that were used, for instance including <code>(parent abraham clinton)</code> and <code>(parent fillmore abraham)</code>.&quot; Those two parent axioms are precisely the ones our trace needed to justify the Clinton side of the chain.</p>
+<p>In practice the interpreter reports the answer. The proof is still there: search found the answer only by chaining axioms through rules, and that chain is recoverable. Holding onto this distinction is what lets you trust a result instead of merely receiving it. The answer tells you what is true; the proof tells you why.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<ul>
+<li>Thinking the query asks for a single answer. It asserts that there is some assignment, and the interpreter reports every assignment its search can prove. Here that is three.</li>
+<li>Forgetting that a repeated variable across clauses must take one shared value. The whole force of the official query is that <code>?a</code> is the same name in clauses one and two.</li>
+<li>Confusing the answer with the proof. The bindings are the conclusion; the chain of axioms and rules is what justifies it.</li>
+<li>Reading <code>Success!</code> as &quot;every fact in the database is true.&quot; It means only that this particular assertion could be established from the axioms.</li>
+<li>Reading the dog facts as Python objects. They are logic records written in the parenthesized logic language, not Python data structures.</li>
+<li>Trusting the source&#x27;s word &quot;tan&quot; over the query code. The query requires <code>(color brown)</code>; the prose&#x27;s &quot;tan&quot; is an inconsistency in the source, and the code is authoritative.</li>
+</ul>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>Run the one-clause query <code>(query (ancestor ?a grover))</code> by hand against the official database. Which names does <code>?a</code> take, and in what order does the search reach them?</li>
+<li>In the official query, why must the same <code>?a</code> satisfy both ancestor clauses?</li>
+<li>Which dogs are brown in the official database, and how do you know?</li>
+<li>Why does <code>?a = fillmore</code>, <code>?brown-dog = herbert</code> satisfy the query? Name two axioms the proof relies on.</li>
+<li>What is the difference between the answer to a query and the proof of that query?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li><code>?a</code> takes <code>fillmore</code> then <code>eisenhower</code>. Grover&#x27;s only parent axiom is <code>(parent fillmore grover)</code>, so the base ancestor rule gives <code>fillmore</code> first; the recursive rule then climbs one link further to <code>fillmore</code>&#x27;s parent <code>eisenhower</code>. There are no other ancestors of Grover, so the search reports exactly those two names.</li>
+<li>Because <code>?a</code> is a single variable with one binding across the whole query. The &quot;simultaneously follow&quot; requirement means one name must be an ancestor of Clinton and an ancestor of the brown dog at the same time, which is exactly what a common ancestor is.</li>
+<li>Fillmore and Herbert. Their dog axioms are <code>(fact (dog (name fillmore) (color brown)))</code> and <code>(fact (dog (name herbert) (color brown)))</code>, the only two color axioms recording brown.</li>
+<li>Fillmore is an ancestor of Clinton (via <code>(parent fillmore abraham)</code> and <code>(parent abraham clinton)</code> through the ancestor rules), Fillmore is an ancestor of Herbert (via <code>(parent fillmore delano)</code> and <code>(parent delano herbert)</code>), and Herbert&#x27;s record is brown. Two axioms it relies on are <code>(parent abraham clinton)</code> and <code>(parent fillmore abraham)</code>.</li>
+<li>The answer is the set of variable bindings the interpreter reports. The proof is the full chain of axioms and rule applications that establishes those bindings. The proof contains more information; the interpreter usually reports only the answer.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>The logic interpreter can be understood as a prover. Each plain fact is an <strong>axiom</strong> the system accepts without justification, and each rule is a license to derive new accepted statements from existing ones. A query is an assertion that some assignment to its variables makes all of its clauses follow from the axioms simultaneously, and shared variables force consistency across clauses. The official common-ancestor query has three satisfying assignments, which you can derive directly from the brown-dog axioms and the ancestor-of-Clinton derivations. Above all, an <strong>answer</strong> (the bindings) is not the same as a <strong>proof</strong> (the chain of axioms and rules behind them): the interpreter reports the former, but it could only find it by constructing the latter.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>The logic language is not Python, but its proof search is concrete enough to model with ordinary Python so you can step through it. The block below stores the dog genealogy and colors, recovers each dog&#x27;s ancestors by walking parent links, and then prints exactly the combinations that satisfy the official query: a common ancestor of Clinton and a brown dog. Stepping through it draws the <strong>environment diagram</strong> this Python model actually builds: the <code>parents</code> and <code>colors</code> dicts sit on the heap, each call to <code>ancestors</code> opens its own frame whose <code>result</code> list grows as <code>current</code> climbs the parent links, and the double loop&#x27;s <code>possible_a</code> and <code>possible_dog</code> are the frame bindings that decide which pairs reach the <code>print</code>. Before you step through the block below, write down two predictions: the list of names that <code>ancestors(&quot;clinton&quot;)</code> returns, and how many <code>(ancestor, dog)</code> pairs the double loop will print.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #657b83">parents</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">{</span>
+    <span style="color: #2aa198">&quot;barack&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&quot;abraham&quot;</span><span style="color: #657b83">,</span>
+    <span style="color: #2aa198">&quot;clinton&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&quot;abraham&quot;</span><span style="color: #657b83">,</span>
+    <span style="color: #2aa198">&quot;herbert&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&quot;delano&quot;</span><span style="color: #657b83">,</span>
+    <span style="color: #2aa198">&quot;abraham&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&quot;fillmore&quot;</span><span style="color: #657b83">,</span>
+    <span style="color: #2aa198">&quot;delano&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&quot;fillmore&quot;</span><span style="color: #657b83">,</span>
+    <span style="color: #2aa198">&quot;grover&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&quot;fillmore&quot;</span><span style="color: #657b83">,</span>
+    <span style="color: #2aa198">&quot;fillmore&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&quot;eisenhower&quot;</span><span style="color: #657b83">,</span>
+<span style="color: #657b83">}</span>
+
+<span style="color: #657b83">colors</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">{</span>
+    <span style="color: #2aa198">&quot;abraham&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&quot;white&quot;</span><span style="color: #657b83">,</span>
+    <span style="color: #2aa198">&quot;barack&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&quot;tan&quot;</span><span style="color: #657b83">,</span>
+    <span style="color: #2aa198">&quot;clinton&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&quot;white&quot;</span><span style="color: #657b83">,</span>
+    <span style="color: #2aa198">&quot;delano&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&quot;white&quot;</span><span style="color: #657b83">,</span>
+    <span style="color: #2aa198">&quot;eisenhower&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&quot;tan&quot;</span><span style="color: #657b83">,</span>
+    <span style="color: #2aa198">&quot;fillmore&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&quot;brown&quot;</span><span style="color: #657b83">,</span>
+    <span style="color: #2aa198">&quot;grover&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&quot;tan&quot;</span><span style="color: #657b83">,</span>
+    <span style="color: #2aa198">&quot;herbert&quot;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">&quot;brown&quot;</span><span style="color: #657b83">,</span>
+<span style="color: #657b83">}</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">ancestors</span><span style="color: #657b83">(name):</span>
+    <span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[]</span>
+    <span style="color: #657b83">current</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">name</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">current</span> <span style="color: #859900">in</span> <span style="color: #657b83">parents:</span>
+        <span style="color: #657b83">current</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">parents[current]</span>
+        <span style="color: #657b83">result</span><span style="color: #93a1a1">.</span><span style="color: #657b83">append(current)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">result</span>
+
+<span style="color: #859900">for</span> <span style="color: #657b83">possible_a</span> <span style="color: #859900">in</span> <span style="color: #657b83">ancestors(</span><span style="color: #2aa198">&quot;clinton&quot;</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">possible_dog,</span> <span style="color: #657b83">color</span> <span style="color: #859900">in</span> <span style="color: #657b83">colors</span><span style="color: #93a1a1">.</span><span style="color: #657b83">items():</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">color</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;brown&quot;</span> <span style="color: #859900">and</span> <span style="color: #657b83">possible_a</span> <span style="color: #859900">in</span> <span style="color: #657b83">ancestors(possible_dog):</span>
+            <span style="color: #268bd2">print</span><span style="color: #657b83">(possible_a,</span> <span style="color: #657b83">possible_dog)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/c85b85d72d07.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>Step through it and check your predictions: <code>ancestors(&quot;clinton&quot;)</code> returns <code>[&#x27;abraham&#x27;, &#x27;fillmore&#x27;, &#x27;eisenhower&#x27;]</code>, and the loops print exactly three pairs — <code>fillmore herbert</code>, <code>eisenhower fillmore</code>, and <code>eisenhower herbert</code>. This is not the real logic interpreter, and it does not record a proof tree. It is a bridge: it reproduces the same three successful combinations with plain loops, so the joint requirement and the role of the shared ancestor are visible before you study the recursive proof search that produces them for real.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>4.5-C The Unification Algorithm</span></a><a class='pg pg-next' href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>4.5-E Search and Unique Variable Names</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#a-detective-building-a-case'>A Detective Building a Case</a></li><li><a href='#the-logic-language-as-a-prover'>The Logic Language as a Prover</a></li><li><a href='#reading-a-fact-as-an-axiom'>Reading a Fact as an Axiom</a></li><li><a href='#the-official-dog-database'>The Official Dog Database</a></li><li><a href='#the-official-proof-query'>The Official Proof Query</a></li><li><a href='#why-three-answers-appear'>Why Three Answers Appear</a></li><li><a href='#a-step-by-step-trace-of-one-proof'>A Step-by-Step Trace of One Proof</a></li><li><a href='#a-proof-is-more-than-an-answer'>A Proof Is More Than an Answer</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

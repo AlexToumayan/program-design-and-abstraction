@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 372" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- ===== panel titles ===== -->
+  <text x="180" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#073642">threading</text>
+  <text x="540" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#073642">multiprocessing</text>
+
+  <!-- divider between panels -->
+  <line x1="360" y1="16" x2="360" y2="330" stroke="#93a1a1" stroke-width="1.5" stroke-dasharray="4 5"/>
+
+  <!-- ================= LEFT panel: one interpreter, two threads, one shared block ================= -->
+  <!-- outer interpreter box (the one process) -->
+  <rect x="24" y="50" width="312" height="208" rx="12" fill="#fdf6e3" stroke="#073642" stroke-width="2.5"/>
+  <text x="180" y="74" text-anchor="middle" font-size="13" fill="#657b83">One Python interpreter (one process)</text>
+
+  <!-- two thread boxes, side by side -->
+  <rect x="48" y="92" width="120" height="48" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="108" y="121" text-anchor="middle" font-size="16" font-family="monospace" fill="#073642">Thread-1</text>
+  <rect x="192" y="92" width="120" height="48" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="252" y="121" text-anchor="middle" font-size="16" font-family="monospace" fill="#073642">MainThread</text>
+
+  <!-- both threads point at the SAME shared-data box (blue, converging) -->
+  <line x1="108" y1="140" x2="168" y2="196" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="162,191 173,198 161,203" fill="#268bd2"/>
+  <line x1="252" y1="140" x2="192" y2="196" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="199,203 187,198 198,191" fill="#268bd2"/>
+
+  <!-- the ONE shared data box -->
+  <rect x="120" y="200" width="120" height="46" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="180" y="229" text-anchor="middle" font-size="16" font-family="monospace" fill="#073642">shared data</text>
+
+  <!-- left caption -->
+  <text x="180" y="288" text-anchor="middle" font-size="13" fill="#93a1a1">easy to pass info &#8212; and easy to interfere</text>
+
+  <!-- ================= RIGHT panel: two separate interpreters, each with its own data ================= -->
+  <!-- outer interpreter box: MainProcess -->
+  <rect x="392" y="50" width="144" height="160" rx="12" fill="#fdf6e3" stroke="#073642" stroke-width="2.5"/>
+  <text x="464" y="74" text-anchor="middle" font-size="11" fill="#657b83">Python interpreter</text>
+  <text x="464" y="89" text-anchor="middle" font-size="11" fill="#657b83">(its own process)</text>
+  <rect x="412" y="104" width="104" height="44" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="464" y="130" text-anchor="middle" font-size="14" font-family="monospace" fill="#073642">MainProcess</text>
+  <!-- short arrow: process -> its own data only -->
+  <line x1="464" y1="148" x2="464" y2="170" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="458,164 464,175 470,164" fill="#268bd2"/>
+  <rect x="412" y="176" width="104" height="22" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="464" y="192" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">its own data</text>
+
+  <!-- outer interpreter box: Process-1 (separate, not touching) -->
+  <rect x="560" y="50" width="144" height="160" rx="12" fill="#fdf6e3" stroke="#073642" stroke-width="2.5"/>
+  <text x="632" y="74" text-anchor="middle" font-size="11" fill="#657b83">Python interpreter</text>
+  <text x="632" y="89" text-anchor="middle" font-size="11" fill="#657b83">(its own process)</text>
+  <rect x="580" y="104" width="104" height="44" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="632" y="130" text-anchor="middle" font-size="14" font-family="monospace" fill="#073642">Process-1</text>
+  <!-- short arrow: process -> its own data only -->
+  <line x1="632" y1="148" x2="632" y2="170" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="626,164 632,175 638,164" fill="#268bd2"/>
+  <rect x="580" y="176" width="104" height="22" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="632" y="192" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">its own data</text>
+
+  <!-- double-headed arrow between the two separate processes -->
+  <line x1="540" y1="120" x2="556" y2="120" stroke="#dc322f" stroke-width="2.5"/>
+  <polygon points="542,114 531,120 542,126" fill="#dc322f"/>
+  <polygon points="554,114 565,120 554,126" fill="#dc322f"/>
+
+  <!-- right caption -->
+  <text x="548" y="240" text-anchor="middle" font-size="13" fill="#93a1a1">must send a message to coordinate</text>
+
+  <!-- ===== bottom caption ===== -->
+  <text x="360" y="350" text-anchor="middle" font-size="13" fill="#93a1a1">Threads share one block of data; processes each get their own.</text>
+</svg>

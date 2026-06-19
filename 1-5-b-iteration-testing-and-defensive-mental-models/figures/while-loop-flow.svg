@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-56 -16 752 344" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- condition diamond -->
+  <polygon points="250,28 360,90 250,152 140,90" fill="#fdf6e3" stroke="#073642" stroke-width="2.5"/>
+  <text x="250" y="85" text-anchor="middle" font-size="16" font-family="monospace" fill="#073642">condition</text>
+  <text x="250" y="106" text-anchor="middle" font-size="16" font-family="monospace" fill="#073642">true ?</text>
+
+  <!-- True arrow: diamond bottom down to the body box (blue) -->
+  <line x1="250" y1="152" x2="250" y2="206" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="244,204 250,215 256,204" fill="#268bd2"/>
+  <text x="270" y="184" text-anchor="start" font-size="13" font-family="monospace" fill="#268bd2">True</text>
+
+  <!-- body box -->
+  <rect x="170" y="217" width="160" height="52" rx="12" fill="#ffffff" stroke="#268bd2" stroke-width="2"/>
+  <text x="250" y="249" text-anchor="middle" font-size="18" fill="#073642">run the body</text>
+
+  <!-- loop-back arrow: body left, up the margin, back into the diamond's left point (emphasized) -->
+  <line x1="170" y1="243" x2="58" y2="243" stroke="#268bd2" stroke-width="3.5"/>
+  <line x1="58" y1="243" x2="58" y2="90" stroke="#268bd2" stroke-width="3.5"/>
+  <line x1="58" y1="90" x2="134" y2="90" stroke="#268bd2" stroke-width="3.5"/>
+  <polygon points="132,82 147,90 132,98" fill="#268bd2"/>
+  <text x="38" y="167" text-anchor="middle" font-size="13" font-style="italic" fill="#268bd2" transform="rotate(-90 38 167)">loop back and check again</text>
+
+  <!-- False arrow: diamond right out to the exit box (cyan) -->
+  <line x1="360" y1="90" x2="464" y2="90" stroke="#2aa198" stroke-width="2.5"/>
+  <polygon points="462,84 473,90 462,96" fill="#2aa198"/>
+  <text x="412" y="80" text-anchor="middle" font-size="13" font-family="monospace" fill="#2aa198">False</text>
+
+  <!-- continue-after-the-loop box -->
+  <rect x="476" y="64" width="190" height="52" rx="12" fill="#ffffff" stroke="#2aa198" stroke-width="2"/>
+  <text x="571" y="86" text-anchor="middle" font-size="15" fill="#073642">continue after</text>
+  <text x="571" y="106" text-anchor="middle" font-size="15" fill="#073642">the loop</text>
+
+  <!-- caption -->
+  <text x="340" y="300" text-anchor="middle" font-size="13" fill="#93a1a1">the body repeats as long as the condition stays true.</text>
+</svg>

@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 490" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#073642">Yield: pause, hand back, resume</text>
+
+  <rect x="16" y="50" width="178" height="72" rx="10" fill="#fdf6e3" stroke="#073642" stroke-width="2"/>
+  <text x="105" y="76" text-anchor="middle" font-size="12.5" font-family="monospace" fill="#073642">letters =</text>
+  <text x="105" y="94" text-anchor="middle" font-size="12.5" font-family="monospace" fill="#268bd2">letters_generator()</text>
+  <rect x="35" y="100" width="140" height="16" rx="6" fill="#ffffff" stroke="#93a1a1" stroke-width="1"/>
+  <text x="105" y="112" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#657b83">current: unset</text>
+  <text x="105" y="139" text-anchor="middle" font-size="11" fill="#93a1a1">builds paused generator</text>
+  <text x="105" y="152" text-anchor="middle" font-size="11" fill="#93a1a1">object &#8212; body has NOT run</text>
+
+  <line x1="200" y1="100" x2="234" y2="100" stroke="#073642" stroke-width="3.5"/>
+  <polygon points="232,93 246,100 232,107" fill="#073642"/>
+  <text x="219" y="89" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#073642">next()</text>
+
+  <rect x="250" y="50" width="190" height="116" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="345" y="42" text-anchor="middle" font-size="12" font-weight="bold" fill="#268bd2">1st next &#8594; enters body</text>
+  <rect x="260" y="60" width="170" height="22" rx="5" fill="#eee8d5" stroke="#268bd2" stroke-width="1.5"/>
+  <text x="268" y="75" font-size="11" font-family="monospace" fill="#073642">while current &lt;= 'd':</text>
+  <rect x="260" y="84" width="170" height="22" rx="5" fill="#eee8d5" stroke="#268bd2" stroke-width="1.5"/>
+  <text x="268" y="99" font-size="11" font-family="monospace" fill="#073642">    yield current</text>
+  <text x="268" y="123" font-size="11" font-family="monospace" fill="#93a1a1">    current = chr(ord+1)</text>
+  <circle cx="426" cy="95" r="7" fill="#dc322f"/>
+  <text x="420" y="139" text-anchor="end" font-size="10" font-weight="bold" fill="#dc322f">PAUSED HERE</text>
+  <rect x="288" y="142" width="116" height="16" rx="6" fill="#fdf6e3" stroke="#073642" stroke-width="1.2"/>
+  <text x="346" y="154" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#073642">current: "a"</text>
+
+  <line x1="345" y1="168" x2="345" y2="200" stroke="#2aa198" stroke-width="2.5"/>
+  <polygon points="339,198 345,210 351,198" fill="#2aa198"/>
+  <rect x="309" y="212" width="72" height="34" rx="8" fill="#ffffff" stroke="#2aa198" stroke-width="2"/>
+  <text x="345" y="234" text-anchor="middle" font-size="16" font-family="monospace" fill="#073642">'a'</text>
+
+  <line x1="442" y1="100" x2="486" y2="100" stroke="#073642" stroke-width="3.5"/>
+  <polygon points="484,93 498,100 484,107" fill="#073642"/>
+  <text x="464" y="89" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#073642">next()</text>
+
+  <rect x="502" y="50" width="190" height="116" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="597" y="42" text-anchor="middle" font-size="12" font-weight="bold" fill="#268bd2">2nd next &#8594; resumes</text>
+  <text x="512" y="75" font-size="11" font-family="monospace" fill="#93a1a1">while current &lt;= 'd':</text>
+  <rect x="508" y="84" width="170" height="22" rx="5" fill="#eee8d5" stroke="#268bd2" stroke-width="1.5"/>
+  <text x="516" y="99" font-size="11" font-family="monospace" fill="#073642">    yield current</text>
+  <rect x="508" y="108" width="170" height="22" rx="5" fill="#eee8d5" stroke="#268bd2" stroke-width="1.5"/>
+  <text x="516" y="123" font-size="11" font-family="monospace" fill="#073642">    current = chr(ord+1)</text>
+  <circle cx="674" cy="95" r="7" fill="#dc322f"/>
+
+  <line x1="552" y1="144" x2="524" y2="117" stroke="#657b83" stroke-width="2" stroke-dasharray="4 3"/>
+  <polygon points="515,118 526,112 527,123" fill="#657b83" transform="rotate(44 524 117)"/>
+  <text x="595" y="155" text-anchor="middle" font-size="10" fill="#657b83">re-enter after yield, update, re-check</text>
+
+  <line x1="597" y1="168" x2="597" y2="200" stroke="#2aa198" stroke-width="2.5"/>
+  <polygon points="591,198 597,210 603,198" fill="#2aa198"/>
+  <rect x="561" y="212" width="72" height="34" rx="8" fill="#ffffff" stroke="#2aa198" stroke-width="2"/>
+  <text x="597" y="234" text-anchor="middle" font-size="16" font-family="monospace" fill="#073642">'b'</text>
+
+  <text x="360" y="282" text-anchor="middle" font-size="13" fill="#657b83">each later next() resumes the SAME frame &#8230; emitting 'c', then 'd'</text>
+
+  <line x1="184" y1="346" x2="222" y2="346" stroke="#073642" stroke-width="3.5"/>
+  <polygon points="220,339 234,346 220,353" fill="#073642"/>
+  <text x="200" y="335" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#073642">final next()</text>
+
+  <rect x="250" y="312" width="200" height="86" rx="10" fill="#ffffff" stroke="#dc322f" stroke-width="2"/>
+  <text x="350" y="328" text-anchor="middle" font-size="12" font-weight="bold" fill="#dc322f">while is now false</text>
+  <rect x="260" y="338" width="180" height="22" rx="5" fill="#fdf6e3" stroke="#dc322f" stroke-width="1.3"/>
+  <text x="268" y="353" font-size="11" font-family="monospace" fill="#073642">while current &lt;= 'd':</text>
+  <text x="268" y="377" font-size="11" font-family="monospace" fill="#93a1a1">    (loop body skipped)</text>
+  <text x="350" y="392" text-anchor="middle" font-size="10" fill="#dc322f">body runs off the end</text>
+
+  <line x1="452" y1="355" x2="490" y2="355" stroke="#dc322f" stroke-width="2.5"/>
+  <polygon points="488,348 502,355 488,362" fill="#dc322f"/>
+  <rect x="506" y="338" width="160" height="34" rx="8" fill="#ffffff" stroke="#dc322f" stroke-width="2.5"/>
+  <text x="586" y="360" text-anchor="middle" font-size="13" font-family="monospace" font-weight="bold" fill="#dc322f">StopIteration</text>
+
+  <rect x="40" y="416" width="640" height="60" rx="12" fill="#fdf6e3" stroke="#073642" stroke-width="2.5"/>
+  <text x="360" y="440" text-anchor="middle" font-size="13" font-weight="bold" fill="#073642">remembered between calls</text>
+  <text x="360" y="462" text-anchor="middle" font-size="13" font-family="monospace" fill="#657b83">current   +   the exact paused line</text>
+</svg>

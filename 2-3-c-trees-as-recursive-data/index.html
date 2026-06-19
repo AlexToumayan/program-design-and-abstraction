@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>2.3 Trees as Recursive Data · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/' class='active'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 2</span><span class='dot'>/</span><span class='eb-sec'>2.3 Sequences</span></div><h1 class='lesson-title'>2.3 Trees as Recursive Data</h1><div class='reading-meta'>&#9719; approx. 18 min read <span class='rm-sep'>&middot;</span> 10 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>By the end of this lesson you will be able to do four things. You will be able to say what makes a tree a recursive data structure and why that word &quot;recursive&quot; is literal here, not a metaphor. You will be able to build trees and take them apart using a small set of functions called a constructor and selectors, without ever caring how the tree is stored underneath. You will be able to write functions that walk a whole tree by following the shape of the data, and you will be able to predict what they produce by tracing the calls by hand.</p>
+<p>The single habit this lesson builds is this: when a piece of data is made of smaller pieces of the same kind, the function that processes it almost always calls itself once on each smaller piece. The data is recursive, so the code is recursive. Once you see that one pattern, every function in this lesson is a variation on it.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='a-tree-is-built-from-smaller-trees' class='ls ls-default'>
+<h2 class='ls-h'><span>A Tree Is Built From Smaller Trees</span></h2>
+<div class='ls-body'>
+<p>Picture a family diagram. There is one person at the top, and below them are their children, and below each child are that child&#x27;s own children, and so on:</p>
+<pre class='code text'><code>        Alex
+       /    \
+    Maya    Jordan
+            /    \
+         Sam      Lee</code></pre>
+<p>Here is the part that matters. If you cover up <code>Alex</code> with your hand and look only at the part of the diagram hanging off <code>Jordan</code>, what you see is still a family diagram. It has someone at the top (<code>Jordan</code>) and children below (<code>Sam</code> and <code>Lee</code>). The piece looks exactly like the whole, just smaller.</p>
+<p>That is the entire idea of a tree. A tree is a value sitting at the top, called the <strong>root label</strong>, together with zero or more smaller trees hanging beneath it, called the <strong>branches</strong>. Each branch is itself a complete tree, with its own root label and its own branches. The definition uses the word &quot;tree&quot; inside itself, and that is allowed, because each time you step into a branch you are looking at a strictly smaller tree, and eventually you reach a tree with no branches at all.</p>
+<p>A tree with no branches is called a <strong>leaf</strong>. In the diagram, <code>Maya</code>, <code>Sam</code>, and <code>Lee</code> are leaves. A leaf is still a real tree; it just has a label and an empty list of branches. Leaves are where the recursion bottoms out.</p>
+<pre class='code text'><code>A tree is:
+  a root label
+  a list of branches, where each branch is itself a tree
+
+A leaf is a tree whose list of branches is empty.</code></pre>
+<p>Trees show up everywhere in this course and beyond: arithmetic expressions, the folders on your computer, the moves in a game, the structure of a sentence, and the call structure of recursive functions. Learning to process them with one repeatable pattern pays off many times over.</p>
+</div></section>
+<section id='the-closure-property-why-lists-can-hold-trees' class='ls ls-default'>
+<h2 class='ls-h'><span>The Closure Property: Why Lists Can Hold Trees</span></h2>
+<div class='ls-body'>
+<p>Before we represent trees, notice the feature of lists that makes trees possible at all. A list element can be anything, including another list. When the result of combining values can itself be fed back in as a value to combine, we say the combining method has the <strong>closure property</strong>. Lists have it: you can put lists inside lists inside lists, with no special limit.</p>
+<p>The official text demonstrates this with a flat pair and a deeply nested list:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #657b83">one_two</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">]</span>
+<span style="color: #657b83">nested</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[[</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">],</span> <span style="color: #657b83">[],</span> <span style="color: #657b83">[[</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">False</span><span style="color: #657b83">,</span> <span style="color: #2aa198">None</span><span style="color: #657b83">],</span> <span style="color: #657b83">[</span><span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #859900">lambda</span><span style="color: #657b83">:</span> <span style="color: #2aa198">5</span><span style="color: #657b83">]]]</span>
+</code></pre>
+<p>Read <code>nested</code> slowly. Its first element is the list <code>[1, 2]</code>. Its second element is the empty list <code>[]</code>, which is a real element, not nothing. Its third element is itself a list of two lists, and one of those inner lists holds a number, a boolean, the value <code>None</code>, and even a function made with <code>lambda</code>. A list can hold values, and it can hold other lists built by exactly the same rule. That is the closure property in action, and it is precisely what lets us store a tree, whose branches are trees, whose branches are trees, as nothing more than lists inside lists.</p>
+</div></section>
+<section id='the-tree-abstraction' class='ls ls-default'>
+<h2 class='ls-h'><span>The Tree Abstraction</span></h2>
+<div class='ls-body'>
+<p>We are going to work with trees through three functions and two predicates. Keep this distinction front of mind, because it is the whole point of an abstraction: there is the <strong>constructor</strong> that builds a tree, the <strong>selectors</strong> that pull pieces back out, and the underlying representation, which we agree not to touch directly.</p>
+<pre class='code text'><code>tree(label, branches)  ... constructor: build a tree from a label and a list of branches
+label(t)               ... selector: return the root label of tree t
+branches(t)            ... selector: return the list of branches of tree t</code></pre>
+<p>We also use two <strong>predicates</strong>, functions that return <code>True</code> or <code>False</code>:</p>
+<pre class='code text'><code>is_tree(t)  ... is this value a well-formed tree?
+is_leaf(t)  ... does this tree have no branches?</code></pre>
+<p>The promise of the abstraction is that any code you write using only <code>tree</code>, <code>label</code>, <code>branches</code>, <code>is_tree</code>, and <code>is_leaf</code> will keep working no matter how a tree is actually stored. That promise is what lets you reason about trees as ideas instead of as lists.</p>
+</div></section>
+<section id='a-list-representation-of-trees' class='ls ls-default'>
+<h2 class='ls-h'><span>A List Representation of Trees</span></h2>
+<div class='ls-body'>
+<p>Here is one concrete way to store a tree. Represent it as a list whose first element is the root label and whose remaining elements are the branches. Because each branch is itself a tree, each branch is stored the same way, as a list. The official constructor and selectors look like this:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">tree</span><span style="color: #657b83">(root_label,</span> <span style="color: #657b83">branches</span><span style="color: #93a1a1">=</span><span style="color: #657b83">[]):</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">branch</span> <span style="color: #859900">in</span> <span style="color: #657b83">branches:</span>
+        <span style="color: #859900">assert</span> <span style="color: #657b83">is_tree(branch),</span> <span style="color: #2aa198">&#39;branches must be trees&#39;</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">[root_label]</span> <span style="color: #93a1a1">+</span> <span style="color: #268bd2">list</span><span style="color: #657b83">(branches)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">label</span><span style="color: #657b83">(tree):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">tree[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">branches</span><span style="color: #657b83">(tree):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">tree[</span><span style="color: #2aa198">1</span><span style="color: #657b83">:]</span>
+</code></pre>
+<p>The constructor takes the root label and a list of branches, checks that each branch is itself a valid tree, and then returns a single list: the label in front, followed by all the branches. The selector <code>label</code> reads back the first element. The selector <code>branches</code> reads back everything after the first element, which is the list of branch trees.</p>
+<p>Notice the parameter name in the official constructor: <code>root_label</code>, not just <code>label</code>. The author chose <code>root_label</code> to make it obvious that this value belongs to the root of the tree being built, separate from the selector function named <code>label</code>. Notice also <code>branches=[]</code>, a default value, so that calling <code>tree(5)</code> with no branches gives you a leaf.</p>
+<h3>Follow the Line: the Constructor</h3>
+<p>Walk through the constructor&#x27;s body one line at a time. Each row says what the line does, and the final row states the action the function performs.</p>
+<pre class='code anatomy'><code>def tree(root_label, branches=[]):
+├─ def tree ................ defines a function named tree
+├─ root_label .............. first input: the value that sits at the root
+├─ branches=[] ............. second input: the list of branch trees, defaulting to no branches
+└─ action .................. begins the definition of the tree constructor
+
+    for branch in branches:
+    ├─ for branch in ....... visits each branch in the branches list, one at a time
+    └─ action .............. starts a loop body that runs once per branch
+
+        assert is_tree(branch), &#x27;branches must be trees&#x27;
+        ├─ is_tree(branch) . checks whether this branch is itself a valid tree
+        ├─ assert .......... requires that check to be True, or stops with an error
+        ├─ &#x27;branches...&#x27;  .. the message shown if the check fails
+        └─ action .......... rejects any branch that is not a real tree
+
+    return [root_label] + list(branches)
+    ├─ [root_label] ........ a new one-element list holding the root label
+    ├─ list(branches) ...... a fresh copy of the branch list
+    ├─ + ................... joins them into one list, label first
+    └─ evaluates to ........ the finished tree, as a list with the label at the front</code></pre>
+<p>The call <code>list(branches)</code> makes a shallow copy of the incoming branch sequence. That small move means the new tree does not secretly share the exact list object the caller passed in, which keeps later code from accidentally mutating the tree through a leftover reference.</p>
+</div></section>
+<section id='building-and-reading-a-tree' class='ls ls-default'>
+<h2 class='ls-h'><span>Building and Reading a Tree</span></h2>
+<div class='ls-body'>
+<p>Now build a real tree. This expression makes a tree whose root label is <code>3</code>, with two branches: a leaf labeled <code>1</code>, and a subtree labeled <code>2</code> that itself has two leaf branches labeled <code>1</code>:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #657b83">t</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">tree(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #657b83">[tree(</span><span style="color: #2aa198">1</span><span style="color: #657b83">),</span> <span style="color: #657b83">tree(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #657b83">[tree(</span><span style="color: #2aa198">1</span><span style="color: #657b83">),</span> <span style="color: #657b83">tree(</span><span style="color: #2aa198">1</span><span style="color: #657b83">)])])</span>
+</code></pre>
+<p>Underneath, in the list representation, <code>t</code> is stored as nested lists. Each tree is a list with its label first:</p>
+<pre class='code text'><code>[3, [1], [2, [1], [1]]]</code></pre>
+<p>And drawn as a tree, the same value looks like this:</p>
+<pre class='code text'><code>        3
+       / \
+      1   2
+         / \
+        1   1</code></pre>
+<p>Now exercise the selectors at the interpreter. Reading these transcripts is the fastest way to feel how <code>label</code> and <code>branches</code> peel the structure apart:</p>
+<pre class='code text'><code>&gt;&gt;&gt; t = tree(3, [tree(1), tree(2, [tree(1), tree(1)])])
+&gt;&gt;&gt; t
+[3, [1], [2, [1], [1]]]
+&gt;&gt;&gt; label(t)
+3
+&gt;&gt;&gt; branches(t)
+[[1], [2, [1], [1]]]
+&gt;&gt;&gt; label(branches(t)[1])
+2
+&gt;&gt;&gt; is_leaf(t)
+False
+&gt;&gt;&gt; is_leaf(branches(t)[0])
+True</code></pre>
+<p>Trace the trickier line, <code>label(branches(t)[1])</code>, from the inside out. First <code>branches(t)</code> returns the list of two branches, <code>[[1], [2, [1], [1]]]</code>. Then <code>[1]</code> selects the branch at index <code>1</code>, which is the subtree <code>[2, [1], [1]]</code>. Then <code>label(...)</code> reads that subtree&#x27;s root label, which is <code>2</code>. The last line works the same way: <code>branches(t)[0]</code> is the first branch, the leaf <code>[1]</code>, and <code>is_leaf</code> reports <code>True</code> because that tree has no branches of its own.</p>
+</div></section>
+<section id='validating-trees' class='ls ls-default'>
+<h2 class='ls-h'><span>Validating Trees</span></h2>
+<div class='ls-body'>
+<p>The constructor calls <code>is_tree</code> to check each branch, so we need that predicate. A value is a well-formed tree when it is a non-empty list and every one of its branches is also a well-formed tree. That second condition is recursive: to validate a tree, validate each branch, which means validating each branch&#x27;s branches, and so on.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (4)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">is_tree</span><span style="color: #657b83">(tree):</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">type</span><span style="color: #657b83">(tree)</span> <span style="color: #93a1a1">!=</span> <span style="color: #268bd2">list</span> <span style="color: #859900">or</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(tree)</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">1</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">False</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">branch</span> <span style="color: #859900">in</span> <span style="color: #657b83">branches(tree):</span>
+        <span style="color: #859900">if</span> <span style="color: #859900">not</span> <span style="color: #657b83">is_tree(branch):</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">False</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">True</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">is_leaf</span><span style="color: #657b83">(tree):</span>
+    <span style="color: #859900">return</span> <span style="color: #859900">not</span> <span style="color: #657b83">branches(tree)</span>
+</code></pre>
+<p>The first check rejects anything that is not a list, or that is a list with no room for even a label. The loop then demands that every branch pass the same <code>is_tree</code> test. If any branch fails, the whole thing is not a tree. The predicate <code>is_leaf</code> is shorter: <code>branches(tree)</code> returns the branch list, and <code>not</code> on a list is <code>True</code> exactly when that list is empty, so a tree with no branches is a leaf.</p>
+<h3>Follow the Line: the Recursive Check</h3>
+<p>The heart of <code>is_tree</code> is the loop. Here is what each line does, ending in the action it performs:</p>
+<pre class='code anatomy'><code>for branch in branches(tree):
+├─ branches(tree) ....... gets this tree&#x27;s list of branches
+├─ for branch in ........ visits each branch one at a time
+└─ action ............... checks every branch, not just the first
+
+    if not is_tree(branch):
+    ├─ is_tree(branch) .. asks whether this branch is itself a valid tree
+    ├─ not .............. flips the answer, so True means &quot;this branch is invalid&quot;
+    └─ action ........... detects a bad branch
+
+        return False
+        └─ action ....... reports the whole value is not a tree and stops</code></pre>
+<p>The reason this is recursive is plain in <code>is_tree(branch)</code>: deciding whether the big value is a tree requires deciding whether each smaller branch is a tree. Same question, smaller input.</p>
+</div></section>
+<section id='counting-leaves' class='ls ls-default'>
+<h2 class='ls-h'><span>Counting Leaves</span></h2>
+<div class='ls-body'>
+<p>Now write a function over trees. To count the leaves in a tree, follow the shape of the data. If the tree is a leaf, it is one leaf, so the answer is <code>1</code>. Otherwise, count the leaves in each branch and add those counts together. That is the official function, including its exact parameter name <code>tree</code>:</p>
+<p>The structure of the recursive function lines up piece for piece with the structure of the tree it walks, as the figure below makes visible.</p>
+<p><img class="figure" src="figures/tree-mirrors-code.svg" alt="Diagram showing how each part of a recursive tree-processing function corresponds to a part of the tree data abstraction, with the base case matching a leaf and the recursive call matching each branch"></p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (5)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">count_leaves</span><span style="color: #657b83">(tree):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">is_leaf(tree):</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">branch_counts</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[count_leaves(b)</span> <span style="color: #859900">for</span> <span style="color: #657b83">b</span> <span style="color: #859900">in</span> <span style="color: #657b83">branches(tree)]</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">sum</span><span style="color: #657b83">(branch_counts)</span>
+</code></pre>
+<p>The list comprehension <code>[count_leaves(b) for b in branches(tree)]</code> calls <code>count_leaves</code> once on every branch, producing a list of per-branch leaf counts. Then <code>sum(branch_counts)</code> adds them into a single total. The base case, a leaf, is what stops the recursion from going forever; every recursive call moves to a strictly smaller branch, and leaves have no branches.</p>
+<h3>Follow the Line: the Recursive Step</h3>
+<pre class='code anatomy'><code>branch_counts = [count_leaves(b) for b in branches(tree)]
+├─ branches(tree) ......... the list of this tree&#x27;s branches
+├─ for b in ............... takes each branch in turn as b
+├─ count_leaves(b) ........ counts the leaves inside that one branch
+├─ [ ... ] ................ collects those per-branch counts into a list
+└─ action ................. binds branch_counts to the list of branch leaf counts
+
+return sum(branch_counts)
+├─ sum(branch_counts) ..... adds every per-branch count together
+└─ evaluates to ........... the total number of leaves in the whole tree</code></pre>
+<h3>A Bridge You Can Check by Hand</h3>
+<p>Before the official-sized example, count leaves on a tree small enough to verify in your head. Take the tree from (3):</p>
+<pre class='code text'><code>        3
+       / \
+      1   2
+         / \
+        1   1</code></pre>
+<p>There are three leaves: the lone <code>1</code> on the left, and the two <code>1</code>s under the <code>2</code>. The root <code>3</code> and the inner <code>2</code> are not leaves, because they have branches. So <code>count_leaves(t)</code> should be <code>3</code>. Walk the recursion to confirm it:</p>
+<pre class='code anatomy'><code>count_leaves(3-tree)            not a leaf; count its two branches
+├─ count_leaves(1-tree)         leaf  -&gt; 1
+└─ count_leaves(2-tree)         not a leaf; count its two branches
+   ├─ count_leaves(1-tree)      leaf  -&gt; 1
+   └─ count_leaves(1-tree)      leaf  -&gt; 1
+   branch_counts = [1, 1]       sum   -&gt; 2
+branch_counts = [1, 2]          sum   -&gt; 3</code></pre>
+<p>The call structure mirrors the data structure exactly: a tree with two branches produces two recursive calls, and each of those expands into its own branch calls until it hits a leaf.</p>
+</div></section>
+<section id='fibonacci-trees' class='ls ls-default'>
+<h2 class='ls-h'><span>Fibonacci Trees</span></h2>
+<div class='ls-body'>
+<p>In Section 1.7 you computed <code>fib(n)</code> with tree recursion, where each call branched into <code>fib(n-2)</code> and <code>fib(n-1)</code>. A Fibonacci tree is that exact call structure captured as data: the branching you traced by hand is now an object you can hold. A Fibonacci tree is a tree whose shape records the recursive calls used to compute a Fibonacci number. The root label is the Fibonacci value, and its two branches are the Fibonacci trees for the two smaller subproblems. Here is the official function. Note the exact form of the recursive line, which assigns both subtrees in a single tuple assignment:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (6)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">fib_tree</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span> <span style="color: #859900">or</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">tree(n)</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">left,</span> <span style="color: #657b83">right</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">fib_tree(n</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">2</span><span style="color: #657b83">),</span> <span style="color: #657b83">fib_tree(n</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+        <span style="color: #657b83">fib_n</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">label(left)</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">label(right)</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">tree(fib_n,</span> <span style="color: #657b83">[left,</span> <span style="color: #657b83">right])</span>
+</code></pre>
+<p>The base case, <code>n == 0 or n == 1</code>, returns a leaf whose label is <code>n</code> itself, because the Fibonacci values <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span> and <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span> are just <code>0</code> and <code>1</code>. Otherwise the function builds the trees for <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span></span> and <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span></span>, reads their root labels, adds them to get this node&#x27;s Fibonacci value, and assembles a new tree with those two subtrees as branches. The label arithmetic here, <code>label(left) + label(right)</code>, is the Fibonacci recurrence</p>
+<div class='math'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8917em;vertical-align:-0.2083em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2083em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8917em;vertical-align:-0.2083em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mbin mtight">−</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2083em;"><span></span></span></span></span></span></span></span></span></span></span></div>
+<p>acting directly on the labels at the top of the two branches.</p>
+<h3>Follow the Line: Building the Node</h3>
+<pre class='code anatomy'><code>left, right = fib_tree(n-2), fib_tree(n-1)
+├─ fib_tree(n-2) ......... the full Fibonacci tree for n minus two
+├─ fib_tree(n-1) ......... the full Fibonacci tree for n minus one
+├─ left, right = ......... names the first subtree left and the second right
+└─ action ................ binds both subtrees at once
+
+fib_n = label(left) + label(right)
+├─ label(left) ........... the Fibonacci value at the root of the left subtree
+├─ label(right) .......... the Fibonacci value at the root of the right subtree
+├─ + ..................... adds them, applying the Fibonacci recurrence
+└─ action ................ binds fib_n to this node&#x27;s Fibonacci value
+
+return tree(fib_n, [left, right])
+├─ [left, right] ......... a list holding the two subtrees as branches
+├─ tree(fib_n, ...) ...... builds a new tree with that value and those branches
+└─ evaluates to .......... the Fibonacci tree rooted at fib_n</code></pre>
+<p>Drawn out, <code>fib_tree(4)</code> has the root label <code>3</code>, because <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span></span></span></span></span>, and every branch is itself a full Fibonacci tree, not just a number:</p>
+<pre class='code text'><code>        3
+       / \
+      1   2
+         / \
+        1   1
+           / \
+          0   1</code></pre>
+<p>At the interpreter, asking for a larger Fibonacci tree shows the whole nested-list structure, and counting its leaves reuses <code>count_leaves</code> unchanged:</p>
+<pre class='code text'><code>&gt;&gt;&gt; fib_tree(5)
+[5, [2, [1], [1, [0], [1]]], [3, [1, [0], [1]], [2, [1], [1, [0], [1]]]]]
+&gt;&gt;&gt; count_leaves(fib_tree(5))
+8</code></pre>
+<p>The leaf count is meaningful: the leaves of a Fibonacci tree are exactly the base cases hit while computing <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span>, so <code>count_leaves(fib_tree(5))</code> being <code>8</code> tells you how many times the bottom of the recursion was reached.</p>
+</div></section>
+<section id='trees-for-integer-partitions' class='ls ls-default'>
+<h2 class='ls-h'><span>Trees for Integer Partitions</span></h2>
+<div class='ls-body'>
+<p>Trees can record decisions, not just values. Recall the integer partition problem: count the ways to write a positive integer <code>n</code> as a sum of positive parts no larger than <code>m</code>. Every partition of <code>n</code> either uses at least one part of size <code>m</code>, or it uses none at all and is built only from smaller parts. Those two cases cover all the possibilities and never overlap, which is why each step offers exactly two choices, and we can make each choice a branch of a tree:</p>
+<pre class='code text'><code>left branch  ... use at least one part of size m
+right branch ... use no part of size m, and only consider parts smaller than m</code></pre>
+<p>The official function builds the whole decision tree. The leaves are labeled <code>True</code> for a path that lands exactly on a sum of <code>n</code>, and <code>False</code> for a path that overshoots or runs out of part sizes:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (7)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">partition_tree</span><span style="color: #657b83">(n,</span> <span style="color: #657b83">m):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return a partition tree of n using parts of up to m.&quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">tree(</span><span style="color: #2aa198">True</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">0</span> <span style="color: #859900">or</span> <span style="color: #657b83">m</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">tree(</span><span style="color: #2aa198">False</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">left</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">partition_tree(n</span><span style="color: #93a1a1">-</span><span style="color: #657b83">m,</span> <span style="color: #657b83">m)</span>
+        <span style="color: #657b83">right</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">partition_tree(n,</span> <span style="color: #657b83">m</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">tree(m,</span> <span style="color: #657b83">[left,</span> <span style="color: #657b83">right])</span>
+</code></pre>
+<p>When <code>n</code> reaches exactly <code>0</code>, the choices so far form a valid partition, so the tree is a leaf labeled <code>True</code>. When <code>n</code> goes negative or <code>m</code> reaches <code>0</code> with <code>n</code> still positive, the path has failed, so the tree is a leaf labeled <code>False</code>. Otherwise the node is labeled <code>m</code>, with the left subtree exploring &quot;use an <code>m</code>&quot; by reducing <code>n</code> by <code>m</code>, and the right subtree exploring &quot;skip <code>m</code>&quot; by reducing the largest allowed part to <code>m - 1</code>.</p>
+<h3>Follow the Line: the Two Choices</h3>
+<pre class='code anatomy'><code>left = partition_tree(n-m, m)
+├─ n-m ................... the remaining total after using one part of size m
+├─ m ..................... the largest part size stays m, so m can be reused
+├─ partition_tree(...) ... the full tree of choices that begin by using an m
+└─ action ................ binds left to the &quot;use an m&quot; subtree
+
+right = partition_tree(n, m-1)
+├─ n ..................... the total is unchanged, since no part was used
+├─ m-1 ................... the largest allowed part shrinks, so m is never used again
+├─ partition_tree(...) ... the full tree of choices that avoid m
+└─ action ................ binds right to the &quot;skip m&quot; subtree
+
+return tree(m, [left, right])
+├─ m ..................... this node records the part size under consideration
+├─ [left, right] ......... the two subtrees for the two choices
+└─ evaluates to .......... the decision tree rooted at the choice about m</code></pre>
+<p>Building a small one at the interpreter shows the structure, with <code>True</code> and <code>False</code> leaves marking which paths succeed:</p>
+<pre class='code text'><code>&gt;&gt;&gt; partition_tree(2, 2)
+[2, [True], [1, [1, [True], [False]], [False]]]</code></pre>
+<p>This is the data-structure twin of the partition-counting function from Section 1.7, the one that returned just a count of solutions. You don&#x27;t need to recall it to follow this code; the point is only that here the tree keeps the entire shape of the decisions, so we can walk it later to print the partitions themselves.</p>
+</div></section>
+<section id='printing-the-successful-partitions' class='ls ls-default'>
+<h2 class='ls-h'><span>Printing the Successful Partitions</span></h2>
+<div class='ls-body'>
+<p>To turn a partition tree into a list of actual partitions, walk it while carrying the choices made so far. The official printer threads a <code>partition</code> list down through the recursion. Going left means &quot;use <code>m</code>,&quot; so it appends <code>m</code>; going right means &quot;skip <code>m</code>,&quot; so it leaves the list unchanged. At each <code>True</code> leaf, it prints the accumulated parts joined with plus signs:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (8)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">print_parts</span><span style="color: #657b83">(tree,</span> <span style="color: #657b83">partition</span><span style="color: #93a1a1">=</span><span style="color: #657b83">[]):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">is_leaf(tree):</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">label(tree):</span>
+            <span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #2aa198">&#39; + &#39;</span><span style="color: #93a1a1">.</span><span style="color: #657b83">join(partition))</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">left,</span> <span style="color: #657b83">right</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">branches(tree)</span>
+        <span style="color: #657b83">m</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(label(tree))</span>
+        <span style="color: #657b83">print_parts(left,</span> <span style="color: #657b83">partition</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">[m])</span>
+        <span style="color: #657b83">print_parts(right,</span> <span style="color: #657b83">partition)</span>
+</code></pre>
+<h3>Follow the Line: Carrying the Choices</h3>
+<pre class='code anatomy'><code>left, right = branches(tree)
+├─ branches(tree) ........ the two subtrees, &quot;use m&quot; then &quot;skip m&quot;
+├─ left, right = ......... names them left and right
+└─ action ................ unpacks the two branches
+
+m = str(label(tree))
+├─ label(tree) ........... the part size recorded at this node
+├─ str(...) .............. turns it into text for joining later
+└─ action ................ binds m to that part size as a string
+
+print_parts(left, partition + [m])
+├─ partition + [m] ....... a new list with m added, recording that we used m
+├─ print_parts(left, ...) walks the &quot;use m&quot; subtree with the larger partition
+└─ action ................ explores every successful partition that uses m
+
+print_parts(right, partition)
+├─ print_parts(right, ...) walks the &quot;skip m&quot; subtree with the partition unchanged
+└─ action ................ explores every successful partition that avoids m</code></pre>
+<p>Notice <code>partition + [m]</code> builds a brand-new list rather than mutating the shared one, so the left branch&#x27;s bookkeeping never leaks into the right branch. Running it on a larger problem prints every partition of <code>6</code> using parts up to <code>4</code>:</p>
+<pre class='code text'><code>&gt;&gt;&gt; print_parts(partition_tree(6, 4))
+4 + 2
+4 + 1 + 1
+3 + 3
+3 + 2 + 1
+3 + 1 + 1 + 1
+2 + 2 + 2
+2 + 2 + 1 + 1
+2 + 1 + 1 + 1 + 1
+1 + 1 + 1 + 1 + 1 + 1</code></pre>
+</div></section>
+<section id='right-binarizing-a-tree' class='ls ls-default'>
+<h2 class='ls-h'><span>Right-Binarizing a Tree</span></h2>
+<div class='ls-body'>
+<p>Sometimes a tree has more than two branches, and we want a strictly binary version. Right-binarizing keeps the first branch as-is and groups all the remaining branches under a single new branch on the right, then repeats this everywhere. Here is the official function, including its docstring:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (9)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">right_binarize</span><span style="color: #657b83">(tree):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Construct a right-branching binary tree.&quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">is_leaf(tree):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">tree</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(tree)</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #2aa198">2</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">tree</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[tree[</span><span style="color: #2aa198">0</span><span style="color: #657b83">],</span> <span style="color: #657b83">tree[</span><span style="color: #2aa198">1</span><span style="color: #657b83">:]]</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">[right_binarize(b)</span> <span style="color: #859900">for</span> <span style="color: #657b83">b</span> <span style="color: #859900">in</span> <span style="color: #657b83">tree]</span>
+</code></pre>
+<p>This function works directly on the underlying list representation rather than through the selectors, which is unusual; it is doing a structural surgery that is easier to express on raw lists. If the tree is a leaf, there is nothing to regroup, so it comes back unchanged. If the list has more than two elements, the line <code>tree = [tree[0], tree[1:]]</code> rebuilds it as a two-element list: the original first element, followed by a single list holding everything else. Then the comprehension recurses into each element so the same regrouping happens at every level.</p>
+<h3>Follow the Line: the Regrouping Step</h3>
+<pre class='code anatomy'><code>tree = [tree[0], tree[1:]]
+├─ tree[0] ............... the first element, kept on its own
+├─ tree[1:] ............. all the remaining elements, gathered into one list
+├─ [ ... ] .............. a new two-element list: first element, then the rest
+└─ action ............... rewrites this node so it has exactly two parts
+
+return [right_binarize(b) for b in tree]
+├─ for b in tree ........ visits each part of the (now two-part) node
+├─ right_binarize(b) .... applies the same regrouping deeper inside
+├─ [ ... ] .............. collects the rebuilt parts into a list
+└─ evaluates to ......... the fully right-branching version of the tree</code></pre>
+<p>A flat seven-element list becomes a deeply nested, right-leaning structure:</p>
+<pre class='code text'><code>&gt;&gt;&gt; right_binarize([1, 2, 3, 4, 5, 6, 7])
+[1, [2, [3, [4, [5, [6, 7]]]]]]</code></pre>
+<p>The specific numbers do not matter. What matters is the shape change: a wide node turns into a chain that leans to the right, with each step holding one value and the regrouped remainder.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<p>The first trap is passing labels where branches are expected. Writing <code>tree(3, [1, 2])</code> tries to use the numbers <code>1</code> and <code>2</code> as branches, but branches must be trees. The constructor&#x27;s <code>assert</code> will reject it. The correct form wraps each child in <code>tree</code>, as in <code>tree(3, [tree(1), tree(2)])</code>, so each branch is a real leaf.</p>
+<p>The second trap is processing only the first branch. A recursive tree function must visit every branch, usually with a list comprehension over <code>branches(t)</code>. If you write a version that does <code>count_leaves(branches(t)[0])</code> and stops, you silently ignore every branch after the first, and your counts come out too low.</p>
+<p>The third trap is reaching through the abstraction. Inside tree functions, prefer <code>label(t)</code> and <code>branches(t)</code> over <code>t[0]</code> and <code>t[1:]</code>. The selectors keep your code working even if the representation changes, and they make your intent obvious. The one place we break this rule on purpose is <code>right_binarize</code>, which is explicitly doing surgery on the list form.</p>
+<p>The fourth trap is treating <code>branches(t)</code> as if it were a single tree. It is a list of trees. If you call <code>count_leaves(branches(t))</code> once on the whole branch list, that list is itself a non-empty list and looks like a tree, so you get a silently wrong count rather than an error. That is exactly why the recursive step almost always loops or comprehends over the branches rather than calling the function once on the whole branch list.</p>
+<p>The fifth trap is forgetting the base case. Every recursive tree function needs a stopping condition, normally <code>is_leaf(t)</code>. Without it the function would try to recurse past the leaves and never terminate, because there would be nothing to tell it the data has run out.</p>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>What are the two parts of every tree, and what makes the definition recursive?</li>
+<li>Why is a leaf still a valid tree?</li>
+<li>What does <code>branches(tree(5))</code> return, and why?</li>
+<li>In <code>count_leaves</code>, what is the base case and what value does it return?</li>
+<li>The lesson draws <code>fib_tree(4)</code> but never counts its leaves. What does <code>count_leaves(fib_tree(4))</code> return?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li>Every tree has a root label and a list of branches. The definition is recursive because each branch is itself a tree, with its own label and its own branches, all the way down to leaves.</li>
+<li>A leaf has a label and an empty list of branches, which satisfies the definition of a tree. It is simply the smallest complete tree, the point where the recursion stops.</li>
+<li>It returns the empty list <code>[]</code>. The call <code>tree(5)</code> builds a leaf with no branches, so <code>branches</code> selects everything after the label, which is nothing.</li>
+<li>The base case is a leaf, detected by <code>is_leaf(tree)</code>. It returns <code>1</code>, because a single leaf contributes exactly one leaf to the count.</li>
+<li>It returns <code>5</code>. The leaves of a Fibonacci tree are its base cases. Reading the nested list <code>[3, [1, [0], [1]], [2, [1], [1, [0], [1]]]]</code> left to right, the leaf labels are <code>0</code>, <code>1</code>, <code>1</code>, <code>0</code>, and <code>1</code>. Each leaf contributes <code>1</code>, so the counts combine up the tree to <code>5</code>.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>A tree is recursive data: a root label together with a list of branches, where each branch is itself a tree, and a leaf is a tree whose branch list is empty. Lists make this possible through their closure property, since a list can hold other lists without limit. We work with trees through a constructor, <code>tree</code>, and selectors, <code>label</code> and <code>branches</code>, plus the predicates <code>is_tree</code> and <code>is_leaf</code>, treating the underlying list storage as something we agree not to touch. Functions over trees follow the shape of the data: handle the leaf case directly, recurse once on every branch, and combine the branch results. That single pattern drove <code>count_leaves</code>, <code>fib_tree</code>, <code>partition_tree</code>, <code>print_parts</code>, and <code>right_binarize</code>, and it is the move you will reach for every time data is built from smaller pieces of the same kind.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>This block defines the abstraction, builds a small tree, and ends on a recursive call, so the call tree unfolds alongside the data tree. An <strong>environment diagram</strong> makes that parallel concrete: the nested list <code>small</code> is one object on the heap, and as <code>count_leaves</code> recurses, a fresh frame opens for each node with <code>tree</code> bound to the matching sublist, so the stack of frames you watch grow and unwind has exactly the branching shape of the tree it is walking. Before you step through it, write down three predictions: which call opens the first frame on the line that builds <code>small</code>, how many <code>count_leaves</code> frames open during the final line, and what the name <code>tree</code> refers to inside each of those frames.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (10)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">tree</span><span style="color: #657b83">(root_label,</span> <span style="color: #657b83">branches</span><span style="color: #93a1a1">=</span><span style="color: #657b83">[]):</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">branch</span> <span style="color: #859900">in</span> <span style="color: #657b83">branches:</span>
+        <span style="color: #859900">assert</span> <span style="color: #657b83">is_tree(branch),</span> <span style="color: #2aa198">&#39;branches must be trees&#39;</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">[root_label]</span> <span style="color: #93a1a1">+</span> <span style="color: #268bd2">list</span><span style="color: #657b83">(branches)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">label</span><span style="color: #657b83">(tree):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">tree[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">branches</span><span style="color: #657b83">(tree):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">tree[</span><span style="color: #2aa198">1</span><span style="color: #657b83">:]</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">is_tree</span><span style="color: #657b83">(tree):</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">type</span><span style="color: #657b83">(tree)</span> <span style="color: #93a1a1">!=</span> <span style="color: #268bd2">list</span> <span style="color: #859900">or</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(tree)</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">1</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">False</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">branch</span> <span style="color: #859900">in</span> <span style="color: #657b83">branches(tree):</span>
+        <span style="color: #859900">if</span> <span style="color: #859900">not</span> <span style="color: #657b83">is_tree(branch):</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">False</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">True</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">is_leaf</span><span style="color: #657b83">(tree):</span>
+    <span style="color: #859900">return</span> <span style="color: #859900">not</span> <span style="color: #657b83">branches(tree)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">count_leaves</span><span style="color: #657b83">(tree):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">is_leaf(tree):</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">branch_counts</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[count_leaves(b)</span> <span style="color: #859900">for</span> <span style="color: #657b83">b</span> <span style="color: #859900">in</span> <span style="color: #657b83">branches(tree)]</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">sum</span><span style="color: #657b83">(branch_counts)</span>
+
+<span style="color: #657b83">small</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">tree(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #657b83">[tree(</span><span style="color: #2aa198">1</span><span style="color: #657b83">),</span> <span style="color: #657b83">tree(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #657b83">[tree(</span><span style="color: #2aa198">1</span><span style="color: #657b83">),</span> <span style="color: #657b83">tree(</span><span style="color: #2aa198">1</span><span style="color: #657b83">)])])</span>
+<span style="color: #657b83">count_leaves(small)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/a15667b317c1.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>Step through the block and check each prediction as the frames appear. The inner <code>tree(1)</code> calls open first, because Python evaluates a call&#x27;s arguments before the call itself. The final line then opens five <code>count_leaves</code> frames, one per node of <code>small</code>, which the global frame shows as <code>[3, [1], [2, [1], [1]]]</code>: each leaf call returns <code>1</code>, the <code>2</code>-subtree call combines its two leaf results into <code>2</code>, and the root combines <code>[1, 2]</code> into the final answer <code>3</code>. Inside each of those frames, <code>tree</code> names the list passed in, not the constructor function. The shape of the frames you see is the shape of the tree itself.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>2.3-B Sequence Processing, Abstraction, and Strings</span></a><a class='pg pg-next' href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>2.3-D Linked Lists and Recursive Sequence Construction</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#a-tree-is-built-from-smaller-trees'>A Tree Is Built From Smaller Trees</a></li><li><a href='#the-closure-property-why-lists-can-hold-trees'>The Closure Property: Why Lists Can Hold Trees</a></li><li><a href='#the-tree-abstraction'>The Tree Abstraction</a></li><li><a href='#a-list-representation-of-trees'>A List Representation of Trees</a></li><li><a href='#building-and-reading-a-tree'>Building and Reading a Tree</a></li><li><a href='#validating-trees'>Validating Trees</a></li><li><a href='#counting-leaves'>Counting Leaves</a></li><li><a href='#fibonacci-trees'>Fibonacci Trees</a></li><li><a href='#trees-for-integer-partitions'>Trees for Integer Partitions</a></li><li><a href='#printing-the-successful-partitions'>Printing the Successful Partitions</a></li><li><a href='#right-binarizing-a-tree'>Right-Binarizing a Tree</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

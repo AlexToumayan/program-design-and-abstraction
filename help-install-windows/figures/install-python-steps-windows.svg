@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 904 330" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- ===== Step 1: Download ===== -->
+  <text x="146" y="40" text-anchor="middle" font-size="15" font-weight="700" fill="#073642">1 · Download</text>
+  <rect x="16" y="54" width="260" height="180" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <!-- browser chrome -->
+  <path d="M 16 64 Q 16 54 26 54 L 266 54 Q 276 54 276 64 L 276 84 L 16 84 Z" fill="#eee8d5"/>
+  <rect x="28" y="62" width="180" height="15" rx="7" fill="#ffffff" stroke="#93a1a1"/>
+  <text x="36" y="73" font-size="10" font-family="monospace" fill="#586e75">python.org/downloads</text>
+  <line x1="224" y1="71" x2="233" y2="71" stroke="#586e75" stroke-width="1.4"/>
+  <rect x="242" y="64" width="8" height="8" fill="none" stroke="#586e75" stroke-width="1.4"/>
+  <path d="M 258 64 l 8 8 M 266 64 l -8 8" stroke="#586e75" stroke-width="1.4"/>
+  <!-- download button -->
+  <rect x="56" y="120" width="180" height="52" rx="9" fill="#ffd96b" stroke="#caa83a" stroke-width="1.5"/>
+  <text x="146" y="143" text-anchor="middle" font-size="14" font-weight="700" fill="#5a4a12">Download Python 3</text>
+  <text x="146" y="161" text-anchor="middle" font-size="11" fill="#7a6520">the big yellow button</text>
+  <text x="146" y="206" text-anchor="middle" font-size="12" fill="#657b83">Pick the latest Python 3,</text>
+  <text x="146" y="222" text-anchor="middle" font-size="12" fill="#657b83">the Windows <tspan font-family="monospace">.exe</tspan> installer.</text>
+
+  <!-- arrow 1 -->
+  <line x1="284" y1="150" x2="316" y2="150" stroke="#268bd2" stroke-width="3"/>
+  <polygon points="314,144 326,150 314,156" fill="#268bd2"/>
+
+  <!-- ===== Step 2: Install ===== -->
+  <text x="468" y="40" text-anchor="middle" font-size="15" font-weight="700" fill="#073642">2 · Install</text>
+  <rect x="338" y="54" width="260" height="180" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <path d="M 338 64 Q 338 54 348 54 L 588 54 Q 598 54 598 64 L 598 84 L 338 84 Z" fill="#eee8d5"/>
+  <text x="468" y="73" text-anchor="middle" font-size="11" font-weight="700" fill="#586e75">Python Installer</text>
+  <!-- critical PATH checkbox, highlighted -->
+  <rect x="354" y="100" width="228" height="40" rx="7" fill="#fdf6e3" stroke="#caa83a" stroke-width="1.5"/>
+  <rect x="366" y="112" width="16" height="16" rx="3" fill="#2aa198" stroke="#1f7d76"/>
+  <path d="M 369 120 l 4 4 l 7 -8" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="392" y="124" font-size="12.5" font-weight="700" fill="#5a4a12">Add python.exe to PATH</text>
+  <text x="468" y="160" text-anchor="middle" font-size="11" fill="#dc322f" font-weight="700">tick this box first &#8212; important!</text>
+  <!-- install button -->
+  <rect x="436" y="184" width="146" height="36" rx="8" fill="#268bd2"/>
+  <text x="509" y="207" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">Install Now</text>
+
+  <!-- arrow 2 -->
+  <line x1="606" y1="150" x2="638" y2="150" stroke="#268bd2" stroke-width="3"/>
+  <polygon points="636,144 648,150 636,156" fill="#268bd2"/>
+
+  <!-- ===== Step 3: Verify (Windows PowerShell) ===== -->
+  <text x="790" y="40" text-anchor="middle" font-size="15" font-weight="700" fill="#073642">3 · Check it worked</text>
+  <rect x="660" y="54" width="230" height="180" rx="10" fill="#012456" stroke="#073642" stroke-width="2"/>
+  <!-- PowerShell title bar with Windows-style window controls -->
+  <path d="M 660 64 Q 660 54 670 54 L 880 54 Q 890 54 890 64 L 890 84 L 660 84 Z" fill="#0c1e44"/>
+  <text x="672" y="73" font-size="11" fill="#aeb8d0">Windows PowerShell</text>
+  <line x1="830" y1="71" x2="841" y2="71" stroke="#aeb8d0" stroke-width="1.5"/>
+  <rect x="852" y="64" width="9" height="9" fill="none" stroke="#aeb8d0" stroke-width="1.5"/>
+  <path d="M 872 64 l 9 9 M 881 64 l -9 9" stroke="#aeb8d0" stroke-width="1.5"/>
+  <!-- prompt + command -->
+  <text x="672" y="124" font-size="13" font-family="monospace" fill="#f4d35e">PS C:\&gt;</text>
+  <text x="730" y="124" font-size="13" font-family="monospace" fill="#ffffff">python --version</text>
+  <text x="672" y="150" font-size="13" font-family="monospace" fill="#cdd6e8">Python 3.12.2</text>
+  <text x="775" y="200" text-anchor="middle" font-size="12" fill="#9fb0d4">A version number means</text>
+  <text x="775" y="216" text-anchor="middle" font-size="12" fill="#9fb0d4">Python is ready.</text>
+
+  <!-- caption -->
+  <text x="452" y="300" text-anchor="middle" font-size="13.5" fill="#657b83">Download the Windows installer from python.org, tick &#8220;Add python.exe to PATH&#8221;,</text>
+  <text x="452" y="320" text-anchor="middle" font-size="13.5" fill="#657b83">then open PowerShell and confirm with <tspan font-family="monospace" fill="#586e75">python --version</tspan>.</text>
+</svg>

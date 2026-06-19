@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>3.3 Exceptions and Exception Objects · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/' class='active'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 3</span><span class='dot'>/</span><span class='eb-sec'>3.3 Exceptions</span></div><h1 class='lesson-title'>3.3 Exceptions and Exception Objects</h1><div class='reading-meta'>&#9719; approx. 15 min read <span class='rm-sep'>&middot;</span> 13 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>Programs do not always move in a straight line from input to output. Sometimes something goes wrong: a function is called with an invalid or wrong argument, a resource or file the program needs is missing, a network connection fails, or a calculation wanders into a value that an operation cannot handle. Composing Programs 3.3 opens by naming exactly these situations, because they are the reason exceptions exist. An exception is Python&#x27;s structured mechanism for reacting when a program encounters such an error, instead of silently producing a wrong result or blindly continuing.</p>
+<p>By the end of this lesson you will be able to do five things. You will be able to explain what happens inside Python when an error is detected, raise an exception on purpose with the <strong>raise</strong> statement, check an assumption with <strong>assert</strong>, protect a piece of code with a <strong>try</strong> statement and respond to a specific failure with <strong>except</strong>, and treat an exception as an object that can carry useful information of its own.</p>
+<p>The single idea underneath all of this is control flow. A program normally runs one statement after another in order. An exception interrupts that order. Learning exceptions means learning to read code where the next line that runs is not the next line on the page.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='the-fire-alarm-model' class='ls ls-default'>
+<h2 class='ls-h'><span>The Fire Alarm Model</span></h2>
+<div class='ls-body'>
+<p>Imagine a school hallway. Most of the time, students follow the normal path:</p>
+<pre class='code text'><code>class -&gt; hallway -&gt; next class</code></pre>
+<p>A fire alarm changes that. Students do not keep walking to the next class. They stop the ordinary routine and switch to the emergency procedure, and someone trained for that situation decides what happens next.</p>
+<p>An exception is like that alarm. Raising an exception is a way of interrupting the normal flow of execution to signal that some unusual circumstance has arisen. It stops the ordinary path and gives another part of the program a chance to respond.</p>
+<p>A key point from the original text is that not every program should respond the same way to the same alarm:</p>
+<ul>
+<li>A web server should usually keep running, log the problem, and continue serving other users.</li>
+<li>An interactive interpreter session may print an error message and wait for the next command.</li>
+<li>A small script may simply stop so the programmer can find and fix the bug.</li>
+</ul>
+<p>So exceptions are not only about errors. They are a mechanism for making a deliberate choice when an unusual condition occurs. The program decides whether to recover, retry, report, or quit.</p>
+</div></section>
+<section id='what-happens-when-python-detects-an-error' class='ls ls-default'>
+<h2 class='ls-h'><span>What Happens When Python Detects an Error</span></h2>
+<div class='ls-body'>
+<p>Python raises exceptions automatically for many errors. You do not have to ask for this; it is built into how the interpreter evaluates code.</p>
+<p>For example, dividing by zero is not a valid arithmetic operation, so Python stops and reports the problem:</p>
+<pre class='code text'><code>&gt;&gt;&gt; 1 / 0
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+ZeroDivisionError: division by zero</code></pre>
+<p>Read the last line first. It names the kind of problem Python hit: a <code>ZeroDivisionError</code>, with the message <code>division by zero</code>. The lines above it are the <strong>traceback</strong>. It is called a traceback because it traces backward through the active function calls that were in progress when the error happened, showing the path that led there.</p>
+<p>The machine model is the important part. When an error is detected, the following happens in order:</p>
+<pre class='code text'><code>normal evaluation begins
+an error is detected
+Python creates an exception object
+normal evaluation stops
+Python searches for a handler
+if no handler is found, Python prints a traceback</code></pre>
+<p>Notice the third step. The error is not just a printed message. Python builds an exception object first, and only prints a traceback as a last resort when nothing in the program is prepared to handle that object.</p>
+</div></section>
+<section id='raising-an-exception-directly' class='ls ls-default'>
+<h2 class='ls-h'><span>Raising an Exception Directly</span></h2>
+<div class='ls-body'>
+<p>Programs do not have to wait for Python to detect a problem. They can raise an exception on purpose with the <strong>raise</strong> statement.</p>
+<p>The original text gives this direct example at the interactive prompt:</p>
+<pre class='code text'><code>&gt;&gt;&gt; raise Exception(&#x27;An error occurred&#x27;)
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+Exception: An error occurred</code></pre>
+<p>The <code>raise</code> statement is followed by an expression that evaluates to an exception object. Here that expression is <code>Exception(&#x27;An error occurred&#x27;)</code>, which constructs an exception object and stores the message <code>&#x27;An error occurred&#x27;</code> inside it. Because no surrounding <code>try</code> statement catches this exception, Python prints a traceback whose final line shows the exception class, <code>Exception</code>, followed by the message.</p>
+<p>Before walking through a longer example, look at the shape of a raise statement one token at a time.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #859900">raise</span> <span style="color: #268bd2">Exception</span><span style="color: #657b83">(</span><span style="color: #2aa198">&#39;An error occurred&#39;</span><span style="color: #657b83">)</span>
+</code></pre>
+<pre class='code anatomy'><code>raise Exception(&#x27;An error occurred&#x27;)
+├─ raise ........................... the statement that interrupts normal execution
+├─ Exception ....................... the exception class to construct
+├─ ( ............................... begins the constructor arguments
+├─ &#x27;An error occurred&#x27; ............. the message stored inside the new exception object
+├─ ) ............................... ends the constructor arguments
+└─ action: stops the current path and signals this exception object to any waiting handler</code></pre>
+<p>A raise statement is not an expression. It does not evaluate to a value that gets printed. Its job is to perform an action: build the exception object and hand control to whatever handler is prepared to catch it. If nothing catches it, the program stops and the traceback appears.</p>
+<p>To let this document&#x27;s code run safely during checking, here is an executable version that catches the exception instead of letting it terminate the program:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #859900">try</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">raise</span> <span style="color: #268bd2">Exception</span><span style="color: #657b83">(</span><span style="color: #2aa198">&quot;An error occurred&quot;</span><span style="color: #657b83">)</span>
+<span style="color: #859900">except</span> <span style="color: #268bd2">Exception</span> <span style="color: #859900">as</span> <span style="color: #657b83">error:</span>
+    <span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">type</span><span style="color: #657b83">(error)</span><span style="color: #93a1a1">.</span><span style="color: #268bd2">__name__</span><span style="color: #657b83">)</span>
+    <span style="color: #268bd2">print</span><span style="color: #657b83">(error)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/63eac3362259.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>Exception
+An error occurred</code></pre>
+<p>Here <code>type(error)</code> is the exception&#x27;s class, and <code>.__name__</code> is that class&#x27;s name as a string — which is why the first printed line is the bare word <code>Exception</code>. That same pattern reappears later whenever the handler prints a caught exception&#x27;s class name.</p>
+<p>The next section explains the <code>try</code> and <code>except</code> punctuation that makes this safe version work.</p>
+</div></section>
+<section id='the-anatomy-of-try-and-except' class='ls ls-default'>
+<h2 class='ls-h'><span>The Anatomy of Try and Except</span></h2>
+<div class='ls-body'>
+<p>A <strong>try statement</strong> protects a block of code that might raise an exception, and an <strong>except clause</strong> describes how to respond if a matching exception is raised. The punctuation carries the meaning, so read it carefully.</p>
+<p>Start with the smallest useful pattern: a function that returns a reciprocal, but answers with a word instead of crashing when the input is zero.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">safe_reciprocal</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">try</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">1</span> <span style="color: #93a1a1">/</span> <span style="color: #657b83">x</span>
+    <span style="color: #859900">except</span> <span style="color: #268bd2">ZeroDivisionError</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">&quot;undefined&quot;</span>
+
+
+<span style="color: #268bd2">print</span><span style="color: #657b83">(safe_reciprocal(</span><span style="color: #2aa198">4</span><span style="color: #657b83">))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(safe_reciprocal(</span><span style="color: #2aa198">0</span><span style="color: #657b83">))</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/8cade2d44bd7.json' data-mount='st1'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st1' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>0.25
+undefined</code></pre>
+<p>Walk the header of the except clause one token at a time.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (4)</span>
+<span style="color: #859900">except</span> <span style="color: #268bd2">ZeroDivisionError</span><span style="color: #657b83">:</span>
+</code></pre>
+<pre class='code anatomy'><code>except ZeroDivisionError:
+├─ except .............. begins a handler attached to the preceding try block
+├─ ZeroDivisionError ... the exception class this handler is willing to catch
+├─ : ................... starts the indented body that runs only on a matching exception
+└─ action: if the try block raises ZeroDivisionError, run this handler instead of crashing</code></pre>
+<p>Here is how <code>safe_reciprocal</code> behaves. If <code>x</code> is <code>4</code>, the line <code>return 1 / x</code> succeeds and produces <code>0.25</code>, so the except clause never runs. If <code>x</code> is <code>0</code>, the expression <code>1 / x</code> raises <code>ZeroDivisionError</code>, Python abandons the rest of the try block, finds this matching handler, and returns <code>&quot;undefined&quot;</code>.</p>
+<p>The original text shows the same idea directly at the interactive prompt, and it adds one more feature: naming the caught exception object.</p>
+<pre class='code text'><code>&gt;&gt;&gt; try:
+        x = 1/0
+    except ZeroDivisionError as e:
+        print(&#x27;handling a&#x27;, type(e))
+        x = 0
+
+handling a &lt;class &#x27;ZeroDivisionError&#x27;&gt;
+&gt;&gt;&gt; x
+0</code></pre>
+<p>This transcript contains two pieces of machine behavior worth slowing down on.</p>
+<p>First, <code>1/0</code> is attempted before <code>x</code> is ever bound to a useful number. The division fails immediately, so Python creates a <code>ZeroDivisionError</code> object and looks for a matching handler before any assignment to <code>x</code> from that line can happen.</p>
+<p>Second, the clause <code>except ZeroDivisionError as e:</code> does two jobs at once. The <code>as e</code> part is new compared to the simpler form above. Read it token by token.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (5)</span>
+<span style="color: #859900">except</span> <span style="color: #268bd2">ZeroDivisionError</span> <span style="color: #859900">as</span> <span style="color: #657b83">e:</span>
+</code></pre>
+<pre class='code anatomy'><code>except ZeroDivisionError as e:
+├─ except .............. begins a handler attached to the preceding try block
+├─ ZeroDivisionError ... the exception class this handler is willing to catch
+├─ as .................. binds the caught exception object to a name
+├─ e ................... the name that now refers to the caught exception object
+├─ : ................... starts the indented handler body
+└─ action: catch a matching exception and make the exception object available as e</code></pre>
+<p>Inside the handler, <code>print(&#x27;handling a&#x27;, type(e))</code> reports the class of the caught object, which is why the session prints <code>handling a &lt;class &#x27;ZeroDivisionError&#x27;&gt;</code>. Then <code>x = 0</code> runs. After the whole <code>try</code> statement finishes, the global name <code>x</code> is bound to <code>0</code>, which is why asking for <code>x</code> afterward shows <code>0</code>.</p>
+</div></section>
+<section id='skipping-the-rest-of-a-failing-block' class='ls ls-default'>
+<h2 class='ls-h'><span>Skipping the Rest of a Failing Block</span></h2>
+<div class='ls-body'>
+<p>The next official example makes the jump in control flow more visible by including a <code>print</code> line that never runs when the input is zero.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (6)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">invert</span><span style="color: #657b83">(x):</span>
+    <span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">1</span><span style="color: #93a1a1">/</span><span style="color: #657b83">x</span>   <span style="color: #93a1a1; font-style: italic"># Raises a ZeroDivisionError if x is 0</span>
+    <span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #2aa198">&#39;Never printed if x is 0&#39;</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">result</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">invert_safe</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">try</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">invert(x)</span>
+    <span style="color: #859900">except</span> <span style="color: #268bd2">ZeroDivisionError</span> <span style="color: #859900">as</span> <span style="color: #657b83">e:</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(e)</span>
+
+
+<span style="color: #268bd2">print</span><span style="color: #657b83">(invert_safe(</span><span style="color: #2aa198">2</span><span style="color: #657b83">))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(invert_safe(</span><span style="color: #2aa198">0</span><span style="color: #657b83">))</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/18170ca770dc.json' data-mount='st2'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st2' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>Never printed if x is 0
+0.5
+division by zero</code></pre>
+<p>Step the block above and watch the <code>invert_safe(0)</code> call. Notice that the <code>invert</code> frame opens and <code>1/x</code> raises before <code>print(&#x27;Never printed if x is 0&#x27;)</code> ever runs, and that control jumps straight to the handler in <code>invert_safe</code>, which returns the string <code>division by zero</code>.</p>
+<p>That skipped <code>print</code> is the teaching moment. An exception does not merely change a return value. It interrupts the current path immediately, abandoning every remaining statement in the block where the failure occurred, all the way up to the nearest handler.</p>
+<p>The figure below traces how the raised exception unwinds the call stack and jumps straight to the nearest enclosing try/except handler.</p>
+<p><img class="figure" src="figures/exception-stack-jump.svg" alt="Diagram of a raised exception unwinding the call stack from invert up to invert_safe and jumping to the nearest enclosing try except handler"></p>
+<p>The original text shows the matching interactive session as well:</p>
+<pre class='code text'><code>&gt;&gt;&gt; invert_safe(0)
+&#x27;division by zero&#x27;</code></pre>
+</div></section>
+<section id='assertions' class='ls ls-default'>
+<h2 class='ls-h'><span>Assertions</span></h2>
+<div class='ls-body'>
+<p>An <strong>assertion</strong> is a statement that checks whether a condition you believe is true actually holds. It is a quick way to verify an assumption while a program runs.</p>
+<p>The original text shows what happens when the condition is false:</p>
+<pre class='code text'><code>&gt;&gt;&gt; assert False, &#x27;Error!&#x27;
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+AssertionError: Error!</code></pre>
+<p>An assert statement has this shape:</p>
+<pre class='code text'><code>assert &lt;expression&gt;, &lt;string&gt;</code></pre>
+<p>If the expression is a true value, execution simply continues and nothing visible happens. If the expression is a false value, Python raises an <code>AssertionError</code> whose message is the string. Walk the example one token at a time.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (7)</span>
+<span style="color: #859900">assert</span> <span style="color: #2aa198">False</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;Error!&#39;</span>
+</code></pre>
+<pre class='code anatomy'><code>assert False, &#x27;Error!&#x27;
+├─ assert .... begins an assertion that checks an assumption
+├─ False ..... the condition being checked; this value is false
+├─ , ......... separates the condition from its failure message
+├─ &#x27;Error!&#x27; .. the message attached to the AssertionError if the condition is false
+└─ action: because the condition is false, raise AssertionError with the message &#x27;Error!&#x27;</code></pre>
+<p>Here is a safe executable version that uses an assertion inside a function and catches the result so the program does not terminate:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (8)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">require_positive</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">assert</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;n must be positive&quot;</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">n</span>
+
+
+<span style="color: #859900">for</span> <span style="color: #657b83">value</span> <span style="color: #859900">in</span> <span style="color: #657b83">[</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">2</span><span style="color: #657b83">]:</span>
+    <span style="color: #859900">try</span><span style="color: #657b83">:</span>
+        <span style="color: #268bd2">print</span><span style="color: #657b83">(require_positive(value))</span>
+    <span style="color: #859900">except</span> <span style="color: #268bd2">AssertionError</span> <span style="color: #859900">as</span> <span style="color: #657b83">error:</span>
+        <span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">type</span><span style="color: #657b83">(error)</span><span style="color: #93a1a1">.</span><span style="color: #268bd2">__name__</span><span style="color: #657b83">,</span> <span style="color: #657b83">error)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/ec78b1dec022.json' data-mount='st3'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st3' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>3
+AssertionError n must be positive</code></pre>
+<p>Assertions are best for checking assumptions during development, where a failed check means a programmer made a mistake. They are not the right tool for ordinary invalid user input that you expect and can recover from; that situation calls for normal validation and a helpful message instead.</p>
+</div></section>
+<section id='exception-objects' class='ls ls-default'>
+<h2 class='ls-h'><span>Exception Objects</span></h2>
+<div class='ls-body'>
+<p>An exception is not just a message printed to the screen. It is an object, and you can manipulate it like any other object in Python.</p>
+<p>In Python, exception objects are instances of classes. The built-in exception classes inherit, directly or indirectly, from <code>BaseException</code>. Some exception classes you will meet often include:</p>
+<pre class='code text'><code>Exception
+AssertionError
+ZeroDivisionError
+TypeError
+ValueError</code></pre>
+<p>Because each kind of failure has its own class, a program can respond differently to different unusual situations by attaching a separate <code>except</code> clause to each class. A single <code>try</code> statement may have several handlers, and Python uses the first one whose class matches the raised exception.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (9)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">describe_error</span><span style="color: #657b83">(action):</span>
+    <span style="color: #859900">try</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">action()</span>
+    <span style="color: #859900">except</span> <span style="color: #268bd2">ZeroDivisionError</span> <span style="color: #859900">as</span> <span style="color: #657b83">error:</span>
+        <span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #2aa198">&quot;division problem:&quot;</span><span style="color: #657b83">,</span> <span style="color: #268bd2">type</span><span style="color: #657b83">(error)</span><span style="color: #93a1a1">.</span><span style="color: #268bd2">__name__</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">except</span> <span style="color: #268bd2">TypeError</span> <span style="color: #859900">as</span> <span style="color: #657b83">error:</span>
+        <span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #2aa198">&quot;type problem:&quot;</span><span style="color: #657b83">,</span> <span style="color: #268bd2">type</span><span style="color: #657b83">(error)</span><span style="color: #93a1a1">.</span><span style="color: #268bd2">__name__</span><span style="color: #657b83">)</span>
+
+
+<span style="color: #657b83">describe_error(</span><span style="color: #859900">lambda</span><span style="color: #657b83">:</span> <span style="color: #2aa198">1</span> <span style="color: #93a1a1">/</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">describe_error(</span><span style="color: #859900">lambda</span><span style="color: #657b83">:</span> <span style="color: #2aa198">1</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&quot;two&quot;</span><span style="color: #657b83">)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/750a4e7f2bd6.json' data-mount='st4'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st4' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>division problem: ZeroDivisionError
+type problem: TypeError</code></pre>
+<p>Python tries the handlers in order and uses the first matching one. That is why the exception class, not just the message, is what lets a program tell one failure apart from another and choose the right response.</p>
+</div></section>
+<section id='custom-exception-classes' class='ls ls-default'>
+<h2 class='ls-h'><span>Custom Exception Classes</span></h2>
+<div class='ls-body'>
+<p>Because exceptions are objects built from classes, you can define your own exception class to carry information that the built-in classes do not. The original text builds one for an iterative improvement function.</p>
+<p>Start with the situation, because the motivation is the subtle part. Suppose a function is repeatedly improving a guess at an answer. Partway through, a mathematical step fails and raises a built-in exception. The most useful piece of information at that moment is the last guess the process reached before it failed. A custom exception class lets the program package that guess and carry it out to wherever it can be used.</p>
+<p>First, the class itself, in isolation:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (10)</span>
+<span style="color: #859900">class</span> <span style="color: #268bd2">IterImproveError</span><span style="color: #657b83">(</span><span style="color: #268bd2">Exception</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">last_guess):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">last_guess</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">last_guess</span>
+
+
+<span style="color: #657b83">error</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">IterImproveError(</span><span style="color: #2aa198">0.25</span><span style="color: #657b83">)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(error</span><span style="color: #93a1a1">.</span><span style="color: #657b83">last_guess)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">isinstance</span><span style="color: #657b83">(error,</span> <span style="color: #268bd2">Exception</span><span style="color: #657b83">))</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/2167ffc0e0d0.json' data-mount='st5'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st5' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>0.25
+True</code></pre>
+<p>Walk the class header one token at a time.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (11)</span>
+<span style="color: #859900">class</span> <span style="color: #268bd2">IterImproveError</span><span style="color: #657b83">(</span><span style="color: #268bd2">Exception</span><span style="color: #657b83">):</span>
+</code></pre>
+<pre class='code anatomy'><code>class IterImproveError(Exception):
+├─ class ............. begins a class definition
+├─ IterImproveError .. the name of the new exception class
+├─ ( ................. begins the list of base classes
+├─ Exception ......... the base class this new class inherits from
+├─ ) ................. ends the base class list
+├─ : ................. starts the indented class body
+└─ action: define IterImproveError as a new exception class that is a kind of Exception</code></pre>
+<p>Because <code>IterImproveError</code> inherits from <code>Exception</code>, an instance of it is a full exception object that can be raised and caught like any other. Its <code>__init__</code> method stores the value <code>last_guess</code> on the object as an attribute, so the exception now carries a useful value, not just a message. The check <code>isinstance(error, Exception)</code> is <code>True</code>, which confirms that an except clause written for <code>Exception</code>, or for <code>IterImproveError</code> specifically, will catch it.</p>
+</div></section>
+<section id='interrupting-iterative-improvement' class='ls ls-default'>
+<h2 class='ls-h'><span>Interrupting Iterative Improvement</span></h2>
+<div class='ls-body'>
+<p>Now put the custom exception to work inside the original iterative-improvement code. The <code>improve</code> function repeatedly applies an <code>update</code> step until a <code>done</code> test passes, and <code>find_zero</code> uses it to search for an input where a function equals zero. The helper <code>newton_update</code> comes from Chapter 1 and is reused here unchanged. You do not need to recall the details of <code>newton_update</code> from 1.6 — all that matters here is that it repeatedly nudges the guess toward an answer, and that one of those nudges can land on a negative <code>x</code> where <code>sqrt(x)</code> is undefined.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (12)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">improve</span><span style="color: #657b83">(update,</span> <span style="color: #657b83">done,</span> <span style="color: #657b83">guess</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #657b83">max_updates</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">1000</span><span style="color: #657b83">):</span>
+    <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">try</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">while</span> <span style="color: #859900">not</span> <span style="color: #657b83">done(guess)</span> <span style="color: #859900">and</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #657b83">max_updates:</span>
+            <span style="color: #657b83">guess</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">update(guess)</span>
+            <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">guess</span>
+    <span style="color: #859900">except</span> <span style="color: #268bd2">ValueError</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">raise</span> <span style="color: #657b83">IterImproveError(guess)</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">find_zero</span><span style="color: #657b83">(f,</span> <span style="color: #657b83">guess</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">1</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">done</span><span style="color: #657b83">(x):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">f(x)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">try</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">improve(newton_update(f),</span> <span style="color: #657b83">done,</span> <span style="color: #657b83">guess)</span>
+    <span style="color: #859900">except</span> <span style="color: #657b83">IterImproveError</span> <span style="color: #859900">as</span> <span style="color: #657b83">e:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">e</span><span style="color: #93a1a1">.</span><span style="color: #657b83">last_guess</span>
+</code></pre>
+<p>Trace the control flow when <code>find_zero</code> is asked to find a zero of a function whose value involves a square root. The original text shows this session, after importing <code>sqrt</code>:</p>
+<pre class='code text'><code>&gt;&gt;&gt; from math import sqrt
+&gt;&gt;&gt; find_zero(lambda x: 2*x*x + sqrt(x))
+-0.030211203830201594</code></pre>
+<p>That printed value is not a true zero of the function, because <code>sqrt(x)</code> is not defined for negative real numbers. Newton&#x27;s method steps slightly into negative territory, and at that point <code>sqrt(x)</code> raises a <code>ValueError</code>. The returned number is the last guess the process reached just before crossing into that forbidden region.</p>
+<p>Here is what happens, step by step:</p>
+<pre class='code text'><code>find_zero calls improve with newton_update(f), done, and guess
+improve repeatedly calls update on guess
+an update produces a negative x, and sqrt(x) raises ValueError
+improve catches ValueError in its except clause
+improve raises IterImproveError(guess), preserving the last guess
+find_zero catches IterImproveError as e
+find_zero returns e.last_guess, the saved last guess</code></pre>
+<p>The custom exception lets the lower-level improvement process report a precise message: I cannot keep going, but here is the best guess I still have. Without it, the <code>ValueError</code> would have propagated all the way out and the useful guess would have been lost.</p>
+</div></section>
+<section id='why-the-handler-is-outside' class='ls ls-default'>
+<h2 class='ls-h'><span>Why the Handler Is Outside</span></h2>
+<div class='ls-body'>
+<p>This example illustrates a design principle about where to raise an exception and where to handle it. They are usually not the same place.</p>
+<p>The <code>improve</code> function is where the failure is detected. It knows that a mathematical step crossed into an invalid input, but it does not know what the larger program wants to do about that. The <code>find_zero</code> function is where the goal lives: return a usable approximation of a zero. So <code>find_zero</code> is the right place to catch <code>IterImproveError</code> and pull out <code>last_guess</code>.</p>
+<p>State the principle directly:</p>
+<pre class='code text'><code>raise an exception where the unusual condition is detected
+handle it where the program has enough context to choose a response</code></pre>
+<p>This separation is what makes exceptions a communication tool rather than just an error report. A deep, low-level function can announce both that something went wrong and what useful information it still holds, and a higher-level function with more context decides how to use it.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<p>Trap 1: Thinking exceptions are only crashes. An unhandled exception often terminates a program, but a handled exception can be a deliberate, planned recovery. The same alarm can mean evacuate or can mean log and continue, depending on who is listening.</p>
+<p>Trap 2: Catching every exception too broadly. Writing <code>except Exception:</code> everywhere can hide real bugs by swallowing failures you did not anticipate. Prefer catching the specific exception class you actually know how to handle.</p>
+<p>Trap 3: Forgetting that a raised exception stops the current path. After an exception is raised, Python does not keep running the remaining statements in that block. Control jumps to the nearest matching handler, as the skipped <code>print(&#x27;Never printed if x is 0&#x27;)</code> line shows.</p>
+<p>Trap 4: Treating the message as the whole exception. An exception is an object. It has a class, it may carry a message, and it may carry custom attributes such as <code>last_guess</code>. The class is what handlers match on, so an <code>except</code> clause written for the wrong class fails to catch the exception and it propagates uncaught, while custom attributes like <code>last_guess</code> are lost if you read only the message.</p>
+<p>Trap 5: Using assertions for ordinary user mistakes. Assertions are for checking programmer assumptions during development. Expected invalid input from a user should be handled with normal validation and clear feedback, not with an <code>AssertionError</code>.</p>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>What is the difference between raising an exception and handling an exception?</li>
+<li>Why does Python print a traceback when no handler is found?</li>
+<li>What exception class does <code>assert False, &#x27;Error!&#x27;</code> raise, and why?</li>
+<li>Using <code>describe_error</code> from example (9), what happens when you call <code>describe_error(lambda: int(&#x27;x&#x27;))</code>?</li>
+<li>What extra information does <code>IterImproveError</code> store, and how does it store it?</li>
+<li>Why does <code>find_zero</code> catch <code>IterImproveError</code> rather than catching <code>ValueError</code> directly inside the update step?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li>Raising an exception creates an exception object and interrupts normal execution to signal a problem. Handling an exception catches that object in a matching <code>except</code> clause and decides what to do next.</li>
+<li>A traceback shows the chain of active calls that led to the unhandled exception, which helps the programmer locate where the failure happened. Python prints it only when no handler is prepared to catch the exception.</li>
+<li>It raises an <code>AssertionError</code> with the message <code>Error!</code>. The condition is <code>False</code>, so the assertion does not pass, and Python signals the failed assumption.</li>
+<li>Calling <code>int(&#x27;x&#x27;)</code> raises a <code>ValueError</code>. Neither the <code>ZeroDivisionError</code> handler nor the <code>TypeError</code> handler matches that class, so no handler runs. The <code>ValueError</code> propagates out of <code>describe_error</code> uncaught, and with no surrounding handler Python prints a traceback ending in <code>ValueError</code>.</li>
+<li>It stores the last guess reached before the iterative process failed. The <code>__init__</code> method saves it as the attribute <code>self.last_guess</code>.</li>
+<li>The update step only knows that a mathematical operation failed; it lacks the context to choose a recovery. The <code>find_zero</code> function knows the goal is to return a usable approximation, so it has the context needed to use the saved last guess.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>Exceptions interrupt the normal flow of a program when an unusual condition occurs. Python raises many exceptions automatically, such as <code>ZeroDivisionError</code> for division by zero, and a program can raise an exception on purpose with <code>raise</code> or check an assumption with <code>assert</code>. A <code>try</code> statement protects code that might fail, and an <code>except</code> clause responds to a specific exception class, optionally binding the caught object with <code>as</code>. Because exceptions are objects built from classes, they can carry structured information. A custom class such as <code>IterImproveError</code> uses that capability to communicate not only that a process failed but also the most useful value it still held, and the design principle is to raise where the problem is detected but handle where there is enough context to respond.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>This is the lesson in miniature: one try statement, two calls, two paths. In the <strong>environment diagram</strong> built here, the second <code>reciprocal_or_message</code> frame is where the action shows: the <code>ZeroDivisionError</code> object appears on the heap, the <code>return result</code> line never runs, and control jumps to the <code>except</code> clause where <code>error</code> binds to that exception object and <code>message</code> to its class name, instead of the frame returning normally the way the first call&#x27;s does. Before you step through the block below, write down three predictions: whether <code>error</code> and <code>message</code> appear in the first call&#x27;s frame, which line runs after <code>1 / x</code> fails in the second call, and what value the last line binds to <code>second</code>.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (13)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">reciprocal_or_message</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">try</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">1</span> <span style="color: #93a1a1">/</span> <span style="color: #657b83">x</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">result</span>
+    <span style="color: #859900">except</span> <span style="color: #268bd2">ZeroDivisionError</span> <span style="color: #859900">as</span> <span style="color: #657b83">error:</span>
+        <span style="color: #657b83">message</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">type</span><span style="color: #657b83">(error)</span><span style="color: #93a1a1">.</span><span style="color: #268bd2">__name__</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">message</span>
+
+
+<span style="color: #657b83">first</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">reciprocal_or_message(</span><span style="color: #2aa198">2</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">second</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">reciprocal_or_message(</span><span style="color: #2aa198">0</span><span style="color: #657b83">)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/57c699cbe85a.json' data-mount='st6'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st6' hidden></div></figure>
+<p>Step through the block one line at a time and check each prediction as the frames appear. The first call binds <code>result</code> to <code>0.5</code>; the <code>except</code> clause never runs, so <code>error</code> and <code>message</code> never appear. In the second call, <code>1 / x</code> raises <code>ZeroDivisionError</code>, <code>return result</code> is skipped, and the handler binds <code>error</code> to the exception object and <code>message</code> to <code>&#x27;ZeroDivisionError&#x27;</code>. At the end, <code>first</code> is <code>0.5</code> and <code>second</code> is <code>&#x27;ZeroDivisionError&#x27;</code>. The next line that runs after a raise is not the next line on the page.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>3.2-E Turtle Graphics and Recursive Drawing</span></a><a class='pg pg-next' href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>3.4-A Scheme-Syntax Calculator</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#the-fire-alarm-model'>The Fire Alarm Model</a></li><li><a href='#what-happens-when-python-detects-an-error'>What Happens When Python Detects an Error</a></li><li><a href='#raising-an-exception-directly'>Raising an Exception Directly</a></li><li><a href='#the-anatomy-of-try-and-except'>The Anatomy of Try and Except</a></li><li><a href='#skipping-the-rest-of-a-failing-block'>Skipping the Rest of a Failing Block</a></li><li><a href='#assertions'>Assertions</a></li><li><a href='#exception-objects'>Exception Objects</a></li><li><a href='#custom-exception-classes'>Custom Exception Classes</a></li><li><a href='#interrupting-iterative-improvement'>Interrupting Iterative Improvement</a></li><li><a href='#why-the-handler-is-outside'>Why the Handler Is Outside</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

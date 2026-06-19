@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>2.3 · Sequences — Coding Practice · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class='is-practice'>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/' class='active'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Practice</span><span class='dot'>/</span><span class='eb-sec'>Chapter 2 · Coding Practice</span></div><h1 class='lesson-title'>2.3 · Sequences — Coding Practice</h1><div class='reading-meta'>&#9719; approx. 9 min read <span class='rm-sep'>&middot;</span> 31 worked examples</div></div><div class='lesson-grid'><div class='lesson-body'><p>These problems build fluency with sequences: indexing and slicing, walking a sequence with a <code>for</code> loop, list comprehensions for transform-and-filter, two-pointer and counting patterns over lists and strings, higher-order tools like <code>filter</code> and <code>reduce</code>, and recursive walks over trees stored as nested lists.</p>
+<p>&gt; Work each problem from the starter signature first. Run your function against the Examples, then open the matching solution below to check your approach and its time and space cost.</p>
+<section id='easy' class='ls ls-default'>
+<h2 class='ls-h'><span>Easy</span></h2>
+<div class='ls-body'>
+<h3>1. Running Totals</h3>
+<p>Given a list of numbers <code>prices</code>, return a new list of the same length where the element at each position is the sum of all elements up to and including that position. The original list is left unchanged.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  running_totals([2, 3, 5])
+Output: [2, 5, 10]
+Explanation: 2, then 2+3, then 2+3+5.
+
+Input:  running_totals([4, -1, 0, 6])
+Output: [4, 3, 3, 9]
+Explanation: a negative price lowers the running sum.
+
+Input:  running_totals([])
+Output: []
+Explanation: an empty input yields an empty list of totals.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>prices</code> is a list of integers (possibly empty).</li>
+<li>Build the result by walking the list with a <code>for</code> loop; do not mutate any list in place.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">running_totals</span><span style="color: #657b83">(prices):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Keep one running number for the sum so far, and concatenate a one-element list onto the result each pass.</p></details>
+<h3>2. Even-Index Sum</h3>
+<p>Return the sum of the elements that sit at the even index positions (<code>0</code>, <code>2</code>, <code>4</code>, ...) of a list <code>s</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  even_index_sum([10, 1, 20, 1, 30])
+Output: 60
+Explanation: indices 0, 2, 4 hold 10, 20, 30.
+
+Input:  even_index_sum([1, 2, 3, 4])
+Output: 4
+Explanation: indices 0 and 2 hold 1 and 3.
+
+Input:  even_index_sum([])
+Output: 0
+Explanation: nothing to add, so the sum is 0.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>s</code> is a list of integers (possibly empty).</li>
+<li>Use <code>range</code> with a step of <code>2</code> to visit only the even indices.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">even_index_sum</span><span style="color: #657b83">(s):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>range(0, len(s), 2)</code> gives exactly the even indices; sum the selected elements.</p></details>
+<h3>3. Initials</h3>
+<p>Given a <code>name</code> written as words separated by single spaces, return the string of first letters of each word, in order.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  initials(&#x27;grace brewster hopper&#x27;)
+Output: &#x27;gbh&#x27;
+Explanation: first letters of the three words.
+
+Input:  initials(&#x27;john von neumann&#x27;)
+Output: &#x27;jvn&#x27;
+Explanation: one letter per word, joined with no spaces.
+
+Input:  initials(&#x27;ada&#x27;)
+Output: &#x27;a&#x27;
+Explanation: a single word yields a single letter.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>name</code> is a non-empty string of lowercase words separated by single spaces.</li>
+<li>Index each word at position <code>0</code>; build the answer with <code>&#x27;&#x27;.join(...)</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">initials</span><span style="color: #657b83">(name):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>name.split()</code> gives the list of words; a comprehension collects <code>word[0]</code> from each.</p></details>
+<h3>4. Count Vowels</h3>
+<p>Return how many characters of a lowercase string <code>text</code> are vowels (<code>a</code>, <code>e</code>, <code>i</code>, <code>o</code>, <code>u</code>).</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  count_vowels(&#x27;berkeley&#x27;)
+Output: 3
+Explanation: the e, e, and e.
+
+Input:  count_vowels(&#x27;sequence&#x27;)
+Output: 4
+Explanation: e, u, e, e.
+
+Input:  count_vowels(&#x27;rhythm&#x27;)
+Output: 0
+Explanation: no a/e/i/o/u characters.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>text</code> is a string of lowercase letters (possibly empty).</li>
+<li>Treat the string as a sequence of characters; use membership (<code>in</code>) against the vowels.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">count_vowels</span><span style="color: #657b83">(text):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>A filtering comprehension keeps only the vowel characters; <code>len</code> of that list is the count.</p></details>
+</div></section>
+<section id='medium' class='ls ls-default'>
+<h2 class='ls-h'><span>Medium</span></h2>
+<div class='ls-body'>
+<h3>5. Two-Sum Exists</h3>
+<p>Given a list <code>nums</code> and a number <code>target</code>, return <code>True</code> if some two <em>different</em> positions hold values that add up to <code>target</code>, and <code>False</code> otherwise.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  two_sum_exists([2, 7, 11, 15], 9)
+Output: True
+Explanation: 2 + 7 == 9.
+
+Input:  two_sum_exists([3, 3], 6)
+Output: True
+Explanation: the two 3s sit at different positions.
+
+Input:  two_sum_exists([1, 2, 3], 7)
+Output: False
+Explanation: no pair of elements sums to 7.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>nums</code> is a list of integers (possibly empty).</li>
+<li>The two values must come from two distinct indices; a single element may not be paired with itself.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">two_sum_exists</span><span style="color: #657b83">(nums,</span> <span style="color: #657b83">target):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Use a nested <code>range</code> loop where the inner index always starts one past the outer one, so each pair is checked once.</p></details>
+<h3>6. Palindrome Check</h3>
+<p>Return <code>True</code> if a string <code>s</code> reads the same forwards and backwards once spaces are ignored, and <code>False</code> otherwise.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  is_palindrome(&#x27;racecar&#x27;)
+Output: True
+Explanation: identical read in either direction.
+
+Input:  is_palindrome(&#x27;never odd or even&#x27;)
+Output: True
+Explanation: dropping the spaces leaves a palindrome.
+
+Input:  is_palindrome(&#x27;hello&#x27;)
+Output: False
+Explanation: &#x27;hello&#x27; reversed is &#x27;olleh&#x27;.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>s</code> is a string of lowercase letters and spaces (possibly empty).</li>
+<li>Compare characters with two indices moving inward from the ends (a two-pointer walk); the empty string and single characters count as palindromes.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">is_palindrome</span><span style="color: #657b83">(s):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>First filter out the spaces, then for each <code>i</code> in the first half check that position <code>i</code> matches position <code>n - 1 - i</code>.</p></details>
+<h3>7. Flatten One Level</h3>
+<p>Given a list of lists <code>rows</code>, return a single flat list holding every inner element, in order. Empty inner lists contribute nothing.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  flatten_one([[1, 2], [3], [4, 5, 6]])
+Output: [1, 2, 3, 4, 5, 6]
+Explanation: the three rows are laid end to end.
+
+Input:  flatten_one([[1, 2], [], [3]])
+Output: [1, 2, 3]
+Explanation: the empty row adds nothing.
+
+Input:  flatten_one([])
+Output: []
+Explanation: no rows means an empty result.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>rows</code> is a list whose elements are themselves lists (possibly empty).</li>
+<li>Walk the outer list and the inner lists with two nested <code>for</code> loops; do not mutate any input.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">flatten_one</span><span style="color: #657b83">(rows):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>An outer loop over <code>rows</code> and an inner loop over each <code>row</code> lets you concatenate one element at a time.</p></details>
+<h3>8. Product of Odds</h3>
+<p>Return the product of the odd numbers in a list <code>nums</code>. If there are no odd numbers, return <code>1</code> (the empty product).</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  product_of_odds([1, 2, 3, 4, 5])
+Output: 15
+Explanation: 1 * 3 * 5 == 15.
+
+Input:  product_of_odds([2, 4, 6])
+Output: 1
+Explanation: no odds, so the empty product is 1.
+
+Input:  product_of_odds([3, 3, 2])
+Output: 9
+Explanation: 3 * 3 == 9.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>nums</code> is a list of integers (possibly empty).</li>
+<li>Express it as a filter followed by an aggregate: keep the odds, then combine them with <code>reduce(mul, ..., 1)</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">product_of_odds</span><span style="color: #657b83">(nums):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>filter</code> with a <code>lambda</code> keeps the odds; <code>reduce(mul, odds, 1)</code> multiplies them starting from <code>1</code>.</p></details>
+</div></section>
+<section id='hard' class='ls ls-default'>
+<h2 class='ls-h'><span>Hard</span></h2>
+<div class='ls-body'>
+<h3>9. Tree Depth</h3>
+<p>A tree is stored as a nested list using the constructor and selectors from this section: <code>tree(label, branches)</code> builds one, <code>label(t)</code> reads the root value, <code>branches(t)</code> returns the list of branch trees, and a leaf is a tree with no branches. Return the <strong>depth</strong> of a tree <code>t</code>: a leaf has depth <code>1</code>, and any other tree is <code>1</code> plus the largest depth among its branches.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  tree_depth(tree(3, [tree(1), tree(2, [tree(1), tree(1)])]))
+Output: 3
+Explanation: the longest root-to-leaf path passes through the 2-subtree.
+
+Input:  tree_depth(tree(1, [tree(2, [tree(3, [tree(4)])])]))
+Output: 4
+Explanation: a single chain four nodes deep.
+
+Input:  tree_depth(tree(7))
+Output: 1
+Explanation: a lone leaf has depth 1.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>t</code> is a well-formed tree built only with <code>tree</code>, <code>label</code>, and <code>branches</code>.</li>
+<li>Use recursion that mirrors the data: handle the leaf base case, then recurse on every branch.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">tree_depth</span><span style="color: #657b83">(t):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>The base case <code>is_leaf(t)</code> returns <code>1</code>; otherwise take <code>max</code> over the depths of the branches and add <code>1</code>.</p></details>
+<h3>10. Run-Length Encode</h3>
+<p>Given a sequence <code>s</code>, group it into consecutive runs of equal values and return a list of <code>[value, count]</code> pairs, one per run, in the order the runs appear.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  run_length_encode([1, 1, 1, 2, 3, 3])
+Output: [[1, 3], [2, 1], [3, 2]]
+Explanation: three 1s, one 2, then two 3s.
+
+Input:  run_length_encode([&#x27;a&#x27;, &#x27;a&#x27;, &#x27;b&#x27;, &#x27;a&#x27;])
+Output: [[&#x27;a&#x27;, 2], [&#x27;b&#x27;, 1], [&#x27;a&#x27;, 1]]
+Explanation: the final &#x27;a&#x27; starts a new run because a &#x27;b&#x27; broke the first one.
+
+Input:  run_length_encode([])
+Output: []
+Explanation: nothing to encode.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>s</code> is a list (possibly empty); its elements support <code>==</code>.</li>
+<li>Walk the sequence once, tracking the current run&#x27;s value and its length; close a run whenever the value changes.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">run_length_encode</span><span style="color: #657b83">(s):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Seed <code>current</code> and <code>count</code> from the first element, scan <code>s[1:]</code>, and push a <code>[current, count]</code> pair whenever the next value differs — then push the final run after the loop.</p></details>
+</div></section>
+<section id='solutions' class='ls ls-default'>
+<h2 class='ls-h'><span>Solutions</span></h2>
+<div class='ls-body'>
+<h3>Setup</h3>
+<p>These problems use:</p>
+<pre class='code python'><code><span style="color: #cb4b16">from</span> <span style="color: #268bd2">functools</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">reduce</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">operator</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">mul</span>
+</code></pre>
+<p>Problem 9 also relies on a small tree abstraction (a constructor and selectors), shown with its solution.</p>
+<h3>1. Running Totals</h3>
+<p><strong>Approach — running aggregate.</strong> Carry one number, <code>so_far</code>, that accumulates the sum as the <code>for</code> loop visits each price, and grow the result list by concatenating a fresh one-element list each pass — the manual version of the transform the section builds.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">running_totals</span><span style="color: #657b83">(prices):</span>
+    <span style="color: #657b83">totals</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[]</span>
+    <span style="color: #657b83">so_far</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">price</span> <span style="color: #859900">in</span> <span style="color: #657b83">prices:</span>
+        <span style="color: #657b83">so_far</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">so_far</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">price</span>
+        <span style="color: #657b83">totals</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">totals</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">[so_far]</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">totals</span>
+</code></pre>
+<p><strong>Why it works.</strong> After visiting position <code>i</code>, <code>so_far</code> equals the sum of <code>prices[0..i]</code>, which is exactly the value that belongs at position <code>i</code> of the output.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>. Each <code>totals + [so_far]</code> copies the growing list, so the copies sum to a quadratic total.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">running_totals([</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">])</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">running_totals([</span><span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">6</span><span style="color: #657b83">])</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">9</span><span style="color: #657b83">]</span>
+</code></pre>
+<h3>2. Even-Index Sum</h3>
+<p><strong>Approach — stepped range.</strong> <code>range(0, len(s), 2)</code> is a sequence of just the even indices; selecting <code>s[i]</code> at each one and feeding the lot to <code>sum</code> aggregates exactly those positions.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">even_index_sum</span><span style="color: #657b83">(s):</span>
+    <span style="color: #859900">return</span> <span style="color: #268bd2">sum</span><span style="color: #657b83">(s[i]</span> <span style="color: #859900">for</span> <span style="color: #657b83">i</span> <span style="color: #859900">in</span> <span style="color: #268bd2">range</span><span style="color: #657b83">(</span><span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(s),</span> <span style="color: #2aa198">2</span><span style="color: #657b83">))</span>
+</code></pre>
+<p><strong>Why it works.</strong> The third argument to <code>range</code> is the step, so the indices generated are <code>0, 2, 4, ...</code> up to but not past <code>len(s) - 1</code>, which are the even positions.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. One pass over half the indices, summing as it goes.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">even_index_sum([</span><span style="color: #2aa198">10</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">20</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">30</span><span style="color: #657b83">])</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">60</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">even_index_sum([</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">])</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">4</span>
+</code></pre>
+<h3>3. Initials</h3>
+<p><strong>Approach — transform then join.</strong> Split the name into words, transform each word into its first character with a comprehension, then aggregate the characters into one string with <code>&#x27;&#x27;.join</code>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">initials</span><span style="color: #657b83">(name):</span>
+    <span style="color: #657b83">words</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">name</span><span style="color: #93a1a1">.</span><span style="color: #657b83">split()</span>
+    <span style="color: #657b83">letters</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[word[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span> <span style="color: #859900">for</span> <span style="color: #657b83">word</span> <span style="color: #859900">in</span> <span style="color: #657b83">words]</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;&#39;</span><span style="color: #93a1a1">.</span><span style="color: #657b83">join(letters)</span>
+</code></pre>
+<p><strong>Why it works.</strong> Indexing a string at <code>0</code> returns its first character as a one-character string, and <code>&#x27;&#x27;.join</code> concatenates a list of strings with no separator between them.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mclose">)</span></span></span></span></span> for <code>k</code> words. One pass to split and one comprehension over the words.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">initials(</span><span style="color: #2aa198">&#39;grace brewster hopper&#39;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;gbh&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">initials(</span><span style="color: #2aa198">&#39;john von neumann&#39;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;jvn&#39;</span>
+</code></pre>
+<h3>4. Count Vowels</h3>
+<p><strong>Approach — filter then count.</strong> A string is a sequence of characters, so a filtering comprehension keeps only the vowels; the length of that list is the count.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">count_vowels</span><span style="color: #657b83">(text):</span>
+    <span style="color: #859900">return</span> <span style="color: #268bd2">len</span><span style="color: #657b83">([c</span> <span style="color: #859900">for</span> <span style="color: #657b83">c</span> <span style="color: #859900">in</span> <span style="color: #657b83">text</span> <span style="color: #859900">if</span> <span style="color: #657b83">c</span> <span style="color: #859900">in</span> <span style="color: #2aa198">&#39;aeiou&#39;</span><span style="color: #657b83">])</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>c in &#x27;aeiou&#x27;</code> tests whether the single character <code>c</code> appears in the vowel string, so the comprehension keeps exactly the vowel characters, and <code>len</code> counts them.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>. One pass building the filtered list.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">count_vowels(</span><span style="color: #2aa198">&#39;berkeley&#39;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_vowels(</span><span style="color: #2aa198">&#39;sequence&#39;</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">4</span>
+</code></pre>
+<h3>5. Two-Sum Exists</h3>
+<p><strong>Approach — pair scan with index ranges.</strong> Two nested <code>range</code> loops generate every pair of distinct positions exactly once by starting the inner index at <code>i + 1</code>, and the first pair that hits the target short-circuits with <code>True</code>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">two_sum_exists</span><span style="color: #657b83">(nums,</span> <span style="color: #657b83">target):</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">i</span> <span style="color: #859900">in</span> <span style="color: #268bd2">range</span><span style="color: #657b83">(</span><span style="color: #268bd2">len</span><span style="color: #657b83">(nums)):</span>
+        <span style="color: #859900">for</span> <span style="color: #657b83">j</span> <span style="color: #859900">in</span> <span style="color: #268bd2">range</span><span style="color: #657b83">(i</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(nums)):</span>
+            <span style="color: #859900">if</span> <span style="color: #657b83">nums[i]</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">nums[j]</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">target:</span>
+                <span style="color: #859900">return</span> <span style="color: #2aa198">True</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">False</span>
+</code></pre>
+<p><strong>Why it works.</strong> Because <code>j</code> always exceeds <code>i</code>, the loops cover each unordered pair once and never pair an element with itself; returning <code>False</code> after both loops means no pair summed to the target.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. Every pair of indices may be examined.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">two_sum_exists([</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">7</span><span style="color: #657b83">,</span> <span style="color: #2aa198">11</span><span style="color: #657b83">,</span> <span style="color: #2aa198">15</span><span style="color: #657b83">],</span> <span style="color: #2aa198">9</span><span style="color: #657b83">)</span> <span style="color: #859900">is</span> <span style="color: #2aa198">True</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">two_sum_exists([</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">],</span> <span style="color: #2aa198">7</span><span style="color: #657b83">)</span> <span style="color: #859900">is</span> <span style="color: #2aa198">False</span>
+</code></pre>
+<h3>6. Palindrome Check</h3>
+<p><strong>Approach — two-pointer comparison.</strong> Drop the spaces with a filter, then compare position <code>i</code> against the mirror position <code>n - 1 - i</code> for the first half; any mismatch decides it.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">is_palindrome</span><span style="color: #657b83">(s):</span>
+    <span style="color: #657b83">kept</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[c</span> <span style="color: #859900">for</span> <span style="color: #657b83">c</span> <span style="color: #859900">in</span> <span style="color: #657b83">s</span> <span style="color: #859900">if</span> <span style="color: #657b83">c</span> <span style="color: #93a1a1">!=</span> <span style="color: #2aa198">&#39; &#39;</span><span style="color: #657b83">]</span>
+    <span style="color: #657b83">n</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(kept)</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">i</span> <span style="color: #859900">in</span> <span style="color: #268bd2">range</span><span style="color: #657b83">(n</span> <span style="color: #93a1a1">//</span> <span style="color: #2aa198">2</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">kept[i]</span> <span style="color: #93a1a1">!=</span> <span style="color: #657b83">kept[n</span> <span style="color: #93a1a1">-</span> <span style="color: #2aa198">1</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">i]:</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">False</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">True</span>
+</code></pre>
+<p><strong>Why it works.</strong> A sequence is a palindrome exactly when every element equals its mirror; checking the first half against the back half covers all pairs, and the middle element of an odd-length sequence never needs checking.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>. One pass to filter spaces, then half a pass to compare.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">is_palindrome(</span><span style="color: #2aa198">&#39;never odd or even&#39;</span><span style="color: #657b83">)</span> <span style="color: #859900">is</span> <span style="color: #2aa198">True</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">is_palindrome(</span><span style="color: #2aa198">&#39;hello&#39;</span><span style="color: #657b83">)</span> <span style="color: #859900">is</span> <span style="color: #2aa198">False</span>
+</code></pre>
+<h3>7. Flatten One Level</h3>
+<p><strong>Approach — nested traversal.</strong> Walk the outer list, and for each row walk its elements, concatenating each one onto the growing result. This is the closure property of lists turned into a flattening loop.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">flatten_one</span><span style="color: #657b83">(rows):</span>
+    <span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[]</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">row</span> <span style="color: #859900">in</span> <span style="color: #657b83">rows:</span>
+        <span style="color: #859900">for</span> <span style="color: #657b83">item</span> <span style="color: #859900">in</span> <span style="color: #657b83">row:</span>
+            <span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">result</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">[item]</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">result</span>
+</code></pre>
+<p><strong>Why it works.</strong> The inner loop visits every element of every row in order, and concatenation appends each to <code>result</code>, so the rows end up laid end to end with empty rows contributing nothing.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> for <code>n</code> total elements. Each concatenation copies the result built so far.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">flatten_one([[</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">],</span> <span style="color: #657b83">[</span><span style="color: #2aa198">3</span><span style="color: #657b83">],</span> <span style="color: #657b83">[</span><span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">6</span><span style="color: #657b83">]])</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">6</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">flatten_one([[</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">],</span> <span style="color: #657b83">[],</span> <span style="color: #657b83">[</span><span style="color: #2aa198">3</span><span style="color: #657b83">]])</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">]</span>
+</code></pre>
+<h3>8. Product of Odds</h3>
+<p><strong>Approach — filter then reduce.</strong> This is the assembly line from the section: a <code>filter</code> station keeps the odds, and a <code>reduce</code> station over <code>mul</code> collapses them into one product, starting from <code>1</code> so an empty result is handled cleanly.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">product_of_odds</span><span style="color: #657b83">(nums):</span>
+    <span style="color: #657b83">odds</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">filter</span><span style="color: #657b83">(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">%</span> <span style="color: #2aa198">2</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #657b83">nums)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">reduce(mul,</span> <span style="color: #657b83">odds,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>filter</code> keeps the elements for which the <code>lambda</code> predicate is true, and <code>reduce(mul, odds, 1)</code> multiplies them onto a running result that begins at <code>1</code>, the identity for multiplication, so no odds gives <code>1</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. One pass to filter and one to multiply, with a constant running value.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">product_of_odds([</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">])</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">15</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">product_of_odds([</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">6</span><span style="color: #657b83">])</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">product_of_odds([</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">])</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">9</span>
+</code></pre>
+<h3>9. Tree Depth</h3>
+<p><strong>Approach — recursion that mirrors the tree.</strong> Following the section&#x27;s pattern, the base case is a leaf, and otherwise the answer is <code>1</code> plus the deepest branch, found by recursing on every branch and taking the <code>max</code>.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">tree</span><span style="color: #657b83">(root_label,</span> <span style="color: #657b83">branches</span><span style="color: #93a1a1">=</span><span style="color: #657b83">[]):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">[root_label]</span> <span style="color: #93a1a1">+</span> <span style="color: #268bd2">list</span><span style="color: #657b83">(branches)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">label</span><span style="color: #657b83">(t):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">t[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">branches</span><span style="color: #657b83">(t):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">t[</span><span style="color: #2aa198">1</span><span style="color: #657b83">:]</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">is_leaf</span><span style="color: #657b83">(t):</span>
+    <span style="color: #859900">return</span> <span style="color: #859900">not</span> <span style="color: #657b83">branches(t)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">tree_depth</span><span style="color: #657b83">(t):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">is_leaf(t):</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">1</span> <span style="color: #93a1a1">+</span> <span style="color: #268bd2">max</span><span style="color: #657b83">([tree_depth(b)</span> <span style="color: #859900">for</span> <span style="color: #657b83">b</span> <span style="color: #859900">in</span> <span style="color: #657b83">branches(t)])</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/80e5052cfcbf.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p><strong>Why it works.</strong> Each non-leaf adds one level above its branches, so <code>max</code> over the branch depths picks the longest path beneath this node, and the leaf base case stops the recursion at the bottom.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">h</span><span class="mclose">)</span></span></span></span></span> for <code>n</code> nodes and height <code>h</code>. Every node is visited once; the call stack is as deep as the tree.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">tree_depth(tree(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #657b83">[tree(</span><span style="color: #2aa198">1</span><span style="color: #657b83">),</span> <span style="color: #657b83">tree(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #657b83">[tree(</span><span style="color: #2aa198">1</span><span style="color: #657b83">),</span> <span style="color: #657b83">tree(</span><span style="color: #2aa198">1</span><span style="color: #657b83">)])]))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">tree_depth(tree(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #657b83">[tree(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #657b83">[tree(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #657b83">[tree(</span><span style="color: #2aa198">4</span><span style="color: #657b83">)])])]))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">4</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">tree_depth(tree(</span><span style="color: #2aa198">7</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+</code></pre>
+<h3>10. Run-Length Encode</h3>
+<p><strong>Approach — single-pass run tracking.</strong> Seed the first run from <code>s[0]</code>, then scan the rest: extend the current run when the value repeats, and close it off into a <code>[value, count]</code> pair whenever the value changes. A final push records the last run.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">run_length_encode</span><span style="color: #657b83">(s):</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(s)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">[]</span>
+    <span style="color: #657b83">runs</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[]</span>
+    <span style="color: #657b83">current</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">s[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span>
+    <span style="color: #657b83">count</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">x</span> <span style="color: #859900">in</span> <span style="color: #657b83">s[</span><span style="color: #2aa198">1</span><span style="color: #657b83">:]:</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">current:</span>
+            <span style="color: #657b83">count</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">count</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+        <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+            <span style="color: #657b83">runs</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">runs</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">[[current,</span> <span style="color: #657b83">count]]</span>
+            <span style="color: #657b83">current</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">x</span>
+            <span style="color: #657b83">count</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">1</span>
+    <span style="color: #657b83">runs</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">runs</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">[[current,</span> <span style="color: #657b83">count]]</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">runs</span>
+</code></pre>
+<p><strong>Why it works.</strong> A run ends exactly when a different value appears, so closing the run on each change and pushing the final run after the loop produces one pair per maximal block of equal values, in order.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span> worst case, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>. The single scan is linear, but each <code>runs + [...]</code> copies the growing list of pairs.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">run_length_encode([</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">])</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[[</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">],</span> <span style="color: #657b83">[</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">],</span> <span style="color: #657b83">[</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">]]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">run_length_encode([</span><span style="color: #2aa198">&#39;a&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;a&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;b&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;a&#39;</span><span style="color: #657b83">])</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[[</span><span style="color: #2aa198">&#39;a&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">],</span> <span style="color: #657b83">[</span><span style="color: #2aa198">&#39;b&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">],</span> <span style="color: #657b83">[</span><span style="color: #2aa198">&#39;a&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">]]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">run_length_encode([])</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[]</span>
+</code></pre>
+</div></section><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

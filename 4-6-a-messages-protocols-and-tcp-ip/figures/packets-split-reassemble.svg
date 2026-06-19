@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- ===================================================================
+       Splitting and Reassembling "distributed"
+       4-stage pipeline: Split (TCP) -> Send over IP -> TCP reorder/dedup -> Reassemble
+       Packet glyph = rounded rect with a small left number cell (cream)
+       and a larger right data cell (white). Duplicate = dashed red, greyed.
+       =================================================================== -->
+
+  <!-- ============================ STAGE TITLES ============================ -->
+  <text x="95"  y="26" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#073642">Split</text>
+  <text x="95"  y="43" text-anchor="middle" font-size="11.5" fill="#657b83">TCP numbers the pieces</text>
+
+  <text x="270" y="26" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#073642">Send over IP</text>
+  <text x="270" y="43" text-anchor="middle" font-size="11.5" fill="#657b83">best effort</text>
+
+  <text x="445" y="26" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#073642">TCP reorders</text>
+  <text x="445" y="43" text-anchor="middle" font-size="11.5" fill="#657b83">&amp; removes duplicate</text>
+
+  <text x="625" y="26" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#073642">Reassemble</text>
+
+  <!-- ===================================================================
+       STAGE 1 : Split  (source string on top, three numbered packets below)
+       =================================================================== -->
+
+  <!-- the original string, shown once -->
+  <rect x="35" y="64" width="120" height="34" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="95" y="86" text-anchor="middle" font-size="16" font-family="monospace" fill="#073642">distributed</text>
+
+  <!-- short down arrow: string splits into packets -->
+  <line x1="95" y1="100" x2="95" y2="118" stroke="#073642" stroke-width="2"/>
+  <polygon points="89,116 95,127 101,116" fill="#073642"/>
+
+  <!-- packet #1  [#1 | dist] -->
+  <rect x="53" y="132" width="84" height="30" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <line x1="81" y1="132" x2="81" y2="162" stroke="#073642" stroke-width="2"/>
+  <rect x="53" y="132" width="28" height="30" rx="8" fill="#fdf6e3" stroke="none"/>
+  <line x1="81" y1="132" x2="81" y2="162" stroke="#073642" stroke-width="2"/>
+  <text x="67"  y="152" text-anchor="middle" font-size="12" font-family="monospace" fill="#073642">#1</text>
+  <text x="109" y="152" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">dist</text>
+
+  <!-- packet #2  [#2 | ribu] -->
+  <rect x="53" y="170" width="84" height="30" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <rect x="53" y="170" width="28" height="30" rx="8" fill="#fdf6e3" stroke="none"/>
+  <line x1="81" y1="170" x2="81" y2="200" stroke="#073642" stroke-width="2"/>
+  <text x="67"  y="190" text-anchor="middle" font-size="12" font-family="monospace" fill="#073642">#2</text>
+  <text x="109" y="190" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">ribu</text>
+
+  <!-- packet #3  [#3 | ted] -->
+  <rect x="53" y="208" width="84" height="30" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <rect x="53" y="208" width="28" height="30" rx="8" fill="#fdf6e3" stroke="none"/>
+  <line x1="81" y1="208" x2="81" y2="238" stroke="#073642" stroke-width="2"/>
+  <text x="67"  y="228" text-anchor="middle" font-size="12" font-family="monospace" fill="#073642">#3</text>
+  <text x="109" y="228" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">ted</text>
+
+  <!-- arrow: Stage 1 -> Stage 2 -->
+  <line x1="150" y1="185" x2="220" y2="185" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="218,179 229,185 218,191" fill="#268bd2"/>
+
+  <!-- ===================================================================
+       STAGE 2 : Send over IP  (jumbled order + a duplicate copy)
+       order top->bottom: #3 ted, #1 dist, #1 dist (duplicate), #2 ribu
+       =================================================================== -->
+
+  <!-- arrival #3  [#3 | ted] -->
+  <rect x="228" y="94" width="84" height="30" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <rect x="228" y="94" width="28" height="30" rx="8" fill="#fdf6e3" stroke="none"/>
+  <line x1="256" y1="94" x2="256" y2="124" stroke="#073642" stroke-width="2"/>
+  <text x="242" y="114" text-anchor="middle" font-size="12" font-family="monospace" fill="#073642">#3</text>
+  <text x="284" y="114" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">ted</text>
+
+  <!-- arrival #1  [#1 | dist] -->
+  <rect x="228" y="132" width="84" height="30" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <rect x="228" y="132" width="28" height="30" rx="8" fill="#fdf6e3" stroke="none"/>
+  <line x1="256" y1="132" x2="256" y2="162" stroke="#073642" stroke-width="2"/>
+  <text x="242" y="152" text-anchor="middle" font-size="12" font-family="monospace" fill="#073642">#1</text>
+  <text x="284" y="152" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">dist</text>
+
+  <!-- arrival #1 DUPLICATE  [#1 | dist] : dashed red, greyed text -->
+  <rect x="228" y="170" width="84" height="30" rx="8" fill="#ffffff" stroke="#dc322f" stroke-width="2" stroke-dasharray="4 4"/>
+  <line x1="256" y1="170" x2="256" y2="200" stroke="#dc322f" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <text x="242" y="190" text-anchor="middle" font-size="12" font-family="monospace" fill="#93a1a1">#1</text>
+  <text x="284" y="190" text-anchor="middle" font-size="13" font-family="monospace" fill="#93a1a1">dist</text>
+  <text x="356" y="190" text-anchor="start"  font-size="11" font-style="italic" fill="#dc322f">duplicate</text>
+
+  <!-- arrival #2  [#2 | ribu] -->
+  <rect x="228" y="208" width="84" height="30" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <rect x="228" y="208" width="28" height="30" rx="8" fill="#fdf6e3" stroke="none"/>
+  <line x1="256" y1="208" x2="256" y2="238" stroke="#073642" stroke-width="2"/>
+  <text x="242" y="228" text-anchor="middle" font-size="12" font-family="monospace" fill="#073642">#2</text>
+  <text x="284" y="228" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">ribu</text>
+
+  <!-- caption under stage 2 -->
+  <text x="270" y="262" text-anchor="middle" font-size="12.5" fill="#93a1a1">reordered + duplicated</text>
+
+  <!-- arrow: Stage 2 -> Stage 3 -->
+  <line x1="368" y1="155" x2="398" y2="155" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="396,149 407,155 396,161" fill="#268bd2"/>
+
+  <!-- ===================================================================
+       STAGE 3 : TCP reorders & removes duplicate
+       back in numeric order #1 #2 #3 ; duplicate greyed + crossed + "discarded"
+       =================================================================== -->
+
+  <!-- packet #1  [#1 | dist] -->
+  <rect x="403" y="132" width="84" height="30" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <rect x="403" y="132" width="28" height="30" rx="8" fill="#fdf6e3" stroke="none"/>
+  <line x1="431" y1="132" x2="431" y2="162" stroke="#073642" stroke-width="2"/>
+  <text x="417" y="152" text-anchor="middle" font-size="12" font-family="monospace" fill="#073642">#1</text>
+  <text x="459" y="152" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">dist</text>
+
+  <!-- packet #2  [#2 | ribu] -->
+  <rect x="403" y="170" width="84" height="30" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <rect x="403" y="170" width="28" height="30" rx="8" fill="#fdf6e3" stroke="none"/>
+  <line x1="431" y1="170" x2="431" y2="200" stroke="#073642" stroke-width="2"/>
+  <text x="417" y="190" text-anchor="middle" font-size="12" font-family="monospace" fill="#073642">#2</text>
+  <text x="459" y="190" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">ribu</text>
+
+  <!-- packet #3  [#3 | ted] -->
+  <rect x="403" y="208" width="84" height="30" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <rect x="403" y="208" width="28" height="30" rx="8" fill="#fdf6e3" stroke="none"/>
+  <line x1="431" y1="208" x2="431" y2="238" stroke="#073642" stroke-width="2"/>
+  <text x="417" y="228" text-anchor="middle" font-size="12" font-family="monospace" fill="#073642">#3</text>
+  <text x="459" y="228" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">ted</text>
+
+  <!-- the discarded duplicate: greyed box, crossed out, "discarded" tag -->
+  <rect x="403" y="256" width="84" height="30" rx="8" fill="#ffffff" stroke="#93a1a1" stroke-width="2" stroke-dasharray="4 4"/>
+  <line x1="431" y1="256" x2="431" y2="286" stroke="#93a1a1" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <text x="417" y="276" text-anchor="middle" font-size="12" font-family="monospace" fill="#93a1a1">#1</text>
+  <text x="459" y="276" text-anchor="middle" font-size="13" font-family="monospace" fill="#93a1a1">dist</text>
+  <!-- cross-out stroke through the duplicate -->
+  <line x1="407" y1="284" x2="483" y2="258" stroke="#dc322f" stroke-width="2"/>
+  <text x="495" y="276" text-anchor="start" font-size="11" font-style="italic" fill="#93a1a1">discarded</text>
+
+  <!-- arrow: Stage 3 -> Stage 4 -->
+  <line x1="556" y1="185" x2="586" y2="185" stroke="#2aa198" stroke-width="2.5"/>
+  <polygon points="584,179 595,185 584,191" fill="#2aa198"/>
+
+  <!-- ===================================================================
+       STAGE 4 : Reassemble  (data cells concatenated into the original)
+       dist + ribu + ted  ->  distributed
+       =================================================================== -->
+
+  <!-- three abutting data cells forming one bar -->
+  <rect x="588" y="150" width="44" height="34" fill="#ffffff" stroke="#2aa198" stroke-width="2"/>
+  <text x="610" y="172" text-anchor="middle" font-size="12.5" font-family="monospace" fill="#073642">dist</text>
+
+  <rect x="632" y="150" width="44" height="34" fill="#ffffff" stroke="#2aa198" stroke-width="2"/>
+  <text x="654" y="172" text-anchor="middle" font-size="12.5" font-family="monospace" fill="#073642">ribu</text>
+
+  <rect x="676" y="150" width="36" height="34" fill="#ffffff" stroke="#2aa198" stroke-width="2"/>
+  <text x="694" y="172" text-anchor="middle" font-size="12.5" font-family="monospace" fill="#073642">ted</text>
+
+  <!-- down arrow: cells join into the rebuilt string -->
+  <line x1="650" y1="186" x2="650" y2="204" stroke="#2aa198" stroke-width="2.5"/>
+  <polygon points="644,202 650,213 656,202" fill="#2aa198"/>
+
+  <!-- rebuilt original string -->
+  <rect x="590" y="218" width="120" height="36" rx="10" fill="#ffffff" stroke="#2aa198" stroke-width="2.5"/>
+  <text x="650" y="241" text-anchor="middle" font-size="16" font-family="monospace" fill="#073642">distributed</text>
+
+  <!-- ============================ FOOTER CAPTION ============================ -->
+  <text x="360" y="318" text-anchor="middle" font-size="13" fill="#93a1a1">IP delivers packets jumbled and duplicated; TCP reorders by number,</text>
+  <text x="360" y="336" text-anchor="middle" font-size="13" fill="#93a1a1">drops duplicates, and rejoins them so the application reads back the original stream.</text>
+</svg>

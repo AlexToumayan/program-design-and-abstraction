@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 300" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- edges: thin lines from each parent's bottom-center to each child's top-center -->
+  <!-- root fib(5) -> fib(4), fib(3) -->
+  <line x1="340" y1="68" x2="200" y2="128" stroke="#268bd2" stroke-width="2"/>
+  <line x1="340" y1="68" x2="480" y2="128" stroke="#268bd2" stroke-width="2"/>
+  <!-- fib(4) -> fib(3), fib(2) -->
+  <line x1="200" y1="168" x2="120" y2="228" stroke="#268bd2" stroke-width="2"/>
+  <line x1="200" y1="168" x2="280" y2="228" stroke="#268bd2" stroke-width="2"/>
+  <!-- fib(3) -> fib(2), fib(1) -->
+  <line x1="480" y1="168" x2="400" y2="228" stroke="#268bd2" stroke-width="2"/>
+  <line x1="480" y1="168" x2="560" y2="228" stroke="#268bd2" stroke-width="2"/>
+
+  <!-- root node -->
+  <rect x="301" y="28" width="78" height="40" rx="12" fill="#fdf6e3" stroke="#073642" stroke-width="2.5"/>
+  <text x="340" y="54" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">fib(5)</text>
+
+  <!-- level 2 nodes -->
+  <rect x="161" y="128" width="78" height="40" rx="12" fill="#ffffff" stroke="#268bd2" stroke-width="2"/>
+  <text x="200" y="154" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">fib(4)</text>
+  <rect x="441" y="128" width="78" height="40" rx="12" fill="#ffffff" stroke="#268bd2" stroke-width="2"/>
+  <text x="480" y="154" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">fib(3)</text>
+
+  <!-- level 3 nodes -->
+  <rect x="81" y="228" width="78" height="40" rx="12" fill="#ffffff" stroke="#268bd2" stroke-width="2"/>
+  <text x="120" y="254" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">fib(3)</text>
+  <rect x="241" y="228" width="78" height="40" rx="12" fill="#ffffff" stroke="#268bd2" stroke-width="2"/>
+  <text x="280" y="254" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">fib(2)</text>
+  <rect x="361" y="228" width="78" height="40" rx="12" fill="#ffffff" stroke="#268bd2" stroke-width="2"/>
+  <text x="400" y="254" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">fib(2)</text>
+  <rect x="521" y="228" width="78" height="40" rx="12" fill="#ffffff" stroke="#268bd2" stroke-width="2"/>
+  <text x="560" y="254" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">fib(1)</text>
+
+  <!-- caption -->
+  <text x="340" y="290" text-anchor="middle" font-size="13" fill="#93a1a1">each call splits into two, so the number of calls grows like a tree.</text>
+</svg>

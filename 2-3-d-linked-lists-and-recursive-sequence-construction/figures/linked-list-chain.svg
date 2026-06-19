@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 300" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- faint constructor label above the chain -->
+  <text x="290" y="42" text-anchor="middle" font-size="14" font-family="monospace" fill="#93a1a1">Link(3, Link(4, Link(5)))</text>
+
+  <!-- ===== Box 1: first = 3 ===== -->
+  <rect x="30" y="120" width="110" height="56" rx="12" fill="#ffffff" stroke="#073642" stroke-width="2.5"/>
+  <line x1="85" y1="120" x2="85" y2="176" stroke="#073642" stroke-width="2"/>
+  <text x="57" y="156" text-anchor="middle" font-size="24" font-family="monospace" fill="#073642">3</text>
+  <circle cx="112" cy="148" r="5" fill="#268bd2"/>
+  <text x="57" y="111" text-anchor="middle" font-size="12" fill="#93a1a1">first</text>
+  <text x="112" y="111" text-anchor="middle" font-size="12" fill="#93a1a1">rest</text>
+
+  <!-- arrow: box 1 rest -> box 2 -->
+  <line x1="116" y1="148" x2="231" y2="148" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="229,142 240,148 229,154" fill="#268bd2"/>
+
+  <!-- ===== Box 2: first = 4 ===== -->
+  <rect x="235" y="120" width="110" height="56" rx="12" fill="#ffffff" stroke="#073642" stroke-width="2.5"/>
+  <line x1="290" y1="120" x2="290" y2="176" stroke="#073642" stroke-width="2"/>
+  <text x="262" y="156" text-anchor="middle" font-size="24" font-family="monospace" fill="#073642">4</text>
+  <circle cx="317" cy="148" r="5" fill="#268bd2"/>
+
+  <!-- arrow: box 2 rest -> box 3 -->
+  <line x1="321" y1="148" x2="436" y2="148" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="434,142 445,148 434,154" fill="#268bd2"/>
+
+  <!-- ===== Box 3: first = 5 ===== -->
+  <rect x="440" y="120" width="110" height="56" rx="12" fill="#ffffff" stroke="#073642" stroke-width="2.5"/>
+  <line x1="495" y1="120" x2="495" y2="176" stroke="#073642" stroke-width="2"/>
+  <text x="467" y="156" text-anchor="middle" font-size="24" font-family="monospace" fill="#073642">5</text>
+  <circle cx="522" cy="148" r="5" fill="#268bd2"/>
+
+  <!-- arrow: box 3 rest -> empty -->
+  <line x1="526" y1="148" x2="601" y2="148" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="599,142 610,148 599,154" fill="#268bd2"/>
+
+  <!-- ===== end-marker: empty ===== -->
+  <rect x="612" y="126" width="56" height="44" rx="10" fill="#fdf6e3" stroke="#073642" stroke-width="2"/>
+  <text x="640" y="153" text-anchor="middle" font-size="14" font-family="monospace" fill="#657b83">empty</text>
+
+  <!-- faint sequence label below the chain -->
+  <text x="290" y="210" text-anchor="middle" font-size="14" font-family="monospace" fill="#93a1a1">the sequence 3, 4, 5</text>
+
+  <!-- caption -->
+  <text x="340" y="262" text-anchor="middle" font-size="13" fill="#93a1a1">a linked list is a chain of pairs - each holds one value (first)</text>
+  <text x="340" y="280" text-anchor="middle" font-size="13" fill="#93a1a1">and a link to the rest.</text>
+</svg>

@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 370" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- ===== NEW pair, upper left: first = 10 ===== -->
+  <text x="125" y="26" text-anchor="middle" font-size="13" fill="#93a1a1">the list</text>
+  <text x="125" y="44" text-anchor="middle" font-size="13" font-family="monospace" fill="#93a1a1">(cons 10 one-through-four)</text>
+  <rect x="70" y="56" width="110" height="56" rx="12" fill="#ffffff" stroke="#2aa198" stroke-width="2.5"/>
+  <line x1="125" y1="56" x2="125" y2="112" stroke="#2aa198" stroke-width="2"/>
+  <text x="97" y="92" text-anchor="middle" font-size="24" font-family="monospace" fill="#073642">10</text>
+  <circle cx="152" cy="84" r="5" fill="#268bd2"/>
+  <text x="97" y="129" text-anchor="middle" font-size="12" fill="#93a1a1">first</text>
+  <text x="152" y="129" text-anchor="middle" font-size="12" fill="#93a1a1">rest</text>
+  <text x="360" y="88" text-anchor="middle" font-size="13" fill="#657b83">just one new pair is built</text>
+
+  <!-- arrow: new pair rest -> SAME first box (the 1) of the existing list -->
+  <line x1="150" y1="88" x2="78" y2="203" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="73,197 79,209 84,198" fill="#268bd2"/>
+
+  <!-- name label for the existing list, set to the right so the arrow stays clear -->
+  <text x="205" y="188" text-anchor="middle" font-size="13" font-family="monospace" fill="#93a1a1">one-through-four</text>
+
+  <!-- ===== Existing list, lower row: 1 -> 2 -> 3 -> 4 -> nil ===== -->
+
+  <!-- Box 1: first = 1 (the shared front box) -->
+  <rect x="30" y="212" width="110" height="56" rx="12" fill="#ffffff" stroke="#073642" stroke-width="2.5"/>
+  <line x1="85" y1="212" x2="85" y2="268" stroke="#073642" stroke-width="2"/>
+  <text x="57" y="248" text-anchor="middle" font-size="24" font-family="monospace" fill="#073642">1</text>
+  <circle cx="112" cy="240" r="5" fill="#268bd2"/>
+
+  <!-- arrow: box 1 rest -> box 2 -->
+  <line x1="116" y1="240" x2="201" y2="240" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="199,234 210,240 199,246" fill="#268bd2"/>
+
+  <!-- Box 2: first = 2 -->
+  <rect x="205" y="212" width="110" height="56" rx="12" fill="#ffffff" stroke="#073642" stroke-width="2.5"/>
+  <line x1="260" y1="212" x2="260" y2="268" stroke="#073642" stroke-width="2"/>
+  <text x="232" y="248" text-anchor="middle" font-size="24" font-family="monospace" fill="#073642">2</text>
+  <circle cx="287" cy="240" r="5" fill="#268bd2"/>
+
+  <!-- arrow: box 2 rest -> box 3 -->
+  <line x1="291" y1="240" x2="376" y2="240" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="374,234 385,240 374,246" fill="#268bd2"/>
+
+  <!-- Box 3: first = 3 -->
+  <rect x="380" y="212" width="110" height="56" rx="12" fill="#ffffff" stroke="#073642" stroke-width="2.5"/>
+  <line x1="435" y1="212" x2="435" y2="268" stroke="#073642" stroke-width="2"/>
+  <text x="407" y="248" text-anchor="middle" font-size="24" font-family="monospace" fill="#073642">3</text>
+  <circle cx="462" cy="240" r="5" fill="#268bd2"/>
+
+  <!-- arrow: box 3 rest -> box 4 -->
+  <line x1="466" y1="240" x2="551" y2="240" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="549,234 560,240 549,246" fill="#268bd2"/>
+
+  <!-- Box 4: first = 4 -->
+  <rect x="555" y="212" width="110" height="56" rx="12" fill="#ffffff" stroke="#073642" stroke-width="2.5"/>
+  <line x1="610" y1="212" x2="610" y2="268" stroke="#073642" stroke-width="2"/>
+  <text x="582" y="248" text-anchor="middle" font-size="24" font-family="monospace" fill="#073642">4</text>
+  <circle cx="637" cy="240" r="5" fill="#268bd2"/>
+
+  <!-- arrow: box 4 rest -> nil -->
+  <line x1="637" y1="240" x2="637" y2="300" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="631,298 637,309 643,298" fill="#268bd2"/>
+
+  <!-- end-marker: nil -->
+  <rect x="606" y="311" width="62" height="40" rx="10" fill="#fdf6e3" stroke="#073642" stroke-width="2"/>
+  <text x="637" y="336" text-anchor="middle" font-size="14" font-family="monospace" fill="#657b83">nil</text>
+
+  <!-- caption -->
+  <text x="300" y="320" text-anchor="middle" font-size="13" fill="#93a1a1">cons builds just one new pair; its rest shares the existing list -</text>
+  <text x="300" y="338" text-anchor="middle" font-size="13" fill="#93a1a1">nothing is copied.</text>
+</svg>

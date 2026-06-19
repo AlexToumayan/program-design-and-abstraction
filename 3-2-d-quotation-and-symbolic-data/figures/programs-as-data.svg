@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-16 -16 740 364" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- central box: the same Scheme text -->
+  <rect x="36" y="112" width="168" height="64" rx="16" fill="#fdf6e3" stroke="#073642" stroke-width="2.5"/>
+  <text x="120" y="153" text-anchor="middle" font-size="26" font-family="monospace" font-weight="bold" fill="#073642">(+ 2 3)</text>
+  <text x="120" y="200" text-anchor="middle" font-size="13" fill="#93a1a1">one piece of text</text>
+
+  <!-- top branch: read as a program, run it -->
+  <line x1="208" y1="132" x2="546" y2="70" stroke="#268bd2" stroke-width="2.5"/>
+  <polygon points="535,62 549,69 538,77" fill="#268bd2"/>
+  <text x="374" y="80" text-anchor="middle" font-size="13" fill="#268bd2">read as a PROGRAM: run it</text>
+
+  <!-- top outcome: the value 3 -->
+  <rect x="552" y="38" width="80" height="52" rx="12" fill="#ffffff" stroke="#268bd2" stroke-width="2"/>
+  <text x="592" y="73" text-anchor="middle" font-size="24" font-family="monospace" fill="#073642">5</text>
+
+  <!-- bottom branch: read as data -->
+  <line x1="208" y1="156" x2="450" y2="222" stroke="#2aa198" stroke-width="2.5"/>
+  <polygon points="439,214 453,221 442,229" fill="#2aa198"/>
+  <text x="330" y="214" text-anchor="middle" font-size="13" fill="#2aa198">read as DATA: a list of three things</text>
+
+  <!-- bottom outcome: a list of three cells -->
+  <rect x="456" y="200" width="64" height="52" rx="10" fill="#ffffff" stroke="#2aa198" stroke-width="2"/>
+  <text x="488" y="234" text-anchor="middle" font-size="22" font-family="monospace" fill="#073642">+</text>
+  <rect x="520" y="200" width="64" height="52" rx="10" fill="#ffffff" stroke="#2aa198" stroke-width="2"/>
+  <text x="552" y="234" text-anchor="middle" font-size="22" font-family="monospace" fill="#073642">2</text>
+  <rect x="584" y="200" width="64" height="52" rx="10" fill="#ffffff" stroke="#2aa198" stroke-width="2"/>
+  <text x="616" y="234" text-anchor="middle" font-size="22" font-family="monospace" fill="#073642">3</text>
+  <text x="552" y="272" text-anchor="middle" font-size="13" fill="#93a1a1">the symbol +, the number 2, the number 3</text>
+
+  <!-- caption -->
+  <text x="350" y="306" text-anchor="middle" font-size="12" fill="#93a1a1">the same text is both code to run and data to inspect or build</text>
+  <text x="350" y="324" text-anchor="middle" font-size="12" fill="#93a1a1">the keystone idea of this chapter</text>
+</svg>

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 250" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <text x="175" y="30" text-anchor="middle" font-size="15" font-weight="bold" fill="#073642">list - numbered lockers</text>
+  <text x="525" y="30" text-anchor="middle" font-size="15" font-weight="bold" fill="#073642">dict - labeled drawers</text>
+  <line x1="350" y1="16" x2="350" y2="198" stroke="#93a1a1" stroke-width="1.5" stroke-dasharray="4 5"/>
+
+  <rect x="40" y="62" width="76" height="52" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="78" y="95" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">10</text>
+  <rect x="128" y="62" width="76" height="52" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="166" y="95" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">20</text>
+  <rect x="216" y="62" width="76" height="52" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="254" y="95" text-anchor="middle" font-size="18" font-family="monospace" fill="#073642">30</text>
+  <text x="78" y="136" text-anchor="middle" font-size="13" font-family="monospace" fill="#93a1a1">0</text>
+  <text x="166" y="136" text-anchor="middle" font-size="13" font-family="monospace" fill="#93a1a1">1</text>
+  <text x="254" y="136" text-anchor="middle" font-size="13" font-family="monospace" fill="#93a1a1">2</text>
+  <text x="175" y="172" text-anchor="middle" font-size="13" fill="#93a1a1">reached by counting to a position</text>
+
+  <rect x="382" y="56" width="92" height="66" rx="10" fill="#fdf6e3" stroke="#073642" stroke-width="2"/>
+  <text x="428" y="80" text-anchor="middle" font-size="14" font-family="monospace" fill="#268bd2">'I'</text>
+  <line x1="392" y1="89" x2="464" y2="89" stroke="#93a1a1" stroke-width="1"/>
+  <text x="428" y="113" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">1</text>
+  <rect x="490" y="56" width="92" height="66" rx="10" fill="#fdf6e3" stroke="#073642" stroke-width="2"/>
+  <text x="536" y="80" text-anchor="middle" font-size="14" font-family="monospace" fill="#268bd2">'V'</text>
+  <line x1="500" y1="89" x2="572" y2="89" stroke="#93a1a1" stroke-width="1"/>
+  <text x="536" y="113" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">5</text>
+  <rect x="598" y="56" width="92" height="66" rx="10" fill="#fdf6e3" stroke="#073642" stroke-width="2"/>
+  <text x="644" y="80" text-anchor="middle" font-size="14" font-family="monospace" fill="#268bd2">'X'</text>
+  <line x1="608" y1="89" x2="680" y2="89" stroke="#93a1a1" stroke-width="1"/>
+  <text x="644" y="113" text-anchor="middle" font-size="20" font-family="monospace" fill="#073642">10</text>
+  <text x="536" y="172" text-anchor="middle" font-size="13" fill="#93a1a1">reached by reading a label (a key)</text>
+
+  <text x="350" y="222" text-anchor="middle" font-size="13" fill="#93a1a1">a list is indexed by position; a dictionary is indexed by key.</text>
+</svg>

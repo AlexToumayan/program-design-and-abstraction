@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-19 -16 715 354" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <!-- ============ TOP LIST: 1 -> 3 -> 5 -> 7 ============ -->
+  <!-- row label -->
+  <text x="40" y="86" text-anchor="end" font-size="12" fill="#93a1a1">list 1</text>
+
+  <!-- top cursor: triangle above box 1, pointing down -->
+  <polygon points="74,40 98,40 86,56" fill="#268bd2"/>
+  <text x="86" y="33" text-anchor="middle" font-size="11" fill="#93a1a1">front</text>
+
+  <!-- box 1 (value 1) -->
+  <rect x="48" y="60" width="76" height="46" rx="12" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="86" y="89" text-anchor="middle" font-size="22" font-family="monospace" fill="#073642">1</text>
+  <!-- link arrow -->
+  <line x1="126" y1="83" x2="154" y2="83" stroke="#073642" stroke-width="2"/>
+  <polygon points="152,78 162,83 152,88" fill="#073642"/>
+
+  <!-- box 2 (value 3) MATCH -->
+  <rect x="158" y="60" width="76" height="46" rx="12" fill="#fdf6e3" stroke="#2aa198" stroke-width="2.5"/>
+  <text x="196" y="89" text-anchor="middle" font-size="22" font-family="monospace" fill="#2aa198">3</text>
+  <line x1="236" y1="83" x2="264" y2="83" stroke="#073642" stroke-width="2"/>
+  <polygon points="262,78 272,83 262,88" fill="#073642"/>
+
+  <!-- box 3 (value 5) MATCH -->
+  <rect x="268" y="60" width="76" height="46" rx="12" fill="#fdf6e3" stroke="#2aa198" stroke-width="2.5"/>
+  <text x="306" y="89" text-anchor="middle" font-size="22" font-family="monospace" fill="#2aa198">5</text>
+  <line x1="346" y1="83" x2="374" y2="83" stroke="#073642" stroke-width="2"/>
+  <polygon points="372,78 382,83 372,88" fill="#073642"/>
+
+  <!-- box 4 (value 7) -->
+  <rect x="378" y="60" width="76" height="46" rx="12" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="416" y="89" text-anchor="middle" font-size="22" font-family="monospace" fill="#073642">7</text>
+
+  <!-- ============ BOTTOM LIST: 3 -> 4 -> 5 -> 9 ============ -->
+  <!-- row label -->
+  <text x="40" y="186" text-anchor="end" font-size="12" fill="#93a1a1">list 2</text>
+
+  <!-- box 1 (value 3) MATCH -->
+  <rect x="48" y="160" width="76" height="46" rx="12" fill="#fdf6e3" stroke="#2aa198" stroke-width="2.5"/>
+  <text x="86" y="189" text-anchor="middle" font-size="22" font-family="monospace" fill="#2aa198">3</text>
+  <line x1="126" y1="183" x2="154" y2="183" stroke="#073642" stroke-width="2"/>
+  <polygon points="152,178 162,183 152,188" fill="#073642"/>
+
+  <!-- box 2 (value 4) -->
+  <rect x="158" y="160" width="76" height="46" rx="12" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="196" y="189" text-anchor="middle" font-size="22" font-family="monospace" fill="#073642">4</text>
+  <line x1="236" y1="183" x2="264" y2="183" stroke="#073642" stroke-width="2"/>
+  <polygon points="262,178 272,183 262,188" fill="#073642"/>
+
+  <!-- box 3 (value 5) MATCH -->
+  <rect x="268" y="160" width="76" height="46" rx="12" fill="#fdf6e3" stroke="#2aa198" stroke-width="2.5"/>
+  <text x="306" y="189" text-anchor="middle" font-size="22" font-family="monospace" fill="#2aa198">5</text>
+  <line x1="346" y1="183" x2="374" y2="183" stroke="#073642" stroke-width="2"/>
+  <polygon points="372,178 382,183 372,188" fill="#073642"/>
+
+  <!-- box 4 (value 9) -->
+  <rect x="378" y="160" width="76" height="46" rx="12" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="416" y="189" text-anchor="middle" font-size="22" font-family="monospace" fill="#073642">9</text>
+
+  <!-- bottom cursor: triangle below box 1, pointing up -->
+  <polygon points="74,226 98,226 86,210" fill="#268bd2"/>
+  <text x="86" y="244" text-anchor="middle" font-size="11" fill="#93a1a1">front</text>
+
+  <!-- ============ NOTE ============ -->
+  <rect x="478" y="74" width="186" height="118" rx="12" fill="#fdf6e3" stroke="#657b83" stroke-width="2"/>
+  <text x="571" y="100" text-anchor="middle" font-size="12.5" fill="#657b83">compare the two fronts</text>
+  <text x="571" y="122" text-anchor="middle" font-size="12.5" fill="#268bd2">advance the cursor on</text>
+  <text x="571" y="139" text-anchor="middle" font-size="12.5" fill="#268bd2">the SMALLER one</text>
+  <text x="571" y="166" text-anchor="middle" font-size="12.5" fill="#2aa198">on a tie it is a match</text>
+  <text x="571" y="183" text-anchor="middle" font-size="12.5" fill="#2aa198">and both advance</text>
+
+  <!-- ============ CAPTION (two lines) ============ -->
+  <text x="340" y="285" text-anchor="middle" font-size="13" fill="#93a1a1">walk both sorted lists at once, stepping the smaller cursor</text>
+  <text x="340" y="305" text-anchor="middle" font-size="13" fill="#93a1a1">one pass instead of n times n</text>
+</svg>

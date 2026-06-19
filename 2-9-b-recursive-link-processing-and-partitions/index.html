@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>2.9 Recursive Link Processing and Partitions · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/' class='active'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 2</span><span class='dot'>/</span><span class='eb-sec'>2.9 Recursive Objects</span></div><h1 class='lesson-title'>2.9 Recursive Link Processing and Partitions</h1><div class='reading-meta'>&#9719; approx. 16 min read <span class='rm-sep'>&middot;</span> 13 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>You already know how to build a linked list out of <code>Link</code> objects. This lesson is about doing useful work on one. By the end you will be able to write four recursive functions that every linked-list program is built from: one that glues two lists together (<code>extend_link</code>), one that transforms every element (<code>map_link</code>), one that keeps only the elements you want (<code>filter_link</code>), and one that turns a list into a readable string (<code>join_link</code>). Then you will use those four tools to solve a real problem: listing every way to write a number as a sum, where each answer is itself a linked list.</p>
+<p>The single habit to build here is recursion on a recursive object. A linked list is a <code>first</code> followed by a <code>rest</code> that is itself a linked list. So almost every function will follow the same shape: do something with <code>first</code>, call yourself on <code>rest</code>, and combine the two results. Once you see that shape, all four functions look like one idea wearing four costumes.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='a-conveyor-belt-analogy' class='ls ls-default'>
+<h2 class='ls-h'><span>A Conveyor Belt Analogy</span></h2>
+<div class='ls-body'>
+<p>Picture a conveyor belt carrying boxes past you. You are only allowed to look at the box directly in front of you, the <strong>first</strong> box. Everything past it is the <strong>rest</strong> of the belt, still moving, still out of reach until the first box rolls away.</p>
+<p>Given only that limited view, you can still get a lot done by deciding what to do with the first box and trusting the belt to bring you the next one:</p>
+<ul>
+<li>To <strong>join</strong> two belts, you let the first belt run completely, then splice the second belt onto its end.</li>
+<li>To <strong>transform</strong> every box, you relabel the first box, then let the belt advance and relabel the next.</li>
+<li>To <strong>keep only some boxes</strong>, you inspect the first box, toss it or keep it, then move on.</li>
+</ul>
+<p>Each of these is a one-box decision repeated down the whole belt. That is exactly what recursion on <code>first</code> and <code>rest</code> does: you handle the first link, then hand the rest of the chain to another copy of yourself.</p>
+</div></section>
+<section id='the-link-class-used-in-this-packet' class='ls ls-default'>
+<h2 class='ls-h'><span>The Link Class Used in This Packet</span></h2>
+<div class='ls-body'>
+<p>Every function below operates on the same <code>Link</code> class from the previous lesson. A link stores a <code>first</code> value and a <code>rest</code>, where <code>rest</code> is either another <code>Link</code> or the empty marker <code>Link.empty</code>. We also reuse <code>link_expression</code> so that printing a link shows its full structure.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #859900">class</span> <span style="color: #268bd2">Link</span><span style="color: #657b83">:</span>
+    <span style="color: #657b83">empty</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">()</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">first,</span> <span style="color: #657b83">rest</span><span style="color: #93a1a1">=</span><span style="color: #657b83">empty):</span>
+        <span style="color: #859900">assert</span> <span style="color: #657b83">rest</span> <span style="color: #859900">is</span> <span style="color: #657b83">Link</span><span style="color: #93a1a1">.</span><span style="color: #657b83">empty</span> <span style="color: #859900">or</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(rest,</span> <span style="color: #657b83">Link)</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">first</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">rest</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">link_expression</span><span style="color: #657b83">(s):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest</span> <span style="color: #859900">is</span> <span style="color: #657b83">Link</span><span style="color: #93a1a1">.</span><span style="color: #657b83">empty:</span>
+        <span style="color: #657b83">rest</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">&#39;&#39;</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">rest</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">&#39;, &#39;</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">link_expression(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest)</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;Link({0}{1})&#39;</span><span style="color: #93a1a1">.</span><span style="color: #657b83">format(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">rest)</span>
+
+
+<span style="color: #657b83">Link</span><span style="color: #93a1a1">.</span><span style="color: #268bd2">__repr__</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">link_expression</span>
+
+<span style="color: #657b83">numbers</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Link(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #657b83">Link(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #657b83">Link(</span><span style="color: #2aa198">3</span><span style="color: #657b83">)))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(numbers)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/4533d8c67fe3.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>Link(1, Link(2, Link(3)))</code></pre>
+<p>The name <code>numbers</code> now points to a chain of three links. We will pass it to each function as we go.</p>
+</div></section>
+<section id='extending-one-linked-list-with-another' class='ls ls-default'>
+<h2 class='ls-h'><span>Extending One Linked List With Another</span></h2>
+<div class='ls-body'>
+<p>The first tool builds a new linked list containing the elements of <code>s</code> followed by the elements of <code>t</code>. The original text calls this <code>extend_link</code>. It works by copying the front list one link at a time and, when the front list runs out, attaching the back list.</p>
+<p>Here is the official definition.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">extend_link</span><span style="color: #657b83">(s,</span> <span style="color: #657b83">t):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">s</span> <span style="color: #859900">is</span> <span style="color: #657b83">Link</span><span style="color: #93a1a1">.</span><span style="color: #657b83">empty:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">t</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">Link(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">extend_link(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest,</span> <span style="color: #657b83">t))</span>
+</code></pre>
+<p>The base case is the moment the front list is empty: there is nothing left to copy, so the answer is just <code>t</code>. The recursive case rebuilds the front list by making a fresh link whose <code>first</code> is <code>s.first</code> and whose <code>rest</code> is the extension of everything after it.</p>
+<p>Read the recursive line one token at a time. The result is a brand-new link, so the final row states what the line evaluates to.</p>
+<pre class='code anatomy'><code>return Link(s.first, extend_link(s.rest, t))
+├─ return ........... hand this value back to the caller
+├─ Link( ............ start building a new link object
+├─ s.first .......... the first value of the front list becomes the new first
+├─ , ................ separates the two arguments to Link
+├─ extend_link( ..... recursive call that builds the rest of the chain
+├─ s.rest ........... everything after the first link of the front list
+├─ , ................ separates the two arguments to extend_link
+├─ t ................ the back list, to be attached once s runs out
+├─ ) ................ closes the recursive call
+├─ ) ................ closes the new link
+└─ evaluates to a new Link whose first is s.first and whose rest is the extension of (s.rest, t)</code></pre>
+<p>Let me confirm the behavior on a small example you can check by hand, then on the official transcript.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #657b83">a</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Link(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #657b83">Link(</span><span style="color: #2aa198">2</span><span style="color: #657b83">))</span>
+<span style="color: #657b83">b</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Link(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #657b83">Link(</span><span style="color: #2aa198">4</span><span style="color: #657b83">))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(extend_link(a,</span> <span style="color: #657b83">b))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(a)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(b)</span>
+</code></pre>
+<p>Expected output:</p>
+<pre class='code text'><code>Link(1, Link(2, Link(3, Link(4))))
+Link(1, Link(2))
+Link(3, Link(4))</code></pre>
+<p>Notice the second and third lines. The originals <code>a</code> and <code>b</code> are unchanged. <code>extend_link</code> does not edit anything; it builds a new front chain (<code>1</code> then <code>2</code>) and points the end of that new chain at the existing <code>b</code>. The official text shows the same construction on a single list extended with itself.</p>
+<pre class='code text'><code>&gt;&gt;&gt; s = Link(3, Link(4, Link(5)))
+&gt;&gt;&gt; extend_link(s, s)
+Link(3, Link(4, Link(5, Link(3, Link(4, Link(5))))))</code></pre>
+<p>Here <code>s</code> is both the front and the back. The function copies the first <code>3, 4, 5</code> into new links, then attaches the original <code>s</code> as the rest, producing the doubled list.</p>
+<h3>Installing Extension as the <code>+</code> Operator</h3>
+<p>Linked lists do not support <code>+</code> on their own. Writing <code>s + s</code> would normally raise an error, because the <code>Link</code> class has no <code>__add__</code> method. But you can give it one by assigning the extension function to that special name. After the assignment, Python calls <code>extend_link</code> whenever it evaluates <code>+</code> between two links.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (4)</span>
+<span style="color: #657b83">Link</span><span style="color: #93a1a1">.</span><span style="color: #268bd2">__add__</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">extend_link</span>
+</code></pre>
+<p>Read that assignment as a statement, since it performs an action rather than computing a value.</p>
+<pre class='code anatomy'><code>Link.__add__ = extend_link
+├─ Link.__add__ ..... the special method Python looks up for the + operator on a Link
+├─ = ................ assignment: bind the name on the left
+├─ extend_link ...... the existing extension function, used as the value
+└─ installs extend_link as the + behavior for Link, so s + t now extends s with t</code></pre>
+<p>With that method installed, the <code>+</code> operator and the direct call produce identical results.</p>
+<pre class='code text'><code>&gt;&gt;&gt; Link.__add__ = extend_link
+&gt;&gt;&gt; s + s
+Link(3, Link(4, Link(5, Link(3, Link(4, Link(5))))))</code></pre>
+<p>The lesson is that operator support is not automatic for your own classes. The expression <code>s + s</code> only works because <code>Link.__add__</code> was assigned to a function that knows how to combine two links.</p>
+</div></section>
+<section id='mapping-a-function-over-a-linked-list' class='ls ls-default'>
+<h2 class='ls-h'><span>Mapping a Function Over a Linked List</span></h2>
+<div class='ls-body'>
+<p>Mapping means applying a function to every element and collecting the results into a new list of the same length. The original text calls this <code>map_link</code>. It follows the standard shape: transform the first value, map the rest, and connect them.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (5)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">map_link</span><span style="color: #657b83">(f,</span> <span style="color: #657b83">s):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">s</span> <span style="color: #859900">is</span> <span style="color: #657b83">Link</span><span style="color: #93a1a1">.</span><span style="color: #657b83">empty:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">s</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">Link(f(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first),</span> <span style="color: #657b83">map_link(f,</span> <span style="color: #657b83">s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest))</span>
+</code></pre>
+<p>The base case returns the empty list unchanged, because mapping over nothing produces nothing. The recursive case builds a new link whose <code>first</code> is <code>f</code> applied to the old first, and whose <code>rest</code> is the mapped remainder.</p>
+<p>Look at the recursive line token by token. Like <code>extend_link</code>, it produces a new link, so the final row gives the resulting value.</p>
+<pre class='code anatomy'><code>return Link(f(s.first), map_link(f, s.rest))
+├─ return ........... hand this value back to the caller
+├─ Link( ............ start building a new link object
+├─ f( ............... apply the mapping function
+├─ s.first .......... to the first value of the current list
+├─ ) ................ closes the call to f
+├─ , ................ separates the two arguments to Link
+├─ map_link( ........ recursive call that maps the rest
+├─ f ................ the same function is reused on every element
+├─ , ................ separates the two arguments to map_link
+├─ s.rest ........... everything after the first link
+├─ ) ................ closes the recursive call
+├─ ) ................ closes the new link
+└─ evaluates to a new Link whose first is f(s.first) and whose rest is the mapping of s.rest</code></pre>
+<p>Here is a warm-up you can verify in your head, squaring each value of <code>numbers</code>.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (6)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(map_link(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">x,</span> <span style="color: #657b83">numbers))</span>
+</code></pre>
+<p>Expected output:</p>
+<pre class='code text'><code>Link(1, Link(4, Link(9)))</code></pre>
+<p>The lambda expression <code>lambda x: x * x</code> creates a small function with one parameter <code>x</code> and one return expression <code>x * x</code>. The recursive calls peel off one link at a time and then rebuild the chain from the back forward. Step the block above and watch the <code>map_link</code> frames stack as the list shortens to <code>Link.empty</code>, then notice that the links are constructed during the unwind, with <code>Link(9)</code> built first and the outermost <code>Link(1, ...)</code> built last.</p>
+<p>The official text maps a function named <code>square</code> over the list <code>s = Link(3, Link(4, Link(5)))</code>. We will combine that with filtering and joining next.</p>
+</div></section>
+<section id='filtering-a-linked-list' class='ls ls-default'>
+<h2 class='ls-h'><span>Filtering a Linked List</span></h2>
+<div class='ls-body'>
+<p>Filtering means keeping only the values that pass a test, called a <strong>predicate</strong>. The original text calls this <code>filter_link</code>. It still processes <code>first</code> and <code>rest</code>, but the recombination depends on the test result.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (7)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">filter_link</span><span style="color: #657b83">(f,</span> <span style="color: #657b83">s):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">s</span> <span style="color: #859900">is</span> <span style="color: #657b83">Link</span><span style="color: #93a1a1">.</span><span style="color: #657b83">empty:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">s</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">filtered</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">filter_link(f,</span> <span style="color: #657b83">s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest)</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">f(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first):</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">Link(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">filtered)</span>
+        <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">filtered</span>
+</code></pre>
+<p>There is a subtle but important ordering here. The function computes <code>filtered</code>, the filtered version of the rest, before it decides anything about the first element. Only then does it ask whether <code>f(s.first)</code> is true. If the first value passes, it builds a new link in front of <code>filtered</code>. If it fails, it returns <code>filtered</code> alone, dropping the first value.</p>
+<p>Look at the deciding line token by token. This line evaluates to a value (one of two possibilities depending on the test), so the final row states the result.</p>
+<pre class='code anatomy'><code>if f(s.first):
+├─ if ............... begin a conditional
+├─ f( ............... apply the predicate function
+├─ s.first .......... to the first value of the current list
+├─ ) ................ closes the call to f
+├─ : ................ ends the condition, begins the block
+└─ when this is true, keep s.first by returning Link(s.first, filtered); otherwise return filtered alone</code></pre>
+<p>Here is a warm-up that keeps only the odd values of <code>numbers</code>.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (8)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(filter_link(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">%</span> <span style="color: #2aa198">2</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #657b83">numbers))</span>
+</code></pre>
+<p>Expected output:</p>
+<pre class='code text'><code>Link(1, Link(3))</code></pre>
+<p>The value <code>2</code> fails the test <code>x % 2 == 1</code>, so it is skipped, and the result chains <code>1</code> directly to <code>3</code>.</p>
+</div></section>
+<section id='joining-a-linked-list-into-a-string' class='ls ls-default'>
+<h2 class='ls-h'><span>Joining a Linked List Into a String</span></h2>
+<div class='ls-body'>
+<p>The original text uses <code>join_link</code> to display a linked list as readable text, separating consecutive elements with a string you choose.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (9)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">join_link</span><span style="color: #657b83">(s,</span> <span style="color: #657b83">separator):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">s</span> <span style="color: #859900">is</span> <span style="color: #657b83">Link</span><span style="color: #93a1a1">.</span><span style="color: #657b83">empty:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">&quot;&quot;</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest</span> <span style="color: #859900">is</span> <span style="color: #657b83">Link</span><span style="color: #93a1a1">.</span><span style="color: #657b83">empty:</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">separator</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">join_link(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest,</span> <span style="color: #657b83">separator)</span>
+</code></pre>
+<p>This function needs two base cases. The first handles the empty list, returning an empty string. The second handles the final element, returning just <code>str(s.first)</code> with no trailing separator. Without that second base case, every list would end with an extra separator hanging off the last element. The recursive case glues the current value, the separator, and the joined rest together.</p>
+<p>Look at the recursive line token by token. It evaluates to a string, so the final row gives that string.</p>
+<pre class='code anatomy'><code>return str(s.first) + separator + join_link(s.rest, separator)
+├─ return ........... hand this value back to the caller
+├─ str( ............. convert a value to its string form
+├─ s.first .......... the first value of the current list
+├─ ) ................ closes the call to str
+├─ + ................ string concatenation
+├─ separator ........ the separator string passed in by the caller
+├─ + ................ string concatenation
+├─ join_link( ....... recursive call that joins the rest
+├─ s.rest ........... everything after the first link
+├─ , ................ separates the two arguments to join_link
+├─ separator ........ the same separator is reused down the chain
+├─ ) ................ closes the recursive call
+└─ evaluates to the first value, the separator, and the joined rest concatenated into one string</code></pre>
+<p>Here is a warm-up joining <code>numbers</code> two different ways.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (10)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(join_link(numbers,</span> <span style="color: #2aa198">&#39;, &#39;</span><span style="color: #657b83">))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(join_link(numbers,</span> <span style="color: #2aa198">&#39; + &#39;</span><span style="color: #657b83">))</span>
+</code></pre>
+<p>Expected output:</p>
+<pre class='code text'><code>1, 2, 3
+1 + 2 + 3</code></pre>
+<p>The official text shows the same idea on <code>s = Link(3, Link(4, Link(5)))</code>, combined with mapping and filtering. With <code>square</code> and the predicate <code>odd</code> in scope, the source produces this session.</p>
+<pre class='code text'><code>&gt;&gt;&gt; map_link(square, s)
+Link(9, Link(16, Link(25)))
+&gt;&gt;&gt; odd = lambda x: x % 2 == 1
+&gt;&gt;&gt; map_link(square, filter_link(odd, s))
+Link(9, Link(25))
+&gt;&gt;&gt; [square(x) for x in [3, 4, 5] if odd(x)]
+[9, 25]
+&gt;&gt;&gt; join_link(s, &quot;, &quot;)
+&#x27;3, 4, 5&#x27;</code></pre>
+<p>Two of those lines compute the same thing in two different ways. The expression <code>map_link(square, filter_link(odd, s))</code> first keeps the odd elements (<code>3</code> and <code>5</code>, dropping <code>4</code>), then squares them, giving <code>Link(9, Link(25))</code>. The list comprehension <code>[square(x) for x in [3, 4, 5] if odd(x)]</code> does the same keep-then-square work with ordinary Python sequence syntax and produces <code>[9, 25]</code>. The comprehension is included to show that the linked-list versions of map and filter mirror operations you already have on built-in sequences. The final line shows <code>join_link</code> rendering the list as the string <code>&#x27;3, 4, 5&#x27;</code>.</p>
+</div></section>
+<section id='integer-partitions-with-linked-lists' class='ls ls-default'>
+<h2 class='ls-h'><span>Integer Partitions With Linked Lists</span></h2>
+<div class='ls-body'>
+<p>Now we use those four tools to solve a real problem. A <strong>partition</strong> of a positive integer <code>n</code> using parts up to <code>m</code> is a way to write <code>n</code> as a sum of positive integers, each no larger than <code>m</code>, where order does not matter. For example, the partitions of <code>4</code> using parts up to <code>3</code> are:</p>
+<pre class='code text'><code>3 + 1
+2 + 2
+2 + 1 + 1
+1 + 1 + 1 + 1</code></pre>
+<p>Earlier in the course you wrote a function that counted how many such partitions exist. The original text now reuses the exact same recursive analysis, but instead of counting the partitions it builds them, representing the whole answer as a linked list of linked lists: an outer list holding many partitions, where each partition is itself a linked list of numbers.</p>
+<p>The recursive choice is identical to the counting version. To partition <code>n</code> using parts up to <code>m</code>, you either use at least one part of size <code>m</code>, or you use no part of size <code>m</code>.</p>
+<p>Here is the official definition. Note the docstring and that the final line uses the <code>+</code> operator, which works because <code>Link.__add__</code> was assigned to <code>extend_link</code> earlier.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (11)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">partitions</span><span style="color: #657b83">(n,</span> <span style="color: #657b83">m):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return a linked list of partitions of n using parts of up to m.</span>
+<span style="color: #93a1a1">    Each partition is represented as a linked list.</span>
+<span style="color: #93a1a1">    &quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">Link(Link</span><span style="color: #93a1a1">.</span><span style="color: #657b83">empty)</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">0</span> <span style="color: #859900">or</span> <span style="color: #657b83">m</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">Link</span><span style="color: #93a1a1">.</span><span style="color: #657b83">empty</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">using_m</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">partitions(n</span><span style="color: #93a1a1">-</span><span style="color: #657b83">m,</span> <span style="color: #657b83">m)</span>
+        <span style="color: #657b83">with_m</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">map_link(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">s:</span> <span style="color: #657b83">Link(m,</span> <span style="color: #657b83">s),</span> <span style="color: #657b83">using_m)</span>
+        <span style="color: #657b83">without_m</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">partitions(n,</span> <span style="color: #657b83">m</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">with_m</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">without_m</span>
+</code></pre>
+<p>There are two base cases and one recursive case. When <code>n == 0</code>, you have successfully reached zero, which means the current sequence of choices forms one complete partition. The function signals that single success by returning <code>Link(Link.empty)</code>: a list containing exactly one partition, and that partition is the empty list. When <code>n &lt; 0</code> you overshot, which happens when the recursive call <code>partitions(n-m, m)</code> subtracts an <code>m</code> larger than the <code>n</code> left to fill, and when <code>m == 0</code> you have no parts left to use, so in either case there are zero partitions and the function returns <code>Link.empty</code>.</p>
+<p>The recursive case computes both halves of the choice and combines them. Read the heart of it token by token. The <code>with_m</code> line evaluates to a new linked list, so the final row states what that list contains.</p>
+<pre class='code anatomy'><code>with_m = map_link(lambda s: Link(m, s), using_m)
+├─ with_m ........... the name being bound
+├─ = ................ assignment
+├─ map_link( ........ map a function over every partition
+├─ lambda s: ........ a one-parameter function; s is one partition (a linked list)
+├─ Link(m, s) ....... build a new partition with m added to the front of s
+├─ , ................ separates the two arguments to map_link
+├─ using_m .......... the partitions of n - m, each missing the leading m
+├─ ) ................ closes the call to map_link
+└─ evaluates to the list of partitions of n that each begin with one part of size m</code></pre>
+<p>The pieces fit together like this. The name <code>using_m</code> holds every partition of <code>n - m</code> using parts up to <code>m</code>; these are the partitions you get after committing to one part of size <code>m</code>. The name <code>with_m</code> puts that committed <code>m</code> back onto the front of each of those partitions. The name <code>without_m</code> holds every partition of <code>n</code> that avoids <code>m</code> entirely, using parts up to <code>m - 1</code>. Finally, <code>with_m + without_m</code> extends one group with the other, giving every partition in a single linked list. This is the same branching structure as the tree-recursive counting function, except the return value is now a recursive object instead of a number.</p>
+<p>To display the result, the original text wraps <code>partitions</code> in a printing function that maps each inner partition to a joined string, then joins those strings with newlines.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (12)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">print_partitions</span><span style="color: #657b83">(n,</span> <span style="color: #657b83">m):</span>
+    <span style="color: #657b83">lists</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">partitions(n,</span> <span style="color: #657b83">m)</span>
+    <span style="color: #657b83">strings</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">map_link(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">s:</span> <span style="color: #657b83">join_link(s,</span> <span style="color: #2aa198">&quot; + &quot;</span><span style="color: #657b83">),</span> <span style="color: #657b83">lists)</span>
+    <span style="color: #268bd2">print</span><span style="color: #657b83">(join_link(strings,</span> <span style="color: #2aa198">&quot;\n&quot;</span><span style="color: #657b83">))</span>
+</code></pre>
+<p>Here <code>lists</code> is the linked list of partitions, <code>strings</code> maps each partition to a string like <code>&quot;2 + 1 + 1&quot;</code> using <code>join_link</code> with <code>&quot; + &quot;</code>, and the final <code>join_link</code> with <code>&quot;\n&quot;</code> stacks those strings on separate lines for printing.</p>
+<p>The official checkpoint displays the partitions of <code>6</code> using parts up to <code>4</code>.</p>
+<pre class='code text'><code>&gt;&gt;&gt; print_partitions(6, 4)
+4 + 2
+4 + 1 + 1
+3 + 3
+3 + 2 + 1
+3 + 1 + 1 + 1
+2 + 2 + 2
+2 + 2 + 1 + 1
+2 + 1 + 1 + 1 + 1
+1 + 1 + 1 + 1 + 1 + 1</code></pre>
+<p>Reading the output top to bottom shows the recursion&#x27;s order: partitions that use a <code>4</code> come first (because <code>with_m</code> is extended first), then partitions whose largest part is <code>3</code>, then <code>2</code>, then the all-ones partition last.</p>
+</div></section>
+<section id='tracing-the-outer-and-inner-lists' class='ls ls-default'>
+<h2 class='ls-h'><span>Tracing the Outer and Inner Lists</span></h2>
+<div class='ls-body'>
+<p>The hardest part of <code>partitions</code> is keeping straight which linked list is which. There are two roles. The <strong>outer</strong> linked list is the container of answers. Each <strong>inner</strong> linked list is one answer, a single partition. The same <code>Link</code> class plays both roles.</p>
+<p>Take <code>partitions(3, 2)</code>, the partitions of <code>3</code> using parts up to <code>2</code>. By hand there are two: <code>2 + 1</code> and <code>1 + 1 + 1</code>. The function returns them as one outer list with two inner lists.</p>
+<pre class='code text'><code>outer list (the full answer): Link( &lt;partition&gt;, Link( &lt;partition&gt; ) )
+
+inner list #1 (2 + 1):    Link(2, Link(1))
+inner list #2 (1 + 1 + 1): Link(1, Link(1, Link(1)))
+
+so partitions(3, 2) is:
+Link( Link(2, Link(1)), Link( Link(1, Link(1, Link(1))) ) )</code></pre>
+<p>The outer list has length two, one slot per partition. The inner lists have whatever length that particular partition needs. When <code>print_partitions</code> calls <code>map_link(lambda s: join_link(s, &quot; + &quot;), lists)</code>, the parameter <code>s</code> is bound to each inner list in turn, and <code>join_link</code> turns <code>Link(2, Link(1))</code> into <code>&quot;2 + 1&quot;</code>. The outer <code>join_link(strings, &quot;\n&quot;)</code> then stacks <code>&quot;2 + 1&quot;</code> and <code>&quot;1 + 1 + 1&quot;</code> on two lines. So a linked list serves at once as the collection of answers and as each individual answer.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<p><strong>Trap 1: Expecting these functions to mutate the input.</strong> <code>extend_link</code>, <code>map_link</code>, and <code>filter_link</code> all build new linked lists and leave the originals untouched. After <code>extend_link(a, b)</code>, both <code>a</code> and <code>b</code> are exactly as they were. If you expected <code>a</code> to grow, you misread what the function does.</p>
+<p><strong>Trap 2: Thinking <code>s + s</code> works because <code>Link</code> is a list.</strong> It works only because <code>Link.__add__ = extend_link</code> was assigned. Your own classes get no operators for free. Remove that assignment and <code>s + s</code> raises an error.</p>
+<p><strong>Trap 3: Renaming <code>partitions</code> to use <code>extend_link</code> instead of <code>+</code>.</strong> The official <code>partitions</code> ends with <code>return with_m + without_m</code>, which depends on <code>Link.__add__</code> being installed. If you run <code>partitions</code> without first assigning <code>Link.__add__</code>, the <code>+</code> fails. Define the operator before you call the function.</p>
+<p><strong>Trap 4: Dropping the second base case in <code>join_link</code>.</strong> The <code>elif s.rest is Link.empty</code> case is what prevents a trailing separator after the last element. Without it, joining with <code>&quot;, &quot;</code> would end every string with a stray <code>, </code>.</p>
+<p><strong>Trap 5: Returning <code>Link.empty</code> for the <code>n == 0</code> case in <code>partitions</code>.</strong> When <code>n</code> reaches <code>0</code> you have found one complete partition, the empty partition, so the function returns <code>Link(Link.empty)</code>: a list of one answer. Returning <code>Link.empty</code> would say there are zero answers and would erase that whole branch of the search.</p>
+<p><strong>Trap 6: Believing <code>lambda s: Link(m, s)</code> changes <code>s</code>.</strong> It does not modify the partition <code>s</code>. It constructs a new link whose <code>first</code> is <code>m</code> and whose <code>rest</code> is the existing partition, leaving <code>s</code> alone.</p>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>Why does <code>extend_link</code> return <code>t</code> in its base case instead of <code>Link.empty</code>?</li>
+<li>What does <code>filter_link(lambda x: x % 2 == 0, numbers)</code> return, where <code>numbers = Link(1, Link(2, Link(3)))</code>?</li>
+<li>Why does <code>join_link</code> need a separate base case for the final element?</li>
+<li>In <code>partitions</code>, what does <code>with_m</code> represent, and how is it built from <code>using_m</code>?</li>
+<li>Why does <code>partitions(0, m)</code> return <code>Link(Link.empty)</code> rather than <code>Link.empty</code>?</li>
+<li>The line <code>s + s</code> in the official transcript produces a doubled list. What one earlier line makes that <code>+</code> work, and what would happen without it?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li>The base case is reached when the front list <code>s</code> is empty, meaning every front element has already been copied into new links. What remains to attach is the entire back list, so the function returns <code>t</code>. Returning <code>Link.empty</code> would discard <code>t</code>.</li>
+<li><code>Link(2)</code>. The predicate <code>x % 2 == 0</code> is true only for <code>2</code>, so <code>1</code> and <code>3</code> are dropped and the result holds the single value <code>2</code>.</li>
+<li>The recursive case adds a separator after each element it processes. The final element must not be followed by a separator, so the <code>elif s.rest is Link.empty</code> case returns just <code>str(s.first)</code> with nothing after it.</li>
+<li><code>with_m</code> is the list of every partition of <code>n</code> that includes at least one part of size <code>m</code>. It is built by taking <code>using_m</code> (the partitions of <code>n - m</code>) and using <code>map_link</code> with <code>lambda s: Link(m, s)</code> to add one <code>m</code> to the front of each.</li>
+<li>Reaching <code>n == 0</code> means the current choices form one complete partition, the empty partition. <code>Link(Link.empty)</code> is a list containing that single answer. <code>Link.empty</code> would mean zero answers and would delete this successful branch.</li>
+<li>The line <code>Link.__add__ = extend_link</code> installs extension as the <code>+</code> operator for links. Without it, <code>Link</code> has no <code>__add__</code> method, so <code>s + s</code> raises an error.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>Recursive linked-list processing follows one stable shape: handle the <code>first</code>, recurse on the <code>rest</code>, and combine the two results. The four core functions are just that shape applied to different goals. <code>extend_link</code> copies the front list and attaches the back list. <code>map_link</code> transforms every value into a same-length list. <code>filter_link</code> keeps only values that pass a predicate, computing the filtered rest before deciding about the first. <code>join_link</code> renders a list as a string, with a special base case so the last element has no trailing separator. Assigning <code>Link.__add__ = extend_link</code> makes the <code>+</code> operator extend links. The <code>partitions</code> function uses these tools to turn the earlier integer-partition counting problem into one that builds the actual partitions, returning a linked list of linked lists where the outer list collects answers and each inner list is one partition. <code>print_partitions</code> then maps and joins that structure into readable, line-separated text.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>This block assembles the lesson&#x27;s tools and ends on the capstone call, <code>partitions(3, 2)</code>. Stepping through it draws the <strong>environment diagram</strong> the machine is really building: each recursive call opens its own <code>partitions</code> frame with its own <code>n</code> and <code>m</code>, the frames stack up as those numbers shrink toward a base case, then unwind as each frame hands its piece of the answer back to the one that called it. Before you step through the block below, write down three predictions: which arguments the second <code>partitions</code> frame receives, which call finishes first and with what value, and whether the final line binds <code>result</code>.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (13)</span>
+<span style="color: #859900">class</span> <span style="color: #268bd2">Link</span><span style="color: #657b83">:</span>
+    <span style="color: #657b83">empty</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">()</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">first,</span> <span style="color: #657b83">rest</span><span style="color: #93a1a1">=</span><span style="color: #657b83">empty):</span>
+        <span style="color: #859900">assert</span> <span style="color: #657b83">rest</span> <span style="color: #859900">is</span> <span style="color: #657b83">Link</span><span style="color: #93a1a1">.</span><span style="color: #657b83">empty</span> <span style="color: #859900">or</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(rest,</span> <span style="color: #657b83">Link)</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">first</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">rest</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">square</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">x</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">extend_link</span><span style="color: #657b83">(s,</span> <span style="color: #657b83">t):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">s</span> <span style="color: #859900">is</span> <span style="color: #657b83">Link</span><span style="color: #93a1a1">.</span><span style="color: #657b83">empty:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">t</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">Link(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">extend_link(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest,</span> <span style="color: #657b83">t))</span>
+
+
+<span style="color: #657b83">Link</span><span style="color: #93a1a1">.</span><span style="color: #268bd2">__add__</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">extend_link</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">map_link</span><span style="color: #657b83">(f,</span> <span style="color: #657b83">s):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">s</span> <span style="color: #859900">is</span> <span style="color: #657b83">Link</span><span style="color: #93a1a1">.</span><span style="color: #657b83">empty:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">s</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">Link(f(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first),</span> <span style="color: #657b83">map_link(f,</span> <span style="color: #657b83">s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest))</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">filter_link</span><span style="color: #657b83">(f,</span> <span style="color: #657b83">s):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">s</span> <span style="color: #859900">is</span> <span style="color: #657b83">Link</span><span style="color: #93a1a1">.</span><span style="color: #657b83">empty:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">s</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">filtered</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">filter_link(f,</span> <span style="color: #657b83">s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest)</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">f(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first):</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">Link(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">filtered)</span>
+        <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">filtered</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">join_link</span><span style="color: #657b83">(s,</span> <span style="color: #657b83">separator):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">s</span> <span style="color: #859900">is</span> <span style="color: #657b83">Link</span><span style="color: #93a1a1">.</span><span style="color: #657b83">empty:</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">&quot;&quot;</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest</span> <span style="color: #859900">is</span> <span style="color: #657b83">Link</span><span style="color: #93a1a1">.</span><span style="color: #657b83">empty:</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">separator</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">join_link(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest,</span> <span style="color: #657b83">separator)</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">partitions</span><span style="color: #657b83">(n,</span> <span style="color: #657b83">m):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return a linked list of partitions of n using parts of up to m.</span>
+<span style="color: #93a1a1">    Each partition is represented as a linked list.</span>
+<span style="color: #93a1a1">    &quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">Link(Link</span><span style="color: #93a1a1">.</span><span style="color: #657b83">empty)</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #2aa198">0</span> <span style="color: #859900">or</span> <span style="color: #657b83">m</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">Link</span><span style="color: #93a1a1">.</span><span style="color: #657b83">empty</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">using_m</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">partitions(n</span><span style="color: #93a1a1">-</span><span style="color: #657b83">m,</span> <span style="color: #657b83">m)</span>
+        <span style="color: #657b83">with_m</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">map_link(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">s:</span> <span style="color: #657b83">Link(m,</span> <span style="color: #657b83">s),</span> <span style="color: #657b83">using_m)</span>
+        <span style="color: #657b83">without_m</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">partitions(n,</span> <span style="color: #657b83">m</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">with_m</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">without_m</span>
+
+
+<span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">partitions(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">)</span>
+</code></pre>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>2.9-A Recursive Objects and the Link Class</span></a><a class='pg pg-next' href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>2.9-C The Tree Class and Shared Structure</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#a-conveyor-belt-analogy'>A Conveyor Belt Analogy</a></li><li><a href='#the-link-class-used-in-this-packet'>The Link Class Used in This Packet</a></li><li><a href='#extending-one-linked-list-with-another'>Extending One Linked List With Another</a></li><li><a href='#mapping-a-function-over-a-linked-list'>Mapping a Function Over a Linked List</a></li><li><a href='#filtering-a-linked-list'>Filtering a Linked List</a></li><li><a href='#joining-a-linked-list-into-a-string'>Joining a Linked List Into a String</a></li><li><a href='#integer-partitions-with-linked-lists'>Integer Partitions With Linked Lists</a></li><li><a href='#tracing-the-outer-and-inner-lists'>Tracing the Outer and Inner Lists</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

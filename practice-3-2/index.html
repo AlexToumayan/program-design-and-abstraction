@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>3.2 · Functional Programming in Scheme — Coding Practice · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class='is-practice'>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/' class='active'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Practice</span><span class='dot'>/</span><span class='eb-sec'>Chapter 3 · Coding Practice</span></div><h1 class='lesson-title'>3.2 · Functional Programming in Scheme — Coding Practice</h1><div class='reading-meta'>&#9719; approx. 11 min read <span class='rm-sep'>&middot;</span> 21 worked examples</div></div><div class='lesson-grid'><div class='lesson-body'><p>These problems build fluency with Scheme&#x27;s functional core: defining procedures, prefix arithmetic and the <code>if</code> special form, building and taking apart pairs and lists with <code>cons</code>/<code>car</code>/<code>cdr</code>, writing recursive list procedures with a <code>null?</code> base case, passing procedures to higher-order procedures, and using a nested helper under lexical scope.</p>
+<p>&gt; Work each problem from the starter signature first. Each problem is posed as a Scheme procedure; write your Scheme solution, run it against the Examples (shown as Scheme calls and their printed values), then open the matching solution below to check your approach and its time and space cost. Every solution also ships an equivalent Python model so the page is machine-verified.</p>
+<p>A note on how Scheme lists are modelled here. The Examples show real Scheme call syntax and the value Scheme prints. The verification blocks model Scheme data in Python exactly the way the teaching documents do: <code>nil</code> is <code>None</code>, a pair <code>(cons a b)</code> is the tuple <code>(a, b)</code>, <code>car</code>/<code>cdr</code> select the two parts, <code>null?</code> tests for <code>nil</code>, and a symbol such as <code>&#x27;a</code> is the Python string <code>&quot;a&quot;</code>. The helper <code>scm(...)</code> models Scheme&#x27;s <code>list</code>, and <code>py(...)</code> flattens a modelled list back to a plain Python list so the asserts read cleanly. These helpers are shown once in the <strong>Setup</strong> block at the top of the Solutions.</p>
+<section id='easy' class='ls ls-default'>
+<h2 class='ls-h'><span>Easy</span></h2>
+<div class='ls-body'>
+<h3>1. Cube</h3>
+<p>Write a Scheme procedure <code>cube</code> that returns its single number argument multiplied by itself three times. Use prefix arithmetic and a one-line <code>define</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  (cube 2)
+Output: 8
+Explanation: 2 * 2 * 2 = 8.
+
+Input:  (cube 5)
+Output: 125
+Explanation: 5 * 5 * 5 = 125.
+
+Input:  (cube -3)
+Output: -27
+Explanation: (-3) * (-3) * (-3) = -27.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>x</code> is an integer.</li>
+<li>Use a single <code>define</code> with a prefix-notation body; no <code>if</code> needed.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code scheme'><code>(define (cube x)
+  ???)</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>(* x x)</code> squares; multiply by one more <code>x</code> to cube.</p></details>
+<h3>2. Clamp from Below</h3>
+<p>Write a Scheme procedure <code>clamp-low</code> that takes a number <code>x</code> and a floor <code>lo</code>. If <code>x</code> is below <code>lo</code>, return <code>lo</code>; otherwise return <code>x</code>. The result is never below the floor.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  (clamp-low 3 10)
+Output: 10
+Explanation: 3 is below the floor 10, so the floor is returned.
+
+Input:  (clamp-low 42 10)
+Output: 42
+Explanation: 42 is already at or above 10, so it passes through.
+
+Input:  (clamp-low 10 10)
+Output: 10
+Explanation: equal to the floor counts as &quot;not below,&quot; so x passes through.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>x</code> and <code>lo</code> are integers.</li>
+<li>Use the <code>if</code> special form with a <code>&lt;</code> comparison as the predicate.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code scheme'><code>(define (clamp-low x lo)
+  ???)</code></pre>
+<details class='hint'><summary>Hint</summary><p>The predicate <code>(&lt; x lo)</code> is true exactly when <code>x</code> needs to be pulled up to <code>lo</code>.</p></details>
+<h3>3. Third Element</h3>
+<p>Write a Scheme procedure <code>third</code> that returns the third element of a list (the element at position two, counting from zero) by composing <code>car</code> and <code>cdr</code>. Assume the list has at least three elements.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  (third (list 10 20 30 40))
+Output: 30
+Explanation: drop two elements with two cdrs, then car the rest.
+
+Input:  (third (list &#x27;a &#x27;b &#x27;c))
+Output: c
+Explanation: the third symbol is c.
+
+Input:  (third (list 1 2 3 4 5))
+Output: 3
+Explanation: index 2 is the value 3.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>items</code> is a list with at least three elements.</li>
+<li>Use only <code>car</code> and <code>cdr</code> (no recursion, no index helper).</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code scheme'><code>(define (third items)
+  ???)</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>(cdr (cdr items))</code> is the list starting at the third element; <code>car</code> lifts that element out.</p></details>
+<h3>4. Sum a List</h3>
+<p>Write a recursive Scheme procedure <code>sum-list</code> that adds up every number in a list. The empty list sums to <code>0</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  (sum-list nil)
+Output: 0
+Explanation: the empty list is the base case.
+
+Input:  (sum-list (list 1 2 3 4))
+Output: 10
+Explanation: 1 + 2 + 3 + 4 = 10.
+
+Input:  (sum-list (list 10 20 30))
+Output: 60
+Explanation: 10 + 20 + 30 = 60.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>items</code> is a list of integers (possibly empty).</li>
+<li>Use recursion with a <code>(null? items)</code> base case; no loops.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code scheme'><code>(define (sum-list items)
+  ???)</code></pre>
+<details class='hint'><summary>Hint</summary><p>Add the first element <code>(car items)</code> to the sum of the rest <code>(sum-list (cdr items))</code>, stopping at <code>nil</code>.</p></details>
+</div></section>
+<section id='medium' class='ls ls-default'>
+<h2 class='ls-h'><span>Medium</span></h2>
+<div class='ls-body'>
+<h3>5. Count Occurrences</h3>
+<p>Write a recursive Scheme procedure <code>count-occurrences</code> that counts how many times a number <code>x</code> appears in a list <code>items</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  (count-occurrences 3 (list 3 1 3 3 2))
+Output: 3
+Explanation: the value 3 appears three times.
+
+Input:  (count-occurrences 7 (list 1 2 3))
+Output: 0
+Explanation: 7 never appears.
+
+Input:  (count-occurrences 5 (list 5 5 5 5))
+Output: 4
+Explanation: every element matches.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>items</code> is a list of integers (possibly empty); <code>x</code> is an integer.</li>
+<li>Use recursion. Add <code>1</code> only when <code>(= x (car items))</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code scheme'><code>(define (count-occurrences x items)
+  ???)</code></pre>
+<details class='hint'><summary>Hint</summary><p>Each step compares the first element to <code>x</code>, adds <code>1</code> if it matches, and recurses on the rest either way.</p></details>
+<h3>6. Map a Procedure Over a List</h3>
+<p>Write a higher-order Scheme procedure <code>my-map</code> that takes a one-argument procedure <code>fn</code> and a list <code>items</code>, and returns a new list where <code>fn</code> has been applied to each element. The original list is untouched.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  (my-map (lambda (n) (+ n 1)) (list 1 2 3))
+Output: (2 3 4)
+Explanation: each element is incremented by one.
+
+Input:  (my-map (lambda (n) (* n n)) (list 2 3 4))
+Output: (4 9 16)
+Explanation: each element is squared.
+
+Input:  (my-map (lambda (n) (+ n 1)) nil)
+Output: ()
+Explanation: mapping over the empty list gives the empty list.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>fn</code> is a procedure of one argument; <code>items</code> is a list.</li>
+<li>Build the result with <code>cons</code>; recurse with a <code>(null? items)</code> base case returning <code>nil</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code scheme'><code>(define (my-map fn items)
+  ???)</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>cons</code> the transformed first element <code>(fn (car items))</code> onto the mapped rest <code>(my-map fn (cdr items))</code>.</p></details>
+<h3>7. Append Two Lists</h3>
+<p>Write a recursive Scheme procedure <code>my-append</code> that joins two lists end to end, returning a single list with every element of <code>a</code> followed by every element of <code>b</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  (my-append (list 1 2) (list 3 4 5))
+Output: (1 2 3 4 5)
+Explanation: the elements of the first list come first.
+
+Input:  (my-append nil (list 9 8))
+Output: (9 8)
+Explanation: appending to an empty front list returns the second list.
+
+Input:  (my-append (list &#x27;a &#x27;b) (list &#x27;c))
+Output: (a b c)
+Explanation: works on lists of symbols too.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>a</code> and <code>b</code> are lists (either may be empty).</li>
+<li>Recurse on <code>a</code>. The base case <code>(null? a)</code> returns <code>b</code>; rebuild <code>a</code> element by element with <code>cons</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code scheme'><code>(define (my-append a b)
+  ???)</code></pre>
+<details class='hint'><summary>Hint</summary><p>When <code>a</code> is empty the answer is just <code>b</code>; otherwise <code>cons</code> the first of <code>a</code> onto the append of the rest of <code>a</code> with <code>b</code>.</p></details>
+<h3>8. Keep Elements That Pass a Test</h3>
+<p>Write a higher-order Scheme procedure <code>keep</code> that takes a predicate procedure <code>fn</code> and a list <code>items</code>, and returns a new list of only the elements for which <code>(fn element)</code> is true, in their original order.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  (keep (lambda (n) (&gt; n 0)) (list -2 5 -1 3 0))
+Output: (5 3)
+Explanation: only the strictly positive elements survive.
+
+Input:  (keep (lambda (n) (= (remainder n 2) 0)) (list 1 2 3 4 5 6))
+Output: (2 4 6)
+Explanation: only the even elements pass the test.
+
+Input:  (keep (lambda (n) (&gt; n 100)) (list 1 2 3))
+Output: ()
+Explanation: nothing passes, so the result is empty.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>fn</code> is a one-argument predicate returning a boolean; <code>items</code> is a list.</li>
+<li>Use recursion; keep an element by <code>cons</code>-ing it on, drop it by recursing without it.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code scheme'><code>(define (keep fn items)
+  ???)</code></pre>
+<details class='hint'><summary>Hint</summary><p>At each step, test the first element. If it passes, <code>cons</code> it onto the filtered rest; if not, return just the filtered rest.</p></details>
+</div></section>
+<section id='hard' class='ls ls-default'>
+<h2 class='ls-h'><span>Hard</span></h2>
+<div class='ls-body'>
+<h3>9. Reverse a List</h3>
+<p>Write a Scheme procedure <code>reverse-list</code> that returns a new list with the elements of <code>items</code> in reverse order. Use a nested helper procedure that carries an accumulator, relying on lexical scope.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  (reverse-list (list 1 2 3 4))
+Output: (4 3 2 1)
+Explanation: the order is flipped.
+
+Input:  (reverse-list (list &#x27;a &#x27;b &#x27;c))
+Output: (c b a)
+Explanation: works on symbols too.
+
+Input:  (reverse-list nil)
+Output: ()
+Explanation: reversing the empty list gives the empty list.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>items</code> is a list (possibly empty).</li>
+<li>Define a nested helper inside <code>reverse-list</code> that takes the remaining list and an accumulator; start the accumulator at <code>nil</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code scheme'><code>(define (reverse-list items)
+  (define (helper items acc)
+    ???)
+  (helper items nil))</code></pre>
+<details class='hint'><summary>Hint</summary><p>Each step <code>cons</code>es the current first element onto the accumulator, so the front of the input ends up at the back of the result.</p></details>
+<h3>10. Insert Into a Sorted List</h3>
+<p>Write a recursive Scheme procedure <code>insert</code> that places a number <code>x</code> into an already-ascending list <code>items</code> so the result stays in ascending order. If <code>x</code> ties an existing element, it may go on either side.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  (insert 3 (list 1 2 4 5))
+Output: (1 2 3 4 5)
+Explanation: 3 slots between 2 and 4.
+
+Input:  (insert 0 (list 1 2 3))
+Output: (0 1 2 3)
+Explanation: 0 is smaller than everything, so it leads.
+
+Input:  (insert 9 (list 1 2 3))
+Output: (1 2 3 9)
+Explanation: 9 is larger than everything, so it trails.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>items</code> is a list of integers sorted in ascending order (possibly empty); <code>x</code> is an integer.</li>
+<li>Use recursion that rebuilds the prefix with <code>cons</code> until <code>x</code> finds its slot.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code scheme'><code>(define (insert x items)
+  ???)</code></pre>
+<details class='hint'><summary>Hint</summary><p>Three cases: the list is empty (make a one-element list), <code>x</code> is smaller than the first element (<code>cons</code> it on the front), or <code>x</code> belongs further back (<code>cons</code> the first element onto <code>insert</code> of the rest).</p></details>
+</div></section>
+<section id='solutions' class='ls ls-default'>
+<h2 class='ls-h'><span>Solutions</span></h2>
+<div class='ls-body'>
+<h3>Setup</h3>
+<p>Every verification block below models Scheme data in Python the way the teaching documents do, using these shared definitions. Run this block first in a fresh interpreter; the rest of the page builds on it.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #657b83">nil</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">None</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">cons</span><span style="color: #657b83">(first,</span> <span style="color: #657b83">rest):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">(first,</span> <span style="color: #657b83">rest)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">car</span><span style="color: #657b83">(pair):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">pair[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">cdr</span><span style="color: #657b83">(pair):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">pair[</span><span style="color: #2aa198">1</span><span style="color: #657b83">]</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">null</span><span style="color: #657b83">(items):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">items</span> <span style="color: #859900">is</span> <span style="color: #657b83">nil</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">scm</span><span style="color: #657b83">(</span><span style="color: #93a1a1">*</span><span style="color: #657b83">values):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Model of Scheme&#39;s `list`: build a pair chain ending in nil.&quot;&quot;&quot;</span>
+    <span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">nil</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">value</span> <span style="color: #859900">in</span> <span style="color: #268bd2">reversed</span><span style="color: #657b83">(values):</span>
+        <span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">cons(value,</span> <span style="color: #657b83">result)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">result</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">py</span><span style="color: #657b83">(items):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Flatten a Scheme-style list into a plain Python list for asserts.&quot;&quot;&quot;</span>
+    <span style="color: #657b83">out</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[]</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">items</span> <span style="color: #859900">is</span> <span style="color: #859900">not</span> <span style="color: #657b83">nil:</span>
+        <span style="color: #657b83">out</span><span style="color: #93a1a1">.</span><span style="color: #657b83">append(car(items))</span>
+        <span style="color: #657b83">items</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">cdr(items)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">out</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/df0ae82367d0.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<h3>1. Cube</h3>
+<p><strong>Approach — prefix arithmetic in a one-line <code>define</code>.</strong> This is the squaring example from the section (<code>(define (square x) (* x x))</code>) extended by one factor. The body multiplies <code>x</code> by itself three times, all in prefix notation with no <code>if</code> needed.</p>
+<pre class='code scheme'><code>(define (cube x) (* x x x))</code></pre>
+<p>The Python model of the same procedure:</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">cube</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">x</span>
+</code></pre>
+<p><strong>Why it works.</strong> A single <code>define</code> binds <code>cube</code> to a procedure whose body is one combination; applying it substitutes the argument for <code>x</code> and evaluates <code>(* x x x)</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> — a fixed amount of arithmetic per call.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">cube(</span><span style="color: #2aa198">2</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">8</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">cube(</span><span style="color: #2aa198">5</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">125</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">cube(</span><span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">cube(</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">27</span>
+</code></pre>
+<h3>2. Clamp from Below</h3>
+<p><strong>Approach — the <code>if</code> special form with a <code>&lt;</code> predicate.</strong> This mirrors the <code>abs</code> procedure from the section, which branches on <code>(&lt; x 0)</code>. Here the predicate <code>(&lt; x lo)</code> chooses between the floor and the value itself, and only the selected branch is evaluated.</p>
+<pre class='code scheme'><code>(define (clamp-low x lo)
+  (if (&lt; x lo)
+      lo
+      x))</code></pre>
+<p>The Python model:</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">clamp_low</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">lo):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #657b83">lo:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">lo</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">x</span>
+</code></pre>
+<p><strong>Why it works.</strong> Because <code>if</code> is a special form, exactly one branch runs: when <code>x</code> is below the floor the consequent returns <code>lo</code>, otherwise the alternative returns the unchanged <code>x</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> — one comparison and one branch.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">clamp_low(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">10</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">clamp_low(</span><span style="color: #2aa198">42</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">42</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">clamp_low(</span><span style="color: #2aa198">10</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">10</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">clamp_low(</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+</code></pre>
+<h3>3. Third Element</h3>
+<p><strong>Approach — compose <code>car</code> and <code>cdr</code>.</strong> Two <code>cdr</code>s skip the first two elements, leaving a list whose first element is the one we want; a final <code>car</code> lifts it out. This is the same selector-chaining the section uses for <code>(car (cdr one-through-four))</code>, taken one step deeper.</p>
+<pre class='code scheme'><code>(define (third items)
+  (car (cdr (cdr items))))</code></pre>
+<p>The Python model (with <code>car</code>/<code>cdr</code> from the Setup block):</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">third</span><span style="color: #657b83">(items):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">car(cdr(cdr(items)))</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>(cdr items)</code> is the list from element two onward, <code>(cdr (cdr items))</code> is the list from element three onward, and <code>car</code> returns that list&#x27;s first element, which is the third overall.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> — a fixed three selector calls regardless of list length.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">third(scm(</span><span style="color: #2aa198">10</span><span style="color: #657b83">,</span> <span style="color: #2aa198">20</span><span style="color: #657b83">,</span> <span style="color: #2aa198">30</span><span style="color: #657b83">,</span> <span style="color: #2aa198">40</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">30</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">third(scm(</span><span style="color: #2aa198">&quot;a&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;b&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;c&quot;</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;c&quot;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">third(scm(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+</code></pre>
+<h3>4. Sum a List</h3>
+<p><strong>Approach — recursive list reduction with a <code>null?</code> base case.</strong> This follows the standard list-procedure skeleton from the section (the same shape as <code>length</code>): handle the empty list as the base case, otherwise combine the first element with the recursive result on the rest.</p>
+<pre class='code scheme'><code>(define (sum-list items)
+  (if (null? items)
+      0
+      (+ (car items) (sum-list (cdr items)))))</code></pre>
+<p>The Python model:</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">sum_list</span><span style="color: #657b83">(items):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">null(items):</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">car(items)</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">sum_list(cdr(items))</span>
+</code></pre>
+<p><strong>Why it works.</strong> The empty list contributes <code>0</code>; every other call adds its first element to the sum of a strictly shorter list, so the recursion bottoms out at <code>nil</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> — one frame per element of the list.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">sum_list(nil)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">sum_list(scm(</span><span style="color: #2aa198">4</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">4</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">sum_list(scm(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">10</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">sum_list(scm(</span><span style="color: #2aa198">10</span><span style="color: #657b83">,</span> <span style="color: #2aa198">20</span><span style="color: #657b83">,</span> <span style="color: #2aa198">30</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">60</span>
+</code></pre>
+<h3>5. Count Occurrences</h3>
+<p><strong>Approach — recursion with a nested <code>if</code> and <code>=</code>.</strong> Same list skeleton as <code>sum-list</code>, but the combine step is conditional: add <code>1</code> only when the first element equals <code>x</code>. The outer <code>if</code> handles the empty list; the inner <code>if</code> decides whether the first element counts.</p>
+<pre class='code scheme'><code>(define (count-occurrences x items)
+  (if (null? items)
+      0
+      (if (= x (car items))
+          (+ 1 (count-occurrences x (cdr items)))
+          (count-occurrences x (cdr items)))))</code></pre>
+<p>The Python model:</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">count_occurrences</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">items):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">null(items):</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">car(items):</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">1</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">count_occurrences(x,</span> <span style="color: #657b83">cdr(items))</span>
+        <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">count_occurrences(x,</span> <span style="color: #657b83">cdr(items))</span>
+</code></pre>
+<p><strong>Why it works.</strong> Each element is inspected exactly once; a match adds <code>1</code> to the count of the rest, a non-match adds nothing, and the empty list contributes <code>0</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> — one frame per element.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">count_occurrences(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #657b83">nil)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_occurrences(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #657b83">scm(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_occurrences(</span><span style="color: #2aa198">7</span><span style="color: #657b83">,</span> <span style="color: #657b83">scm(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_occurrences(</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #657b83">scm(</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">4</span>
+</code></pre>
+<h3>6. Map a Procedure Over a List</h3>
+<p><strong>Approach — higher-order procedure that rebuilds a list.</strong> This is the <code>squares</code> skeleton from the section generalized: instead of hard-coding squaring, the transform is passed in as <code>fn</code>. The base case returns <code>nil</code>, and each step <code>cons</code>es <code>(fn (car items))</code> onto the mapped rest.</p>
+<pre class='code scheme'><code>(define (my-map fn items)
+  (if (null? items)
+      nil
+      (cons (fn (car items))
+            (my-map fn (cdr items)))))</code></pre>
+<p>The Python model:</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">my_map</span><span style="color: #657b83">(fn,</span> <span style="color: #657b83">items):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">null(items):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">nil</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">cons(fn(car(items)),</span> <span style="color: #657b83">my_map(fn,</span> <span style="color: #657b83">cdr(items)))</span>
+</code></pre>
+<p><strong>Why it works.</strong> A fresh pair is built for every element with the transformed value in front, so the result is a brand-new list of transformed elements; the original list is never mutated.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> — one new pair and one frame per element.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">py(my_map(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">n:</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #657b83">scm(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">py(my_map(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">n:</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">n,</span> <span style="color: #657b83">scm(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">9</span><span style="color: #657b83">,</span> <span style="color: #2aa198">16</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">py(my_map(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">n:</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #657b83">nil))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[]</span>
+</code></pre>
+<h3>7. Append Two Lists</h3>
+<p><strong>Approach — recurse on the first list, rebuild it onto the second.</strong> The base case <code>(null? a)</code> returns <code>b</code> unchanged. Otherwise the answer is the first element of <code>a</code> <code>cons</code>ed onto the append of the rest of <code>a</code> with <code>b</code>, so <code>a</code> is rebuilt element by element in front of <code>b</code>.</p>
+<pre class='code scheme'><code>(define (my-append a b)
+  (if (null? a)
+      b
+      (cons (car a) (my-append (cdr a) b))))</code></pre>
+<p>The Python model:</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">my_append</span><span style="color: #657b83">(a,</span> <span style="color: #657b83">b):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">null(a):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">b</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">cons(car(a),</span> <span style="color: #657b83">my_append(cdr(a),</span> <span style="color: #657b83">b))</span>
+</code></pre>
+<p><strong>Why it works.</strong> Only <code>a</code> is taken apart and rebuilt; <code>b</code> is shared as the tail. When <code>a</code> runs out, the recursion returns <code>b</code>, and the unwinding <code>cons</code>es each element of <code>a</code> back on in order.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> for <code>n</code> the length of <code>a</code> — one frame and one new pair per element of <code>a</code>.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">py(my_append(scm(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">),</span> <span style="color: #657b83">scm(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">py(my_append(nil,</span> <span style="color: #657b83">scm(</span><span style="color: #2aa198">9</span><span style="color: #657b83">,</span> <span style="color: #2aa198">8</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">9</span><span style="color: #657b83">,</span> <span style="color: #2aa198">8</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">py(my_append(scm(</span><span style="color: #2aa198">7</span><span style="color: #657b83">),</span> <span style="color: #657b83">nil))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">7</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">py(my_append(scm(</span><span style="color: #2aa198">&quot;a&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;b&quot;</span><span style="color: #657b83">),</span> <span style="color: #657b83">scm(</span><span style="color: #2aa198">&quot;c&quot;</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">&quot;a&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;b&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;c&quot;</span><span style="color: #657b83">]</span>
+</code></pre>
+<h3>8. Keep Elements That Pass a Test</h3>
+<p><strong>Approach — higher-order filter via recursion.</strong> Same skeleton as <code>my-map</code>, but the recursive case branches: when <code>(fn (car items))</code> is true the element is <code>cons</code>ed onto the filtered rest, and when it is false the element is dropped by returning just the filtered rest.</p>
+<pre class='code scheme'><code>(define (keep fn items)
+  (if (null? items)
+      nil
+      (if (fn (car items))
+          (cons (car items) (keep fn (cdr items)))
+          (keep fn (cdr items)))))</code></pre>
+<p>The Python model:</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">keep</span><span style="color: #657b83">(fn,</span> <span style="color: #657b83">items):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">null(items):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">nil</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">fn(car(items)):</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">cons(car(items),</span> <span style="color: #657b83">keep(fn,</span> <span style="color: #657b83">cdr(items)))</span>
+        <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">keep(fn,</span> <span style="color: #657b83">cdr(items))</span>
+</code></pre>
+<p><strong>Why it works.</strong> Every element is tested once. Passing elements are rebuilt into a fresh list in their original order; failing elements simply never get <code>cons</code>ed on. The empty list yields the empty list.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> — one frame per element; the result holds only the kept elements.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">py(keep(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">n:</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #657b83">scm(</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">py(keep(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">n:</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">%</span> <span style="color: #2aa198">2</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #657b83">scm(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">6</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">6</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">py(keep(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">n:</span> <span style="color: #657b83">n</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #2aa198">100</span><span style="color: #657b83">,</span> <span style="color: #657b83">scm(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[]</span>
+</code></pre>
+<h3>9. Reverse a List</h3>
+<p><strong>Approach — nested helper with an accumulator, under lexical scope.</strong> Like the <code>sqrt</code> example from the section, <code>reverse-list</code> defines a helper inside itself. The helper walks <code>items</code> while building up <code>acc</code>, <code>cons</code>-ing each element it sees onto the front of <code>acc</code>; because elements are pushed on as they are visited, the first element ends up deepest, which is the reverse order.</p>
+<pre class='code scheme'><code>(define (reverse-list items)
+  (define (helper items acc)
+    (if (null? items)
+        acc
+        (helper (cdr items) (cons (car items) acc))))
+  (helper items nil))</code></pre>
+<p>The Python model:</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">reverse_list</span><span style="color: #657b83">(items):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">helper</span><span style="color: #657b83">(items,</span> <span style="color: #657b83">acc):</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">null(items):</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">acc</span>
+        <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">helper(cdr(items),</span> <span style="color: #657b83">cons(car(items),</span> <span style="color: #657b83">acc))</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">helper(items,</span> <span style="color: #657b83">nil)</span>
+</code></pre>
+<p><strong>Why it works.</strong> Each step moves one element from the front of the remaining list to the front of the accumulator. The element seen first is buried the deepest, so when the input is exhausted the accumulator holds the elements in reversed order.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> — one helper call per element; the accumulator grows to length <code>n</code>.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">py(reverse_list(scm(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">py(reverse_list(nil))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">py(reverse_list(scm(</span><span style="color: #2aa198">&quot;a&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;b&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;c&quot;</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">&quot;c&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;b&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&quot;a&quot;</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">py(reverse_list(scm(</span><span style="color: #2aa198">42</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">42</span><span style="color: #657b83">]</span>
+</code></pre>
+<h3>10. Insert Into a Sorted List</h3>
+<p><strong>Approach — recursion that rebuilds the prefix until <code>x</code> fits.</strong> Three cases drive the recursion. If the list is empty, <code>x</code> becomes a one-element list. If <code>x</code> is smaller than the first element, it belongs right here, so <code>cons</code> it onto the whole list. Otherwise the first element stays in front and <code>x</code> must be inserted into the rest.</p>
+<pre class='code scheme'><code>(define (insert x items)
+  (if (null? items)
+      (cons x nil)
+      (if (&lt; x (car items))
+          (cons x items)
+          (cons (car items) (insert x (cdr items))))))</code></pre>
+<p>The Python model:</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">insert</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">items):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">null(items):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">cons(x,</span> <span style="color: #657b83">nil)</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #657b83">car(items):</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">cons(x,</span> <span style="color: #657b83">items)</span>
+        <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">cons(car(items),</span> <span style="color: #657b83">insert(x,</span> <span style="color: #657b83">cdr(items)))</span>
+</code></pre>
+<p><strong>Why it works.</strong> The procedure walks past every element smaller than <code>x</code>, rebuilding them in front, and stops at the first element that is not smaller, dropping <code>x</code> ahead of it. If no such element exists, <code>x</code> lands at the end via the empty-list base case. Since the input was sorted, the output stays sorted.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> — in the worst case <code>x</code> is larger than every element, so the whole prefix is rebuilt.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">py(insert(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #657b83">scm(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">py(insert(</span><span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #657b83">scm(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">py(insert(</span><span style="color: #2aa198">9</span><span style="color: #657b83">,</span> <span style="color: #657b83">scm(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">9</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">py(insert(</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #657b83">nil))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">5</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">py(insert(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #657b83">scm(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">]</span>
+</code></pre>
+</div></section><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

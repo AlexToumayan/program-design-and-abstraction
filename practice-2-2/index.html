@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>2.2 · Data Abstraction — Coding Practice · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class='is-practice'>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/' class='active'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Practice</span><span class='dot'>/</span><span class='eb-sec'>Chapter 2 · Coding Practice</span></div><h1 class='lesson-title'>2.2 · Data Abstraction — Coding Practice</h1><div class='reading-meta'>&#9719; approx. 13 min read <span class='rm-sep'>&middot;</span> 31 worked examples</div></div><div class='lesson-grid'><div class='lesson-body'><p>These problems build fluency with data abstraction: designing constructors and selectors for two-field values, building operations on rational numbers and points through that interface, respecting the abstraction barrier instead of reaching into the representation, and even implementing a pair out of nothing but a function.</p>
+<p>&gt; Work each problem from the starter signature first. Run your function against the Examples, then open the matching solution below to check your approach and its time and space cost.</p>
+<p>Throughout, a rational number is built and inspected only through <code>rational(n, d)</code>, <code>numer(x)</code>, and <code>denom(x)</code> (the constructor reduces to lowest terms). A point is built and inspected only through <code>point(x, y)</code>, <code>x_coord(p)</code>, and <code>y_coord(p)</code>. Stay on the user side of the barrier: call the selectors, never <code>x[0]</code>.</p>
+<section id='easy' class='ls ls-default'>
+<h2 class='ls-h'><span>Easy</span></h2>
+<div class='ls-body'>
+<h3>1. Reciprocal of a Rational</h3>
+<p>Given a rational number <code>x</code>, return its reciprocal — the rational number you get by swapping numerator and denominator. Use only the constructor and selectors; do not assume <code>x</code> is a list.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  numer(reciprocal(rational(2, 5)))
+Output: 5
+Explanation: 2/5 flipped is 5/2, whose numerator is 5.
+
+Input:  denom(reciprocal(rational(2, 5)))
+Output: 2
+Explanation: the denominator of 5/2 is 2.
+
+Input:  reciprocal(rational(6, 9))
+Output: [3, 2]
+Explanation: 6/9 reduces to 2/3, and the reciprocal 3/2 is already reduced.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>x</code> is a rational number with a nonzero numerator (so the flip is well defined).</li>
+<li>Build the result with <code>rational</code>; read parts with <code>numer</code> and <code>denom</code>. No <code>x[0]</code> / <code>x[1]</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">reciprocal</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>The reciprocal of <code>n/d</code> is <code>d/n</code>, so feed the old denominator as the new numerator and vice versa.</p></details>
+<h3>2. Scale a Rational by an Integer</h3>
+<p>Return the rational number <code>x</code> multiplied by an integer <code>k</code>. Multiplying a fraction by a whole number scales only the numerator.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  scale_rational(rational(1, 3), 2)
+Output: [2, 3]
+Explanation: (1/3) * 2 = 2/3.
+
+Input:  scale_rational(rational(2, 5), 5)
+Output: [2, 1]
+Explanation: (2/5) * 5 = 10/5, which reduces to 2/1.
+
+Input:  scale_rational(rational(1, 4), 8)
+Output: [2, 1]
+Explanation: (1/4) * 8 = 8/4 = 2/1.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>x</code> is a rational number, <code>k</code> is an integer.</li>
+<li>Go through <code>numer</code>, <code>denom</code>, and <code>rational</code>. The constructor reduces the result for you.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">scale_rational</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">k):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>n/d</code> times <code>k</code> is <code>(n * k) / d</code>; the denominator does not change.</p></details>
+<h3>3. A Constructor and Selectors for a 2D Point</h3>
+<p>A point in the plane is a two-field value: an x-coordinate and a y-coordinate. Implement the point abstraction as a two-element list — a constructor <code>point(x, y)</code> and two selectors <code>x_coord(p)</code> and <code>y_coord(p)</code>. This is the representation layer, so here (and only here) you may use the list directly.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  x_coord(point(3, 7))
+Output: 3
+Explanation: the x-coordinate is stored at index 0.
+
+Input:  y_coord(point(3, 7))
+Output: 7
+Explanation: the y-coordinate is stored at index 1.
+
+Input:  x_coord(point(0, 0))
+Output: 0
+Explanation: the origin has x-coordinate 0.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Represent a point as a two-element list <code>[x, y]</code>.</li>
+<li><code>point</code> packs the two coordinates; <code>x_coord</code> selects index <code>0</code> and <code>y_coord</code> selects index <code>1</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">point</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">x_coord</span><span style="color: #657b83">(p):</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">y_coord</span><span style="color: #657b83">(p):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Mirror <code>rational</code> / <code>numer</code> / <code>denom</code>: the constructor returns <code>[x, y]</code>, and each selector returns one indexed element.</p></details>
+<h3>4. Is a Rational a Whole Number?</h3>
+<p>Return <code>True</code> if the rational number <code>x</code> represents a whole number (an integer), and <code>False</code> otherwise. Because the constructor reduces to lowest terms, a value like <code>6/3</code> arrives already reduced to <code>2/1</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  is_whole(rational(8, 1))
+Output: True
+Explanation: 8/1 is the integer 8.
+
+Input:  is_whole(rational(6, 3))
+Output: True
+Explanation: 6/3 reduces to 2/1, denominator 1, so it is whole.
+
+Input:  is_whole(rational(2, 5))
+Output: False
+Explanation: 2/5 reduces to 2/5, denominator 5, not a whole number.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>x</code> is a rational number built by <code>rational</code> (so it is already in lowest terms).</li>
+<li>Decide using <code>denom(x)</code>; do not divide or convert to a float.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">is_whole</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>A reduced fraction is a whole number exactly when its denominator is <code>1</code>.</p></details>
+</div></section>
+<section id='medium' class='ls ls-default'>
+<h2 class='ls-h'><span>Medium</span></h2>
+<div class='ls-body'>
+<h3>5. Subtract Two Rationals</h3>
+<p>Return <code>x - y</code> as a rational number. Subtraction uses the same common-denominator idea as addition, but with a minus sign between the cross terms.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  sub_rationals(rational(1, 2), rational(1, 3))
+Output: [1, 6]
+Explanation: 1/2 - 1/3 = (3 - 2)/6 = 1/6.
+
+Input:  sub_rationals(rational(3, 4), rational(1, 4))
+Output: [1, 2]
+Explanation: 3/4 - 1/4 = 2/4 = 1/2.
+
+Input:  sub_rationals(rational(1, 5), rational(1, 2))
+Output: [-3, 10]
+Explanation: 1/5 - 1/2 = (2 - 5)/10 = -3/10.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>x</code> and <code>y</code> are rational numbers.</li>
+<li>Read parts with <code>numer</code> and <code>denom</code>, build the answer with <code>rational</code>. Use multiple assignment to name the four parts.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">sub_rationals</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Mirror <code>add_rationals</code>: numerator <code>nx * dy - ny * dx</code>, denominator <code>dx * dy</code>.</p></details>
+<h3>6. Midpoint of Two Points</h3>
+<p>Given two points <code>p</code> and <code>q</code>, return the point halfway between them. Each coordinate of the midpoint is the average of the matching coordinates, which is a rational number, so store each coordinate as a <code>rational</code>. Use the point interface from Problem 3 (<code>point</code>, <code>x_coord</code>, <code>y_coord</code>).</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  x_coord(midpoint(point(0, 0), point(3, 5)))
+Output: [3, 2]
+Explanation: the x-midpoint of 0 and 3 is 3/2.
+
+Input:  y_coord(midpoint(point(0, 0), point(3, 5)))
+Output: [5, 2]
+Explanation: the y-midpoint of 0 and 5 is 5/2.
+
+Input:  x_coord(midpoint(point(2, 4), point(6, 8)))
+Output: [4, 1]
+Explanation: the x-midpoint of 2 and 6 is 8/2 = 4/1.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>p</code> and <code>q</code> are points; their coordinates are integers.</li>
+<li>Build the result with <code>point</code>, read inputs with <code>x_coord</code> / <code>y_coord</code>, and store each averaged coordinate as <code>rational(sum, 2)</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">midpoint</span><span style="color: #657b83">(p,</span> <span style="color: #657b83">q):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>The midpoint&#x27;s x is <code>(x_coord(p) + x_coord(q)) / 2</code>; keep it exact by handing those to <code>rational</code> with denominator <code>2</code> instead of dividing.</p></details>
+<h3>7. Compare Two Rationals</h3>
+<p>Return <code>True</code> if rational <code>x</code> is strictly less than rational <code>y</code>. Do not divide — compare by cross-multiplication, exactly like the equality test, but with <code>&lt;</code> instead of <code>==</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  rational_less(rational(1, 3), rational(1, 2))
+Output: True
+Explanation: 1*2 = 2 is less than 1*3 = 3, so 1/3 &lt; 1/2.
+
+Input:  rational_less(rational(2, 3), rational(1, 2))
+Output: False
+Explanation: 2*2 = 4 is not less than 1*3 = 3, so 2/3 is not &lt; 1/2.
+
+Input:  rational_less(rational(1, 2), rational(2, 4))
+Output: False
+Explanation: 2/4 reduces to 1/2, so they are equal, not less.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>x</code> and <code>y</code> are rational numbers with positive denominators.</li>
+<li>Use only <code>numer</code>, <code>denom</code>, integer multiplication, and <code>&lt;</code>. No float division.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">rational_less</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>With positive denominators, <code>a/b &lt; c/d</code> exactly when <code>a * d &lt; c * b</code>.</p></details>
+<h3>8. Power of a Rational</h3>
+<p>Return the rational number <code>x</code> raised to a non-negative integer power <code>k</code>, computed recursively. Raising <code>x</code> to the <code>0</code> power gives <code>1/1</code>, and otherwise multiply one more copy of <code>x</code> onto <code>x ** (k - 1)</code>. Use the <code>mul_rationals</code> operation from this section.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  pow_rational(rational(2, 3), 2)
+Output: [4, 9]
+Explanation: (2/3)^2 = 4/9.
+
+Input:  pow_rational(rational(1, 2), 3)
+Output: [1, 8]
+Explanation: (1/2)^3 = 1/8.
+
+Input:  pow_rational(rational(3, 2), 3)
+Output: [27, 8]
+Explanation: (3/2)^3 = 27/8.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>x</code> is a rational number, <code>k</code> is an integer with <code>0 &lt;= k</code>.</li>
+<li>Must use recursion and <code>mul_rationals</code>. The base case <code>k == 0</code> returns <code>rational(1, 1)</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">pow_rational</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">k):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>x ** k</code> is <code>x</code> times <code>x ** (k - 1)</code>, and <code>x ** 0</code> is the rational <code>1/1</code> — the same recursive shape as integer power, but multiplying with <code>mul_rationals</code>.</p></details>
+</div></section>
+<section id='hard' class='ls ls-default'>
+<h2 class='ls-h'><span>Hard</span></h2>
+<div class='ls-body'>
+<h3>9. A Rational Built on a Functional Pair</h3>
+<p>Build the fraction abstraction on top of a <strong>functional pair</strong> — a pair that is a function, not a list. First implement <code>pair(a, b)</code> and <code>select(p, i)</code> the way this section does (the constructor returns an inner <code>get</code> function that remembers <code>a</code> and <code>b</code>). Then implement <code>make_frac</code>, <code>frac_numer</code>, <code>frac_denom</code>, and <code>frac_add</code> using only <code>pair</code> and <code>select</code> — never indexing. The whole point is that addition works identically even though there is no list anywhere.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  frac_numer(frac_add(make_frac(1, 2), make_frac(1, 3)))
+Output: 5
+Explanation: 1/2 + 1/3 = 5/6; the numerator is 5.
+
+Input:  frac_denom(frac_add(make_frac(1, 2), make_frac(1, 3)))
+Output: 6
+Explanation: the denominator of the sum 5/6 is 6.
+
+Input:  frac_numer(frac_add(make_frac(1, 3), make_frac(1, 3)))
+Output: 6
+Explanation: 1/3 + 1/3 = 6/9 (unreduced, since make_frac does not reduce); numerator 6.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>pair</code> must return a function (an inner <code>get</code>), and <code>select(p, i)</code> must call <code>p(i)</code>.</li>
+<li><code>make_frac</code>, <code>frac_numer</code>, <code>frac_denom</code>, and <code>frac_add</code> use only <code>pair</code> / <code>select</code>. No list indexing, no <code>gcd</code> (this fraction is not reduced).</li>
+</ul>
+<p><strong>Starter</strong></p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">pair</span><span style="color: #657b83">(a,</span> <span style="color: #657b83">b):</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">select</span><span style="color: #657b83">(p,</span> <span style="color: #657b83">i):</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">make_frac</span><span style="color: #657b83">(n,</span> <span style="color: #657b83">d):</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">frac_numer</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">frac_denom</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">frac_add</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #859900">pass</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/0572e442abf8.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<details class='hint'><summary>Hint</summary><p><code>pair</code> captures <code>a</code> and <code>b</code> in an inner <code>get(index)</code> that returns <code>a</code> for <code>0</code> and <code>b</code> for <code>1</code>; <code>frac_add</code> is <code>add_rationals</code> with <code>make_frac</code>/<code>frac_numer</code>/<code>frac_denom</code> swapped in for <code>rational</code>/<code>numer</code>/<code>denom</code>.</p></details>
+<h3>10. Continued Fractions</h3>
+<p>A two-term continued fraction <code>[a; b]</code> means <code>a + 1/b</code>, which as a single fraction is <code>(a*b + 1)/b</code>. A three-term continued fraction <code>[a; b, c]</code> means <code>a + 1/(b + 1/c)</code>: evaluate the tail <code>[b; c]</code> first, then add its reciprocal to <code>a</code>. Implement <code>continued(a, b)</code> for two terms and <code>continued3(a, b, c)</code> for three terms, each returning a rational number. <code>continued3</code> must reuse <code>continued</code> for the tail and stay on the rational interface (<code>numer</code>, <code>denom</code>, <code>rational</code>).</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  continued(2, 3)
+Output: [7, 3]
+Explanation: 2 + 1/3 = 7/3.
+
+Input:  continued3(1, 2, 3)
+Output: [10, 7]
+Explanation: 2 + 1/3 = 7/3, so the tail is 7/3; then 1 + 3/7 = 10/7.
+
+Input:  continued3(2, 1, 2)
+Output: [8, 3]
+Explanation: 1 + 1/2 = 3/2 is the tail; then 2 + 2/3 = 8/3.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>a</code>, <code>b</code>, <code>c</code> are positive integers.</li>
+<li><code>continued3</code> must call <code>continued</code> to get the tail, then read it with <code>numer</code> / <code>denom</code> and rebuild with <code>rational</code>. No float division.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">continued</span><span style="color: #657b83">(a,</span> <span style="color: #657b83">b):</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">continued3</span><span style="color: #657b83">(a,</span> <span style="color: #657b83">b,</span> <span style="color: #657b83">c):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>a + 1/(p/q)</code> is <code>a + q/p = (a*p + q)/p</code>; for the tail <code>p/q</code>, that is <code>rational(a * numer(tail) + denom(tail), numer(tail))</code>.</p></details>
+</div></section>
+<section id='solutions' class='ls ls-default'>
+<h2 class='ls-h'><span>Solutions</span></h2>
+<div class='ls-body'>
+<h3>Setup</h3>
+<p>These problems are written against the section&#x27;s rational-number interface. The constructor reduces every rational to lowest terms, and <code>mul_rationals</code> is the section&#x27;s multiply operation. Define these once before running any solution below:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #cb4b16">from</span> <span style="color: #268bd2">math</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">gcd</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">rational</span><span style="color: #657b83">(n,</span> <span style="color: #657b83">d):</span>
+    <span style="color: #657b83">g</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">gcd(n,</span> <span style="color: #657b83">d)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">[n</span> <span style="color: #93a1a1">//</span> <span style="color: #657b83">g,</span> <span style="color: #657b83">d</span> <span style="color: #93a1a1">//</span> <span style="color: #657b83">g]</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">numer</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">x[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">denom</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">x[</span><span style="color: #2aa198">1</span><span style="color: #657b83">]</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">mul_rationals</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">rational(numer(x)</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">numer(y),</span> <span style="color: #657b83">denom(x)</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">denom(y))</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/1f6f3224ccc1.json' data-mount='st1'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st1' hidden></div></figure>
+<h3>1. Reciprocal of a Rational</h3>
+<p><strong>Approach — flip through the interface.</strong> Swapping a fraction&#x27;s parts is a one-line operation if you stay on the user side of the barrier: read both parts with the selectors and hand them to the constructor in the opposite order. The constructor reduces the result, so <code>6/9</code> flipped comes back as <code>[3, 2]</code>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">reciprocal</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">rational(denom(x),</span> <span style="color: #657b83">numer(x))</span>
+</code></pre>
+<p><strong>Why it works.</strong> The reciprocal of <code>n/d</code> is <code>d/n</code>. Passing <code>denom(x)</code> as the new numerator and <code>numer(x)</code> as the new denominator builds exactly that, and <code>rational</code> reduces it. Because it never touches <code>x[0]</code>, this code would keep working if rationals were represented some other way.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> (plus the cost of one <code>gcd</code> inside the constructor) — a fixed amount of work.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">numer(reciprocal(rational(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">5</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">denom(reciprocal(rational(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">2</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">numer(reciprocal(rational(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">4</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">denom(reciprocal(rational(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+<span style="color: #93a1a1; font-style: italic"># Reduction still happens through the constructor.</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">reciprocal(rational(</span><span style="color: #2aa198">6</span><span style="color: #657b83">,</span> <span style="color: #2aa198">9</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">]</span>
+</code></pre>
+<h3>2. Scale a Rational by an Integer</h3>
+<p><strong>Approach — multiply the numerator only.</strong> Multiplying a fraction by a whole number <code>k</code> is the same as multiplying its numerator by <code>k</code> and leaving the denominator alone. Read the parts with the selectors, scale the numerator, and rebuild with <code>rational</code>, which reduces the result.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">scale_rational</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">k):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">rational(numer(x)</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">k,</span> <span style="color: #657b83">denom(x))</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>(n/d) * k = (n*k)/d</code>. The constructor then reduces, so <code>(2/5)*5 = 10/5</code> comes back as <code>[2, 1]</code>. The function speaks only the interface, never the list shape.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> — one multiplication and one constructor call.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">scale_rational(rational(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">),</span> <span style="color: #2aa198">2</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">scale_rational(rational(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">),</span> <span style="color: #2aa198">5</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">numer(scale_rational(rational(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">7</span><span style="color: #657b83">),</span> <span style="color: #2aa198">0</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">scale_rational(rational(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">),</span> <span style="color: #2aa198">8</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">]</span>
+</code></pre>
+<h3>3. A Constructor and Selectors for a 2D Point</h3>
+<p><strong>Approach — a two-field abstraction, mirroring rationals.</strong> A point has the same shape as a rational number: two fields glued into one value. Represent it as a two-element list, with the constructor packing both coordinates and each selector pulling one back out by index. This is the representation layer, the one place allowed to know the list shape.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">point</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">[x,</span> <span style="color: #657b83">y]</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">x_coord</span><span style="color: #657b83">(p):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">p[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">y_coord</span><span style="color: #657b83">(p):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">p[</span><span style="color: #2aa198">1</span><span style="color: #657b83">]</span>
+</code></pre>
+<p><strong>Why it works.</strong> The constructor and selectors satisfy the pair contract: <code>x_coord(point(a, b))</code> is <code>a</code> and <code>y_coord(point(a, b))</code> is <code>b</code>. Everything built on top of points can now ignore that they are lists.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> for each of the three operations — build or read one fixed-size container.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">x_coord(point(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">7</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">y_coord(point(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">7</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">7</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">x_coord(point(</span><span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">y_coord(point(</span><span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+</code></pre>
+<h3>4. Is a Rational a Whole Number?</h3>
+<p><strong>Approach — inspect the reduced denominator.</strong> Because <code>rational</code> reduces to lowest terms, any rational that equals an integer has denominator <code>1</code>. So the test is a single selector call and a comparison — no division, which keeps everything exact.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">is_whole</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">denom(x)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+</code></pre>
+<p><strong>Why it works.</strong> In lowest terms, <code>n/d</code> is an integer exactly when <code>d == 1</code>; for example <code>6/3</code> is stored as <code>2/1</code>. Checking <code>denom(x) == 1</code> answers the question using only the interface, with no float conversion that could mislead.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> — one selector and one comparison.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">is_whole(rational(</span><span style="color: #2aa198">8</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">))</span> <span style="color: #859900">is</span> <span style="color: #2aa198">True</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">is_whole(rational(</span><span style="color: #2aa198">6</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">))</span> <span style="color: #859900">is</span> <span style="color: #2aa198">True</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">is_whole(rational(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">))</span> <span style="color: #859900">is</span> <span style="color: #2aa198">False</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">is_whole(rational(</span><span style="color: #2aa198">7</span><span style="color: #657b83">,</span> <span style="color: #2aa198">7</span><span style="color: #657b83">))</span> <span style="color: #859900">is</span> <span style="color: #2aa198">True</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">is_whole(rational(</span><span style="color: #2aa198">9</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">))</span> <span style="color: #859900">is</span> <span style="color: #2aa198">False</span>
+</code></pre>
+<h3>5. Subtract Two Rationals</h3>
+<p><strong>Approach — common-denominator rule with a minus.</strong> Subtraction is <code>add_rationals</code> with the cross terms subtracted instead of added. Name the four parts with multiple assignment, form <code>nx*dy - ny*dx</code> over the shared denominator <code>dx*dy</code>, and let the constructor reduce.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">sub_rationals</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #657b83">nx,</span> <span style="color: #657b83">dx</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">numer(x),</span> <span style="color: #657b83">denom(x)</span>
+    <span style="color: #657b83">ny,</span> <span style="color: #657b83">dy</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">numer(y),</span> <span style="color: #657b83">denom(y)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">rational(nx</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">dy</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">ny</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">dx,</span> <span style="color: #657b83">dx</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">dy)</span>
+</code></pre>
+<p><strong>Why it works.</strong> Putting both fractions over <code>dx*dy</code> gives <code>nx*dy/(dx*dy)</code> and <code>ny*dx/(dx*dy)</code>; subtracting the numerators yields <code>(nx*dy - ny*dx)/(dx*dy)</code>. Negative results are fine — <code>1/5 - 1/2</code> comes back as <code>[-3, 10]</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> — a fixed number of multiplications plus one constructor call.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">sub_rationals(rational(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">),</span> <span style="color: #657b83">rational(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">6</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">sub_rationals(rational(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">),</span> <span style="color: #657b83">rational(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">sub_rationals(rational(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">),</span> <span style="color: #657b83">rational(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">sub_rationals(rational(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">),</span> <span style="color: #657b83">rational(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">))</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">]</span>
+</code></pre>
+<h3>6. Midpoint of Two Points</h3>
+<p><strong>Approach — average each coordinate, stored exactly.</strong> The midpoint&#x27;s x-coordinate is the average of the two x-coordinates, which may not be a whole number, so represent it as a <code>rational</code> with denominator <code>2</code> instead of dividing. Do the same for y, then bundle both into a <code>point</code>. Two layers of abstraction stack here: points on the outside, rationals on the inside, each touched only through its own interface.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">point</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">[x,</span> <span style="color: #657b83">y]</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">x_coord</span><span style="color: #657b83">(p):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">p[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">y_coord</span><span style="color: #657b83">(p):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">p[</span><span style="color: #2aa198">1</span><span style="color: #657b83">]</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">midpoint</span><span style="color: #657b83">(p,</span> <span style="color: #657b83">q):</span>
+    <span style="color: #657b83">mx</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">rational(x_coord(p)</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">x_coord(q),</span> <span style="color: #2aa198">2</span><span style="color: #657b83">)</span>
+    <span style="color: #657b83">my</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">rational(y_coord(p)</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">y_coord(q),</span> <span style="color: #2aa198">2</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">point(mx,</span> <span style="color: #657b83">my)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/b4f4e2b28dde.json' data-mount='st2'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st2' hidden></div></figure>
+<p><strong>Why it works.</strong> The midpoint of <code>x1</code> and <code>x2</code> is <code>(x1 + x2)/2</code>. Handing the sum and <code>2</code> to <code>rational</code> keeps the coordinate exact and reduced, so the midpoint of <code>2</code> and <code>6</code> is stored as <code>[4, 1]</code>, not a float. <code>point</code> then packages the two rational coordinates into one value.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> — two averages and one point.</p>
+<pre class='code python'><code><span style="color: #657b83">m</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">midpoint(point(</span><span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">),</span> <span style="color: #657b83">point(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">))</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">x_coord(m)</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">y_coord(m)</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">]</span>
+<span style="color: #657b83">m2</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">midpoint(point(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">),</span> <span style="color: #657b83">point(</span><span style="color: #2aa198">6</span><span style="color: #657b83">,</span> <span style="color: #2aa198">8</span><span style="color: #657b83">))</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">x_coord(m2)</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">y_coord(m2)</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">6</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">]</span>
+<span style="color: #657b83">m3</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">midpoint(point(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">),</span> <span style="color: #657b83">point(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">))</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">x_coord(m3)</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">y_coord(m3)</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">]</span>
+</code></pre>
+<h3>7. Compare Two Rationals</h3>
+<p><strong>Approach — cross-multiply with <code>&lt;</code>.</strong> The equality test in this section cross-multiplies to avoid floats; the same trick orders two fractions. With positive denominators, <code>a/b &lt; c/d</code> exactly when <code>a*d &lt; c*b</code>, and that comparison stays in exact integer arithmetic.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">rational_less</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">numer(x)</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">denom(y)</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #657b83">numer(y)</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">denom(x)</span>
+</code></pre>
+<p><strong>Why it works.</strong> Multiplying both sides of <code>a/b &lt; c/d</code> by the positive quantity <code>b*d</code> clears the denominators without flipping the inequality, leaving <code>a*d &lt; c*b</code>. Equal fractions like <code>1/2</code> and <code>2/4</code> give equal products, so <code>rational_less</code> correctly returns <code>False</code> for them.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> — two products and one comparison.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">rational_less(rational(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">),</span> <span style="color: #657b83">rational(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">))</span> <span style="color: #859900">is</span> <span style="color: #2aa198">True</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">rational_less(rational(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">),</span> <span style="color: #657b83">rational(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">))</span> <span style="color: #859900">is</span> <span style="color: #2aa198">False</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">rational_less(rational(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">),</span> <span style="color: #657b83">rational(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">))</span> <span style="color: #859900">is</span> <span style="color: #2aa198">False</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">rational_less(rational(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">8</span><span style="color: #657b83">),</span> <span style="color: #657b83">rational(</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">8</span><span style="color: #657b83">))</span> <span style="color: #859900">is</span> <span style="color: #2aa198">True</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">rational_less(rational(</span><span style="color: #2aa198">7</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">),</span> <span style="color: #657b83">rational(</span><span style="color: #2aa198">7</span><span style="color: #657b83">,</span> <span style="color: #2aa198">9</span><span style="color: #657b83">))</span> <span style="color: #859900">is</span> <span style="color: #2aa198">True</span>
+</code></pre>
+<h3>8. Power of a Rational</h3>
+<p><strong>Approach — recursion that multiplies through the interface.</strong> This is integer power with <code>mul_rationals</code> doing the multiplying. The base case <code>k == 0</code> returns the rational <code>1/1</code>. Otherwise multiply one copy of <code>x</code> onto <code>x ** (k - 1)</code>, recurring with a smaller exponent until it bottoms out.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">pow_rational</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">k):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">rational(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">mul_rationals(x,</span> <span style="color: #657b83">pow_rational(x,</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">-</span> <span style="color: #2aa198">1</span><span style="color: #657b83">))</span>
+</code></pre>
+<p><strong>Why it works.</strong> By the recursive leap of faith, <code>pow_rational(x, k - 1)</code> is <code>x</code> multiplied <code>k - 1</code> times; multiplying by one more <code>x</code> with <code>mul_rationals</code> gives <code>x</code> multiplied <code>k</code> times. The base case returns the multiplicative identity <code>1/1</code>, and the constructor keeps each intermediate product reduced.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mclose">)</span></span></span></span></span> — one frame per remaining exponent.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">pow_rational(rational(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">),</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">pow_rational(rational(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">),</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">pow_rational(rational(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">),</span> <span style="color: #2aa198">2</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">9</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">pow_rational(rational(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">),</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">8</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">pow_rational(rational(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">),</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">27</span><span style="color: #657b83">,</span> <span style="color: #2aa198">8</span><span style="color: #657b83">]</span>
+</code></pre>
+<h3>9. A Rational Built on a Functional Pair</h3>
+<p><strong>Approach — the representation is a closure, the operations do not care.</strong> <code>pair(a, b)</code> returns an inner <code>get</code> that remembers <code>a</code> and <code>b</code>; <code>select(p, i)</code> runs that function with the chosen index. Build the fraction interface on top of <code>pair</code>/<code>select</code>, then write <code>frac_add</code> exactly like <code>add_rationals</code> but with the new constructor and selectors. Nothing here indexes a list, and the addition still produces the right numerator and denominator — proof that data is defined by behavior, not shape.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">pair</span><span style="color: #657b83">(a,</span> <span style="color: #657b83">b):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">get</span><span style="color: #657b83">(index):</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">index</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">a</span>
+        <span style="color: #859900">elif</span> <span style="color: #657b83">index</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">b</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">get</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">select</span><span style="color: #657b83">(p,</span> <span style="color: #657b83">i):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">p(i)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">make_frac</span><span style="color: #657b83">(n,</span> <span style="color: #657b83">d):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">pair(n,</span> <span style="color: #657b83">d)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">frac_numer</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">select(x,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">frac_denom</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">select(x,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">frac_add</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #657b83">nx,</span> <span style="color: #657b83">dx</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">frac_numer(x),</span> <span style="color: #657b83">frac_denom(x)</span>
+    <span style="color: #657b83">ny,</span> <span style="color: #657b83">dy</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">frac_numer(y),</span> <span style="color: #657b83">frac_denom(y)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">make_frac(nx</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">dy</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">ny</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">dx,</span> <span style="color: #657b83">dx</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">dy)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/8dada8c303e1.json' data-mount='st3'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st3' hidden></div></figure>
+<p><strong>Why it works.</strong> The functional pair satisfies <code>select(pair(a, b), 0) == a</code> and <code>select(pair(a, b), 1) == b</code>, which is the entire pair contract. Because <code>frac_add</code> reaches a fraction only through <code>frac_numer</code>, <code>frac_denom</code>, and <code>make_frac</code>, it behaves identically to <code>add_rationals</code> even though the storage is a function. <code>make_frac</code> does not reduce, so <code>1/3 + 1/3</code> comes back as <code>6/9</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> per operation — constructing a closure and calling it are constant-time; <code>frac_add</code> does a fixed amount of arithmetic.</p>
+<pre class='code python'><code><span style="color: #657b83">half</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">make_frac(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">third</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">make_frac(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">frac_numer(half)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">frac_denom(half)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">2</span>
+<span style="color: #657b83">s</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">frac_add(half,</span> <span style="color: #657b83">third)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">frac_numer(s)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">5</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">frac_denom(s)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">6</span>
+<span style="color: #657b83">s2</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">frac_add(third,</span> <span style="color: #657b83">third)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">frac_numer(s2)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">6</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">frac_denom(s2)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">9</span>
+</code></pre>
+<h3>10. Continued Fractions</h3>
+<p><strong>Approach — collapse from the inside out, on the rational interface.</strong> A two-term continued fraction <code>a + 1/b</code> is the single fraction <code>(a*b + 1)/b</code>. For three terms, evaluate the inner <code>[b; c]</code> first with <code>continued</code>, then add <code>a</code> to its reciprocal: if the tail is <code>p/q</code>, then <code>a + q/p = (a*p + q)/p</code>. Reading the tail&#x27;s parts with <code>numer</code> and <code>denom</code> keeps <code>continued3</code> on the interface and lets it reuse <code>continued</code>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">continued</span><span style="color: #657b83">(a,</span> <span style="color: #657b83">b):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">rational(a</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">b</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #657b83">b)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">continued3</span><span style="color: #657b83">(a,</span> <span style="color: #657b83">b,</span> <span style="color: #657b83">c):</span>
+    <span style="color: #657b83">tail</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">continued(b,</span> <span style="color: #657b83">c)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">rational(a</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">numer(tail)</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">denom(tail),</span> <span style="color: #657b83">numer(tail))</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>continued</code> is just the algebra <code>a + 1/b = (a*b + 1)/b</code>. In <code>continued3</code>, the tail <code>continued(b, c)</code> is the rational <code>p/q</code>, and <code>a + 1/(p/q) = a + q/p = (a*p + q)/p</code>, which is <code>rational(a * numer(tail) + denom(tail), numer(tail))</code>. Building from the innermost term outward is the natural recursion of continued fractions, and every step stays in exact integer arithmetic.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> — a fixed number of selector and constructor calls (the tail is computed once).</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">continued(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">7</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">continued(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">continued3(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">10</span><span style="color: #657b83">,</span> <span style="color: #2aa198">7</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">continued3(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">7</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">]</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">continued3(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">8</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">]</span>
+</code></pre>
+</div></section><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

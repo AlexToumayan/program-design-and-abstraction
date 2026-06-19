@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 350" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <line x1="215" y1="100" x2="312" y2="59" stroke="#268bd2" stroke-width="2"/>
+  <line x1="500" y1="100" x2="388" y2="59" stroke="#268bd2" stroke-width="2"/>
+  <line x1="305" y1="180" x2="205" y2="142" stroke="#268bd2" stroke-width="2"/>
+  <line x1="395" y1="180" x2="495" y2="142" stroke="#268bd2" stroke-width="2"/>
+
+  <rect x="275" y="15" width="150" height="42" rx="12" fill="#fdf6e3" stroke="#073642" stroke-width="2.5"/>
+  <text x="350" y="42" text-anchor="middle" font-size="16" font-weight="bold" font-family="monospace" fill="#073642">Account</text>
+  <rect x="95" y="100" width="175" height="42" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="182" y="126" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">CheckingAccount</text>
+  <rect x="430" y="100" width="175" height="42" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="517" y="126" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">SavingsAccount</text>
+  <rect x="243" y="180" width="214" height="42" rx="10" fill="#ffffff" stroke="#073642" stroke-width="2.5"/>
+  <text x="350" y="206" text-anchor="middle" font-size="13" font-family="monospace" fill="#073642">AsSeenOnTVAccount</text>
+
+  <text x="350" y="252" text-anchor="middle" font-size="13" fill="#657b83">Python flattens the diamond into one search order:</text>
+
+  <rect x="8" y="272" width="120" height="34" rx="8" fill="#fdf6e3" stroke="#073642" stroke-width="2"/>
+  <text x="68" y="294" text-anchor="middle" font-size="12" font-family="monospace" fill="#073642">AsSeenOnTV</text>
+  <line x1="130" y1="289" x2="146" y2="289" stroke="#268bd2" stroke-width="2"/>
+  <polygon points="144,285 153,289 144,293" fill="#268bd2"/>
+  <rect x="155" y="272" width="92" height="34" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="201" y="294" text-anchor="middle" font-size="12" font-family="monospace" fill="#073642">Checking</text>
+  <line x1="249" y1="289" x2="265" y2="289" stroke="#268bd2" stroke-width="2"/>
+  <polygon points="263,285 272,289 263,293" fill="#268bd2"/>
+  <rect x="274" y="272" width="86" height="34" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="317" y="294" text-anchor="middle" font-size="12" font-family="monospace" fill="#073642">Savings</text>
+  <line x1="362" y1="289" x2="378" y2="289" stroke="#268bd2" stroke-width="2"/>
+  <polygon points="376,285 385,289 376,293" fill="#268bd2"/>
+  <rect x="387" y="272" width="86" height="34" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="430" y="294" text-anchor="middle" font-size="12" font-family="monospace" fill="#073642">Account</text>
+  <line x1="475" y1="289" x2="491" y2="289" stroke="#268bd2" stroke-width="2"/>
+  <polygon points="489,285 498,289 489,293" fill="#268bd2"/>
+  <rect x="500" y="272" width="80" height="34" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="540" y="294" text-anchor="middle" font-size="12" font-family="monospace" fill="#073642">object</text>
+  <text x="636" y="293" text-anchor="middle" font-size="11" fill="#93a1a1">(the MRO)</text>
+
+  <text x="350" y="335" text-anchor="middle" font-size="13" fill="#93a1a1">with multiple parents, Python flattens the graph into one well-defined lookup order.</text>
+</svg>

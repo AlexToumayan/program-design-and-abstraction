@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>2.5 · Object-Oriented Programming — Coding Practice · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+
+</head>
+<body class='is-practice'>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/' class='active'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Practice</span><span class='dot'>/</span><span class='eb-sec'>Chapter 2 · Coding Practice</span></div><h1 class='lesson-title'>2.5 · Object-Oriented Programming — Coding Practice</h1><div class='reading-meta'>&#9719; approx. 13 min read <span class='rm-sep'>&middot;</span> 30 worked examples</div></div><div class='lesson-grid'><div class='lesson-body'><p>These problems build fluency with classes: writing an <code>__init__</code> constructor, storing and mutating instance attributes, defining methods that share behavior through <code>self</code>, distinguishing instance attributes from shared class attributes, and building inheritance hierarchies that override methods, delegate to a base class, and resolve names across multiple parents.</p>
+<p>&gt; Work each problem from the starter signature first. Run your function against the Examples, then open the matching solution below to check your approach and its time and space cost.</p>
+<section id='easy' class='ls ls-default'>
+<h2 class='ls-h'><span>Easy</span></h2>
+<div class='ls-body'>
+<h3>1. Tally Counter</h3>
+<p>Build a <code>Counter</code> class for a handheld tally clicker. A new counter starts at <code>0</code>. Each <code>click()</code> increases the count by one and returns the new count. A <code>reset()</code> sets the count back to <code>0</code> and returns nothing. The current value is stored in an instance attribute named <code>count</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  c = Counter(); c.click(); c.click(); c.click()
+Output: 3
+Explanation: three clicks raise count from 0 to 3; the last click returns 3.
+
+Input:  c = Counter(); c.click(); c.reset(); c.count
+Output: 0
+Explanation: reset puts the count back to 0.
+
+Input:  c = Counter(); d = Counter(); c.click(); d.count
+Output: 0
+Explanation: each counter has its own count, so clicking c does not touch d.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Define a class with <code>__init__</code>, <code>click</code>, and <code>reset</code>.</li>
+<li>Store the running total in the instance attribute <code>self.count</code>; two counters must be independent.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">class</span> <span style="color: #268bd2">Counter</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>__init__</code> sets <code>self.count = 0</code>; <code>click</code> updates <code>self.count</code> and returns it.</p></details>
+<h3>2. Thermostat</h3>
+<p>Build a <code>Thermostat</code> class. The constructor takes a starting <code>target</code> temperature and stores it as an instance attribute. The method <code>warmer()</code> raises the target by one degree and returns the new target; <code>cooler()</code> lowers it by one degree and returns the new target. Two thermostats keep separate targets.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  t = Thermostat(68); t.warmer(); t.warmer()
+Output: 70
+Explanation: two warmer calls take the target from 68 to 70.
+
+Input:  t = Thermostat(68); t.warmer(); t.cooler(); t.target
+Output: 68
+Explanation: one up then one down returns to the start.
+
+Input:  t = Thermostat(68); u = Thermostat(60); t.warmer(); u.target
+Output: 60
+Explanation: warming t leaves u&#x27;s target untouched.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Define a class with <code>__init__</code>, <code>warmer</code>, and <code>cooler</code>.</li>
+<li>The target lives in <code>self.target</code>; each instance has its own.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">class</span> <span style="color: #268bd2">Thermostat</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Each method reassigns <code>self.target</code> and then returns it, just like <code>deposit</code> reassigning a balance.</p></details>
+<h3>3. Rectangle</h3>
+<p>Build a <code>Rectangle</code> class whose constructor takes a <code>width</code> and a <code>height</code> and stores both as instance attributes. Give it three methods: <code>area()</code> returns <code>width * height</code>, <code>perimeter()</code> returns <code>2 * (width + height)</code>, and <code>is_square()</code> returns whether the width and height are equal.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  Rectangle(3, 4).area()
+Output: 12
+Explanation: 3 * 4 = 12.
+
+Input:  Rectangle(3, 4).perimeter()
+Output: 14
+Explanation: 2 * (3 + 4) = 14.
+
+Input:  Rectangle(5, 5).is_square()
+Output: True
+Explanation: width equals height, so it is a square.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Define a class with <code>__init__</code>, <code>area</code>, <code>perimeter</code>, and <code>is_square</code>.</li>
+<li>Each method computes from <code>self.width</code> and <code>self.height</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">class</span> <span style="color: #268bd2">Rectangle</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Store both dimensions in <code>__init__</code>, then have each method read them through <code>self</code>.</p></details>
+<h3>4. Game Character</h3>
+<p>Build a <code>Character</code> class for a game. Every character starts with the same health, so store that starting value once as a <strong>class attribute</strong> named <code>start_health</code> equal to <code>100</code>. The constructor takes a <code>name</code> and sets <code>self.health</code> from the class attribute. The method <code>take_damage(amount)</code> lowers the health by <code>amount</code> and returns the new health; <code>is_alive()</code> returns whether the health is still above <code>0</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  hero = Character(&#x27;Mara&#x27;); hero.take_damage(30)
+Output: 70
+Explanation: 100 - 30 = 70.
+
+Input:  hero = Character(&#x27;Mara&#x27;); hero.take_damage(30); hero.take_damage(80); hero.is_alive()
+Output: False
+Explanation: health drops to -10, which is not above 0.
+
+Input:  Character(&#x27;Drax&#x27;).health
+Output: 100
+Explanation: every fresh character starts at the shared start_health of 100.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>start_health</code> must be a class attribute (assigned in the class body, not on <code>self</code>).</li>
+<li>Define <code>__init__</code>, <code>take_damage</code>, and <code>is_alive</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">class</span> <span style="color: #268bd2">Character</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Put <code>start_health = 100</code> in the class body; read it as <code>Character.start_health</code> when setting <code>self.health</code>.</p></details>
+</div></section>
+<section id='medium' class='ls ls-default'>
+<h2 class='ls-h'><span>Medium</span></h2>
+<div class='ls-body'>
+<h3>5. Stack</h3>
+<p>Build a <code>Stack</code> class backed by a list stored in <code>self.items</code>. A new stack is empty. <code>push(value)</code> adds an item on top; <code>pop()</code> removes and returns the top item; <code>peek()</code> returns the top item without removing it; <code>size()</code> returns how many items are stored; and <code>is_empty()</code> returns whether the stack has no items. This is the last-in, first-out discipline: the value pushed most recently is the first one popped.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  st = Stack(); st.push(1); st.push(2); st.push(3); st.pop()
+Output: 3
+Explanation: 3 was pushed last, so it pops first.
+
+Input:  st = Stack(); st.push(1); st.push(2); st.peek()
+Output: 2
+Explanation: peek reports the top (2) without removing it.
+
+Input:  Stack().is_empty()
+Output: True
+Explanation: a brand-new stack holds nothing.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Wrap a list in the instance attribute <code>self.items</code>.</li>
+<li>Use list methods (<code>append</code>, <code>pop</code>, indexing, <code>len</code>) inside the class.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">class</span> <span style="color: #268bd2">Stack</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>push</code> is <code>self.items.append(value)</code>; <code>pop</code> is <code>self.items.pop()</code>; <code>peek</code> is <code>self.items[-1]</code>.</p></details>
+<h3>6. Auto-Assigned ID Badges</h3>
+<p>Build an <code>Employee</code> class that hands each new employee the next unused ID number. Store the next available ID as a <strong>class attribute</strong> named <code>next_id</code> starting at <code>1</code>. The constructor takes a <code>name</code>, copies the current <code>next_id</code> into <code>self.id</code>, then advances the class attribute by one so the following employee gets a fresh number. Because the counter lives on the class, all employees share and advance it.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  a = Employee(&#x27;Ada&#x27;); b = Employee(&#x27;Linus&#x27;); a.id
+Output: 1
+Explanation: Ada was created first, so she gets ID 1.
+
+Input:  a = Employee(&#x27;Ada&#x27;); b = Employee(&#x27;Linus&#x27;); b.id
+Output: 2
+Explanation: the class counter advanced, so Linus gets ID 2.
+
+Input:  Employee(&#x27;Ada&#x27;); Employee(&#x27;Linus&#x27;); Employee(&#x27;Grace&#x27;); Employee.next_id
+Output: 4
+Explanation: after three employees, the next free ID is 4.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>next_id</code> is a class attribute shared by every instance.</li>
+<li>The constructor reads <code>Employee.next_id</code>, stores it in <code>self.id</code>, then increments <code>Employee.next_id</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">class</span> <span style="color: #268bd2">Employee</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Assigning to <code>Employee.next_id</code> (the class, not <code>self</code>) updates the shared counter every instance sees next.</p></details>
+<h3>7. Shapes That Report Their Sides</h3>
+<p>Build a base class <code>Shape</code> and two subclasses. <code>Shape</code> has a class attribute <code>sides = 0</code>, a constructor that stores a <code>name</code>, and a method <code>describe()</code> that returns the string <code>&#x27;&lt;name&gt; has &lt;sides&gt; sides&#x27;</code>. Define <code>Triangle(Shape)</code> with <code>sides = 3</code> and <code>Square(Shape)</code> with <code>sides = 4</code>, each overriding only the class attribute and inheriting <code>describe</code> unchanged.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  Triangle(&#x27;warning sign&#x27;).describe()
+Output: &#x27;warning sign has 3 sides&#x27;
+Explanation: describe is inherited; Triangle&#x27;s sides class attribute is 3.
+
+Input:  Square(&#x27;window&#x27;).describe()
+Output: &#x27;window has 4 sides&#x27;
+Explanation: same inherited describe, but sides is 4 for a Square.
+
+Input:  Shape(&#x27;blob&#x27;).describe()
+Output: &#x27;blob has 0 sides&#x27;
+Explanation: the base class keeps the default sides of 0.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>Triangle</code> and <code>Square</code> must inherit from <code>Shape</code> and override only the <code>sides</code> class attribute.</li>
+<li>Do not redefine <code>describe</code> in the subclasses; it is inherited.</li>
+<li>Use <code>str(...)</code> to turn the side count into text for concatenation.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">class</span> <span style="color: #268bd2">Shape</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">class</span> <span style="color: #268bd2">Triangle</span><span style="color: #657b83">(Shape):</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">class</span> <span style="color: #268bd2">Square</span><span style="color: #657b83">(Shape):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p><code>describe</code> reads <code>self.sides</code>, so each subclass&#x27;s overriding class attribute flows in automatically.</p></details>
+<h3>8. Gift Card With a Fee</h3>
+<p>Build a base class <code>Wallet</code> and a subclass <code>FeeWallet</code>. A <code>Wallet</code> starts with a <code>balance</code> of <code>0</code>. <code>add(amount)</code> raises the balance and returns it. <code>spend(amount)</code> returns <code>&#x27;Declined&#x27;</code> if <code>amount</code> exceeds the balance; otherwise it lowers the balance and returns the new balance. A <code>FeeWallet</code> behaves the same but charges a flat <code>fee = 2</code> (a class attribute) on every purchase. Implement <code>FeeWallet.spend</code> by <strong>delegating to the base class</strong>: add the fee to the amount and hand the work to <code>Wallet.spend</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  fw = FeeWallet(); fw.add(50); fw.spend(20)
+Output: 28
+Explanation: spending 20 plus the 2 fee removes 22 from 50, leaving 28.
+
+Input:  fw = FeeWallet(); fw.add(50); fw.spend(100)
+Output: &#x27;Declined&#x27;
+Explanation: 100 + 2 exceeds the balance of 50, so the base check declines it.
+
+Input:  w = Wallet(); w.add(50); w.spend(20)
+Output: 30
+Explanation: a plain Wallet charges no fee, so 50 - 20 = 30.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>FeeWallet</code> inherits from <code>Wallet</code> and overrides only <code>spend</code>.</li>
+<li><code>FeeWallet.spend</code> must call <code>Wallet.spend(self, amount + self.fee)</code>, reusing the base balance logic.</li>
+<li>Look the fee up through <code>self.fee</code>, not <code>FeeWallet.fee</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">class</span> <span style="color: #268bd2">Wallet</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">class</span> <span style="color: #268bd2">FeeWallet</span><span style="color: #657b83">(Wallet):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>This is the <code>CheckingAccount.withdraw</code> pattern: override the method, add the charge, then delegate to <code>Wallet.spend(self, ...)</code>.</p></details>
+</div></section>
+<section id='hard' class='ls ls-default'>
+<h2 class='ls-h'><span>Hard</span></h2>
+<div class='ls-body'>
+<h3>9. Loyalty Card Hierarchy</h3>
+<p>Build a three-level membership hierarchy. <code>Member</code> has a class attribute <code>discount = 0</code>, a constructor storing a <code>name</code>, and a method <code>price(amount)</code> that returns <code>amount - amount * self.discount</code>. <code>Silver(Member)</code> overrides <code>discount = 0.1</code>. <code>Gold(Silver)</code> overrides <code>discount = 0.2</code> <strong>and</strong> overrides <code>price</code> so that it first gets the discounted price by <strong>delegating to <code>Silver.price</code></strong>, then subtracts a flat <code>5</code> reward. Because <code>Gold</code> delegates to <code>Silver.price</code> with its own <code>self</code>, the <code>0.2</code> discount (not Silver&#x27;s <code>0.1</code>) is applied, since <code>price</code> reads <code>self.discount</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  Member(&#x27;Pat&#x27;).price(100)
+Output: 100
+Explanation: the base member has a 0 discount, so the price is unchanged.
+
+Input:  Silver(&#x27;Quinn&#x27;).price(100)
+Output: 90.0
+Explanation: a 0.1 discount removes 10 from 100.
+
+Input:  Gold(&#x27;Rory&#x27;).price(100)
+Output: 75.0
+Explanation: Silver.price applies Gold&#x27;s own 0.2 discount (100 - 20 = 80), then Gold subtracts 5 to give 75.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>Three classes: <code>Member</code>, <code>Silver(Member)</code>, <code>Gold(Silver)</code>.</li>
+<li><code>Gold.price</code> must call <code>Silver.price(self, amount)</code> and then subtract <code>5</code>.</li>
+<li>The discount is a class attribute overridden at each level; <code>price</code> reads it through <code>self.discount</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">class</span> <span style="color: #268bd2">Member</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">class</span> <span style="color: #268bd2">Silver</span><span style="color: #657b83">(Member):</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">class</span> <span style="color: #268bd2">Gold</span><span style="color: #657b83">(Silver):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Inside <code>Gold.price</code>, <code>Silver.price(self, amount)</code> runs the parent body with <code>self</code> still a <code>Gold</code>, so <code>self.discount</code> is <code>0.2</code>.</p></details>
+<h3>10. Combining Two Parents</h3>
+<p>Build a class that inherits from two parents at once. <code>Flyer</code> has a class attribute <code>medium = &#x27;air&#x27;</code> and a method <code>move()</code> returning <code>&#x27;soaring through the &#x27; + self.medium</code>. <code>Swimmer</code> has a class attribute <code>medium = &#x27;water&#x27;</code> and a method <code>dive()</code> returning <code>&#x27;plunging into the &#x27; + self.medium</code>. Define <code>Duck(Flyer, Swimmer)</code> with an empty body. The duck inherits <code>move</code> from <code>Flyer</code> and <code>dive</code> from <code>Swimmer</code>. Both parents define <code>medium</code>, so Python must break the tie: because <code>Flyer</code> is listed first, <code>Duck.medium</code> is <code>&#x27;air&#x27;</code>, and that is what <code>dive</code> reads too.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  Duck().move()
+Output: &#x27;soaring through the air&#x27;
+Explanation: move is inherited from Flyer, and Flyer&#x27;s medium wins the tie.
+
+Input:  Duck().dive()
+Output: &#x27;plunging into the air&#x27;
+Explanation: dive comes from Swimmer, but self.medium resolves to &#x27;air&#x27; because Flyer is listed first.
+
+Input:  [k.__name__ for k in Duck.mro()]
+Output: [&#x27;Duck&#x27;, &#x27;Flyer&#x27;, &#x27;Swimmer&#x27;, &#x27;object&#x27;]
+Explanation: the method resolution order lists Duck, then its parents left to right, then object.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>Duck</code> inherits from both <code>Flyer</code> and <code>Swimmer</code>, with <code>Flyer</code> listed first.</li>
+<li>Do not define any methods or attributes in <code>Duck</code>&#x27;s body; it is <code>pass</code>.</li>
+<li>Both parents define <code>medium</code>; the first-listed parent must win the tie.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">class</span> <span style="color: #268bd2">Flyer</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">class</span> <span style="color: #268bd2">Swimmer</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">class</span> <span style="color: #268bd2">Duck</span><span style="color: #657b83">(Flyer,</span> <span style="color: #657b83">Swimmer):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Listing <code>Flyer</code> before <code>Swimmer</code> puts it first in the method resolution order, so its <code>medium</code> is found before Swimmer&#x27;s. Inspect the order with <code>Duck.mro()</code>.</p></details>
+</div></section>
+<section id='solutions' class='ls ls-default'>
+<h2 class='ls-h'><span>Solutions</span></h2>
+<div class='ls-body'>
+<h3>1. Tally Counter</h3>
+<p><strong>Approach — instance state that a method mutates.</strong> A counter is a tiny object that remembers a number across calls. <code>__init__</code> plants <code>self.count = 0</code>; <code>click</code> reads, increments, and writes back <code>self.count</code>, then returns it; <code>reset</code> zeroes it. Because <code>count</code> is an instance attribute, every <code>Counter</code> carries its own, so clicking one never disturbs another.</p>
+<pre class='code python'><code><span style="color: #859900">class</span> <span style="color: #268bd2">Counter</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">count</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">click</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">count</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">count</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">count</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">reset</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">count</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+</code></pre>
+<p><strong>Why it works.</strong> The object persists between calls: <code>click</code> changes the same <code>self.count</code> each time, so repeated identical calls produce a rising sequence. Two counters are distinct objects with distinct <code>count</code> attributes.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> per call — a single attribute read and write.</p>
+<pre class='code python'><code><span style="color: #657b83">c</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Counter()</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">c</span><span style="color: #93a1a1">.</span><span style="color: #657b83">count</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">c</span><span style="color: #93a1a1">.</span><span style="color: #657b83">click()</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">c</span><span style="color: #93a1a1">.</span><span style="color: #657b83">click()</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">2</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">c</span><span style="color: #93a1a1">.</span><span style="color: #657b83">click()</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+<span style="color: #657b83">c</span><span style="color: #93a1a1">.</span><span style="color: #657b83">reset()</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">c</span><span style="color: #93a1a1">.</span><span style="color: #657b83">count</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">c</span><span style="color: #93a1a1">.</span><span style="color: #657b83">click()</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #93a1a1; font-style: italic"># A second counter is independent.</span>
+<span style="color: #657b83">d</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Counter()</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">d</span><span style="color: #93a1a1">.</span><span style="color: #657b83">count</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #657b83">c</span><span style="color: #93a1a1">.</span><span style="color: #657b83">click()</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">d</span><span style="color: #93a1a1">.</span><span style="color: #657b83">count</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+</code></pre>
+<h3>2. Thermostat</h3>
+<p><strong>Approach — methods that reassign one attribute.</strong> The thermostat stores a single instance attribute, <code>target</code>. <code>warmer</code> and <code>cooler</code> each reassign <code>self.target</code> and return the updated value, exactly the shape of a <code>deposit</code>/<code>withdraw</code> pair. Distinct thermostats hold independent targets.</p>
+<pre class='code python'><code><span style="color: #859900">class</span> <span style="color: #268bd2">Thermostat</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">target):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">target</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">target</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">warmer</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">target</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">target</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">target</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">cooler</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">target</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">target</span> <span style="color: #93a1a1">-</span> <span style="color: #2aa198">1</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">target</span>
+</code></pre>
+<p><strong>Why it works.</strong> Each call mutates the object&#x27;s own <code>target</code>, and the object remembers that change for the next call. Because the attribute belongs to the instance, warming <code>t</code> cannot affect <code>u</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> per call.</p>
+<pre class='code python'><code><span style="color: #657b83">t</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Thermostat(</span><span style="color: #2aa198">68</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">t</span><span style="color: #93a1a1">.</span><span style="color: #657b83">target</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">68</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">t</span><span style="color: #93a1a1">.</span><span style="color: #657b83">warmer()</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">69</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">t</span><span style="color: #93a1a1">.</span><span style="color: #657b83">warmer()</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">70</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">t</span><span style="color: #93a1a1">.</span><span style="color: #657b83">cooler()</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">69</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">t</span><span style="color: #93a1a1">.</span><span style="color: #657b83">target</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">69</span>
+<span style="color: #93a1a1; font-style: italic"># Two thermostats keep separate targets.</span>
+<span style="color: #657b83">u</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Thermostat(</span><span style="color: #2aa198">60</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">t</span><span style="color: #93a1a1">.</span><span style="color: #657b83">warmer()</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">u</span><span style="color: #93a1a1">.</span><span style="color: #657b83">target</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">60</span>
+</code></pre>
+<h3>3. Rectangle</h3>
+<p><strong>Approach — store data, compute on demand.</strong> The constructor records <code>width</code> and <code>height</code> as instance attributes; the three methods derive their answers from those two values whenever called. Nothing is precomputed, so the methods always reflect the current dimensions through <code>self</code>.</p>
+<pre class='code python'><code><span style="color: #859900">class</span> <span style="color: #268bd2">Rectangle</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">width,</span> <span style="color: #657b83">height):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">width</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">width</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">height</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">height</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">area</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">width</span> <span style="color: #93a1a1">*</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">height</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">perimeter</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">2</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">width</span> <span style="color: #93a1a1">+</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">height)</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">is_square</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">width</span> <span style="color: #93a1a1">==</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">height</span>
+</code></pre>
+<p><strong>Why it works.</strong> Each method reads <code>self.width</code> and <code>self.height</code>, so it computes the right answer for whichever rectangle it was called on. <code>is_square</code> returns the boolean result of the equality comparison directly.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> per method — a fixed amount of arithmetic.</p>
+<pre class='code python'><code><span style="color: #657b83">r</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Rectangle(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">r</span><span style="color: #93a1a1">.</span><span style="color: #657b83">area()</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">12</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">r</span><span style="color: #93a1a1">.</span><span style="color: #657b83">perimeter()</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">14</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">r</span><span style="color: #93a1a1">.</span><span style="color: #657b83">is_square()</span> <span style="color: #859900">is</span> <span style="color: #2aa198">False</span>
+<span style="color: #657b83">s</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Rectangle(</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">area()</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">25</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">is_square()</span> <span style="color: #859900">is</span> <span style="color: #2aa198">True</span>
+</code></pre>
+<h3>4. Game Character</h3>
+<p><strong>Approach — a class attribute for the shared default.</strong> The starting health is the same for everyone, so it belongs on the class, not on each instance: <code>start_health = 100</code> sits in the class body. <code>__init__</code> copies that shared value into a per-instance <code>self.health</code>, which then changes independently as the character takes damage. <code>take_damage</code> mutates <code>self.health</code>; <code>is_alive</code> compares it to <code>0</code>.</p>
+<pre class='code python'><code><span style="color: #859900">class</span> <span style="color: #268bd2">Character</span><span style="color: #657b83">:</span>
+    <span style="color: #657b83">start_health</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">100</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">name):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">name</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">name</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">health</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Character</span><span style="color: #93a1a1">.</span><span style="color: #657b83">start_health</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">take_damage</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">amount):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">health</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">health</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">amount</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">health</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">is_alive</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">health</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #2aa198">0</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>start_health</code> lives once on the class and is read through <code>Character.start_health</code> when each character is born, so every new character starts at <code>100</code> without storing a separate copy of the default. After construction, <code>self.health</code> is an ordinary instance attribute that damage mutates privately.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> per call.</p>
+<pre class='code python'><code><span style="color: #657b83">hero</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Character(</span><span style="color: #2aa198">&#39;Mara&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">hero</span><span style="color: #93a1a1">.</span><span style="color: #657b83">name</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;Mara&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">hero</span><span style="color: #93a1a1">.</span><span style="color: #657b83">health</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">100</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">hero</span><span style="color: #93a1a1">.</span><span style="color: #657b83">start_health</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">100</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">hero</span><span style="color: #93a1a1">.</span><span style="color: #657b83">take_damage(</span><span style="color: #2aa198">30</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">70</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">hero</span><span style="color: #93a1a1">.</span><span style="color: #657b83">take_damage(</span><span style="color: #2aa198">80</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">10</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">hero</span><span style="color: #93a1a1">.</span><span style="color: #657b83">is_alive()</span> <span style="color: #859900">is</span> <span style="color: #2aa198">False</span>
+<span style="color: #657b83">foe</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Character(</span><span style="color: #2aa198">&#39;Drax&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">foe</span><span style="color: #93a1a1">.</span><span style="color: #657b83">health</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">100</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">foe</span><span style="color: #93a1a1">.</span><span style="color: #657b83">is_alive()</span> <span style="color: #859900">is</span> <span style="color: #2aa198">True</span>
+</code></pre>
+<h3>5. Stack</h3>
+<p><strong>Approach — an object that wraps a mutable list.</strong> The stack hides a list behind a small interface. <code>push</code> appends to the end (the top); <code>pop</code> removes from the end; <code>peek</code> reads the last item with index <code>-1</code>; <code>size</code> and <code>is_empty</code> report on <code>len</code>. Encapsulating the list means callers use the stack interface — <code>push</code>, <code>pop</code>, <code>peek</code> — without touching <code>items</code> directly.</p>
+<pre class='code python'><code><span style="color: #859900">class</span> <span style="color: #268bd2">Stack</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">items</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[]</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">push</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">value):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">items</span><span style="color: #93a1a1">.</span><span style="color: #657b83">append(value)</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">pop</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">items</span><span style="color: #93a1a1">.</span><span style="color: #657b83">pop()</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">peek</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">items[</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span><span style="color: #657b83">]</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">size</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">items)</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">is_empty</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">items)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+</code></pre>
+<p><strong>Why it works.</strong> Appending and popping at the same end of the list gives last-in, first-out order: the most recently pushed value is at index <code>-1</code>, so it is what <code>peek</code> shows and what <code>pop</code> removes first.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> per <code>push</code>/<code>pop</code>/<code>peek</code>/<code>size</code>/<code>is_empty</code> (amortized for list append), Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> for the stored items.</p>
+<pre class='code python'><code><span style="color: #657b83">st</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Stack()</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">st</span><span style="color: #93a1a1">.</span><span style="color: #657b83">is_empty()</span> <span style="color: #859900">is</span> <span style="color: #2aa198">True</span>
+<span style="color: #657b83">st</span><span style="color: #93a1a1">.</span><span style="color: #657b83">push(</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">st</span><span style="color: #93a1a1">.</span><span style="color: #657b83">push(</span><span style="color: #2aa198">2</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">st</span><span style="color: #93a1a1">.</span><span style="color: #657b83">push(</span><span style="color: #2aa198">3</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">st</span><span style="color: #93a1a1">.</span><span style="color: #657b83">size()</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">st</span><span style="color: #93a1a1">.</span><span style="color: #657b83">peek()</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">st</span><span style="color: #93a1a1">.</span><span style="color: #657b83">pop()</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">st</span><span style="color: #93a1a1">.</span><span style="color: #657b83">pop()</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">2</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">st</span><span style="color: #93a1a1">.</span><span style="color: #657b83">size()</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">st</span><span style="color: #93a1a1">.</span><span style="color: #657b83">is_empty()</span> <span style="color: #859900">is</span> <span style="color: #2aa198">False</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">st</span><span style="color: #93a1a1">.</span><span style="color: #657b83">pop()</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">st</span><span style="color: #93a1a1">.</span><span style="color: #657b83">is_empty()</span> <span style="color: #859900">is</span> <span style="color: #2aa198">True</span>
+</code></pre>
+<h3>6. Auto-Assigned ID Badges</h3>
+<p><strong>Approach — a mutable class attribute as a shared counter.</strong> The &quot;next free ID&quot; is not a property of any one employee; it belongs to the whole company, so it is a class attribute. Each constructor reads <code>Employee.next_id</code>, stamps it onto <code>self.id</code>, then advances <code>Employee.next_id</code>. Assigning to the class (not to <code>self</code>) updates the single shared counter that the next instance will read.</p>
+<pre class='code python'><code><span style="color: #859900">class</span> <span style="color: #268bd2">Employee</span><span style="color: #657b83">:</span>
+    <span style="color: #657b83">next_id</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">1</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">name):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">name</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">name</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">id</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Employee</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_id</span>
+        <span style="color: #657b83">Employee</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_id</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Employee</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_id</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+</code></pre>
+<p><strong>Why it works.</strong> Because <code>next_id</code> lives on the class, every construction reads and then bumps the same value, so IDs come out <code>1, 2, 3, ...</code> in creation order. Writing <code>Employee.next_id = ...</code> targets the class attribute; writing it on <code>self</code> would instead create a per-instance attribute and break the sharing.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> per construction.</p>
+<pre class='code python'><code><span style="color: #657b83">a</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Employee(</span><span style="color: #2aa198">&#39;Ada&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">b</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Employee(</span><span style="color: #2aa198">&#39;Linus&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">c2</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Employee(</span><span style="color: #2aa198">&#39;Grace&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">a</span><span style="color: #93a1a1">.</span><span style="color: #657b83">id</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">b</span><span style="color: #93a1a1">.</span><span style="color: #657b83">id</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">2</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">c2</span><span style="color: #93a1a1">.</span><span style="color: #657b83">id</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">Employee</span><span style="color: #93a1a1">.</span><span style="color: #657b83">next_id</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">4</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">a</span><span style="color: #93a1a1">.</span><span style="color: #657b83">name</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;Ada&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">c2</span><span style="color: #93a1a1">.</span><span style="color: #657b83">name</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;Grace&#39;</span>
+</code></pre>
+<h3>7. Shapes That Report Their Sides</h3>
+<p><strong>Approach — inherit the method, override the class attribute.</strong> <code>describe</code> is written once on <code>Shape</code> and reads <code>self.sides</code>. Each subclass changes nothing but the <code>sides</code> class attribute, so the inherited <code>describe</code> automatically reports the right number through attribute lookup: it finds <code>sides</code> on the subclass before reaching <code>Shape</code>.</p>
+<pre class='code python'><code><span style="color: #859900">class</span> <span style="color: #268bd2">Shape</span><span style="color: #657b83">:</span>
+    <span style="color: #657b83">sides</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">name):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">name</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">name</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">describe</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">name</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&#39; has &#39;</span> <span style="color: #93a1a1">+</span> <span style="color: #268bd2">str</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">sides)</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&#39; sides&#39;</span>
+
+<span style="color: #859900">class</span> <span style="color: #268bd2">Triangle</span><span style="color: #657b83">(Shape):</span>
+    <span style="color: #657b83">sides</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">3</span>
+
+<span style="color: #859900">class</span> <span style="color: #268bd2">Square</span><span style="color: #657b83">(Shape):</span>
+    <span style="color: #657b83">sides</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">4</span>
+</code></pre>
+<p><strong>Why it works.</strong> When <code>describe</code> evaluates <code>self.sides</code> on a <code>Triangle</code>, lookup checks the instance (no <code>sides</code> there), then the <code>Triangle</code> class, where it finds <code>3</code>; on a <code>Square</code> it finds <code>4</code>; on a plain <code>Shape</code> it falls through to <code>0</code>. One inherited method serves all three because it reads the value through <code>self</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> per <code>describe</code> (ignoring string size).</p>
+<pre class='code python'><code><span style="color: #657b83">sh</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Shape(</span><span style="color: #2aa198">&#39;blob&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">tr</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Triangle(</span><span style="color: #2aa198">&#39;warning sign&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">sq</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Square(</span><span style="color: #2aa198">&#39;window&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">sh</span><span style="color: #93a1a1">.</span><span style="color: #657b83">describe()</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;blob has 0 sides&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">tr</span><span style="color: #93a1a1">.</span><span style="color: #657b83">describe()</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;warning sign has 3 sides&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">sq</span><span style="color: #93a1a1">.</span><span style="color: #657b83">describe()</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;window has 4 sides&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">tr</span><span style="color: #93a1a1">.</span><span style="color: #657b83">sides</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">sq</span><span style="color: #93a1a1">.</span><span style="color: #657b83">sides</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">4</span>
+<span style="color: #93a1a1; font-style: italic"># describe was inherited unchanged; only the class attribute differs.</span>
+<span style="color: #859900">assert</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(tr,</span> <span style="color: #657b83">Shape)</span> <span style="color: #859900">is</span> <span style="color: #2aa198">True</span>
+</code></pre>
+<h3>8. Gift Card With a Fee</h3>
+<p><strong>Approach — override and delegate to the base.</strong> <code>FeeWallet</code> keeps every part of <code>Wallet</code> except <code>spend</code>. Its <code>spend</code> adds the fee to the requested amount and hands the larger charge to <code>Wallet.spend(self, amount + self.fee)</code>, reusing the base class&#x27;s overdraft check and balance update. This is the <code>CheckingAccount.withdraw</code> pattern: write only the difference, then call the parent through the class, passing <code>self</code> explicitly.</p>
+<pre class='code python'><code><span style="color: #859900">class</span> <span style="color: #268bd2">Wallet</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">balance</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">add</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">amount):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">balance</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">balance</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">amount</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">balance</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">spend</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">amount):</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">amount</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">balance:</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;Declined&#39;</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">balance</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">balance</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">amount</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">balance</span>
+
+<span style="color: #859900">class</span> <span style="color: #268bd2">FeeWallet</span><span style="color: #657b83">(Wallet):</span>
+    <span style="color: #657b83">fee</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">2</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">spend</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">amount):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">Wallet</span><span style="color: #93a1a1">.</span><span style="color: #657b83">spend(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">amount</span> <span style="color: #93a1a1">+</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">fee)</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>Wallet.spend</code> reached through the class is a plain function, so <code>FeeWallet.spend</code> passes <code>self</code> by hand. The base method still does the comparison and the subtraction, but now against <code>amount + self.fee</code>, so the fee is removed too — and the declined case fires when the charged total exceeds the balance. Reading the fee through <code>self.fee</code> lets a future subclass change it.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> per call — one delegated method call.</p>
+<pre class='code python'><code><span style="color: #657b83">w</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Wallet()</span>
+<span style="color: #657b83">w</span><span style="color: #93a1a1">.</span><span style="color: #657b83">add(</span><span style="color: #2aa198">50</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">w</span><span style="color: #93a1a1">.</span><span style="color: #657b83">spend(</span><span style="color: #2aa198">20</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">30</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">w</span><span style="color: #93a1a1">.</span><span style="color: #657b83">spend(</span><span style="color: #2aa198">100</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;Declined&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">w</span><span style="color: #93a1a1">.</span><span style="color: #657b83">balance</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">30</span>
+
+<span style="color: #657b83">fw</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">FeeWallet()</span>
+<span style="color: #657b83">fw</span><span style="color: #93a1a1">.</span><span style="color: #657b83">add(</span><span style="color: #2aa198">50</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">fw</span><span style="color: #93a1a1">.</span><span style="color: #657b83">spend(</span><span style="color: #2aa198">20</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">28</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">fw</span><span style="color: #93a1a1">.</span><span style="color: #657b83">spend(</span><span style="color: #2aa198">100</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;Declined&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">fw</span><span style="color: #93a1a1">.</span><span style="color: #657b83">balance</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">28</span>
+<span style="color: #93a1a1; font-style: italic"># add is inherited unchanged.</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">fw</span><span style="color: #93a1a1">.</span><span style="color: #657b83">add(</span><span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">38</span>
+</code></pre>
+<h3>9. Loyalty Card Hierarchy</h3>
+<p><strong>Approach — three-level inheritance with delegation up one rung.</strong> <code>price</code> is defined once on <code>Member</code> and reads <code>self.discount</code>, so <code>Silver</code> only has to override the class attribute to get a 10% discount. <code>Gold</code> overrides both the discount and <code>price</code>: it calls <code>Silver.price(self, amount)</code> to apply the percentage discount, then subtracts a flat <code>5</code>. The subtle point is that <code>Silver.price</code> still reads <code>self.discount</code>, and <code>self</code> is a <code>Gold</code>, so the <code>0.2</code> discount is the one applied — not Silver&#x27;s <code>0.1</code>.</p>
+<pre class='code python'><code><span style="color: #859900">class</span> <span style="color: #268bd2">Member</span><span style="color: #657b83">:</span>
+    <span style="color: #657b83">discount</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">name):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">name</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">name</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">price</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">amount):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">amount</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">amount</span> <span style="color: #93a1a1">*</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">discount</span>
+
+<span style="color: #859900">class</span> <span style="color: #268bd2">Silver</span><span style="color: #657b83">(Member):</span>
+    <span style="color: #657b83">discount</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0.1</span>
+
+<span style="color: #859900">class</span> <span style="color: #268bd2">Gold</span><span style="color: #657b83">(Silver):</span>
+    <span style="color: #657b83">discount</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0.2</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">price</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">amount):</span>
+        <span style="color: #657b83">base</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Silver</span><span style="color: #93a1a1">.</span><span style="color: #657b83">price(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">amount)</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">base</span> <span style="color: #93a1a1">-</span> <span style="color: #2aa198">5</span>
+</code></pre>
+<p><strong>Why it works.</strong> Method lookup and <code>self</code> binding are separate: <code>Gold.price</code> reaches into <code>Silver.price</code> for its body, but <code>self</code> stays the <code>Gold</code> object the whole time, so <code>self.discount</code> resolves to <code>0.2</code>. <code>Silver.price</code> therefore returns <code>100 - 100 * 0.2 = 80.0</code>, and <code>Gold.price</code> subtracts <code>5</code> to give <code>75.0</code>. A plain <code>Member</code> has discount <code>0</code>, leaving the price unchanged.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> per call — a fixed number of delegated calls (depth at most three).</p>
+<pre class='code python'><code><span style="color: #657b83">m</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Member(</span><span style="color: #2aa198">&#39;Pat&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">s2</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Silver(</span><span style="color: #2aa198">&#39;Quinn&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">g</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Gold(</span><span style="color: #2aa198">&#39;Rory&#39;</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">m</span><span style="color: #93a1a1">.</span><span style="color: #657b83">price(</span><span style="color: #2aa198">100</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">100</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">s2</span><span style="color: #93a1a1">.</span><span style="color: #657b83">price(</span><span style="color: #2aa198">100</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">90.0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">g</span><span style="color: #93a1a1">.</span><span style="color: #657b83">price(</span><span style="color: #2aa198">100</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">75.0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">g</span><span style="color: #93a1a1">.</span><span style="color: #657b83">discount</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0.2</span>
+<span style="color: #93a1a1; font-style: italic"># Gold reuses Silver.price (which applies the 0.2 discount) then subtracts 5.</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">g</span><span style="color: #93a1a1">.</span><span style="color: #657b83">price(</span><span style="color: #2aa198">50</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">35.0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">s2</span><span style="color: #93a1a1">.</span><span style="color: #657b83">discount</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0.1</span>
+</code></pre>
+<h3>10. Combining Two Parents</h3>
+<p><strong>Approach — multiple inheritance with a left-to-right tie-break.</strong> <code>Duck</code> lists two parents and writes nothing of its own, so it inherits <code>move</code> from <code>Flyer</code> and <code>dive</code> from <code>Swimmer</code>. Both parents define <code>medium</code>, which forces Python to consult the method resolution order: <code>Duck</code>, then <code>Flyer</code>, then <code>Swimmer</code>, then <code>object</code>. Because <code>Flyer</code> comes first, its <code>medium = &#x27;air&#x27;</code> wins, and every method that reads <code>self.medium</code> sees <code>&#x27;air&#x27;</code>, including <code>dive</code>, which lives on <code>Swimmer</code>.</p>
+<pre class='code python'><code><span style="color: #859900">class</span> <span style="color: #268bd2">Flyer</span><span style="color: #657b83">:</span>
+    <span style="color: #657b83">medium</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">&#39;air&#39;</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">move</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;soaring through the &#39;</span> <span style="color: #93a1a1">+</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">medium</span>
+
+<span style="color: #859900">class</span> <span style="color: #268bd2">Swimmer</span><span style="color: #657b83">:</span>
+    <span style="color: #657b83">medium</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">&#39;water&#39;</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">dive</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;plunging into the &#39;</span> <span style="color: #93a1a1">+</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">medium</span>
+
+<span style="color: #859900">class</span> <span style="color: #268bd2">Duck</span><span style="color: #657b83">(Flyer,</span> <span style="color: #657b83">Swimmer):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<p><strong>Why it works.</strong> The MRO is a single linear order Python searches for any attribute. For <code>medium</code> the search stops at <code>Flyer</code> (first listed) before reaching <code>Swimmer</code>, so the tie resolves to <code>&#x27;air&#x27;</code>. The object never changes class: <code>dive</code> runs with <code>self</code> a <code>Duck</code>, so its <code>self.medium</code> resolves through the same MRO to <code>&#x27;air&#x27;</code> even though the method body lives on <code>Swimmer</code>. Names defined by only one parent — <code>move</code>, <code>dive</code> — have no tie to resolve.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> per call; building the MRO is linear in the number of classes.</p>
+<pre class='code python'><code><span style="color: #657b83">d2</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Duck()</span>
+<span style="color: #93a1a1; font-style: italic"># move comes from Flyer, dive comes from Swimmer.</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">d2</span><span style="color: #93a1a1">.</span><span style="color: #657b83">move()</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;soaring through the air&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">d2</span><span style="color: #93a1a1">.</span><span style="color: #657b83">dive()</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;plunging into the air&#39;</span>
+<span style="color: #93a1a1; font-style: italic"># Both parents define medium; Flyer is listed first, so it wins the tie.</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">d2</span><span style="color: #93a1a1">.</span><span style="color: #657b83">medium</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;air&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">Duck</span><span style="color: #93a1a1">.</span><span style="color: #657b83">medium</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;air&#39;</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">[k</span><span style="color: #93a1a1">.</span><span style="color: #268bd2">__name__</span> <span style="color: #859900">for</span> <span style="color: #657b83">k</span> <span style="color: #859900">in</span> <span style="color: #657b83">Duck</span><span style="color: #93a1a1">.</span><span style="color: #657b83">mro()]</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">[</span><span style="color: #2aa198">&#39;Duck&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;Flyer&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;Swimmer&#39;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">&#39;object&#39;</span><span style="color: #657b83">]</span>
+</code></pre>
+</div></section><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+
+</body>
+</html>

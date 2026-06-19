@@ -1,0 +1,602 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>4.2 Streams and Lazy Stream Processing · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/' class='active'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 4</span><span class='dot'>/</span><span class='eb-sec'>4.2 Implicit Sequences</span></div><h1 class='lesson-title'>4.2 Streams and Lazy Stream Processing</h1><div class='reading-meta'>&#9719; approx. 16 min read <span class='rm-sep'>&middot;</span> 11 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>You have already met two ways to produce values only when they are needed: iterators and generators. This lesson adds a third, and in some ways the most elegant: the <strong>stream</strong>. By the end you will be able to do five things: explain what a stream stores and why its rest is delayed, build an <strong>infinite</strong> stream of integers without your program hanging, write <code>map_stream</code> and <code>filter_stream</code> so they stay lazy, read the stream version of the <strong>sieve of Eratosthenes</strong>, and say precisely how a stream differs from a generator.</p>
+<p>A stream is a sequence whose rest can be computed later. That single sentence is the whole idea. The work is learning to trust it: that a sequence can be real and useful even when most of its elements do not exist yet.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='a-train-you-build-one-car-at-a-time' class='ls ls-default'>
+<h2 class='ls-h'><span>A Train You Build One Car at a Time</span></h2>
+<div class='ls-body'>
+<p>Imagine standing at a station looking at a train. You can see the <strong>first car</strong> right in front of you. Coupled to the back of that car is a mechanism that, when you pull it, rolls the <strong>next car</strong> into view. You never see the whole train at once. You see one car, and a coupler that promises the rest.</p>
+<p>A stream has exactly this shape.</p>
+<pre class='code text'><code>first car ---- coupler ----&gt; rest of train
+first value -- promise ----&gt; rest of stream</code></pre>
+<p>The crucial detail is the coupler. With an ordinary list, the entire train is already parked on the track, every car built and connected, whether or not you ever walk to the end. With a stream, only the front car is built. The rest is a <strong>promise</strong>: a small piece of code that, when you ask, builds the next car (and hands you another coupler). Because you only ever build what you look at, a stream can describe a train with no last car at all.</p>
+</div></section>
+<section id='the-formal-idea-a-lazily-computed-linked-list' class='ls ls-default'>
+<h2 class='ls-h'><span>The Formal Idea: A Lazily Computed Linked List</span></h2>
+<div class='ls-body'>
+<p>In Chapter 2 you built linked lists. A <code>Link</code> held a <code>first</code> value and a <code>rest</code>, where the <code>rest</code> was already another <code>Link</code> or <code>Link.empty</code>. Everything was built up front.</p>
+<pre class='code text'><code>Link(first, rest)        rest is already constructed
+Stream(first, compute_rest)   compute_rest is a function, run only on demand</code></pre>
+<p>The official source describes a stream as <strong>a lazily computed linked list</strong>. It stores two things: a <code>first</code> value, and a zero-argument function (often a <code>lambda</code>) that knows how to compute the <code>rest</code>. The word <strong>lazy</strong> here is technical: the rest is not produced when the stream is created, only when something actually asks for <code>.rest</code>.</p>
+<p>Two consequences follow, and both matter for everything below.</p>
+<p>First, a stream can be <strong>infinite</strong>. Because the rest is only a function, you can write a stream whose rest is itself a stream of the same kind forever, and nothing runs away, because nothing past the first value has been computed yet.</p>
+<p><img class="figure" src="figures/stream-lazy-promise.svg" alt="Link vs Stream: built nodes vs a coiled promise"></p>
+<p>Second, the rest is <strong>computed at most once</strong>. The first time you ask for <code>.rest</code>, the stream runs its <code>compute_rest</code> function, saves the answer, and throws the function away. Every later request returns the saved answer. This is <strong>caching</strong> (also called memoization), and it guarantees that <code>s.rest</code> is the same object every time and that an expensive rest is never recomputed.</p>
+</div></section>
+<section id='the-stream-class-token-by-token' class='ls ls-default'>
+<h2 class='ls-h'><span>The Stream Class, Token by Token</span></h2>
+<div class='ls-body'>
+<p>Here is the official <code>Stream</code> class. Read it once, then we will walk the two lines that carry the whole design.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #859900">class</span> <span style="color: #268bd2">Stream</span><span style="color: #657b83">:</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;A lazily computed linked list.&quot;&quot;&quot;</span>
+    <span style="color: #859900">class</span> <span style="color: #268bd2">empty</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">def</span> <span style="color: #268bd2">__repr__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;Stream.empty&#39;</span>
+    <span style="color: #657b83">empty</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">empty()</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">first,</span> <span style="color: #657b83">compute_rest</span><span style="color: #93a1a1">=</span><span style="color: #859900">lambda</span><span style="color: #657b83">:</span> <span style="color: #657b83">empty):</span>
+        <span style="color: #859900">assert</span> <span style="color: #657b83">callable(compute_rest),</span> <span style="color: #2aa198">&#39;compute_rest must be callable.&#39;</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">first</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_compute_rest</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">compute_rest</span>
+    <span style="color: #268bd2">@property</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">rest</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #93a1a1">&quot;&quot;&quot;Return the rest of the stream, computing it if necessary.&quot;&quot;&quot;</span>
+        <span style="color: #859900">if</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_compute_rest</span> <span style="color: #859900">is</span> <span style="color: #859900">not</span> <span style="color: #2aa198">None</span><span style="color: #657b83">:</span>
+            <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_rest</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_compute_rest()</span>
+            <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_compute_rest</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">None</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_rest</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__repr__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;Stream({0}, &lt;...&gt;)&#39;</span><span style="color: #93a1a1">.</span><span style="color: #657b83">format(</span><span style="color: #268bd2">repr</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first))</span>
+</code></pre>
+<p>The constructor signature is where laziness enters the design. Walk its tokens.</p>
+<pre class='code anatomy'><code>def __init__(self, first, compute_rest=lambda: empty):
+├─ def ............. begins a function definition
+├─ __init__ ........ the constructor, run when a Stream is created
+├─ self ............ the new Stream object being initialized
+├─ first ........... the value at the front of the stream, stored eagerly
+├─ compute_rest .... a zero-argument function that will build the rest
+├─ =lambda: empty .. default: if no rest is given, the stream ends here
+└─ defines the constructor that stores a first value and a recipe for the rest</code></pre>
+<p>The default <code>lambda: empty</code> is what makes a one-element stream possible: leave <code>compute_rest</code> off, and the rest is a function that returns the empty stream. Now the part that makes laziness real, the <code>rest</code> property.</p>
+<pre class='code anatomy'><code>self._rest = self._compute_rest()
+├─ self._rest ...... the field where the computed rest will be cached
+├─ = ............... binds that field
+├─ self._compute_rest the stored recipe function
+├─ () .............. calls it now, with no arguments, forcing the rest
+└─ runs the recipe once and stores its result so it is never recomputed</code></pre>
+<pre class='code anatomy'><code>self._compute_rest = None
+├─ self._compute_rest the stored recipe function
+├─ = ............... rebinds it
+├─ None ............ a sentinel meaning &quot;already computed&quot;
+└─ erases the recipe so the next .rest access returns the cached value</code></pre>
+<p>Reading the <code>rest</code> property as a whole: the first time you ask, <code>self._compute_rest is not None</code> is true, so it runs the recipe, stores the result in <code>self._rest</code>, and sets <code>self._compute_rest</code> to <code>None</code>. Every later time, the <code>if</code> is false, and it simply returns the cached <code>self._rest</code>. The <code>@property</code> decorator — a Python feature you have not needed until now, not a forgotten prerequisite — is why you write <code>s.rest</code> (no parentheses) even though real work happens behind it: it lets <code>rest</code> be defined as a method but accessed like a plain field, so reading the attribute quietly runs the method.</p>
+</div></section>
+<section id='streams-next-to-linked-lists' class='ls ls-default'>
+<h2 class='ls-h'><span>Streams Next to Linked Lists</span></h2>
+<div class='ls-body'>
+<p>The official source puts a <code>Link</code> and a <code>Stream</code> side by side so the one difference stands out. Assume the <code>Link</code> class from Chapter 2 and the <code>Stream</code> class above are both defined.</p>
+<pre class='code text'><code>&gt;&gt;&gt; r = Link(1, Link(2+3, Link(9)))
+&gt;&gt;&gt; s = Stream(1, lambda: Stream(2+3, lambda: Stream(9)))
+&gt;&gt;&gt; r.first
+1
+&gt;&gt;&gt; s.first
+1
+&gt;&gt;&gt; r.rest.first
+5
+&gt;&gt;&gt; s.rest.first
+5
+&gt;&gt;&gt; r.rest
+Link(5, Link(9))
+&gt;&gt;&gt; s.rest
+Stream(5, &lt;...&gt;)</code></pre>
+<p>Look closely at what <code>2+3</code> does in each line. When <code>r</code> is built, <code>Link(2+3, ...)</code> evaluates <code>2+3</code> to <code>5</code> immediately; the whole linked list, including the <code>5</code>, exists the moment the line finishes. When <code>s</code> is built, the <code>2+3</code> sits inside a <code>lambda</code> and does <strong>not</strong> run yet. It runs only when you ask for <code>s.rest</code>, which is why <code>s.rest.first</code> is <code>5</code> but <code>s.rest</code> reports <code>Stream(5, &lt;...&gt;)</code> with the tail still hidden behind the angle brackets. The <code>Link</code> prints its whole structure because it is all there; the <code>Stream</code> prints <code>&lt;...&gt;</code> because the rest is still just a promise.</p>
+<p>Let me make that anatomy explicit on the line that builds the stream.</p>
+<pre class='code anatomy'><code>s = Stream(1, lambda: Stream(2+3, lambda: Stream(9)))
+├─ s ............... the name bound to the new stream
+├─ = ............... assignment
+├─ Stream(.........  build a stream
+├─ 1 ............... its first value, stored now
+├─ lambda: ......... a zero-argument recipe for the rest, NOT run now
+├─ Stream(2+3, ....) the rest the recipe would build (2+3 stays unevaluated)
+├─ ) ............... closes the outer Stream call
+└─ binds s to a stream whose first is 1 and whose rest is an unrun promise</code></pre>
+<p>Here is a self-contained runnable version. Because <code>Link</code> is not the focus of this lesson, small <code>Link</code> and <code>Stream</code> classes are included so the transcript above runs exactly.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #859900">class</span> <span style="color: #268bd2">Link</span><span style="color: #657b83">:</span>
+    <span style="color: #657b83">empty</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">()</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">first,</span> <span style="color: #657b83">rest</span><span style="color: #93a1a1">=</span><span style="color: #657b83">empty):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">first</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">rest</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__repr__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">if</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest</span> <span style="color: #859900">is</span> <span style="color: #657b83">Link</span><span style="color: #93a1a1">.</span><span style="color: #657b83">empty:</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">f&quot;Link({</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span><span style="color: #2aa198">})&quot;</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">f&quot;Link({</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span><span style="color: #2aa198">}, {</span><span style="color: #268bd2">repr</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest)</span><span style="color: #2aa198">})&quot;</span>
+
+
+<span style="color: #859900">class</span> <span style="color: #268bd2">Stream</span><span style="color: #657b83">:</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;A lazily computed linked list.&quot;&quot;&quot;</span>
+    <span style="color: #859900">class</span> <span style="color: #268bd2">empty</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">def</span> <span style="color: #268bd2">__repr__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;Stream.empty&#39;</span>
+    <span style="color: #657b83">empty</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">empty()</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">first,</span> <span style="color: #657b83">compute_rest</span><span style="color: #93a1a1">=</span><span style="color: #859900">lambda</span><span style="color: #657b83">:</span> <span style="color: #657b83">empty):</span>
+        <span style="color: #859900">assert</span> <span style="color: #657b83">callable(compute_rest),</span> <span style="color: #2aa198">&#39;compute_rest must be callable.&#39;</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">first</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_compute_rest</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">compute_rest</span>
+    <span style="color: #268bd2">@property</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">rest</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #93a1a1">&quot;&quot;&quot;Return the rest of the stream, computing it if necessary.&quot;&quot;&quot;</span>
+        <span style="color: #859900">if</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_compute_rest</span> <span style="color: #859900">is</span> <span style="color: #859900">not</span> <span style="color: #2aa198">None</span><span style="color: #657b83">:</span>
+            <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_rest</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_compute_rest()</span>
+            <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_compute_rest</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">None</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_rest</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__repr__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;Stream({0}, &lt;...&gt;)&#39;</span><span style="color: #93a1a1">.</span><span style="color: #657b83">format(</span><span style="color: #268bd2">repr</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first))</span>
+
+
+<span style="color: #657b83">r</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Link(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #657b83">Link(</span><span style="color: #2aa198">2</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #657b83">Link(</span><span style="color: #2aa198">9</span><span style="color: #657b83">)))</span>
+<span style="color: #657b83">s</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Stream(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #859900">lambda</span><span style="color: #657b83">:</span> <span style="color: #657b83">Stream(</span><span style="color: #2aa198">2</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #859900">lambda</span><span style="color: #657b83">:</span> <span style="color: #657b83">Stream(</span><span style="color: #2aa198">9</span><span style="color: #657b83">)))</span>
+
+<span style="color: #268bd2">print</span><span style="color: #657b83">(r</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(r</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(r</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/a5d9b9d75192.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>1
+1
+5
+5
+Link(5, Link(9))
+Stream(5, &lt;...&gt;)</code></pre>
+</div></section>
+<section id='tracing-when-the-rest-is-forced' class='ls ls-default'>
+<h2 class='ls-h'><span>Tracing When the Rest Is Forced</span></h2>
+<div class='ls-body'>
+<p>It is worth slowing down to watch the cache work, because this is the machine model you will rely on for the rest of the lesson. Take the stream <code>s</code> from above and access its parts in order.</p>
+<div class='table-wrap'><table><thead><tr>
+<th>Step</th>
+<th>Code</th>
+<th>What happens to <code>s</code></th>
+<th><code>_compute_rest</code> after</th>
+</tr></thead><tbody>
+<tr>
+<td>1</td>
+<td><code>s = Stream(1, lambda: ...)</code></td>
+<td>first is <code>1</code>; rest is an unrun recipe</td>
+<td>a function</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>s.first</code></td>
+<td>reads the stored <code>1</code>; no recipe runs</td>
+<td>unchanged (a function)</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>s.rest</code> (first access)</td>
+<td>runs the recipe, builds <code>Stream(5, ...)</code>, caches it</td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>s.rest</code> (again)</td>
+<td>returns the <strong>same</strong> cached <code>Stream(5, ...)</code></td>
+<td><code>None</code></td>
+</tr>
+</tbody></table></div>
+<p>The word for step 3 is <strong>forcing</strong>: asking for the rest forces the delayed computation to run. Step 4 is the payoff of caching: the rest is not rebuilt, and you get the identical object back. A delayed computation that has been forced is sometimes said to be <strong>realized</strong>.</p>
+</div></section>
+<section id='infinite-streams' class='ls ls-default'>
+<h2 class='ls-h'><span>Infinite Streams</span></h2>
+<div class='ls-body'>
+<p>Now the move that lists cannot make. Because the rest is only a recipe, a stream can describe an endless sequence. The official source builds the stream of positive integers.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">integer_stream</span><span style="color: #657b83">(first):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">compute_rest</span><span style="color: #657b83">():</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">integer_stream(first</span><span style="color: #93a1a1">+</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">Stream(first,</span> <span style="color: #657b83">compute_rest)</span>
+</code></pre>
+<p>The recursion here looks alarming until you remember laziness. <code>integer_stream(first)</code> returns immediately with a stream whose first is <code>first</code>. The recursive call to <code>integer_stream(first+1)</code> is <strong>inside</strong> <code>compute_rest</code>, so it does not run until someone forces the rest. Each forced rest builds exactly one more node and hands back another recipe. Walk the return line.</p>
+<pre class='code anatomy'><code>return Stream(first, compute_rest)
+├─ return .......... hands a value back to the caller
+├─ Stream(......... build one stream node
+├─ first ........... its first value, available right now
+├─ compute_rest .... the recipe; calling integer_stream(first+1) is deferred
+├─ ) ............... closes the call
+└─ returns a single node now; the next node is built only when forced</code></pre>
+<p>Here is the official transcript, reproduced exactly as the source presents it: in two halves, with an explanation in between. Notice that <code>positives</code> displays as <code>Stream(1, &lt;...&gt;)</code> with its tail hidden, and <code>positives.first</code> reads the stored first value, <code>1</code>, without forcing anything.</p>
+<pre class='code text'><code>&gt;&gt;&gt; positives = integer_stream(1)
+&gt;&gt;&gt; positives
+Stream(1, &lt;...&gt;)
+&gt;&gt;&gt; positives.first
+1</code></pre>
+<p>When <code>integer_stream</code> is called for the first time, it returns a stream whose <code>first</code> is the first integer in the sequence. The function is nonetheless recursive, because this stream&#x27;s <code>compute_rest</code> calls <code>integer_stream</code> again with an incremented argument. We say that <code>integer_stream</code> is <strong>lazy</strong> because that recursive call to <code>integer_stream</code> is only made whenever the rest of an integer stream is requested. The source then picks the session back up, re-showing <code>positives.first</code> before reaching deeper: <code>positives.first</code> is still <code>1</code>, <code>positives.rest.first</code> forces one node to give <code>2</code>, and <code>positives.rest.rest</code> reports <code>Stream(3, &lt;...&gt;)</code> with its own tail still a promise.</p>
+<pre class='code text'><code>&gt;&gt;&gt; positives.first
+1
+&gt;&gt;&gt; positives.rest.first
+2
+&gt;&gt;&gt; positives.rest.rest
+Stream(3, &lt;...&gt;)</code></pre>
+<p>And a runnable version that forces the first few values.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (4)</span>
+<span style="color: #859900">class</span> <span style="color: #268bd2">Stream</span><span style="color: #657b83">:</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;A lazily computed linked list.&quot;&quot;&quot;</span>
+    <span style="color: #859900">class</span> <span style="color: #268bd2">empty</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">def</span> <span style="color: #268bd2">__repr__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;Stream.empty&#39;</span>
+    <span style="color: #657b83">empty</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">empty()</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">first,</span> <span style="color: #657b83">compute_rest</span><span style="color: #93a1a1">=</span><span style="color: #859900">lambda</span><span style="color: #657b83">:</span> <span style="color: #657b83">empty):</span>
+        <span style="color: #859900">assert</span> <span style="color: #657b83">callable(compute_rest),</span> <span style="color: #2aa198">&#39;compute_rest must be callable.&#39;</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">first</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_compute_rest</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">compute_rest</span>
+    <span style="color: #268bd2">@property</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">rest</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #93a1a1">&quot;&quot;&quot;Return the rest of the stream, computing it if necessary.&quot;&quot;&quot;</span>
+        <span style="color: #859900">if</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_compute_rest</span> <span style="color: #859900">is</span> <span style="color: #859900">not</span> <span style="color: #2aa198">None</span><span style="color: #657b83">:</span>
+            <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_rest</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_compute_rest()</span>
+            <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_compute_rest</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">None</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_rest</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__repr__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;Stream({0}, &lt;...&gt;)&#39;</span><span style="color: #93a1a1">.</span><span style="color: #657b83">format(</span><span style="color: #268bd2">repr</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first))</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">integer_stream</span><span style="color: #657b83">(first):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">compute_rest</span><span style="color: #657b83">():</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">integer_stream(first</span><span style="color: #93a1a1">+</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">Stream(first,</span> <span style="color: #657b83">compute_rest)</span>
+
+
+<span style="color: #657b83">positives</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">integer_stream(</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(positives</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(positives</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(positives</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/1e4929aed792.json' data-mount='st1'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st1' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>1
+2
+3</code></pre>
+<p>The stream <code>positives</code> does not contain every positive integer in memory. It contains the value <code>1</code> and a rule for producing the stream that starts at <code>2</code>. The integers <code>2</code>, <code>3</code>, <code>4</code>, and so on come into existence only as you force your way down the stream.</p>
+</div></section>
+<section id='mapping-and-filtering-streams-lazily' class='ls ls-default'>
+<h2 class='ls-h'><span>Mapping and Filtering Streams, Lazily</span></h2>
+<div class='ls-body'>
+<p>A function that transforms a stream must itself stay lazy, or the whole benefit collapses. If <code>map_stream</code> tried to map every element immediately, it would never finish on an infinite stream. The rule is the same as in <code>integer_stream</code>: compute the first result now, and hide the recursive call inside a <code>compute_rest</code>.</p>
+<p>Here is the official <code>map_stream</code>.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (5)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">map_stream</span><span style="color: #657b83">(fn,</span> <span style="color: #657b83">s):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">s</span> <span style="color: #859900">is</span> <span style="color: #657b83">Stream</span><span style="color: #93a1a1">.</span><span style="color: #657b83">empty:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">s</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">compute_rest</span><span style="color: #657b83">():</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">map_stream(fn,</span> <span style="color: #657b83">s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">Stream(fn(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first),</span> <span style="color: #657b83">compute_rest)</span>
+</code></pre>
+<p>The base case <code>s is Stream.empty</code> lets a finite stream end. Otherwise the function applies <code>fn</code> to <code>s.first</code> right now (that becomes the first of the new stream) and defers mapping <code>s.rest</code> until the new stream&#x27;s rest is forced. Walk the return line.</p>
+<pre class='code anatomy'><code>return Stream(fn(s.first), compute_rest)
+├─ return .......... hands the new stream back
+├─ Stream(......... build one mapped node
+├─ fn(s.first) ..... apply fn to the current first, eagerly, for this node
+├─ compute_rest .... recipe that maps s.rest later, keeping the rest lazy
+├─ ) ............... closes the call
+└─ returns one transformed node now; the rest is mapped only when forced</code></pre>
+<p>And the official <code>filter_stream</code>. The new wrinkle is that filtering may need to <strong>skip</strong> the first value if it fails the predicate.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (6)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">filter_stream</span><span style="color: #657b83">(fn,</span> <span style="color: #657b83">s):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">s</span> <span style="color: #859900">is</span> <span style="color: #657b83">Stream</span><span style="color: #93a1a1">.</span><span style="color: #657b83">empty:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">s</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">compute_rest</span><span style="color: #657b83">():</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">filter_stream(fn,</span> <span style="color: #657b83">s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest)</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">fn(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">Stream(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">compute_rest)</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">compute_rest()</span>
+</code></pre>
+<p>Read the two branches carefully. If <code>fn(s.first)</code> is true, the value belongs in the result, so the function returns a node whose first is <code>s.first</code> and whose rest is the deferred filter of <code>s.rest</code>. If <code>fn(s.first)</code> is false, there is no node to emit for this value, so the function calls <code>compute_rest()</code> immediately and returns the filtered rest instead. Walk the false branch.</p>
+<pre class='code anatomy'><code>return compute_rest()
+├─ return .......... hands a value back
+├─ compute_rest .... the recipe for filtering the rest
+├─ () .............. call it NOW, because the current first was rejected
+└─ skips the failing first and returns the filtered rest directly</code></pre>
+<p>One subtlety to keep in mind: when the value passes, <code>compute_rest</code> is deferred; when it fails, <code>compute_rest</code> runs now. That means filtering an infinite stream is safe only if it keeps finding values that pass before too long; an infinite run of failures would loop. For the streams in this lesson, passing values always keep arriving.</p>
+<p>To collect a few elements from an infinite stream, the source uses a helper that stops after <code>k</code> values.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (7)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">first_k_as_list</span><span style="color: #657b83">(s,</span> <span style="color: #657b83">k):</span>
+    <span style="color: #657b83">first_k</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[]</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">s</span> <span style="color: #859900">is</span> <span style="color: #859900">not</span> <span style="color: #657b83">Stream</span><span style="color: #93a1a1">.</span><span style="color: #657b83">empty</span> <span style="color: #859900">and</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">first_k</span><span style="color: #93a1a1">.</span><span style="color: #657b83">append(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+        <span style="color: #657b83">s,</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest,</span> <span style="color: #657b83">k</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">first_k</span>
+</code></pre>
+<p>The loop appends <code>s.first</code>, advances <code>s</code> to <code>s.rest</code>, and counts down <code>k</code>. It stops either when the stream runs out or when it has collected <code>k</code> values, so it is safe to point at an infinite stream. Here is the official transcript squaring a stream of integers starting at <code>3</code>.</p>
+<pre class='code text'><code>&gt;&gt;&gt; s = integer_stream(3)
+&gt;&gt;&gt; s
+Stream(3, &lt;...&gt;)
+&gt;&gt;&gt; m = map_stream(lambda x: x*x, s)
+&gt;&gt;&gt; m
+Stream(9, &lt;...&gt;)
+&gt;&gt;&gt; first_k_as_list(m, 5)
+[9, 16, 25, 36, 49]</code></pre>
+<p>A runnable version that ties the pieces together, including a filter for good measure.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (8)</span>
+<span style="color: #859900">class</span> <span style="color: #268bd2">Stream</span><span style="color: #657b83">:</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;A lazily computed linked list.&quot;&quot;&quot;</span>
+    <span style="color: #859900">class</span> <span style="color: #268bd2">empty</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">def</span> <span style="color: #268bd2">__repr__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;Stream.empty&#39;</span>
+    <span style="color: #657b83">empty</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">empty()</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">first,</span> <span style="color: #657b83">compute_rest</span><span style="color: #93a1a1">=</span><span style="color: #859900">lambda</span><span style="color: #657b83">:</span> <span style="color: #657b83">empty):</span>
+        <span style="color: #859900">assert</span> <span style="color: #657b83">callable(compute_rest),</span> <span style="color: #2aa198">&#39;compute_rest must be callable.&#39;</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">first</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_compute_rest</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">compute_rest</span>
+    <span style="color: #268bd2">@property</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">rest</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #93a1a1">&quot;&quot;&quot;Return the rest of the stream, computing it if necessary.&quot;&quot;&quot;</span>
+        <span style="color: #859900">if</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_compute_rest</span> <span style="color: #859900">is</span> <span style="color: #859900">not</span> <span style="color: #2aa198">None</span><span style="color: #657b83">:</span>
+            <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_rest</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_compute_rest()</span>
+            <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_compute_rest</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">None</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_rest</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__repr__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;Stream({0}, &lt;...&gt;)&#39;</span><span style="color: #93a1a1">.</span><span style="color: #657b83">format(</span><span style="color: #268bd2">repr</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first))</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">integer_stream</span><span style="color: #657b83">(first):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">compute_rest</span><span style="color: #657b83">():</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">integer_stream(first</span><span style="color: #93a1a1">+</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">Stream(first,</span> <span style="color: #657b83">compute_rest)</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">map_stream</span><span style="color: #657b83">(fn,</span> <span style="color: #657b83">s):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">s</span> <span style="color: #859900">is</span> <span style="color: #657b83">Stream</span><span style="color: #93a1a1">.</span><span style="color: #657b83">empty:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">s</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">compute_rest</span><span style="color: #657b83">():</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">map_stream(fn,</span> <span style="color: #657b83">s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">Stream(fn(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first),</span> <span style="color: #657b83">compute_rest)</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">filter_stream</span><span style="color: #657b83">(fn,</span> <span style="color: #657b83">s):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">s</span> <span style="color: #859900">is</span> <span style="color: #657b83">Stream</span><span style="color: #93a1a1">.</span><span style="color: #657b83">empty:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">s</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">compute_rest</span><span style="color: #657b83">():</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">filter_stream(fn,</span> <span style="color: #657b83">s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest)</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">fn(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">Stream(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">compute_rest)</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">compute_rest()</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">first_k_as_list</span><span style="color: #657b83">(s,</span> <span style="color: #657b83">k):</span>
+    <span style="color: #657b83">first_k</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[]</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">s</span> <span style="color: #859900">is</span> <span style="color: #859900">not</span> <span style="color: #657b83">Stream</span><span style="color: #93a1a1">.</span><span style="color: #657b83">empty</span> <span style="color: #859900">and</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">first_k</span><span style="color: #93a1a1">.</span><span style="color: #657b83">append(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+        <span style="color: #657b83">s,</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest,</span> <span style="color: #657b83">k</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">first_k</span>
+
+
+<span style="color: #657b83">s</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">integer_stream(</span><span style="color: #2aa198">3</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">m</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">map_stream(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">x</span><span style="color: #93a1a1">*</span><span style="color: #657b83">x,</span> <span style="color: #657b83">s)</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(first_k_as_list(m,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">))</span>
+
+<span style="color: #657b83">even_squares</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">filter_stream(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">%</span> <span style="color: #2aa198">2</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #657b83">map_stream(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">x</span><span style="color: #93a1a1">*</span><span style="color: #657b83">x,</span> <span style="color: #657b83">integer_stream(</span><span style="color: #2aa198">1</span><span style="color: #657b83">)))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(first_k_as_list(even_squares,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">))</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/c2e5c5d2bd5b.json' data-mount='st2'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st2' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>[9, 16, 25, 36, 49]
+[4, 16, 36, 64, 100]</code></pre>
+<p>The program never built all integers, all squares, or all even squares. It computed exactly enough to produce the requested values and stopped.</p>
+</div></section>
+<section id='the-sieve-of-eratosthenes-as-a-stream' class='ls ls-default'>
+<h2 class='ls-h'><span>The Sieve of Eratosthenes as a Stream</span></h2>
+<div class='ls-body'>
+<p>The source ends with a small masterpiece: prime numbers produced as a stream, using an idea more than two thousand years old. The sieve of Eratosthenes works like this.</p>
+<ol>
+<li>The first number in the stream is prime.</li>
+<li>Remove from the rest every number divisible by that prime.</li>
+<li>Repeat on what remains.</li>
+</ol>
+<p>As a stream, each step is one node, and the filtering happens lazily as you ask for more primes. Here is the official function.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (9)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">primes</span><span style="color: #657b83">(pos_stream):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">not_divible</span><span style="color: #657b83">(x):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">%</span> <span style="color: #657b83">pos_stream</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span> <span style="color: #93a1a1">!=</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">compute_rest</span><span style="color: #657b83">():</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">primes(filter_stream(not_divible,</span> <span style="color: #657b83">pos_stream</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest))</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">Stream(pos_stream</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">compute_rest)</span>
+</code></pre>
+<p>A note on spelling: the helper is named <code>not_divible</code> in the official source. The intended meaning is &quot;not divisible,&quot; and that single missing letter is reproduced here on purpose so this matches the textbook exactly; do not silently correct it. The helper returns <code>True</code> when <code>x</code> is <strong>not</strong> a multiple of the current prime, so <code>filter_stream(not_divible, pos_stream.rest)</code> keeps only the numbers that survive. Walk the recipe.</p>
+<pre class='code anatomy'><code>return primes(filter_stream(not_divible, pos_stream.rest))
+├─ return .......... hands back the rest of the prime stream
+├─ primes(......... recursively sieve what survives the current prime
+├─ filter_stream(.. lazily remove multiples of pos_stream.first
+├─ not_divible ..... the predicate: x % first != 0
+├─ pos_stream.rest . the integers after the current first
+├─ ) ).............. close both calls
+└─ produces the next prime node only when this rest is forced</code></pre>
+<p>Here is the official transcript.</p>
+<pre class='code text'><code>&gt;&gt;&gt; prime_numbers = primes(integer_stream(2))
+&gt;&gt;&gt; first_k_as_list(prime_numbers, 7)
+[2, 3, 5, 7, 11, 13, 17]
+&gt;&gt;&gt; prime_numbers.first
+2</code></pre>
+<p>And a runnable version producing the first ten primes.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (10)</span>
+<span style="color: #859900">class</span> <span style="color: #268bd2">Stream</span><span style="color: #657b83">:</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;A lazily computed linked list.&quot;&quot;&quot;</span>
+    <span style="color: #859900">class</span> <span style="color: #268bd2">empty</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">def</span> <span style="color: #268bd2">__repr__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;Stream.empty&#39;</span>
+    <span style="color: #657b83">empty</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">empty()</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">first,</span> <span style="color: #657b83">compute_rest</span><span style="color: #93a1a1">=</span><span style="color: #859900">lambda</span><span style="color: #657b83">:</span> <span style="color: #657b83">empty):</span>
+        <span style="color: #859900">assert</span> <span style="color: #657b83">callable(compute_rest),</span> <span style="color: #2aa198">&#39;compute_rest must be callable.&#39;</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">first</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_compute_rest</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">compute_rest</span>
+    <span style="color: #268bd2">@property</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">rest</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #93a1a1">&quot;&quot;&quot;Return the rest of the stream, computing it if necessary.&quot;&quot;&quot;</span>
+        <span style="color: #859900">if</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_compute_rest</span> <span style="color: #859900">is</span> <span style="color: #859900">not</span> <span style="color: #2aa198">None</span><span style="color: #657b83">:</span>
+            <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_rest</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_compute_rest()</span>
+            <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_compute_rest</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">None</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_rest</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__repr__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;Stream({0}, &lt;...&gt;)&#39;</span><span style="color: #93a1a1">.</span><span style="color: #657b83">format(</span><span style="color: #268bd2">repr</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first))</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">integer_stream</span><span style="color: #657b83">(first):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">compute_rest</span><span style="color: #657b83">():</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">integer_stream(first</span><span style="color: #93a1a1">+</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">Stream(first,</span> <span style="color: #657b83">compute_rest)</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">filter_stream</span><span style="color: #657b83">(fn,</span> <span style="color: #657b83">s):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">s</span> <span style="color: #859900">is</span> <span style="color: #657b83">Stream</span><span style="color: #93a1a1">.</span><span style="color: #657b83">empty:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">s</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">compute_rest</span><span style="color: #657b83">():</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">filter_stream(fn,</span> <span style="color: #657b83">s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest)</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">fn(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">Stream(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">compute_rest)</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">compute_rest()</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">first_k_as_list</span><span style="color: #657b83">(s,</span> <span style="color: #657b83">k):</span>
+    <span style="color: #657b83">first_k</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[]</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">s</span> <span style="color: #859900">is</span> <span style="color: #859900">not</span> <span style="color: #657b83">Stream</span><span style="color: #93a1a1">.</span><span style="color: #657b83">empty</span> <span style="color: #859900">and</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">first_k</span><span style="color: #93a1a1">.</span><span style="color: #657b83">append(s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+        <span style="color: #657b83">s,</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest,</span> <span style="color: #657b83">k</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">first_k</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">primes</span><span style="color: #657b83">(pos_stream):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">not_divible</span><span style="color: #657b83">(x):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">%</span> <span style="color: #657b83">pos_stream</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span> <span style="color: #93a1a1">!=</span> <span style="color: #2aa198">0</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">compute_rest</span><span style="color: #657b83">():</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">primes(filter_stream(not_divible,</span> <span style="color: #657b83">pos_stream</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest))</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">Stream(pos_stream</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">compute_rest)</span>
+
+
+<span style="color: #657b83">prime_numbers</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">primes(integer_stream(</span><span style="color: #2aa198">2</span><span style="color: #657b83">))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(first_k_as_list(prime_numbers,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">))</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/182f29edc76e.json' data-mount='st3'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st3' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>[2, 3, 5, 7, 11, 13, 17, 19, 23, 29]</code></pre>
+<p>To see why this terminates for each prime even though the input is infinite, follow the stream. It begins as every integer from <code>2</code> upward.</p>
+<pre class='code text'><code>2, 3, 4, 5, 6, 7, 8, 9, ...</code></pre>
+<p>The first value <code>2</code> is prime, so the rest filters out multiples of <code>2</code>, lazily.</p>
+<pre class='code text'><code>3, 5, 7, 9, 11, 13, 15, ...</code></pre>
+<p>The next surviving first is <code>3</code>, so its rest filters out multiples of <code>3</code>.</p>
+<pre class='code text'><code>5, 7, 11, 13, 17, ...</code></pre>
+<p>The point is that the program does not finish one global filtering pass before producing the next prime. Each prime is produced as a node, and only the part of the stream you actually consume is ever filtered. Ask for seven primes, and only enough filtering happens to deliver seven.</p>
+</div></section>
+<section id='streams-versus-generators' class='ls ls-default'>
+<h2 class='ls-h'><span>Streams Versus Generators</span></h2>
+<div class='ls-body'>
+<p>Generators and streams both give you lazy sequences, but they are built differently, and the difference has real consequences.</p>
+<p>A <strong>generator</strong> is backed by a suspended function execution. When you call <code>next</code>, the function runs until its next <code>yield</code>, then freezes its frame in place until the following <code>next</code>. Its laziness lives in a paused stack frame.</p>
+<pre class='code text'><code>paused function frame ----next----&gt; next yielded value</code></pre>
+<p>A <strong>stream</strong> is plain data: a first value and a function that computes the rest. Its laziness lives in an unrun <code>compute_rest</code>, and once forced, the rest is cached as an ordinary object.</p>
+<pre class='code text'><code>first value ----force----&gt; function computes rest (then cached)</code></pre>
+<p>That structural difference produces the headline distinction from the source. A generator (like any iterator) is <strong>consumed</strong>: walk it once and it is used up; a second pass yields nothing. A stream is not consumed. Because forcing the rest <strong>caches</strong> it rather than discarding it, you can traverse the same stream as many times as you like and get the same values every time.</p>
+<p>The source states the contrast directly: streams &quot;can be passed to pure functions multiple times and yield the same result each time.&quot; The <code>primes</code> stream, in particular, is not &quot;used up&quot; by converting it to a list. You can build the list of the first seven primes, then build it again from the same stream, and get the same seven primes, because the nodes were cached, not consumed.</p>
+<p>The closing thought from the source ties streams back to where you started. Just as linked lists give a simple implementation of the sequence abstraction, streams give a simple, functional, recursive data structure that implements <strong>lazy evaluation</strong> through the use of higher-order functions. The higher-order function is the <code>compute_rest</code> recipe; lazy evaluation is the decision to run it only on demand.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<p>A first trap is reading <code>s.rest</code> as a stored field that is always ready. In a stream, <code>.rest</code> may be a delayed computation that runs the moment you touch it. The <code>@property</code> decorator hides that work behind ordinary attribute syntax.</p>
+<p>A second trap is forgetting the cache. After the rest is forced once, the stream stores it and returns the same object thereafter; it does not recompute. Code that assumes a fresh rest each time gets the identical cached object back, so any side effect or print inside <code>compute_rest</code> runs only on the first <code>.rest</code> access and silently never again.</p>
+<p>A third trap is putting the recursive call <strong>outside</strong> <code>compute_rest</code>. If <code>map_stream</code> or <code>integer_stream</code> calls itself eagerly instead of inside the recipe, it tries to build the entire (possibly infinite) rest immediately and never returns. The recursion must live inside the delayed function.</p>
+<p>A fourth trap is converting an infinite stream to a <code>list</code> directly. <code>list(positives)</code> would try to force every node and never finish. Use a bounded helper like <code>first_k_as_list</code> that stops after a finite number of values.</p>
+<p>A fifth trap is &quot;fixing&quot; the official <code>not_divible</code> spelling. For source parity it is reproduced exactly; correcting it would make your code differ from the textbook&#x27;s.</p>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>Using the functions from this lesson, what does <code>first_k_as_list(filter_stream(lambda x: x % 2 == 0, integer_stream(1)), 4)</code> evaluate to?</li>
+<li>In the comparison <code>r = Link(1, Link(2+3, Link(9)))</code> versus <code>s = Stream(1, lambda: Stream(2+3, lambda: Stream(9)))</code>, when does the expression <code>2+3</code> actually evaluate in each case?</li>
+<li>Why does <code>integer_stream(1)</code> not hang, even though <code>integer_stream</code> calls itself?</li>
+<li>Why must the recursive call in <code>map_stream</code> sit inside <code>compute_rest</code>?</li>
+<li>In <code>filter_stream</code>, why is <code>compute_rest()</code> called immediately in the <code>else</code> branch but only stored in the <code>if</code> branch?</li>
+<li>The source says a stream &quot;can be passed to pure functions multiple times and yield the same result each time.&quot; What feature of the <code>rest</code> property makes that true, and how does this differ from a generator?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li><code>[2, 4, 6, 8]</code>. <code>integer_stream(1)</code> is the integers from <code>1</code> upward; <code>filter_stream</code> keeps only the even ones, lazily; and <code>first_k_as_list(..., 4)</code> forces just enough of that stream to collect the first four even integers.</li>
+<li>For the <code>Link</code>, <code>2+3</code> evaluates to <code>5</code> immediately when <code>r</code> is built, because the whole linked list is constructed up front. For the <code>Stream</code>, <code>2+3</code> sits inside a <code>lambda</code> and does not evaluate until <code>s.rest</code> is forced.</li>
+<li>Because the recursive call <code>integer_stream(first+1)</code> is inside <code>compute_rest</code>, which is not run when the stream is created. <code>integer_stream(1)</code> returns a single node immediately; the next node is built only when its rest is forced.</li>
+<li>So that mapping one node does not eagerly map the entire rest. With the recursive call deferred inside <code>compute_rest</code>, <code>map_stream</code> produces one transformed value now and maps the rest only when that rest is forced, which keeps it usable on infinite streams.</li>
+<li>If the current first passes the predicate, it becomes a node, and the rest is deferred until forced (stored as <code>compute_rest</code>). If the current first fails, there is no node to emit, so the function must skip it by computing and returning the filtered rest right away.</li>
+<li>The <code>rest</code> property caches its result in <code>self._rest</code> after the first access, so forcing the rest stores it rather than discarding it; traversing the stream again returns the same cached nodes. A generator instead holds a single suspended execution that is consumed as it advances, so a second pass yields nothing.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>A stream is a lazily computed linked list: it stores a <code>first</code> value and a <code>compute_rest</code> function for the rest, and it forces and <strong>caches</strong> that rest only when <code>.rest</code> is first accessed. Because the rest is just a recipe, streams can represent infinite sequences like <code>integer_stream(1)</code> without running away. Stream-processing functions stay lazy by computing the first result now and deferring the recursive call inside <code>compute_rest</code>; this is exactly how <code>map_stream</code>, <code>filter_stream</code>, and the sieve-of-Eratosthenes <code>primes</code> stream work. Unlike a generator, which is a single suspended execution that gets consumed, a stream is functional, recursive data that can be traversed repeatedly and yields the same values each time, implementing lazy evaluation through higher-order functions. That completes the central idea of implicit sequences: a sequence can be real and useful even when its elements are produced only as they are needed.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>This block is the lesson in miniature: a three-node stream read access by access. Stepping through it draws the <strong>environment diagram</strong> of laziness: each <code>Stream</code> object on the heap holds its <code>first</code> beside a <code>_compute_rest</code> lambda that is a not-yet-forced promise, and you can watch that field flip to <code>None</code> as touching <code>.rest</code> realizes the next node and caches it. Before you step through the block below, write down three predictions: which lines run a stored <code>lambda</code>, how many times <code>__init__</code> runs, and what the final line prints.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (11)</span>
+<span style="color: #859900">class</span> <span style="color: #268bd2">Stream</span><span style="color: #657b83">:</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;A lazily computed linked list.&quot;&quot;&quot;</span>
+    <span style="color: #859900">class</span> <span style="color: #268bd2">empty</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">def</span> <span style="color: #268bd2">__repr__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;Stream.empty&#39;</span>
+    <span style="color: #657b83">empty</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">empty()</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">first,</span> <span style="color: #657b83">compute_rest</span><span style="color: #93a1a1">=</span><span style="color: #859900">lambda</span><span style="color: #657b83">:</span> <span style="color: #657b83">empty):</span>
+        <span style="color: #859900">assert</span> <span style="color: #657b83">callable(compute_rest),</span> <span style="color: #2aa198">&#39;compute_rest must be callable.&#39;</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">first</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_compute_rest</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">compute_rest</span>
+    <span style="color: #268bd2">@property</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">rest</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #93a1a1">&quot;&quot;&quot;Return the rest of the stream, computing it if necessary.&quot;&quot;&quot;</span>
+        <span style="color: #859900">if</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_compute_rest</span> <span style="color: #859900">is</span> <span style="color: #859900">not</span> <span style="color: #2aa198">None</span><span style="color: #657b83">:</span>
+            <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_rest</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_compute_rest()</span>
+            <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_compute_rest</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">None</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">_rest</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__repr__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #2aa198">&#39;Stream({0}, &lt;...&gt;)&#39;</span><span style="color: #93a1a1">.</span><span style="color: #657b83">format(</span><span style="color: #268bd2">repr</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first))</span>
+
+
+<span style="color: #657b83">s</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Stream(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #859900">lambda</span><span style="color: #657b83">:</span> <span style="color: #657b83">Stream(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #859900">lambda</span><span style="color: #657b83">:</span> <span style="color: #657b83">Stream(</span><span style="color: #2aa198">3</span><span style="color: #657b83">)))</span>
+<span style="color: #657b83">a</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span>
+<span style="color: #657b83">b</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span>
+<span style="color: #657b83">c</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span>
+<span style="color: #657b83">again</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">s</span><span style="color: #93a1a1">.</span><span style="color: #657b83">rest</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(a,</span> <span style="color: #657b83">b,</span> <span style="color: #657b83">c,</span> <span style="color: #657b83">again)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/34c74f0bf6cf.json' data-mount='st4'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st4' hidden></div></figure>
+<p>Step through it and check each prediction. <code>s.first</code> runs no <code>lambda</code>; the <code>b</code> and <code>c</code> lines force and cache the second and third nodes, so <code>__init__</code> runs three times. The <code>again</code> line recomputes nothing: <code>_compute_rest</code> flipped to <code>None</code> as each rest was realized, and the print shows <code>1 2 3 2</code>.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>4.2-D Iterable and Iterator Interfaces</span></a><a class='pg pg-next' href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>4.3-A Tables and Declarative Queries</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#a-train-you-build-one-car-at-a-time'>A Train You Build One Car at a Time</a></li><li><a href='#the-formal-idea-a-lazily-computed-linked-list'>The Formal Idea: A Lazily Computed Linked List</a></li><li><a href='#the-stream-class-token-by-token'>The Stream Class, Token by Token</a></li><li><a href='#streams-next-to-linked-lists'>Streams Next to Linked Lists</a></li><li><a href='#tracing-when-the-rest-is-forced'>Tracing When the Rest Is Forced</a></li><li><a href='#infinite-streams'>Infinite Streams</a></li><li><a href='#mapping-and-filtering-streams-lazily'>Mapping and Filtering Streams, Lazily</a></li><li><a href='#the-sieve-of-eratosthenes-as-a-stream'>The Sieve of Eratosthenes as a Stream</a></li><li><a href='#streams-versus-generators'>Streams Versus Generators</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

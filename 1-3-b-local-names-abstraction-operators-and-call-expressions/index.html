@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>1.3 Defining New Functions: Local Names, Abstraction, and Operators · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/' class='active'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 1</span><span class='dot'>/</span><span class='eb-sec'>1.3 Defining New Functions</span></div><h1 class='lesson-title'>1.3 Defining New Functions: Local Names, Abstraction, and Operators</h1><div class='reading-meta'>&#9719; approx. 18 min read <span class='rm-sep'>&middot;</span> 22 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>You already know how to define a function. This lesson is about three ideas that decide whether the functions you write are easy or painful to reason about.</p>
+<p>By the end you will be able to do four things. You will explain why the parameter names inside a function are private to that function and invisible to the outside world. You will choose names that make a reader trust a function without reopening its body. You will use a function as an <strong>abstraction</strong> — a sealed box you can rely on by its name and behavior alone. And you will see that the arithmetic operators you have been typing, like <code>+</code> and <code>//</code>, are really just a compact spelling for ordinary function calls.</p>
+<p>The thread tying all of this together is one question that comes up constantly once programs get bigger: when I look at a name, where does it live, and who is allowed to see it?</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='an-analogy-a-recipe-card-and-its-scratch-paper' class='ls ls-default'>
+<h2 class='ls-h'><span>An Analogy: A Recipe Card and Its Scratch Paper</span></h2>
+<div class='ls-body'>
+<p>Picture a chef working from a recipe card. The card says &quot;beat the eggs until the mixture doubles.&quot; To carry that out, the chef grabs a piece of scratch paper, scribbles a timer, notes &quot;mixture looks pale,&quot; and crosses things off as they go.</p>
+<p>When the dish is done, the scratch paper goes in the trash. The next cook who picks up the same recipe card does not inherit your scribbles. They start with their own blank scratch paper. The recipe card — the public, reusable thing — never mentions your private notes at all.</p>
+<p>A function works exactly like this. The recipe card is the function: a public name and a described behavior that anyone can use. The scratch paper is the function&#x27;s <strong>local frame</strong>: the parameters and any helper names it creates while it runs. Those local names are real and useful while the call is happening, and then they are gone. They never leak back onto the recipe card, and a second call gets fresh scratch paper of its own.</p>
+<p>Hold onto two consequences of this picture, because the rest of the lesson is built on them. First, because the scratch paper is private, the name you scribble on it does not matter to anyone outside — you could call your timer note <code>t</code> or <code>egg_timer</code> and the finished dish is identical. Second, because the recipe card is public, the name on the card matters enormously: it is the only thing the next cook reads before deciding to trust it.</p>
+</div></section>
+<section id='local-names-are-private-to-one-call' class='ls ls-default'>
+<h2 class='ls-h'><span>Local Names Are Private to One Call</span></h2>
+<div class='ls-body'>
+<p>When a function is called, Python builds a fresh <strong>local frame</strong> for that call. Every name created during the call — the formal parameters, plus anything the body assigns — lives in that frame and nowhere else.</p>
+<p>A direct consequence is that the implementer&#x27;s choice of parameter name is not part of the function&#x27;s meaning. These two definitions of <code>square</code> are interchangeable:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">operator</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">mul</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">square</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">mul(x,</span> <span style="color: #657b83">x)</span>
+</code></pre>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">operator</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">mul</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">square</span><span style="color: #657b83">(y):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">mul(y,</span> <span style="color: #657b83">y)</span>
+</code></pre>
+<p>The first writes its parameter as <code>x</code> and the second writes it as <code>y</code>, but both describe the same behavior: take the argument, multiply it by itself, return the product. A caller cannot tell them apart, because a caller only ever sees the result:</p>
+<pre class='code text'><code>square(5) -&gt; 25</code></pre>
+<p>The name <code>x</code> (or <code>y</code>) is a <strong>local name</strong>. It is a placeholder that exists only inside the body, only while that particular call is running. The principle here is that the meaning of a function should be independent of the parameter names chosen by its author, and that is exactly why the names are kept local to the body in the first place.</p>
+<p>Read a local name with this sentence in your head:</p>
+<pre class='code text'><code>This name exists for this call, while this call is active.</code></pre>
+</div></section>
+<section id='why-out-of-scope-is-a-real-rule-not-a-quirk' class='ls ls-default'>
+<h2 class='ls-h'><span>Why &quot;Out of Scope&quot; Is a Real Rule, Not a Quirk</span></h2>
+<div class='ls-body'>
+<p>The region of a program where a name is visible is called its <strong>scope</strong>. The scope of a local name is limited to the body of the user-defined function that defines it. When the call ends and that name can no longer be reached, we say it is <strong>out of scope</strong>.</p>
+<p>This is worth slowing down on, because it explains an error you will hit. Here is a small function that uses a local helper name, <code>difference</code>, to make its body easier to read:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">percent_difference</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #657b83">difference</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">abs</span><span style="color: #657b83">(x</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">y)</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">100</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">difference</span> <span style="color: #93a1a1">/</span> <span style="color: #657b83">x</span>
+</code></pre>
+<p>Inside the body, <code>difference</code> holds the absolute gap between <code>x</code> and <code>y</code>, and the function reports that gap as a percentage of <code>x</code>. Now watch what happens if you try to use <code>difference</code> after the call:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (4)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">percent_difference</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #657b83">difference</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">abs</span><span style="color: #657b83">(x</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">y)</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">100</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">difference</span> <span style="color: #93a1a1">/</span> <span style="color: #657b83">x</span>
+
+<span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">percent_difference(</span><span style="color: #2aa198">40</span><span style="color: #657b83">,</span> <span style="color: #2aa198">50</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">difference</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/d1158b280a51.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>The last line raises a <code>NameError</code>. The name <code>difference</code> was created in the local frame for the call to <code>percent_difference</code>, and that frame is gone once the call returns. In the global frame, <code>difference</code> was never bound, so it is out of scope. The value that survives is <code>result</code>, because the function handed its return value back to the caller — but the private helper name did not come along.</p>
+<p>This is not Python being forgetful. It is Python protecting each call&#x27;s scratch paper. If every local name leaked into the global frame, helper names from one function could silently collide with helper names from another, and large programs would become impossible to reason about. Local scope keeps temporary work contained.</p>
+</div></section>
+<section id='walking-the-frames-of-percent-difference' class='ls ls-default'>
+<h2 class='ls-h'><span>Walking the Frames of percent_difference</span></h2>
+<div class='ls-body'>
+<p>Trace <code>percent_difference(40, 50)</code> by hand, watching where each name lives.</p>
+<p>The call opens a local frame and binds the parameters:</p>
+<pre class='code text'><code>x -&gt; 40
+y -&gt; 50</code></pre>
+<p>The first line of the body assigns a local name:</p>
+<pre class='code text'><code>difference = abs(40 - 50)
+           = abs(-10)
+           = 10</code></pre>
+<p>The return line uses those local names to compute the result:</p>
+<pre class='code text'><code>return 100 * difference / x
+       = 100 * 10 / 40
+       = 1000 / 40
+       = 25.0</code></pre>
+<p>So the call evaluates to <code>25.0</code>. After it returns, here is the state of the world:</p>
+<pre class='code text'><code>Global frame
+percent_difference -&gt; function percent_difference(x, y)
+result             -&gt; 25.0
+
+(local frame for percent_difference is gone)
+x          -&gt; 40        these lived only in the call
+y          -&gt; 50
+difference -&gt; 10</code></pre>
+<p>The global frame keeps <code>percent_difference</code> (the function) and <code>result</code> (the returned value). It does not keep <code>x</code>, <code>y</code>, or <code>difference</code>. Those were on the scratch paper.</p>
+</div></section>
+<section id='follow-the-line-looking-up-a-name-versus-a-nameerror' class='ls ls-default'>
+<h2 class='ls-h'><span>Follow the Line: Looking Up a Name Versus a NameError</span></h2>
+<div class='ls-body'>
+<p>When Python evaluates a bare name, it looks that name up in the current environment. Here is the successful lookup of <code>result</code> in the global frame:</p>
+<pre class='code anatomy'><code>result
+├─ result ........ look up the name in the current environment
+├─ found ......... bound in the global frame to 25.0
+└─ evaluates to    25.0</code></pre>
+<p>And here is the failing lookup of <code>difference</code> from the global frame, after the call has returned:</p>
+<pre class='code anatomy'><code>difference
+├─ difference .... look up the name in the current environment
+├─ search ........ not bound in the global frame
+├─ search ........ the local frame that bound it is gone (out of scope)
+└─ evaluates to    NameError: name &#x27;difference&#x27; is not defined</code></pre>
+<p>The two lines look almost identical. The only difference is which frame each name lives in, which is the whole point of scope.</p>
+</div></section>
+<section id='choosing-names-that-teach-the-reader' class='ls ls-default'>
+<h2 class='ls-h'><span>Choosing Names That Teach the Reader</span></h2>
+<div class='ls-body'>
+<p>Because parameter names are private, beginners sometimes conclude that names do not matter. The opposite is true: names are one of the most important tools you have for writing programs a human can read. Python will accept almost any name, but you are writing for the next person as much as for the machine, and good names are a gift to that person.</p>
+<p>The original text gives concrete naming guidelines worth internalizing:</p>
+<pre class='code text'><code>1. Function names are lowercase, with words separated by underscores.
+   Descriptive names are encouraged.
+2. Function names typically evoke operations applied to arguments by the
+   interpreter (e.g., print, add, square) or the name of the quantity that
+   results (e.g., max, abs, sum).
+3. Parameter names are lowercase, with words separated by underscores.
+   Single-word names are preferred.
+4. Parameter names should evoke the role of the parameter in the function,
+   not just the kind of argument that is allowed.
+5. Single letter parameter names are acceptable when their role is obvious,
+   but avoid &quot;l&quot; (lowercase ell), &quot;O&quot; (capital oh), or &quot;I&quot; (capital i) to
+   avoid confusion with numerals.</code></pre>
+<p>Guideline 4 is the heart of it. A parameter name should tell the reader what role the value plays, not merely what type it is. Compare two versions of the same computation:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (5)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">f</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y):</span>
+    <span style="color: #657b83">z</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">abs</span><span style="color: #657b83">(x</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">y)</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">100</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">z</span> <span style="color: #93a1a1">/</span> <span style="color: #657b83">x</span>
+</code></pre>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (6)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">percent_difference</span><span style="color: #657b83">(original,</span> <span style="color: #657b83">changed):</span>
+    <span style="color: #657b83">difference</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">abs</span><span style="color: #657b83">(original</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">changed)</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">100</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">difference</span> <span style="color: #93a1a1">/</span> <span style="color: #657b83">original</span>
+</code></pre>
+<p>Python runs both identically. But version (6) carries meaning. A reader who has never seen the body can still guess what <code>percent_difference(original, changed)</code> is for, because every name announces its role. Version (5) forces the reader to mentally execute the body just to recover that meaning. The rule is not &quot;longer names are always better&quot;; it is &quot;use names that reveal the role of the value.&quot;</p>
+</div></section>
+<section id='functions-as-abstractions' class='ls ls-default'>
+<h2 class='ls-h'><span>Functions as Abstractions</span></h2>
+<div class='ls-body'>
+<p>This is where local names and good names meet. An <strong>abstraction</strong> hides details behind a name so you can use an idea without reopening its implementation. A well-named function is exactly that: a sealed box.</p>
+<p>The original text puts it plainly. The users of a function may not have written it themselves, but may have obtained it from another programmer as a &quot;black box.&quot; A programmer should not need to know how a function is implemented in order to use it. If you know the name and the behavior, you are done.</p>
+<p>Picture that black box with a line drawn through it: above the line is everything you need to use <code>square</code>, and below it is the implementation you are free to ignore.</p>
+<p><img class="figure" src="figures/abstraction-barrier.svg" alt="A diagram of the function square drawn as a black box split by a horizontal dashed line called the abstraction barrier. Above the barrier, labeled How you USE it, the value 5 flows in on the left and the value 25 comes out on the right. Below the barrier, drawn faded and labeled How it WORKS hidden, is the body return mul of x and x, showing that you can use square without seeing how it works inside."></p>
+<p>Concretely, once <code>square</code> exists, you should be able to read:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (7)</span>
+<span style="color: #657b83">square(</span><span style="color: #2aa198">12</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>and immediately understand that the result is:</p>
+<pre class='code text'><code>144</code></pre>
+<p>without rereading the body of <code>square</code> every single time. The name <code>square</code> is doing real work: it lets you reason at the level of &quot;the square of twelve&quot; instead of &quot;multiply twelve by itself using <code>mul</code>.&quot; If the identical body were named <code>banana</code>, the machine would still compute <code>144</code>, but the human reader would lose the entire benefit of the abstraction. The local scope makes the box sealed; the good name makes the box trustworthy.</p>
+<h3>The Box Depends on Behavior, Not Implementation</h3>
+<p>To feel how strongly the box hides its contents, look at two versions of <code>square</code> whose bodies are not just renamed but genuinely different. The first multiplies the argument by itself, exactly as you would expect:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (8)</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">operator</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">mul</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">square</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">mul(x,</span> <span style="color: #657b83">x)</span>
+</code></pre>
+<p>The second computes the same number by a stranger route — it multiplies <code>x</code> by <code>x - 1</code> and then adds one more <code>x</code>:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (9)</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">operator</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">mul</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">square</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">mul(x,</span> <span style="color: #657b83">x</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">x</span>
+</code></pre>
+<p>These are not the trivial <code>x</code>-versus-<code>y</code> rename from earlier; the two bodies do different arithmetic. Yet they agree on every input, because <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4445em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span>. Trace the value <code>4</code> through each to see it:</p>
+<pre class='code text'><code>first body:   mul(4, 4)          = 16
+second body:  mul(4, 3) + 4
+              = 12 + 4           = 16</code></pre>
+<p>From the outside, <code>square(4)</code> is <code>16</code> either way, and a caller has no means to discover which body ran. This is the real lesson of abstraction: a function is defined by its <em>behavior</em>, not by its implementation. Any function that computes the square is equally good, because the only thing that escapes the box is the returned value. Whichever body you pick, the name <code>square</code> keeps its promise, so code that uses <code>square</code> does not care which one is installed.</p>
+<h3>Domain, Range, and Intent</h3>
+<p>If a function is used by its behavior alone, then &quot;behavior&quot; is the thing you have to pin down precisely. The original text names three attributes that, taken together, capture everything a caller needs to know about a functional abstraction:</p>
+<ul>
+<li>The <strong>domain</strong> of a function is the set of arguments it can take.</li>
+<li>The <strong>range</strong> of a function is the set of values it can return.</li>
+<li>The <strong>intent</strong> of a function is the relationship it computes between inputs and output (as well as any side effects).</li>
+</ul>
+<p>Notice what is and is not on that list. Domain and range fix what kinds of values go in and come out; intent fixes the relationship between them. None of the three mentions <em>how</em> the work is done — the body is deliberately left out, which is exactly what makes these three the public face of the box.</p>
+<p>Spell them out for <code>square</code>:</p>
+<ul>
+<li><strong>Domain:</strong> any single real number. You may hand <code>square</code> one number, and any real number is allowed.</li>
+<li><strong>Range:</strong> any non-negative real number. A real number times itself is never negative, so nothing below zero can ever come back.</li>
+<li><strong>Intent:</strong> the output is the square of the input.</li>
+</ul>
+<p>Those three lines describe both bodies above equally well, which is the whole point: they are a contract that the implementation must honor, and either version of <code>square</code> honors it. When you reach for a function someone else wrote, ask these same three questions — what may I pass in, what can come back, and what relationship connects them — and you can use the function correctly without ever opening it.</p>
+</div></section>
+<section id='operators-are-function-like-syntax' class='ls ls-default'>
+<h2 class='ls-h'><span>Operators Are Function-Like Syntax</span></h2>
+<div class='ls-body'>
+<p>Here is the surprising payoff. The arithmetic you have been writing with symbols is, underneath, the same call expressions you just studied.</p>
+<p>Mathematical operators such as <code>+</code> and <code>-</code> were your first example of a method of combination, but Python has not yet been given an evaluation procedure for expressions built from them. The procedure is simple: treat an operator expression as shorthand for a function call. Start with addition:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (10)</span>
+<span style="color: #2aa198">2</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">3</span>
+</code></pre>
+<p>This evaluates to:</p>
+<pre class='code text'><code>5</code></pre>
+<p>You can read <code>2 + 3</code> as short-hand for a call to the <code>add</code> function from the <code>operator</code> module:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (11)</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">operator</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">add</span>
+
+<span style="color: #657b83">add(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>which also produces:</p>
+<pre class='code text'><code>5</code></pre>
+<p>So <code>+</code> is an <strong>operator</strong>: it is built into Python&#x27;s expression grammar. <code>add</code> is an ordinary function called with the usual <code>name(arg, arg)</code> shape. The two forms are different spellings of one operation:</p>
+<pre class='code text'><code>2 + 3       operator form
+add(2, 3)   function-call form</code></pre>
+<p>The connection matters because it tells you operators are not magic. They are compact syntax for common functions, and they obey the same evaluation rules.</p>
+</div></section>
+<section id='follow-the-line-an-operator-is-a-hidden-call' class='ls ls-default'>
+<h2 class='ls-h'><span>Follow the Line: An Operator Is a Hidden Call</span></h2>
+<div class='ls-body'>
+<p>Read <code>2 + 3</code> the way Python ultimately treats it — as a call to <code>add</code> whose two operands are the surrounding subexpressions:</p>
+<pre class='code anatomy'><code>2 + 3
+├─ 2 ........... the left operand, the integer two
+├─ + ........... the operator: shorthand for the add function
+├─ 3 ........... the right operand, the integer three
+├─ becomes ..... add(2, 3)
+└─ evaluates to  5</code></pre>
+<p>The same picture works for any binary operator. Once you see the hidden call, nested arithmetic stops being mysterious, which is exactly the next point.</p>
+</div></section>
+<section id='operator-precedence-is-nested-calls' class='ls ls-default'>
+<h2 class='ls-h'><span>Operator Precedence Is Nested Calls</span></h2>
+<div class='ls-body'>
+<p>Because operators are just calls, an expression with several of them is just calls nested inside calls — and Python&#x27;s precedence rules decide the nesting. Multiplication binds tighter than addition, so:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (12)</span>
+<span style="color: #2aa198">2</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">3</span> <span style="color: #93a1a1">*</span> <span style="color: #2aa198">4</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">5</span>
+</code></pre>
+<p>evaluates to:</p>
+<pre class='code text'><code>19</code></pre>
+<p>That is the same result as writing the nesting out by hand with <code>add</code> and <code>mul</code>:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (13)</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">operator</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">add,</span> <span style="color: #657b83">mul</span>
+
+<span style="color: #657b83">add(add(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #657b83">mul(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)),</span> <span style="color: #2aa198">5</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>which also gives:</p>
+<pre class='code text'><code>19</code></pre>
+<p>Read the call form from the inside out to see why. The innermost call <code>mul(3, 4)</code> produces <code>12</code>. The next call <code>add(2, 12)</code> produces <code>14</code>. The outer call <code>add(14, 5)</code> produces <code>19</code>. Precedence is nothing more than the rule that decided <code>3 * 4</code> becomes the inner call instead of <code>2 + 3</code>.</p>
+<p>Parentheses let you override that nesting. Grouping the additions first:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (14)</span>
+<span style="color: #657b83">(</span><span style="color: #2aa198">2</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">(</span><span style="color: #2aa198">4</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">5</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>evaluates to:</p>
+<pre class='code text'><code>45</code></pre>
+<p>which matches the explicitly nested calls:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (15)</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">operator</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">add,</span> <span style="color: #657b83">mul</span>
+
+<span style="color: #657b83">mul(add(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">),</span> <span style="color: #657b83">add(</span><span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">))</span>
+</code></pre>
+<p>also producing:</p>
+<pre class='code text'><code>45</code></pre>
+<p>Here the parentheses forced <code>add(2, 3)</code> and <code>add(4, 5)</code> to be the inner calls, and <code>mul</code> to be the outer one: <code>mul(5, 9)</code> is <code>45</code>. Whenever an arithmetic expression looks tangled, rewrite it as nested calls and evaluate from the inside out.</p>
+</div></section>
+<section id='follow-the-line-evaluating-the-precedence-example' class='ls ls-default'>
+<h2 class='ls-h'><span>Follow the Line: Evaluating the Precedence Example</span></h2>
+<div class='ls-body'>
+<p>Trace <code>2 + 3 * 4 + 5</code> as the nested calls it stands for:</p>
+<pre class='code anatomy'><code>2 + 3 * 4 + 5
+├─ 3 * 4 ............... innermost call mul(3, 4)  -&gt;  12
+├─ 2 + 12 ............. next call add(2, 12)  -&gt;  14
+├─ 14 + 5 ............. outer call add(14, 5)  -&gt;  19
+└─ evaluates to        19</code></pre>
+<p>Each branch is one completed call feeding the next, exactly as Python&#x27;s precedence dictates.</p>
+</div></section>
+<section id='true-division-and-floor-division' class='ls ls-default'>
+<h2 class='ls-h'><span>True Division and Floor Division</span></h2>
+<div class='ls-body'>
+<p>Division comes in two flavors, and they are also operators backed by functions. The <code>/</code> operator performs <strong>true division</strong> and produces a floating-point (decimal) value — even when the divisor evenly divides the dividend:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (16)</span>
+<span style="color: #2aa198">5</span> <span style="color: #93a1a1">/</span> <span style="color: #2aa198">4</span>
+</code></pre>
+<p>Result:</p>
+<pre class='code text'><code>1.25</code></pre>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (17)</span>
+<span style="color: #2aa198">8</span> <span style="color: #93a1a1">/</span> <span style="color: #2aa198">4</span>
+</code></pre>
+<p>Result:</p>
+<pre class='code text'><code>2.0</code></pre>
+<p>Notice that <code>8 / 4</code> is <code>2.0</code>, not <code>2</code>. True division always hands back a float.</p>
+<p>The <code>//</code> operator performs <strong>floor division</strong>: it rounds the result down to an integer.</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (18)</span>
+<span style="color: #2aa198">5</span> <span style="color: #93a1a1">//</span> <span style="color: #2aa198">4</span>
+</code></pre>
+<p>Result:</p>
+<pre class='code text'><code>1</code></pre>
+<p>The word <strong>floor</strong> comes from the floor function in mathematics. For positive numbers, floor division moves down to the nearest whole number:</p>
+<div class='math'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.4em;vertical-align:-0.95em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">⌊</span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">4</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">5</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">⌋</span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">⌊</span><span class="mord">1.25</span><span class="mclose delimcenter" style="top:0em;">⌋</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span></span></div>
+<p>This is not rounding to the nearest integer. It moves down. That distinction is invisible until you reach a negative number:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (19)</span>
+<span style="color: #93a1a1">-</span><span style="color: #2aa198">5</span> <span style="color: #93a1a1">//</span> <span style="color: #2aa198">4</span>
+</code></pre>
+<p>Result:</p>
+<pre class='code text'><code>-2</code></pre>
+<p>The exact quotient is <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">−</span><span class="mord">1.25</span></span></span></span></span>, and the floor is the next integer below it, which is <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">−</span><span class="mord">2</span></span></span></span></span>. Many students expect <code>-1</code> here because everyday language treats &quot;drop the decimal&quot; as the same thing as floor division. That shortcut works for positive numbers and fails for negatives. The number line makes it concrete:</p>
+<pre class='code text'><code>... -3    -2    -1     0     1 ...
+          ^
+       floor of -1.25</code></pre>
+<p>The floor is the greatest integer that is less than or equal to the exact quotient. Since <code>-1</code> is greater than <code>-1.25</code>, it is too high; the floor is <code>-2</code>.</p>
+</div></section>
+<section id='the-operator-forms-of-division' class='ls ls-default'>
+<h2 class='ls-h'><span>The Operator Forms of Division</span></h2>
+<div class='ls-body'>
+<p>Just as <code>+</code> is shorthand for <code>add</code>, the two division operators are shorthand for the <code>truediv</code> and <code>floordiv</code> functions:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (20)</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">operator</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">truediv,</span> <span style="color: #657b83">floordiv</span>
+
+<span style="color: #657b83">truediv(</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>Result:</p>
+<pre class='code text'><code>1.25</code></pre>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (21)</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">operator</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">truediv,</span> <span style="color: #657b83">floordiv</span>
+
+<span style="color: #657b83">floordiv(</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>Result:</p>
+<pre class='code text'><code>1</code></pre>
+<p>So <code>5 / 4</code> and <code>truediv(5, 4)</code> are the same operation written two ways, and likewise <code>5 // 4</code> and <code>floordiv(5, 4)</code>. The operator form is the compact spelling; the function form makes the underlying call visible.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>This block is the lesson&#x27;s capstone: it defines what it calls, mixes assignment statements with a function call, and ends on a bare final line. Because it mixes a function call with assignments, it is a good place to watch local scope appear and disappear in an <strong>environment diagram</strong> of the run. Before you step through it, write down three predictions: how many local frames will open over the whole run, every name the global frame will hold when the last line finishes, and whether that final line adds a new binding.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (22)</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">operator</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">floordiv,</span> <span style="color: #657b83">truediv</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">percent_difference</span><span style="color: #657b83">(original,</span> <span style="color: #657b83">changed):</span>
+    <span style="color: #657b83">difference</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">abs</span><span style="color: #657b83">(original</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">changed)</span>
+    <span style="color: #859900">return</span> <span style="color: #2aa198">100</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">difference</span> <span style="color: #93a1a1">/</span> <span style="color: #657b83">original</span>
+
+<span style="color: #657b83">answer</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">percent_difference(</span><span style="color: #2aa198">40</span><span style="color: #657b83">,</span> <span style="color: #2aa198">50</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">quotient</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">floordiv(</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">exact</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">truediv(</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">answer</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/024dc466a43d.json' data-mount='st1'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st1' hidden></div></figure>
+<p>Step through it one line at a time and check each prediction. Only one local frame opens: <code>percent_difference</code> is the only user-defined function here, and <code>abs</code>, <code>floordiv</code>, and <code>truediv</code> are built-ins that open no frames. While the call is active, that frame holds <code>original -&gt; 40</code>, <code>changed -&gt; 50</code>, and <code>difference -&gt; 10</code>; when the call returns, it disappears and those names go out of scope. The global frame settles with six names: <code>percent_difference</code>, <code>floordiv</code>, <code>truediv</code>, <code>answer</code> bound to <code>25.0</code>, <code>quotient</code> bound to <code>1</code>, and <code>exact</code> bound to <code>1.25</code>. The name <code>difference</code> is nowhere, because it lived only on the call&#x27;s scratch paper, and the final line binds nothing — a bare name is an expression, not an assignment.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<ul>
+<li>Looking for a local name in the global frame. The local frame that created it is gone after the call returns, so Python raises a <code>NameError</code>. Always ask: which frame was this name created in?</li>
+<li>Believing parameter names matter to the caller. They do not. <code>def square(x)</code> and <code>def square(y)</code> describe the same behavior; only the body&#x27;s consistency matters.</li>
+<li>Concluding that names do not matter at all. Parameter names are private, but the function name and well-chosen parameter names are how a reader trusts the abstraction.</li>
+<li>Reopening a function&#x27;s body every time you use it. The point of an abstraction is that the name and behavior are enough; treat a good function as a black box.</li>
+<li>Expecting <code>/</code> to give an integer. True division always returns a float, so <code>8 / 4</code> is <code>2.0</code>, not <code>2</code>.</li>
+<li>Treating <code>//</code> as ordinary rounding. Floor division moves down, so <code>-5 // 4</code> is <code>-2</code>, not <code>-1</code>.</li>
+<li>Thinking operators are a separate kind of magic. <code>+</code>, <code>*</code>, <code>/</code>, and <code>//</code> are shorthand for the <code>add</code>, <code>mul</code>, <code>truediv</code>, and <code>floordiv</code> functions.</li>
+</ul>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>Why do <code>def square(x): return mul(x, x)</code> and <code>def square(y): return mul(y, y)</code> behave identically?</li>
+<li>Consider <code>def tip(bill, rate): gratuity = bill * rate; return bill + gratuity</code>. After running <code>total = tip(20, 0.2)</code>, what does <code>total</code> hold, and what happens if the next line is a bare <code>gratuity</code>?</li>
+<li>Guideline 4 says a parameter name should evoke the role of the parameter. Why does that help the next reader more than a name that just states the type?</li>
+<li>What does it mean to treat a function as a black box, and how do local names make that possible?</li>
+<li>Rewrite <code>2 + 3 * 4 + 5</code> as nested <code>add</code> and <code>mul</code> calls, and explain what decided the nesting.</li>
+<li>What is the value of <code>8 / 4</code>, what is the value of <code>5 // 4</code>, and why is <code>-5 // 4</code> equal to <code>-2</code> rather than <code>-1</code>?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li>Parameter names are local placeholders with no meaning outside the body. Both definitions describe the same behavior — multiply the argument by itself — so a caller, who only sees the result, cannot tell them apart.</li>
+<li><code>total</code> holds <code>24.0</code>, the value the call returned to the global frame. The bare <code>gratuity</code> raises a <code>NameError</code>, because <code>gratuity</code> was bound only in the local frame for the call to <code>tip</code>; that frame is gone once the call returns, so the name is out of scope and was never bound in the global frame.</li>
+<li>The type only tells you what is allowed in; the role tells you what the value means in this computation, which is what a reader needs to predict behavior without executing the body.</li>
+<li>A black box is something you use by its name and behavior without knowing its implementation. Local names keep the function&#x27;s internal helpers private, so nothing inside the box leaks out and you can rely on it from the outside alone.</li>
+<li><code>add(add(2, mul(3, 4)), 5)</code>, which evaluates to <code>19</code>. Precedence made <code>3 * 4</code> the innermost call because multiplication binds tighter than addition.</li>
+<li><code>8 / 4</code> is <code>2.0</code> because true division always returns a float; <code>5 // 4</code> is <code>1</code>; <code>-5 // 4</code> is <code>-2</code> because floor division takes the greatest integer less than or equal to the exact quotient <code>-1.25</code>, and that integer is <code>-2</code>.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>Every function call runs inside its own local frame, and the names created there — the parameters and any helpers — are private to that call. Their <strong>scope</strong> is the function body, so they go out of scope the moment the call returns, which is why reaching for a local name from the outside raises a <code>NameError</code>. Because parameter names are private, the implementer is free to choose them, but the function name and well-chosen parameter names are exactly what let a reader treat the function as a trustworthy <strong>abstraction</strong> — a black box used by name and behavior alone. Finally, the arithmetic operators are not a separate magic: <code>+</code>, <code>*</code>, <code>/</code>, and <code>//</code> are shorthand for the <code>add</code>, <code>mul</code>, <code>truediv</code>, and <code>floordiv</code> functions, nested arithmetic is just nested calls governed by precedence, and the two divisions differ in that <code>/</code> always returns a float while <code>//</code> floors the quotient downward.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>1.3-A Function Definitions, Calls, and Environment Frames</span></a><a class='pg pg-next' href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>1.4 Function Design, Documentation, Comments, and Default Arguments</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#an-analogy-a-recipe-card-and-its-scratch-paper'>An Analogy: A Recipe Card and Its Scratch Paper</a></li><li><a href='#local-names-are-private-to-one-call'>Local Names Are Private to One Call</a></li><li><a href='#why-out-of-scope-is-a-real-rule-not-a-quirk'>Why &amp;quot;Out of Scope&amp;quot; Is a Real Rule, Not a Quirk</a></li><li><a href='#walking-the-frames-of-percent-difference'>Walking the Frames of percent_difference</a></li><li><a href='#follow-the-line-looking-up-a-name-versus-a-nameerror'>Follow the Line: Looking Up a Name Versus a NameError</a></li><li><a href='#choosing-names-that-teach-the-reader'>Choosing Names That Teach the Reader</a></li><li><a href='#functions-as-abstractions'>Functions as Abstractions</a></li><li><a href='#operators-are-function-like-syntax'>Operators Are Function-Like Syntax</a></li><li><a href='#follow-the-line-an-operator-is-a-hidden-call'>Follow the Line: An Operator Is a Hidden Call</a></li><li><a href='#operator-precedence-is-nested-calls'>Operator Precedence Is Nested Calls</a></li><li><a href='#follow-the-line-evaluating-the-precedence-example'>Follow the Line: Evaluating the Precedence Example</a></li><li><a href='#true-division-and-floor-division'>True Division and Floor Division</a></li><li><a href='#the-operator-forms-of-division'>The Operator Forms of Division</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+/* f2m-pytutor.css — MINIMAL recolor of Python Tutor to the book's palette.
+   PT's original layout, spacing, and flat design are preserved on purpose;
+   only COLORS (and the code/UI typeface) change. Loaded AFTER pytutor.css.
+   Arrow + code-pointer colors come from the --pt-* variables in pytutor.js. */
+
+/* practice-page layout: readable prose column, but a wider lane for the widget */
+.is-practice .lesson-grid { display: block; width: 100%; max-width: 1060px; }
+.is-practice .lesson-body { width: 100%; max-width: 1020px; }
+.is-practice .lesson-head,
+.is-practice .ls-body > p,
+.is-practice .ls-body > ul,
+.is-practice .ls-body > ol,
+.is-practice .ls-h { max-width: 720px; }
+/* When a step-through widget is open, the lesson hands its full content width to
+   the widget: the on-page TOC steps aside and the widget fills the lane. The prose
+   keeps its readable width, and nothing ever passes the page edge (the content
+   area itself is the bound — no magic numbers). */
+.lesson-grid:has(.pt-mount:not([hidden])) { display: block; width: 100%; max-width: none; }
+.lesson-grid:has(.pt-mount:not([hidden])) > .toc { display: none; }
+.lesson-grid:has(.pt-mount:not([hidden])) .lesson-body { width: 100%; max-width: none; }
+.lesson-grid:has(.pt-mount:not([hidden])) .ls-body > p,
+.lesson-grid:has(.pt-mount:not([hidden])) .ls-body > ul,
+.lesson-grid:has(.pt-mount:not([hidden])) .ls-body > ol,
+.lesson-grid:has(.pt-mount:not([hidden])) .ls-h,
+.lesson-grid:has(.pt-mount:not([hidden])) .codeblock:not(:has(.pt-mount:not([hidden]))),
+.lesson-grid:has(.pt-mount:not([hidden])) .codeblock:has(.pt-mount:not([hidden])) > pre.code {
+  max-width: var(--maxw); margin-right: auto;
+}
+
+/* the widget fills the lane (lessons: full content width while open; practice: the wide body) */
+.pt-holder { width: 100%; margin: 16px 0 24px; overflow-x: auto; box-sizing: border-box; }
+.is-practice .pt-holder { margin: 18px 0 26px; }
+/* In a lesson the widget stacks vertically (code on top, diagram below), so it
+   fits the content column with no sideways scroll. The panel shrinks to its own
+   width and centres in the column, so it sits balanced rather than left-aligned
+   with an empty gutter; it never exceeds the column, so the page never scrolls. */
+.lesson-grid:has(.pt-mount:not([hidden])) .pt-holder {
+  width: fit-content; max-width: 100%; margin-left: auto; margin-right: auto;
+}
+
+/* lesson code blocks: "Step through" button + lazily-mounted in-site widget */
+.pt-step { display: inline-flex; align-items: center; gap: 7px; margin-top: 8px; padding: 5px 13px;
+  font-family: var(--sans); font-weight: 600; font-size: 13px; color: var(--navy); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 8px; cursor: pointer; transition: border-color .15s, color .15s, background .15s; }
+.pt-step:hover { border-color: var(--navy); background: var(--navy-wash); }
+.pt-step.open { color: var(--muted); }
+.pt-step .pt-arrow { font-size: 10px; line-height: 1; }
+.pt-mount { margin-top: 8px; min-width: 0; }
+.pt-mount[hidden] { display: none; }
+
+/* typeface — match the book; no layout change */
+div.ExecutionVisualizer table.visualizer { font-family: var(--sans); color: var(--ink); }
+div.ExecutionVisualizer { max-width: none; }
+div.ExecutionVisualizer table.visualizer { width: auto; min-width: max-content; }
+div.ExecutionVisualizer table#pyCodeOutput,
+div.ExecutionVisualizer div.stackFrameHeader,
+div.ExecutionVisualizer .stringObj,
+div.ExecutionVisualizer .customObj,
+div.ExecutionVisualizer .funcObj,
+div.ExecutionVisualizer .retval,
+div.ExecutionVisualizer td.stackFrameVar,
+div.ExecutionVisualizer td.stackFrameValue,
+div.ExecutionVisualizer #pyStdout { font-family: var(--mono); }
+
+/* code panel — keep PT's plain panel, just recolor the text */
+div.ExecutionVisualizer table#pyCodeOutput { border-color: var(--line); }
+div.ExecutionVisualizer table#pyCodeOutput .cod { color: var(--ink); }
+div.ExecutionVisualizer table#pyCodeOutput .lineNo { color: var(--faint); }
+
+/* The site's content-table styling (cell padding + row borders) must not leak
+   into the code table: PT positions its gutter arrows assuming every code row
+   is exactly the same height, and the leaked padding made code rows tall while
+   empty rows (no line box) stayed short — so arrows drifted off their lines.
+   Restore PT's native compact geometry and force a line box in empty cells. */
+div.ExecutionVisualizer table#pyCodeOutput td { padding: 0; border: none; }
+div.ExecutionVisualizer table#pyCodeOutput td.lineNo { padding: 0.2em 0.5em 0.2em 0.3em; }
+div.ExecutionVisualizer table#pyCodeOutput td.cod { padding: 0 0 0 7px; }
+div.ExecutionVisualizer table#pyCodeOutput td.cod:empty::before { content: "\00a0"; }
+
+/* frames — PT's design (left border only, flat), recolored + theme-aware bg */
+div.ExecutionVisualizer div.stackFrame,
+div.ExecutionVisualizer div.zombieStackFrame { background: var(--surface); }
+div.ExecutionVisualizer div.stackFrame,
+div.ExecutionVisualizer div.highlightedStackFrame { border-left-color: var(--ink-soft); }
+div.ExecutionVisualizer div.highlightedStackFrame { background: var(--navy-wash); }   /* was PT light-blue */
+div.ExecutionVisualizer div.zombieStackFrame { color: var(--muted); border-left-color: var(--line); }
+div.ExecutionVisualizer div.stackFrameHeader { color: var(--navy-ink); }
+div.ExecutionVisualizer td.stackFrameValue { border-color: var(--ink-soft); }
+div.ExecutionVisualizer .stackFrame .retval { color: var(--gold); }   /* was PT red */
+
+/* parent-pointer lane (keeps the overlap fix) */
+div.ExecutionVisualizer div#stack,
+div.ExecutionVisualizer div#globals_area { padding-left: 38px; }
+
+/* headers + heap labels */
+div.ExecutionVisualizer div#stackHeader,
+div.ExecutionVisualizer div#heapHeader,
+div.ExecutionVisualizer div#langDisplayDiv,
+div.ExecutionVisualizer .typeLabel { color: var(--muted); }
+div.ExecutionVisualizer .funcObj,
+div.ExecutionVisualizer .funcCode { color: var(--navy-ink); }
+
+/* compound-type cells — recolor PT's yellow fill */
+div.ExecutionVisualizer table.listTbl,
+div.ExecutionVisualizer table.tupleTbl,
+div.ExecutionVisualizer table.setTbl { background: var(--navy-wash); }
+div.ExecutionVisualizer table.listTbl td,
+div.ExecutionVisualizer table.tupleTbl td,
+div.ExecutionVisualizer table.setTbl td { border-color: var(--ink-soft); }
+
+/* hide PT's annotation editors + stdin pane (not used for stepping) */
+div.ExecutionVisualizer #vizHeader,
+div.ExecutionVisualizer #rawUserInputDiv { display: none; }
+
+/* quick-copy on the widget's code panel (practice pages, where the code has
+   no separate <pre> block) — quiet until the panel is hovered */
+div.ExecutionVisualizer #codeDisplayDiv { position: relative; }
+.pt-copy { position: absolute; top: 2px; right: 2px; z-index: 5; font-family: var(--sans);
+  font-size: 11px; font-weight: 600; color: var(--muted); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 6px; padding: 2px 9px; cursor: pointer;
+  opacity: 0; transition: opacity .15s, color .15s, border-color .15s; user-select: none; }
+div.ExecutionVisualizer #codeDisplayDiv:hover .pt-copy, .pt-copy:focus-visible { opacity: 1; }
+.pt-copy:hover { color: var(--navy); border-color: var(--navy); }
+.pt-copy.copied { color: var(--gold); border-color: var(--gold); opacity: 1; }
+@media (hover: none) { .pt-copy { opacity: .8; } }
+
+/* code-footer text (legend, breakpoint note, slider caption) — PT hard-codes
+   these dark (#666), unreadable on the dark page; make them theme-aware */
+div.ExecutionVisualizer div#legendDiv,
+div.ExecutionVisualizer div#legendDiv p,
+div.ExecutionVisualizer #executionSliderDocs,
+div.ExecutionVisualizer #executionSliderCaption,
+div.ExecutionVisualizer #executionSliderFooter { color: var(--ink-soft); }
+
+/* output + slider — recolor only, keep PT's button design as-is */
+div.ExecutionVisualizer #pyStdout { border-color: var(--line); background: var(--surface); color: var(--ink); }
+div.ExecutionVisualizer #vcrControls #curInstr { color: var(--ink); }
+div.ExecutionVisualizer #executionSlider .ui-slider-handle { background: var(--navy); border-color: var(--navy); }

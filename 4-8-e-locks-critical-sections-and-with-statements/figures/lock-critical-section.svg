@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 596" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <text x="360" y="20" text-anchor="middle" font-size="16" font-weight="bold" fill="#073642">The Lost-Update Race vs. the Locked Order</text>
+  <text x="360" y="37" text-anchor="middle" font-size="12" fill="#93a1a1">the check and the add must be one critical section</text>
+
+  <text x="155" y="62" text-anchor="middle" font-size="13" font-weight="bold" fill="#268bd2">Worker A</text>
+  <text x="565" y="62" text-anchor="middle" font-size="13" font-weight="bold" fill="#dc322f">Worker B</text>
+
+  <text x="40" y="80" font-size="13" font-weight="bold" fill="#073642">WITHOUT the lock (race)</text>
+
+  <line x1="360" y1="88" x2="360" y2="216" stroke="#657b83" stroke-width="2"/>
+  <polygon points="354,212 360,224 366,212" fill="#657b83"/>
+  <text x="370" y="101" font-size="11" fill="#93a1a1">TIME</text>
+
+  <rect x="38" y="88" width="234" height="32" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="155" y="108" text-anchor="middle" font-size="11" font-family="monospace" fill="#073642">check: "url" not in seen &#8594; absent</text>
+
+  <rect x="448" y="124" width="234" height="32" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="565" y="144" text-anchor="middle" font-size="11" font-family="monospace" fill="#073642">check: "url" not in seen &#8594; absent</text>
+
+  <rect x="38" y="160" width="234" height="32" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="155" y="180" text-anchor="middle" font-size="12" font-family="monospace" fill="#073642">seen.add("url")</text>
+
+  <rect x="448" y="196" width="234" height="32" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="565" y="216" text-anchor="middle" font-size="12" font-family="monospace" fill="#073642">seen.add("url")</text>
+
+  <text x="360" y="170" text-anchor="middle" font-size="11" font-style="italic" fill="#93a1a1">both checks</text>
+  <text x="360" y="184" text-anchor="middle" font-size="11" font-style="italic" fill="#93a1a1">before either</text>
+  <text x="360" y="198" text-anchor="middle" font-size="11" font-style="italic" fill="#93a1a1">add</text>
+
+  <rect x="38" y="240" width="234" height="30" rx="8" fill="#ffffff" stroke="#2aa198" stroke-width="2"/>
+  <text x="155" y="259" text-anchor="middle" font-size="12" font-family="monospace" fill="#2aa198">A returns False (new)</text>
+  <rect x="448" y="240" width="234" height="30" rx="8" fill="#ffffff" stroke="#2aa198" stroke-width="2"/>
+  <text x="565" y="259" text-anchor="middle" font-size="12" font-family="monospace" fill="#2aa198">B returns False (new)</text>
+
+  <text x="360" y="291" text-anchor="middle" font-size="13" font-weight="bold" fill="#dc322f">&#10007; BUG: same URL crawled twice</text>
+
+  <line x1="40" y1="306" x2="680" y2="306" stroke="#93a1a1" stroke-width="1.5" stroke-dasharray="4 5"/>
+
+  <text x="40" y="328" font-size="13" font-weight="bold" fill="#073642">WITH seen_lock (serialized)</text>
+
+  <line x1="360" y1="336" x2="360" y2="520" stroke="#657b83" stroke-width="2"/>
+  <polygon points="354,516 360,528 366,516" fill="#657b83"/>
+  <text x="370" y="349" font-size="11" fill="#93a1a1">TIME</text>
+
+  <rect x="32" y="336" width="248" height="152" rx="10" fill="#2aa198" fill-opacity="0.10" stroke="#2aa198" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="156" y="352" text-anchor="middle" font-size="11" font-weight="bold" fill="#2aa198">critical section (lock held)</text>
+
+  <rect x="42" y="360" width="228" height="28" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="156" y="379" text-anchor="middle" font-size="12" font-family="monospace" fill="#073642">acquire seen_lock</text>
+  <rect x="42" y="392" width="228" height="28" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="156" y="411" text-anchor="middle" font-size="12" font-family="monospace" fill="#073642">check &#8594; absent</text>
+  <rect x="42" y="424" width="228" height="28" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="156" y="443" text-anchor="middle" font-size="12" font-family="monospace" fill="#073642">seen.add("url")</text>
+  <rect x="42" y="456" width="228" height="28" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="156" y="475" text-anchor="middle" font-size="12" font-family="monospace" fill="#073642">release</text>
+
+  <rect x="448" y="360" width="234" height="92" rx="8" fill="#93a1a1" fill-opacity="0.22" stroke="#657b83" stroke-width="2" stroke-dasharray="5 4"/>
+  <text x="565" y="402" text-anchor="middle" font-size="12" font-family="monospace" fill="#657b83">waiting at acquire&#8230;</text>
+  <text x="565" y="420" text-anchor="middle" font-size="11" font-style="italic" fill="#93a1a1">blocked until A releases</text>
+
+  <rect x="448" y="456" width="234" height="28" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="565" y="475" text-anchor="middle" font-size="12" font-family="monospace" fill="#073642">acquire</text>
+  <rect x="448" y="488" width="234" height="28" rx="8" fill="#ffffff" stroke="#073642" stroke-width="2"/>
+  <text x="565" y="507" text-anchor="middle" font-size="12" font-family="monospace" fill="#073642">check &#8594; PRESENT</text>
+
+  <rect x="38" y="528" width="234" height="30" rx="8" fill="#ffffff" stroke="#2aa198" stroke-width="2"/>
+  <text x="155" y="547" text-anchor="middle" font-size="12" font-family="monospace" fill="#2aa198">A returns False (new)</text>
+  <rect x="448" y="528" width="234" height="30" rx="8" fill="#ffffff" stroke="#2aa198" stroke-width="2"/>
+  <text x="565" y="547" text-anchor="middle" font-size="12" font-family="monospace" fill="#2aa198">B returns True (already seen)</text>
+
+  <text x="360" y="579" text-anchor="middle" font-size="13" font-weight="bold" fill="#2aa198">&#10003; Correct: exactly one finds it new</text>
+</svg>

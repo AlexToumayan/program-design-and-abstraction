@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>1.2 Elements of Programming: Expressions, Calls, Imports, and Evaluation · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/' class='active'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 1</span><span class='dot'>/</span><span class='eb-sec'>1.2 Elements of Programming</span></div><h1 class='lesson-title'>1.2 Elements of Programming: Expressions, Calls, Imports, and Evaluation</h1><div class='reading-meta'>&#9719; approx. 16 min read <span class='rm-sep'>&middot;</span> 16 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>In the last lesson you learned that every line of Python does one of two jobs: an <strong>expression</strong> computes a value, and a <strong>statement</strong> carries out an action. This lesson zooms all the way in on expressions, because expressions are where computation actually happens.</p>
+<p>By the end you will be able to do four things: recognize the simplest expressions Python understands, read a <strong>call expression</strong> (the shape <code>function(arguments)</code>) one piece at a time, bring in extra functions from Python&#x27;s library with an <strong>import statement</strong>, and trace a deeply <strong>nested</strong> expression by hand using the exact procedure the interpreter follows. That last skill is the real prize. Once you can predict the value of a nested expression before you press Enter, you are no longer guessing at Python — you are running it in your head.</p>
+<p>The habit from lesson 1.1 still applies: when code looks confusing, slow down and break it into the smallest meaningful pieces.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='three-ways-a-language-lets-you-build' class='ls ls-default'>
+<h2 class='ls-h'><span>Three Ways a Language Lets You Build</span></h2>
+<div class='ls-body'>
+<p>Think about how you describe directions to a friend. You start with words everyone already knows (&quot;left,&quot; &quot;two blocks,&quot; &quot;the bakery&quot;). You combine those words into phrases (&quot;turn left two blocks past the bakery&quot;). And you give a long route a single name (&quot;my usual way home&quot;) so you never have to spell it out again.</p>
+<p>Every powerful programming language gives you those same three abilities, and Python is no exception:</p>
+<ul>
+<li><strong>Primitive expressions</strong> are the built-in pieces you start with, like the number <code>42</code>. You do not build them; they are simply there.</li>
+<li><strong>Means of combination</strong> let you join pieces into larger expressions, the way <code>1/2 + 1/4</code> joins two values with an operator.</li>
+<li><strong>Means of abstraction</strong> let you wrap something complicated in a single name and reuse it as one unit.</li>
+</ul>
+<p>In this lesson we work entirely with the first two: the primitive pieces, and the main way Python combines them. Naming things — the third ability — is the heart of the next lessons. Across all three, one thing stays constant: the machine reads exactly the symbols you type, with no common sense filling in the gaps. Your job is to read those symbols the same literal way Python does.</p>
+</div></section>
+<section id='primitive-expressions-values-that-already-stand-alone' class='ls ls-default'>
+<h2 class='ls-h'><span>Primitive Expressions: Values That Already Stand Alone</span></h2>
+<div class='ls-body'>
+<p>A <strong>primitive expression</strong> is one Python can evaluate without looking anything up. The most basic kind is a number. When you type a number, you are typing the numerals that represent it in base 10, and Python evaluates them straight to the value:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #2aa198">42</span>
+</code></pre>
+<p>There is nothing to combine and no function to call here. The expression in (1) is already a value, so the interpreter just echoes it back:</p>
+<pre class='code text'><code>42</code></pre>
+<p>A number with a decimal point is also a primitive expression, and it evaluates to a <code>float</code>, Python&#x27;s representation for numbers with a fractional part:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #2aa198">3.14</span>
+</code></pre>
+<p>The point to hold onto is that primitive expressions are the floor. Everything else in this lesson is built by combining pieces like these.</p>
+</div></section>
+<section id='combining-values-with-operators' class='ls ls-default'>
+<h2 class='ls-h'><span>Combining Values With Operators</span></h2>
+<div class='ls-body'>
+<p>Numbers become interesting when you combine them. Joining expressions with a mathematical operator (<code>+</code>, <code>-</code>, <code>*</code>, or <code>/</code>) produces a <strong>compound expression</strong>, which the interpreter then evaluates to a single value. These use <strong>infix notation</strong>, meaning the operator sits in between its operands:</p>
+<pre class='code anatomy'><code>1 + 2
+├─ 1 .......... the left operand (a primitive value)
+├─ + .......... the operator, sitting between its operands
+├─ 2 .......... the right operand (a primitive value)
+└─ evaluates to  3</code></pre>
+<p>Start with a case that looks stranger than it is. Minus signs near each other do not all mean the same thing:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span> <span style="color: #93a1a1">-</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">1</span>
+</code></pre>
+<p>There are three tokens here, and the middle one is doing different work than the outer two. Follow the line:</p>
+<pre class='code anatomy'><code>-1 - -1
+├─ -1 ......... the literal value negative one (left operand)
+├─ -  ......... the subtraction operator
+├─ -1 ......... the literal value negative one (right operand)
+└─ evaluates to  0</code></pre>
+<p>So Python computes &quot;negative one, minus negative one.&quot; Subtracting a negative is the same as adding a positive:</p>
+<div class='math'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">−</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">−</span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">−</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span></span></div>
+<p>and the interpreter displays:</p>
+<pre class='code text'><code>0</code></pre>
+<p>Now a longer compound expression. This one chains several divisions and additions:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (4)</span>
+<span style="color: #2aa198">1</span><span style="color: #93a1a1">/</span><span style="color: #2aa198">2</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span><span style="color: #93a1a1">/</span><span style="color: #2aa198">4</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span><span style="color: #93a1a1">/</span><span style="color: #2aa198">8</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span><span style="color: #93a1a1">/</span><span style="color: #2aa198">16</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span><span style="color: #93a1a1">/</span><span style="color: #2aa198">32</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span><span style="color: #93a1a1">/</span><span style="color: #2aa198">64</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span><span style="color: #93a1a1">/</span><span style="color: #2aa198">128</span>
+</code></pre>
+<p>Division binds more tightly than addition, so Python computes each fraction first, then adds the seven results:</p>
+<div class='math'><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">0.5</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">0.25</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">0.125</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">0.0625</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">0.03125</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">0.015625</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.0078125</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.9921875</span></span></span></span></span></div>
+<p>The displayed value is:</p>
+<pre class='code text'><code>0.9921875</code></pre>
+<p>The important machine idea is that Python is not reading this left to right like an English sentence. It parses the whole expression according to its grammar and precedence rules, then evaluates the pieces in the order those rules require. Python offers many ways to form compound expressions, and you will meet more as the course goes on; operators are just the first one.</p>
+</div></section>
+<section id='call-expressions-applying-a-function-to-arguments' class='ls ls-default'>
+<h2 class='ls-h'><span>Call Expressions: Applying a Function to Arguments</span></h2>
+<div class='ls-body'>
+<p>The most important kind of compound expression is the <strong>call expression</strong>, which applies a function to some arguments. The idea comes straight from algebra: a function is a mapping from input arguments to an output value. The built-in <code>max</code> function, for example, maps its inputs to a single output — the largest of them. Python writes function application the same way conventional mathematics does:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (5)</span>
+<span style="color: #268bd2">max</span><span style="color: #657b83">(</span><span style="color: #2aa198">7.5</span><span style="color: #657b83">,</span> <span style="color: #2aa198">9.5</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>A call expression has named parts. The <strong>operator</strong> is the expression before the parentheses, and it specifies the function. Inside the parentheses is a comma-separated list of <strong>operand</strong> expressions, whose values become the <strong>arguments</strong>. Follow the line:</p>
+<pre class='code anatomy'><code>max(7.5, 9.5)
+├─ max ........ the operator: names the built-in function that returns the largest input
+├─ (   ........ opens the call and begins the operand list
+├─ 7.5 ....... first operand, supplies the argument 7.5
+├─ ,   ........ separates one operand from the next
+├─ 9.5 ....... second operand, supplies the argument 9.5
+├─ )   ........ closes the call
+└─ evaluates to  9.5</code></pre>
+<p>When this call is evaluated, we say the function <code>max</code> is <strong>called</strong> with arguments <code>7.5</code> and <code>9.5</code>, and <strong>returns</strong> the value <code>9.5</code>. The value of the whole call expression is whatever the function returns.</p>
+<p>The most common beginner mistake is to leap from the code straight to an answer without asking what <code>max</code> actually does. The name <code>max</code> is not a magic word that means &quot;do something with these numbers.&quot; It is bound to a built-in function whose one job is to inspect its arguments and hand back the greatest one. So Python is not computing <code>7.5 + 9.5</code>, and it is not averaging them. The comma keeps the two values separate, and <code>max</code> compares them:</p>
+<pre class='code text'><code>Is 7.5 larger than 9.5? No.
+Is 9.5 larger than 7.5? Yes.
+Return 9.5.</code></pre>
+<p>A beginner-safe way to read the line out loud is:</p>
+<pre class='code text'><code>Call the function named max.
+Give it 7.5 and 9.5 as two separate inputs.
+Let max compare those inputs.
+Use the larger input as the value of the whole expression.</code></pre>
+<p>This is the start of a habit that pays off all semester:</p>
+<pre class='code text'><code>Do not ask only, &quot;What is the answer?&quot;
+Ask, &quot;What function is Python applying, and to which argument values?&quot;</code></pre>
+</div></section>
+<section id='order-matters-and-functions-can-take-many-arguments' class='ls ls-default'>
+<h2 class='ls-h'><span>Order Matters, and Functions Can Take Many Arguments</span></h2>
+<div class='ls-body'>
+<p>Function notation has real advantages over the mix of symbols used in everyday math, and two of them show up immediately.</p>
+<p>First, the order of arguments matters, because the function decides what each position means. The <code>pow</code> function raises its first argument to the power of its second:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (6)</span>
+<span style="color: #268bd2">pow</span><span style="color: #657b83">(</span><span style="color: #2aa198">100</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>This asks for <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">10</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span>, so Python returns:</p>
+<pre class='code text'><code>10000</code></pre>
+<p>Swap the roles of the two numbers and you get a completely different computation. Here the base is <code>2</code> and the exponent is <code>100</code>:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (7)</span>
+<span style="color: #268bd2">pow</span><span style="color: #657b83">(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">100</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>This asks for <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">100</span></span></span></span></span></span></span></span></span></span></span></span></span>, and Python&#x27;s integers grow as large as they need to, so the result is an exact, very large integer:</p>
+<pre class='code text'><code>1267650600228229401496703205376</code></pre>
+<p>The rule is not &quot;small numbers behave and big numbers are special.&quot; The rule is simply that <code>pow(base, exponent)</code> receives two arguments and returns the base raised to that exponent.</p>
+<p>Second, a function may take an arbitrary number of arguments, and no ambiguity arises because the function name always comes first. Here <code>max</code> receives four arguments:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (8)</span>
+<span style="color: #268bd2">max</span><span style="color: #657b83">(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">4</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>The commas mark the four boundaries:</p>
+<pre class='code text'><code>1
+-2
+3
+-4</code></pre>
+<p>The single pair of parentheses still encloses one call, and <code>max</code> returns the largest value:</p>
+<pre class='code text'><code>3</code></pre>
+</div></section>
+<section id='nested-call-expressions-inside-out' class='ls ls-default'>
+<h2 class='ls-h'><span>Nested Call Expressions: Inside Out</span></h2>
+<div class='ls-body'>
+<p>Function notation extends cleanly to <strong>nested</strong> expressions, where the operands are themselves call expressions. Unlike a long chain of infix operators, the structure of the nesting is fully spelled out by the parentheses, so there is never any doubt about what belongs to what.</p>
+<p>This is the official nested example. Read it as a structure, not as a sentence:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (9)</span>
+<span style="color: #268bd2">max</span><span style="color: #657b83">(</span><span style="color: #268bd2">min</span><span style="color: #657b83">(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">2</span><span style="color: #657b83">),</span> <span style="color: #268bd2">min</span><span style="color: #657b83">(</span><span style="color: #268bd2">pow</span><span style="color: #657b83">(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">),</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">4</span><span style="color: #657b83">))</span>
+</code></pre>
+<p>Drawing the structure as a tree makes the nesting visible. Each branch is a subexpression the outer call is waiting on:</p>
+<pre class='code anatomy'><code>max
+├── min
+│   ├── 1
+│   └── -2
+└── min
+    ├── pow
+    │   ├── 3
+    │   └── 5
+    └── -4</code></pre>
+<p>Here is the key idea, and it is a machine rule rather than a study tip: a call expression cannot apply its function until every one of its operands has produced a value. The outer <code>max</code> is like a judge who cannot rule yet, because neither thing handed to it is a finished value — both are still unfinished calls. So Python completes the smaller calls first and lets their values rise up to the outer call:</p>
+<pre class='code text'><code>First argument for max:
+  min(1, -2) gives -2
+
+Second argument for max:
+  pow(3, 5) gives 243
+  min(243, -4) gives -4
+
+Now max has two real argument values:
+  max(-2, -4) gives -2</code></pre>
+<p>So the whole expression evaluates to:</p>
+<pre class='code text'><code>-2</code></pre>
+<p>There is, in principle, no limit to how deep this nesting can go. The limit is human: people get lost in multi-level nesting fast. Part of your job as a programmer is to structure expressions so that you, your partners, and whoever reads your code next can still follow them.</p>
+</div></section>
+<section id='importing-library-functions' class='ls ls-default'>
+<h2 class='ls-h'><span>Importing Library Functions</span></h2>
+<div class='ls-body'>
+<p>Python knows a very large number of functions, but it does not make every name available the moment you start the interpreter. Instead it organizes functions and other values into <strong>modules</strong>, which together form the Python Library. To use the names in a module, you <strong>import</strong> them with an import statement.</p>
+<p>The <code>math</code> module, for instance, provides familiar mathematical functions. Follow the line of an import statement:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (10)</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">math</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">sqrt</span>
+</code></pre>
+<pre class='code anatomy'><code>├─ from   ........ begins an import statement
+├─ math   ........ names the module to take from (a collection of definitions)
+├─ import ........ marks which names to pull into the current environment — the running collection of name-to-value bindings you pictured as the global frame in 1.1
+├─ sqrt   ........ the name being imported
+└─ performs  binds the name sqrt in the current environment to the square-root function</code></pre>
+<p>Notice the final line: an import statement is a statement, so it carries out an action — it binds a name — rather than producing a value to print. After (10) runs, the name <code>sqrt</code> is available, and you can call it like any other function:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (11)</span>
+<span style="color: #657b83">sqrt(</span><span style="color: #2aa198">256</span><span style="color: #657b83">)</span>
+</code></pre>
+<pre class='code text'><code>16.0</code></pre>
+<p>The result is <code>16.0</code> rather than <code>16</code> because many math-library functions return floats. Once a function is imported, you can call it as many times as you like.</p>
+<p>The <code>operator</code> module provides functions that correspond to the infix operators. You import several names at once by separating them with commas:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (12)</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">operator</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">add,</span> <span style="color: #657b83">sub,</span> <span style="color: #657b83">mul</span>
+</code></pre>
+<p>After (12), <code>add</code>, <code>sub</code>, and <code>mul</code> are callable functions. Calling <code>add</code> is just addition written in function form:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (13)</span>
+<span style="color: #657b83">add(</span><span style="color: #2aa198">14</span><span style="color: #657b83">,</span> <span style="color: #2aa198">28</span><span style="color: #657b83">)</span>
+</code></pre>
+<pre class='code text'><code>42</code></pre>
+<p>Because these are ordinary functions, they nest exactly like <code>max</code> and <code>pow</code> did. Here is the official nested-operator example:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (14)</span>
+<span style="color: #657b83">sub(</span><span style="color: #2aa198">100</span><span style="color: #657b83">,</span> <span style="color: #657b83">mul(</span><span style="color: #2aa198">7</span><span style="color: #657b83">,</span> <span style="color: #657b83">add(</span><span style="color: #2aa198">8</span><span style="color: #657b83">,</span> <span style="color: #2aa198">4</span><span style="color: #657b83">)))</span>
+</code></pre>
+<p>Trace it inside out:</p>
+<pre class='code text'><code>add(8, 4)       -&gt; 12
+mul(7, 12)      -&gt; 84
+sub(100, 84)    -&gt; 16</code></pre>
+<p>so the value is:</p>
+<pre class='code text'><code>16</code></pre>
+<p>An import statement names a module (such as <code>operator</code> or <code>math</code>) and then lists the named attributes of that module to import (such as <code>sqrt</code>). There is no difference between using an operator function like <code>add</code> and using the operator symbol <code>+</code>; by convention, most programmers reach for the symbols and infix notation for simple arithmetic. The Python Library documentation lists what every module defines, but early on you will usually learn more about a function by experimenting with it than by reading reference docs written for experts.</p>
+</div></section>
+<section id='the-evaluation-procedure-python-actually-follows' class='ls ls-default'>
+<h2 class='ls-h'><span>The Evaluation Procedure Python Actually Follows</span></h2>
+<div class='ls-body'>
+<p>One goal of this chapter is to think clearly about procedures — step-by-step processes. A great first example is hiding in plain sight: when the interpreter evaluates a nested call expression, it is itself following a procedure. Here it is, exactly as Python applies it.</p>
+<p>To evaluate a call expression, Python will do the following:</p>
+<ol>
+<li>Evaluate the operator and operand subexpressions, then</li>
+<li>Apply the function that is the value of the operator subexpression to the arguments that are the values of the operand subexpressions.</li>
+</ol>
+<p>This short procedure already teaches something deep. Step 1 says that to evaluate a call expression you must first evaluate other expressions — and some of those may themselves be call expressions. So the procedure is <strong>recursive</strong>: one of its own steps is to invoke the very same rule again. Recursive is just the name for what you already saw — a rule that uses itself — and you do not need to master recursion here; a whole later section is devoted to it. For now it simply explains why nested expressions get evaluated inside out. The rule keeps applying itself to the operands until it reaches pieces that need no further evaluation.</p>
+<p>Those simplest pieces are the <strong>primitive</strong> cases, and they end the recursion:</p>
+<pre class='code text'><code>A numeral evaluates to the number it names.
+A name evaluates to the value associated with that name in the current environment.</code></pre>
+<p>So a numeral like <code>2</code> evaluates straight to the number two, and a name like <code>add</code> evaluates to whatever it is currently bound to. This is why an environment matters: it is meaningless to ask for the value of <code>add(x, 1)</code> without knowing the environment that gives meaning to <code>x</code> (or even to <code>add</code>). The environment is the context that makes the symbols mean something.</p>
+<p>A final boundary on this procedure: it evaluates call expressions, numerals, and names — and nothing else. It does not handle a statement such as <code>x = 3</code>. An assignment does not return a value or apply a function to arguments; its purpose is to bind a name. In general, statements are not evaluated but <strong>executed</strong> — they do not produce a value, they make a change. Each kind of expression or statement has its own evaluation or execution procedure.</p>
+</div></section>
+<section id='follow-the-line-one-step-of-the-procedure' class='ls ls-default'>
+<h2 class='ls-h'><span>Follow the Line: One Step of the Procedure</span></h2>
+<div class='ls-body'>
+<p>It helps to see the two-step rule applied to a single call. Take the innermost call from the next example, <code>add(1, 10)</code>, and walk it through the procedure:</p>
+<pre class='code anatomy'><code>add(1, 10)
+├─ add ........ Step 1: evaluate the operator -&gt; the built-in add function
+├─ 1   ........ Step 1: evaluate this operand (a numeral) -&gt; the number 1
+├─ 10  ........ Step 1: evaluate this operand (a numeral) -&gt; the number 10
+└─ apply ...... Step 2: apply add to 1 and 10 -&gt; 11</code></pre>
+<p>Every interior call in a nested expression is handled by repeating exactly this, with the values percolating upward as each call finishes.</p>
+</div></section>
+<section id='the-expression-tree-step-by-step' class='ls ls-default'>
+<h2 class='ls-h'><span>The Expression Tree, Step by Step</span></h2>
+<div class='ls-body'>
+<p>Here is the official example that ties the whole procedure together. It is deeper than the others, so the tree does real work:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (15)</span>
+<span style="color: #657b83">sub(</span><span style="color: #268bd2">pow</span><span style="color: #657b83">(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #657b83">add(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)),</span> <span style="color: #268bd2">pow</span><span style="color: #657b83">(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">))</span>
+</code></pre>
+<p>Evaluating this requires the procedure to be applied four times — once for each call expression. Drawing every expression we evaluate reveals the hierarchical structure of the process. This drawing is called an <strong>expression tree</strong>. In computer science, trees grow from the top down. Each point in the tree is a <strong>node</strong>, and here each node is an expression paired with its value:</p>
+<pre class='code anatomy'><code>sub(pow(2, add(1, 10)), pow(2, 5))  -&gt; 2016
+├── pow(2, add(1, 10))  -&gt; 2048
+│   ├── 2
+│   └── add(1, 10)  -&gt; 11
+│       ├── 1
+│       └── 10
+└── pow(2, 5)  -&gt; 32
+    ├── 2
+    └── 5</code></pre>
+<p>The <strong>leaf</strong> expressions — nodes with no branches stemming from them — are either functions or numbers, the primitive cases that evaluate directly. The <strong>interior</strong> nodes each have two parts: the call expression our rule is applied to, and the result of that expression. You can picture the values percolating upward, starting from the terminal nodes and combining at higher and higher levels.</p>
+<p>Working from the leaves up:</p>
+<pre class='code text'><code>add(1, 10)          -&gt; 11
+pow(2, 11)          -&gt; 2048
+pow(2, 5)           -&gt; 32
+sub(2048, 32)       -&gt; 2016</code></pre>
+<p>So the root, the full expression at the top, evaluates to:</p>
+<pre class='code text'><code>2016</code></pre>
+<p>Reading the tree from the bottom up is the same thing as evaluating the expression inside out. They are two views of one process.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<div class='table-wrap'><table><thead><tr>
+<th>Mistake</th>
+<th>What Goes Wrong</th>
+<th>Safer Question</th>
+</tr></thead><tbody>
+<tr>
+<td>Treating commas like arithmetic</td>
+<td><code>max(7.5, 9.5)</code> compares two arguments; it does not add them</td>
+<td>What function is being called, and what are its separate inputs?</td>
+</tr>
+<tr>
+<td>Evaluating nested calls left to right</td>
+<td>An outer call needs every operand&#x27;s value before it can run, so the answer comes last, not first</td>
+<td>Which complete innermost call can Python evaluate first?</td>
+</tr>
+<tr>
+<td>Treating parentheses as decoration</td>
+<td>They mark where a call begins and ends; an unbalanced pair raises a <code>SyntaxError</code></td>
+<td>Which parenthesis opens this call, and where does it close?</td>
+</tr>
+<tr>
+<td>Assuming argument order is flexible</td>
+<td><code>pow(2, 100)</code> and <code>pow(100, 2)</code> give very different values</td>
+<td>Which argument is the function treating as first, and as second?</td>
+</tr>
+<tr>
+<td>Forgetting to import a name</td>
+<td>Python raises a <code>NameError</code> because the environment has no binding for it</td>
+<td>Has this name been defined or imported before this line runs?</td>
+</tr>
+<tr>
+<td>Expecting an import to print or call something</td>
+<td>An import only binds a name; it performs no call on its own</td>
+<td>What does this statement bind, and what still needs to be called afterward?</td>
+</tr>
+<tr>
+<td>Reading a name with no environment in mind</td>
+<td><code>add(x, 1)</code> raises a <code>NameError</code> until <code>x</code> and <code>add</code> are bound to values</td>
+<td>What environment gives each name in this expression a value?</td>
+</tr>
+</tbody></table></div>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>What two steps make up Python&#x27;s procedure for evaluating a call expression?</li>
+<li>Why is that evaluation procedure described as recursive?</li>
+<li>In <code>max(min(1, -2), min(pow(3, 5), -4))</code>, why must Python evaluate <code>pow(3, 5)</code> before the outer <code>max</code> call can finish?</li>
+<li>What does <code>from math import sqrt</code> add to the current environment, and does it call <code>sqrt</code>?</li>
+<li>In the procedure&#x27;s primitive cases, what does a numeral evaluate to, and what does a name evaluate to?</li>
+<li>Assuming <code>add</code>, <code>sub</code>, and <code>mul</code> have been imported from <code>operator</code>, trace <code>sub(add(2, 3), mul(2, 4))</code> inside out and give the value of each call and of the whole expression.</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li>First, evaluate the operator and the operand subexpressions; then apply the function that is the value of the operator to the arguments that are the values of the operands.</li>
+<li>Because step one requires evaluating other expressions, and when those are themselves call expressions the same rule must be applied again — the procedure invokes itself.</li>
+<li>The outer <code>max</code> cannot run until both of its operands are finished values. The second operand is <code>min(pow(3, 5), -4)</code>, which cannot finish until <code>pow(3, 5)</code> produces <code>243</code>.</li>
+<li>It binds the name <code>sqrt</code> in the current environment to the square-root function from the <code>math</code> module. It does not call <code>sqrt</code>; you must call it yourself afterward.</li>
+<li>A numeral evaluates to the number it names; a name evaluates to the value associated with that name in the current environment.</li>
+<li>The two inner calls must finish first: <code>add(2, 3)</code> gives <code>5</code> and <code>mul(2, 4)</code> gives <code>8</code>. The outer call then has both operand values, so <code>sub(5, 8)</code> gives <code>-3</code>, the value of the whole expression.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>Computation lives in expressions. <strong>Primitive expressions</strong> like <code>42</code> already stand for a value; <strong>compound expressions</strong> combine values, either with infix operators like <code>1/2 + 1/4</code> or, most importantly, with <strong>call expressions</strong> that apply a function to arguments. A call expression has an operator that names the function and operand expressions whose values become the arguments, and its value is whatever the function returns. <strong>Import statements</strong> bind extra function names from the Python Library, such as <code>sqrt</code> from <code>math</code> or <code>add</code>, <code>sub</code>, and <code>mul</code> from <code>operator</code>. The interpreter evaluates every call by the same two-step rule — evaluate the operator and operands, then apply the function — and because that rule invokes itself on nested operands, deep expressions are evaluated inside out, with values percolating up an expression tree from its numeral-and-name leaves to its root. Master that procedure and you can predict any nested expression by hand, which is the whole point: you stop guessing at Python and start running it in your head.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>Step through the block below slowly. It imports the operator functions, then rebuilds the official expression from (15) as separate assignment steps. Watching it as an <strong>environment diagram</strong> shows a single global frame filling up: the import drops <code>add</code>, <code>sub</code>, <code>mul</code>, and <code>pow</code> in at once, then each assignment adds one more binding — <code>inner</code>, <code>left</code>, <code>right</code> — while the final <code>sub(left, right)</code> call leaves the frame untouched, so the diagram makes plain which lines grow the frame and which only compute a value. Before you step, write down three predictions: how many names the first line adds to the global frame, how many bindings that frame holds when the run ends, and whether the last line adds a binding of its own or only produces a value.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (16)</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">operator</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">add,</span> <span style="color: #657b83">sub,</span> <span style="color: #657b83">mul,</span> <span style="color: #268bd2">pow</span>
+
+<span style="color: #657b83">inner</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">add(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">left</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">pow</span><span style="color: #657b83">(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #657b83">inner)</span>
+<span style="color: #657b83">right</span> <span style="color: #93a1a1">=</span> <span style="color: #268bd2">pow</span><span style="color: #657b83">(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">)</span>
+<span style="color: #657b83">sub(left,</span> <span style="color: #657b83">right)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/5295ec0a6eae.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>Check each prediction as you step. The import binds <code>add</code>, <code>sub</code>, <code>mul</code>, and <code>pow</code> in a single step — four names at once, including <code>mul</code>, which nothing here calls — then <code>inner</code> becomes <code>11</code>, <code>left</code> becomes <code>2048</code>, and <code>right</code> becomes <code>32</code>, for seven bindings in all. The last line is a bare call expression, so it binds nothing: <code>sub(left, right)</code> evaluates to <code>2016</code>, the same value the nested expression <code>sub(pow(2, add(1, 10)), pow(2, 5))</code> produces in one line. Seeing the intermediate values named makes the inside-out order concrete: each call had to finish before the one that depended on it could run.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>1.1 Getting Started and the Shape of Python Programs</span></a><a class='pg pg-next' href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>1.2-B Names, Environments, Nested Expressions, and Print</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#three-ways-a-language-lets-you-build'>Three Ways a Language Lets You Build</a></li><li><a href='#primitive-expressions-values-that-already-stand-alone'>Primitive Expressions: Values That Already Stand Alone</a></li><li><a href='#combining-values-with-operators'>Combining Values With Operators</a></li><li><a href='#call-expressions-applying-a-function-to-arguments'>Call Expressions: Applying a Function to Arguments</a></li><li><a href='#order-matters-and-functions-can-take-many-arguments'>Order Matters, and Functions Can Take Many Arguments</a></li><li><a href='#nested-call-expressions-inside-out'>Nested Call Expressions: Inside Out</a></li><li><a href='#importing-library-functions'>Importing Library Functions</a></li><li><a href='#the-evaluation-procedure-python-actually-follows'>The Evaluation Procedure Python Actually Follows</a></li><li><a href='#follow-the-line-one-step-of-the-procedure'>Follow the Line: One Step of the Procedure</a></li><li><a href='#the-expression-tree-step-by-step'>The Expression Tree, Step by Step</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

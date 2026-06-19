@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>1.6 · Higher-Order Functions — Coding Practice · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class='is-practice'>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/' class='active'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Practice</span><span class='dot'>/</span><span class='eb-sec'>Chapter 1 · Coding Practice</span></div><h1 class='lesson-title'>1.6 · Higher-Order Functions — Coding Practice</h1><div class='reading-meta'>&#9719; approx. 11 min read <span class='rm-sep'>&middot;</span> 30 worked examples</div></div><div class='lesson-grid'><div class='lesson-body'><p>These problems drill the core moves of Section 1.6: passing functions as arguments, the summation/general-method pattern, nested definitions, functions that return functions, closures, lambda, currying, and decorators.</p>
+<p>&gt; Work each problem from the starter signature first. Run your function against the Examples, then open the matching solution below to check your approach and its time and space cost.</p>
+<section id='easy' class='ls ls-default'>
+<h2 class='ls-h'><span>Easy</span></h2>
+<div class='ls-body'>
+<h3>1. Sum of Transformed Terms</h3>
+<p>Write <code>sum_terms(n, term)</code> that adds up <code>term(1) + term(2) + ... + term(n)</code>, where <code>term</code> is a function applied to each counter value. This is the <code>summation</code> machine from the lesson: one fixed loop with a swappable term head. If <code>n</code> is <code>0</code>, the sum is <code>0</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  sum_terms(3, lambda k: k * k)
+Output: 14
+Explanation: 1 + 4 + 9 = 14.</code></pre>
+<pre class='code text'><code>Input:  sum_terms(4, lambda k: k)
+Output: 10
+Explanation: 1 + 2 + 3 + 4 = 10 (identity as the term).</code></pre>
+<pre class='code text'><code>Input:  sum_terms(5, lambda k: 2 * k)
+Output: 30
+Explanation: 2 + 4 + 6 + 8 + 10 = 30.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>n</code> is an integer with <code>n &gt;= 0</code>.</li>
+<li><code>term</code> is a one-argument function from an integer to a number.</li>
+<li>Use <code>term</code> as a higher-order argument; do not hard-code any specific term rule.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">sum_terms</span><span style="color: #657b83">(n,</span> <span style="color: #657b83">term):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Keep the loop skeleton fixed (<code>total</code> starts at 0, <code>k</code> counts from 1) and let <code>term(k)</code> decide each value you add.</p></details>
+<h3>2. Apply Twice</h3>
+<p>Write <code>apply_twice(f, x)</code> that applies the one-argument function <code>f</code> to <code>x</code>, and then applies <code>f</code> again to that result. In other words, return <code>f(f(x))</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  apply_twice(lambda x: x + 3, 10)
+Output: 16
+Explanation: f(10) = 13, then f(13) = 16.</code></pre>
+<pre class='code text'><code>Input:  apply_twice(lambda x: x * x, 2)
+Output: 16
+Explanation: f(2) = 4, then f(4) = 16.</code></pre>
+<pre class='code text'><code>Input:  apply_twice(lambda x: x - 1, 5)
+Output: 3
+Explanation: f(5) = 4, then f(4) = 3.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>f</code> is a one-argument function; <code>x</code> is any value <code>f</code> accepts.</li>
+<li>Take <code>f</code> as a function argument and call it; do not assume what <code>f</code> does.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">apply_twice</span><span style="color: #657b83">(f,</span> <span style="color: #657b83">x):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>The result of the first call becomes the argument of the second call.</p></details>
+<h3>3. Make Multiplier</h3>
+<p>Write <code>make_multiplier(n)</code> that returns a one-argument function. Calling that returned function on <code>k</code> should produce <code>k * n</code>. This is a returned function that remembers <code>n</code> in its parent frame — a closure.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  make_multiplier(3)(5)
+Output: 15
+Explanation: make_multiplier(3) returns a function that multiplies by 3; 5 * 3 = 15.</code></pre>
+<pre class='code text'><code>Input:  make_multiplier(4)(6)
+Output: 24
+Explanation: the returned function multiplies its input by 4; 6 * 4 = 24.</code></pre>
+<pre class='code text'><code>Input:  make_multiplier(0)(99)
+Output: 0
+Explanation: multiplying by 0 always gives 0.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>n</code> and <code>k</code> are numbers.</li>
+<li><code>make_multiplier</code> must return a function, not a number. Do not call the inner function inside <code>make_multiplier</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">make_multiplier</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Define an inner function that uses <code>n</code>, then <code>return</code> that function itself (no parentheses).</p></details>
+<h3>4. Count Hits</h3>
+<p>Write <code>count_hits(n, pred)</code> that counts how many of the integers <code>1, 2, ..., n</code> satisfy the predicate <code>pred</code> (a function returning <code>True</code> or <code>False</code>). Return that count.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  count_hits(10, lambda k: k % 2 == 0)
+Output: 5
+Explanation: the even numbers 2, 4, 6, 8, 10 satisfy the predicate.</code></pre>
+<pre class='code text'><code>Input:  count_hits(10, lambda k: k % 3 == 0)
+Output: 3
+Explanation: 3, 6, 9 are divisible by 3.</code></pre>
+<pre class='code text'><code>Input:  count_hits(5, lambda k: k &gt; 10)
+Output: 0
+Explanation: no value in 1..5 is greater than 10.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>n</code> is an integer with <code>n &gt;= 0</code>.</li>
+<li><code>pred</code> is a one-argument function returning a boolean.</li>
+<li>Use <code>pred</code> as a higher-order argument inside the loop.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">count_hits</span><span style="color: #657b83">(n,</span> <span style="color: #657b83">pred):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Loop <code>k</code> from 1 to <code>n</code>, and increment a counter only when <code>pred(k)</code> is true.</p></details>
+</div></section>
+<section id='medium' class='ls ls-default'>
+<h2 class='ls-h'><span>Medium</span></h2>
+<div class='ls-body'>
+<h3>5. Product of Terms</h3>
+<p>Write <code>product(n, term)</code> — the multiplicative sibling of <code>summation</code>. It returns <code>term(1) * term(2) * ... * term(n)</code>, starting the running total at <code>1</code>. An empty product (<code>n == 0</code>) is <code>1</code>. Use it to build <code>factorial(n)</code> by passing the identity term.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  product(4, lambda k: k)
+Output: 24
+Explanation: 1 * 2 * 3 * 4 = 24, which is 4 factorial.</code></pre>
+<pre class='code text'><code>Input:  product(3, lambda k: 2)
+Output: 8
+Explanation: 2 * 2 * 2 = 8 (the term ignores k and is always 2).</code></pre>
+<pre class='code text'><code>Input:  product(5, lambda k: k * k)
+Output: 14400
+Explanation: 1 * 4 * 9 * 16 * 25 = 14400.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>n</code> is an integer with <code>n &gt;= 0</code>.</li>
+<li><code>term</code> is a one-argument function from an integer to a number.</li>
+<li>Mirror the <code>summation</code> skeleton but accumulate with multiplication; the starting total must be <code>1</code>, not <code>0</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">product</span><span style="color: #657b83">(n,</span> <span style="color: #657b83">term):</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">factorial</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>The only differences from <code>summation</code> are the starting value (<code>1</code>) and the operator (<code>*</code>).</p></details>
+<h3>6. Repeated Application</h3>
+<p>Write <code>repeated(f, n)</code> that returns a new function. Calling that returned function on <code>x</code> applies <code>f</code> to <code>x</code> a total of <code>n</code> times. If <code>n</code> is <code>0</code>, the returned function should leave its input unchanged.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  repeated(lambda x: x + 1, 5)(0)
+Output: 5
+Explanation: adding 1 five times to 0 gives 5.</code></pre>
+<pre class='code text'><code>Input:  repeated(lambda x: x * 2, 3)(1)
+Output: 8
+Explanation: 1 -&gt; 2 -&gt; 4 -&gt; 8 after doubling three times.</code></pre>
+<pre class='code text'><code>Input:  repeated(lambda x: x * x, 2)(3)
+Output: 81
+Explanation: 3 -&gt; 9 -&gt; 81 after squaring twice.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>f</code> is a one-argument function; <code>n</code> is an integer with <code>n &gt;= 0</code>.</li>
+<li><code>repeated</code> must return a function (a closure that remembers <code>f</code> and <code>n</code>).</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">repeated</span><span style="color: #657b83">(f,</span> <span style="color: #657b83">n):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Inside the returned function, loop <code>n</code> times, each pass replacing the running result with <code>f(result)</code>.</p></details>
+<h3>7. Curried Add</h3>
+<p>Write <code>curried_add(x)</code> that returns a one-argument function. Calling that returned function on <code>y</code> should produce <code>x + y</code>. This curries two-argument addition into two single-argument calls, so <code>curried_add(3)(4)</code> reads as two ordinary calls placed next to each other.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  curried_add(3)(4)
+Output: 7
+Explanation: curried_add(3) returns a function that adds 3; then it adds 4.</code></pre>
+<pre class='code text'><code>Input:  curried_add(10)(-2)
+Output: 8
+Explanation: the returned function adds 10 to its argument; 10 + (-2) = 8.</code></pre>
+<pre class='code text'><code>Input:  curried_add(5)(0)
+Output: 5
+Explanation: adding 0 leaves 5 unchanged.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>x</code> and <code>y</code> are numbers.</li>
+<li><code>curried_add(x)</code> must return a function that is still waiting for <code>y</code>; do not take both arguments at once.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">curried_add</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>This is the same shape as <code>make_multiplier</code>, but the inner function adds instead of multiplies.</p></details>
+<h3>8. Counting Decorator</h3>
+<p>Write a decorator <code>count_calls(f)</code> that wraps a one-argument function so it still returns the same results, but also keeps a running count of how many times it has been called. Store the count so it can be read back as <code>wrapped.calls[&#x27;count&#x27;]</code>. The wrapped function must return exactly what the original <code>f</code> returns.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  square = count_calls(square); square(3); square(4); square.calls[&#x27;count&#x27;]
+Output: 2
+Explanation: the wrapper delegates to the original square and tallies two calls.</code></pre>
+<pre class='code text'><code>Input:  square(5)  (after the two calls above)
+Output: 25
+Explanation: the wrapper returns f(5) = 25, the original result.</code></pre>
+<pre class='code text'><code>Input:  square.calls[&#x27;count&#x27;]  (after the third call)
+Output: 3
+Explanation: the tally is now 3.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>f</code> is a one-argument function.</li>
+<li>The wrapper must <code>return f(x)</code> so results are preserved.</li>
+<li>Keep the count in a mutable container (e.g. a dict) in the wrapper&#x27;s enclosing frame, since a plain integer rebinding inside the inner function would not persist without <code>nonlocal</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">count_calls</span><span style="color: #657b83">(f):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Return a <code>wrapped</code> inner function; store the count in a dict in the enclosing frame, bump it, then delegate to <code>f(x)</code>.</p></details>
+</div></section>
+<section id='hard' class='ls ls-default'>
+<h2 class='ls-h'><span>Hard</span></h2>
+<div class='ls-body'>
+<h3>9. Iterative Improvement to a Fixed Point</h3>
+<p>Build a general improver, then use it. First write <code>iter_improve(update, done, guess=1)</code> that repeatedly replaces <code>guess</code> with <code>update(guess)</code> until <code>done(guess)</code> is true, then returns <code>guess</code>. Provide <code>approx_eq(x, y, tolerance=1e-9)</code> for closeness tests. Then write <code>sqrt_two()</code>, which uses <code>iter_improve</code> with the averaging update <code>x -&gt; (x + 2/x)/2</code> and a <code>done</code> test that checks <code>x * x</code> is approximately <code>2</code>. Also write <code>fixed_point(f, start=1.0)</code> that finds an <code>x</code> with <code>f(x)</code> approximately equal to <code>x</code>.</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  sqrt_two()
+Output: 1.4142135623746899
+Explanation: iterating the averaging update from guess 1 converges to the square root of 2.</code></pre>
+<pre class='code text'><code>Input:  fixed_point(lambda x: (x + 4 / x) / 2)
+Output: 2.0
+Explanation: 2 is the value left unchanged by averaging x with 4/x, i.e. the square root of 4.</code></pre>
+<pre class='code text'><code>Input:  fixed_point(lambda x: 1 + 1 / x)
+Output: 1.6180339882053252
+Explanation: the golden ratio is the fixed point of x -&gt; 1 + 1/x.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>update</code>, <code>done</code>, and <code>f</code> are one-argument functions.</li>
+<li>Use <code>approx_eq</code> (not <code>==</code>) for floating-point closeness; exact equality may loop forever.</li>
+<li><code>sqrt_two</code> and <code>fixed_point</code> must define their <code>update</code>/<code>done</code> helpers as nested functions and delegate to <code>iter_improve</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">approx_eq</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y,</span> <span style="color: #657b83">tolerance</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">1e-9</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">iter_improve</span><span style="color: #657b83">(update,</span> <span style="color: #657b83">done,</span> <span style="color: #657b83">guess</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">1</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">sqrt_two</span><span style="color: #657b83">():</span>
+    <span style="color: #859900">pass</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">fixed_point</span><span style="color: #657b83">(f,</span> <span style="color: #657b83">start</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">1.0</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">pass</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/1cee0b039257.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<details class='hint'><summary>Hint</summary><p><code>fixed_point</code>&#x27;s <code>update</code> is just <code>f</code> itself, and its <code>done</code> test asks whether <code>f(x)</code> is already approximately <code>x</code>.</p></details>
+<h3>10. Compose Functions Given by Index</h3>
+<p>Write <code>pipe(get, n)</code> that returns a function. <code>get</code> is a function where <code>get(k)</code> returns the function to apply at step <code>k</code>. Calling the returned function on <code>x</code> should apply <code>get(0)</code>, then <code>get(1)</code>, on up through <code>get(n-1)</code>, threading the result through each. If <code>n</code> is <code>0</code>, the returned function leaves its input unchanged (no functions applied).</p>
+<p><strong>Examples</strong></p>
+<pre class='code text'><code>Input:  pipe(lambda k: (lambda x: x + k), 3)(10)
+Output: 13
+Explanation: applies +0, then +1, then +2 in order: 10 + 0 + 1 + 2 = 13.</code></pre>
+<pre class='code text'><code>Input:  pipe(lambda k: (lambda x: x + k), 0)(10)
+Output: 10
+Explanation: with n = 0 no functions are applied, so the input is returned unchanged.</code></pre>
+<pre class='code text'><code>Input:  pipe(alt, 3)(3)   where alt(k) squares when k is even and increments when odd
+Output: 100
+Explanation: square -&gt; 9, increment -&gt; 10, square -&gt; 100.</code></pre>
+<p><strong>Constraints</strong></p>
+<ul>
+<li><code>get</code> is a function from an index to a one-argument function; <code>n</code> is an integer with <code>n &gt;= 0</code>.</li>
+<li><code>pipe</code> must return a function (a closure over <code>get</code> and <code>n</code>).</li>
+<li>Apply the functions strictly in index order <code>0, 1, ..., n-1</code>.</li>
+</ul>
+<p><strong>Starter</strong></p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">pipe</span><span style="color: #657b83">(get,</span> <span style="color: #657b83">n):</span>
+    <span style="color: #859900">pass</span>
+</code></pre>
+<details class='hint'><summary>Hint</summary><p>Inside the returned function, loop <code>k</code> from <code>0</code> to <code>n-1</code>, fetch <code>f = get(k)</code>, and replace the running result with <code>f(result)</code>.</p></details>
+</div></section>
+<section id='solutions' class='ls ls-default'>
+<h2 class='ls-h'><span>Solutions</span></h2>
+<div class='ls-body'>
+<h3>1. Sum of Transformed Terms</h3>
+<p><strong>Approach — the summation machine.</strong> This is the <code>summation</code> pattern from 1.6-A: a fixed loop skeleton with the per-term rule supplied as a higher-order argument <code>term</code>. The loop never knows which rule it holds; it just calls <code>term(k)</code> each pass.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">sum_terms</span><span style="color: #657b83">(n,</span> <span style="color: #657b83">term):</span>
+    <span style="color: #657b83">total,</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">&lt;=</span> <span style="color: #657b83">n:</span>
+        <span style="color: #657b83">total,</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">total</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">term(k),</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">total</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>total</code> starts at 0 and <code>k</code> counts from 1 to <code>n</code>; each pass adds <code>term(k)</code>, so the result is <code>term(1) + ... + term(n)</code>. When <code>n</code> is 0 the loop never runs and <code>total</code> stays 0.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. One pass over the counter, plus a constant number of local names.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">sum_terms(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">k:</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">k)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">14</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">sum_terms(</span><span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">k:</span> <span style="color: #657b83">k)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">10</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">sum_terms(</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">k:</span> <span style="color: #2aa198">2</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">k)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">30</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">sum_terms(</span><span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">k:</span> <span style="color: #657b83">k)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+</code></pre>
+<h3>2. Apply Twice</h3>
+<p><strong>Approach — functions as arguments.</strong> <code>f</code> arrives as a first-class function value. We call it, feed its result back into it, and return that. The whole point is that <code>apply_twice</code> never knows what <code>f</code> does.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">apply_twice</span><span style="color: #657b83">(f,</span> <span style="color: #657b83">x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">f(f(x))</span>
+</code></pre>
+<p><strong>Why it works.</strong> The inner <code>f(x)</code> is evaluated first, producing a value; the outer <code>f(...)</code> is then called on that value, giving <code>f</code> applied twice.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> calls to <code>f</code> (two of them), Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. The cost beyond <code>f</code> itself is constant.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">apply_twice(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">16</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">apply_twice(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">x,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">16</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">apply_twice(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">-</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+</code></pre>
+<h3>3. Make Multiplier</h3>
+<p><strong>Approach — returned function / closure.</strong> Following <code>make_adder</code> from 1.6-B, we define an inner function that references the outer parameter <code>n</code> and <code>return</code> it. The returned function remembers <code>n</code> through its parent frame.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">make_multiplier</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">multiplier</span><span style="color: #657b83">(k):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">n</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">multiplier</span>
+</code></pre>
+<p><strong>Why it works.</strong> When <code>make_multiplier(3)</code> runs, it builds a <code>multiplier</code> whose parent frame binds <code>n -&gt; 3</code>. Calling that function later looks up <code>n</code> in the remembered frame, so <code>multiplier(5)</code> computes <code>5 * 3</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. Building and calling the closure are constant-time.</p>
+<pre class='code python'><code><span style="color: #657b83">triple</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">make_multiplier(</span><span style="color: #2aa198">3</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">triple(</span><span style="color: #2aa198">5</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">15</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">make_multiplier(</span><span style="color: #2aa198">4</span><span style="color: #657b83">)(</span><span style="color: #2aa198">6</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">24</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">make_multiplier(</span><span style="color: #2aa198">0</span><span style="color: #657b83">)(</span><span style="color: #2aa198">99</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">make_multiplier(</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">2</span><span style="color: #657b83">)(</span><span style="color: #2aa198">7</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #93a1a1">-</span><span style="color: #2aa198">14</span>
+</code></pre>
+<h3>4. Count Hits</h3>
+<p><strong>Approach — predicate as argument.</strong> A close cousin of <code>summation</code>: instead of adding <code>term(k)</code>, we add 1 whenever the higher-order predicate <code>pred(k)</code> is true. The decision of what counts as a hit lives entirely in <code>pred</code>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">count_hits</span><span style="color: #657b83">(n,</span> <span style="color: #657b83">pred):</span>
+    <span style="color: #657b83">total,</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">0</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">&lt;=</span> <span style="color: #657b83">n:</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">pred(k):</span>
+            <span style="color: #657b83">total</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">total</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+        <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">total</span>
+</code></pre>
+<p><strong>Why it works.</strong> Each integer from 1 to <code>n</code> is tested once; <code>total</code> rises by 1 exactly for the values where <code>pred</code> returns true.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. One pass, constant extra storage.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">count_hits(</span><span style="color: #2aa198">10</span><span style="color: #657b83">,</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">k:</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">%</span> <span style="color: #2aa198">2</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">5</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_hits(</span><span style="color: #2aa198">10</span><span style="color: #657b83">,</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">k:</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">%</span> <span style="color: #2aa198">3</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_hits(</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">k:</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">&gt;</span> <span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">count_hits(</span><span style="color: #2aa198">7</span><span style="color: #657b83">,</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">k:</span> <span style="color: #2aa198">True</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">7</span>
+</code></pre>
+<h3>5. Product of Terms</h3>
+<p><strong>Approach — the general-method sibling of summation.</strong> Same skeleton as <code>summation</code>, but the accumulator starts at <code>1</code> and combines with <code>*</code>. <code>factorial</code> is then a one-liner that passes the identity term, exactly as <code>sum_naturals</code> passed <code>identity</code> to <code>summation</code>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">product</span><span style="color: #657b83">(n,</span> <span style="color: #657b83">term):</span>
+    <span style="color: #657b83">total,</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">&lt;=</span> <span style="color: #657b83">n:</span>
+        <span style="color: #657b83">total,</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">total</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">term(k),</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">total</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">factorial</span><span style="color: #657b83">(n):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">product(n,</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">k:</span> <span style="color: #657b83">k)</span>
+</code></pre>
+<p><strong>Why it works.</strong> Starting <code>total</code> at 1 is the multiplicative identity, so an empty product (<code>n == 0</code>) is 1; each pass multiplies in <code>term(k)</code>. <code>factorial(n)</code> multiplies <code>1 * 2 * ... * n</code>.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. One pass over the counter.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">product(</span><span style="color: #2aa198">4</span><span style="color: #657b83">,</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">k:</span> <span style="color: #657b83">k)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">24</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">product(</span><span style="color: #2aa198">3</span><span style="color: #657b83">,</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">k:</span> <span style="color: #2aa198">2</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">8</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">product(</span><span style="color: #2aa198">5</span><span style="color: #657b83">,</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">k:</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">k)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">14400</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">factorial(</span><span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">factorial(</span><span style="color: #2aa198">5</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">120</span>
+</code></pre>
+<h3>6. Repeated Application</h3>
+<p><strong>Approach — returned function that loops.</strong> <code>repeated</code> is a higher-order function that both takes a function (<code>f</code>) and returns one. The returned closure remembers <code>f</code> and <code>n</code>, and when called it applies <code>f</code> to its input <code>n</code> times.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">repeated</span><span style="color: #657b83">(f,</span> <span style="color: #657b83">n):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">repeat</span><span style="color: #657b83">(x):</span>
+        <span style="color: #657b83">result,</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">x,</span> <span style="color: #2aa198">0</span>
+        <span style="color: #859900">while</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #657b83">n:</span>
+            <span style="color: #657b83">result,</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">f(result),</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">result</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">repeat</span>
+</code></pre>
+<p><strong>Why it works.</strong> Inside <code>repeat</code>, <code>result</code> starts as the input and is overwritten with <code>f(result)</code> on each of <code>n</code> passes. When <code>n</code> is 0 the loop never runs, so the input is returned unchanged.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> calls to <code>f</code>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. The loop runs <code>n</code> times with constant extra storage.</p>
+<pre class='code python'><code><span style="color: #657b83">increment</span> <span style="color: #93a1a1">=</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">repeated(increment,</span> <span style="color: #2aa198">5</span><span style="color: #657b83">)(</span><span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">5</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">repeated(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">*</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)(</span><span style="color: #2aa198">1</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">8</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">repeated(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">x,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">)(</span><span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">81</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">repeated(increment,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)(</span><span style="color: #2aa198">42</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">42</span>
+</code></pre>
+<h3>7. Curried Add</h3>
+<p><strong>Approach — currying by hand.</strong> Like <code>curried_pow</code> from 1.6-C, the outer function captures the first argument <code>x</code> and returns an inner function still waiting for <code>y</code>. Two single-argument calls placed next to each other do the work of one two-argument call.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">curried_add</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">adder</span><span style="color: #657b83">(y):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">y</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">adder</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>curried_add(3)</code> returns an <code>adder</code> whose parent frame remembers <code>x -&gt; 3</code>; calling that with <code>4</code> runs <code>3 + 4</code>. The first pair of parentheses produces a function; the second pair calls it.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. Both calls are constant-time.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">curried_add(</span><span style="color: #2aa198">3</span><span style="color: #657b83">)(</span><span style="color: #2aa198">4</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">7</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">curried_add(</span><span style="color: #2aa198">10</span><span style="color: #657b83">)(</span><span style="color: #93a1a1">-</span><span style="color: #2aa198">2</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">8</span>
+<span style="color: #657b83">add_five</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">curried_add(</span><span style="color: #2aa198">5</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">add_five(</span><span style="color: #2aa198">0</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">5</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">add_five(</span><span style="color: #2aa198">100</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">105</span>
+</code></pre>
+<h3>8. Counting Decorator</h3>
+<p><strong>Approach — decorator with closure state.</strong> Like <code>trace</code> from 1.6-C, <code>count_calls</code> takes a function and returns a <code>wrapped</code> replacement. The wrapper adds bookkeeping (a call tally) and still delegates to the original with <code>return f(x)</code>. The count lives in a dict in the enclosing frame so the inner function can mutate it without <code>nonlocal</code>.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">count_calls</span><span style="color: #657b83">(f):</span>
+    <span style="color: #657b83">state</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">{</span><span style="color: #2aa198">&#39;count&#39;</span><span style="color: #657b83">:</span> <span style="color: #2aa198">0</span><span style="color: #657b83">}</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">wrapped</span><span style="color: #657b83">(x):</span>
+        <span style="color: #657b83">state[</span><span style="color: #2aa198">&#39;count&#39;</span><span style="color: #657b83">]</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">state[</span><span style="color: #2aa198">&#39;count&#39;</span><span style="color: #657b83">]</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">f(x)</span>
+    <span style="color: #657b83">wrapped</span><span style="color: #93a1a1">.</span><span style="color: #657b83">calls</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">state</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">wrapped</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>wrapped</code> closes over <code>state</code>; each call bumps <code>state[&#x27;count&#x27;]</code> and then returns the original <code>f(x)</code>, so results are preserved while the tally accumulates. Exposing <code>wrapped.calls</code> lets a caller read the count back.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span> overhead per call (plus <code>f</code>&#x27;s own cost), Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. One dict held in the closure.</p>
+<pre class='code python'><code><span style="color: #268bd2">@count_calls</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">square</span><span style="color: #657b83">(x):</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">x</span>
+
+<span style="color: #859900">assert</span> <span style="color: #657b83">square(</span><span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">9</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">square(</span><span style="color: #2aa198">4</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">16</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">square</span><span style="color: #93a1a1">.</span><span style="color: #657b83">calls[</span><span style="color: #2aa198">&#39;count&#39;</span><span style="color: #657b83">]</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">2</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">square(</span><span style="color: #2aa198">5</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">25</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">square</span><span style="color: #93a1a1">.</span><span style="color: #657b83">calls[</span><span style="color: #2aa198">&#39;count&#39;</span><span style="color: #657b83">]</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">3</span>
+</code></pre>
+<h3>9. Iterative Improvement to a Fixed Point</h3>
+<p><strong>Approach — the general improve method.</strong> <code>iter_improve</code> is the <code>improve</code> general method from 1.6-A/B: refine a guess with <code>update</code> until <code>done</code> says it is good enough. <code>sqrt_two</code> and <code>fixed_point</code> fill the two slots with nested helpers (closures), so the loop machinery never mentions the specific problem.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">approx_eq</span><span style="color: #657b83">(x,</span> <span style="color: #657b83">y,</span> <span style="color: #657b83">tolerance</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">1e-9</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">return</span> <span style="color: #268bd2">abs</span><span style="color: #657b83">(x</span> <span style="color: #93a1a1">-</span> <span style="color: #657b83">y)</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #657b83">tolerance</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">iter_improve</span><span style="color: #657b83">(update,</span> <span style="color: #657b83">done,</span> <span style="color: #657b83">guess</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">1</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">while</span> <span style="color: #859900">not</span> <span style="color: #657b83">done(guess):</span>
+        <span style="color: #657b83">guess</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">update(guess)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">guess</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">sqrt_two</span><span style="color: #657b83">():</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">update</span><span style="color: #657b83">(x):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">(x</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">2</span> <span style="color: #93a1a1">/</span> <span style="color: #657b83">x)</span> <span style="color: #93a1a1">/</span> <span style="color: #2aa198">2</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">done</span><span style="color: #657b83">(x):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">approx_eq(x</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">x,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">iter_improve(update,</span> <span style="color: #657b83">done)</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">fixed_point</span><span style="color: #657b83">(f,</span> <span style="color: #657b83">start</span><span style="color: #93a1a1">=</span><span style="color: #2aa198">1.0</span><span style="color: #657b83">):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">update</span><span style="color: #657b83">(x):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">f(x)</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">done</span><span style="color: #657b83">(x):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">approx_eq(f(x),</span> <span style="color: #657b83">x)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">iter_improve(update,</span> <span style="color: #657b83">done,</span> <span style="color: #657b83">start)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/68918f8b2131.json' data-mount='st1'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st1' hidden></div></figure>
+<p><strong>Why it works.</strong> Each <code>update</code> contracts the guess toward the target; <code>done</code> uses <code>approx_eq</code> (not <code>==</code>) so floating-point rounding does not trap the loop. For <code>fixed_point</code>, the <code>update</code> is <code>f</code> itself and <code>done</code> checks whether <code>f(x)</code> already equals <code>x</code> within tolerance.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">i</span><span class="mclose">)</span></span></span></span></span> where <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span></span> is the number of iterations to reach the tolerance, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. Each pass does constant work; the iteration count depends on how fast the update converges.</p>
+<pre class='code python'><code><span style="color: #859900">assert</span> <span style="color: #657b83">approx_eq(sqrt_two(),</span> <span style="color: #2aa198">1.4142135623730951</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">approx_eq(fixed_point(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">(x</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">4</span> <span style="color: #93a1a1">/</span> <span style="color: #657b83">x)</span> <span style="color: #93a1a1">/</span> <span style="color: #2aa198">2</span><span style="color: #657b83">),</span> <span style="color: #2aa198">2.0</span><span style="color: #657b83">)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">approx_eq(fixed_point(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #2aa198">1</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span> <span style="color: #93a1a1">/</span> <span style="color: #657b83">x),</span> <span style="color: #2aa198">1.618033988749895</span><span style="color: #657b83">)</span>
+</code></pre>
+<h3>10. Compose Functions Given by Index</h3>
+<p><strong>Approach — first-class functions threaded in order.</strong> <code>pipe</code> returns a closure over <code>get</code> and <code>n</code>. When called, it fetches each step&#x27;s function with <code>get(k)</code> and threads the running result through them in index order — a generalization of <code>compose1</code> to a sequence of functions selected by index.</p>
+<pre class='code python'><code><span style="color: #859900">def</span> <span style="color: #268bd2">pipe</span><span style="color: #657b83">(get,</span> <span style="color: #657b83">n):</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">piped</span><span style="color: #657b83">(x):</span>
+        <span style="color: #657b83">result,</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">x,</span> <span style="color: #2aa198">0</span>
+        <span style="color: #859900">while</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">&lt;</span> <span style="color: #657b83">n:</span>
+            <span style="color: #657b83">f</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">get(k)</span>
+            <span style="color: #657b83">result,</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">f(result),</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">result</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">piped</span>
+</code></pre>
+<p><strong>Why it works.</strong> <code>result</code> starts as the input; pass <code>k</code> replaces it with <code>get(k)</code> applied to it, for <code>k</code> from 0 up to <code>n-1</code>. With <code>n == 0</code> the loop never runs, so the input passes through unchanged.</p>
+<p><strong>Complexity.</strong> Time <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span> calls to the fetched functions, Space <span class='math-inline'><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>. One pass with constant extra storage (beyond whatever <code>get</code> and the step functions cost).</p>
+<pre class='code python'><code><span style="color: #657b83">adders</span> <span style="color: #93a1a1">=</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">k:</span> <span style="color: #657b83">(</span><span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">k)</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">pipe(adders,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)(</span><span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">13</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">pipe(adders,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)(</span><span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">10</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">pipe(adders,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)(</span><span style="color: #2aa198">10</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">10</span>
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">alt</span><span style="color: #657b83">(k):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">k</span> <span style="color: #93a1a1">%</span> <span style="color: #2aa198">2</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">x</span>
+    <span style="color: #859900">return</span> <span style="color: #859900">lambda</span> <span style="color: #657b83">x:</span> <span style="color: #657b83">x</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">1</span>
+
+<span style="color: #859900">assert</span> <span style="color: #657b83">pipe(alt,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)(</span><span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">100</span>
+<span style="color: #859900">assert</span> <span style="color: #657b83">pipe(alt,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">)(</span><span style="color: #2aa198">3</span><span style="color: #657b83">)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">10</span>
+</code></pre>
+</div></section><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>

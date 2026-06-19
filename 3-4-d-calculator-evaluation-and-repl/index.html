@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>3.4.4 Calculator Evaluation and the REPL · Program Design and Abstraction</title>
+<script>(function(){try{var t=localStorage.getItem('f2m-theme');if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='/program-design-and-abstraction/katex/katex.min.css'>
+<link rel='stylesheet' href='/program-design-and-abstraction/assets/site.css?v=8fe96c62'>
+<style>:root{--pt-arrow:#1e3b8a;--pt-arrow-hi:#b07d0c;--pt-arrow-off:#b9c0d0;--pt-line-bg:#e9f4ee;--pt-line-bg2:#f2f9f5;--pt-line-bd:#2f8f5b;--pt-call-bg:#e3f3ea;--pt-red:#c5443a;--pt-next:#c5443a;--pt-just:#5aa97c;}html[data-theme="dark"]{--pt-arrow:#8fa6e8;--pt-arrow-hi:#d9b24c;--pt-arrow-off:#525d7b;}</style><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/ui-lightness/jquery-ui-1.8.24.custom.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/pytutor.css'><link rel='stylesheet' href='/program-design-and-abstraction/vendor/pytutor/css/f2m-pytutor.css'>
+</head>
+<body class=''>
+<header class='topbar'>
+  <button class='menu-btn' aria-label='Menu' type='button'>&#9776;</button>
+  <a class='brand' href='/program-design-and-abstraction/'><img class='brand-logo light-only' src='/program-design-and-abstraction/assets/brand/f2m-mark.png' alt='Foundations to Mastery'><img class='brand-logo dark-only' src='/program-design-and-abstraction/assets/brand/f2m-mark-dark.png' alt='Foundations to Mastery'><span class='brand-divider'></span><span class='brand-text'><span class='brand-name'>Program Design and Abstraction</span><span class='brand-sub'>Computer Science I</span></span></a>
+  <div class='top-actions'><button class='theme-btn' aria-label='Toggle theme' type='button'>&#9788;</button></div>
+</header>
+<div class='layout'>
+  <div class='scrim'></div>
+  <aside class='sidebar'><nav class='nav' aria-label='Contents'><a class='nav-home' href='/program-design-and-abstraction/'>&#8962;&nbsp; Title &amp; Contents</a><div class='nav-extra'><a href='/program-design-and-abstraction/how-to-read/'>How to Read This Book</a></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Help</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>Installing Python</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/help-install-macos/'>Installing Python on macOS</a></li><li><a href='/program-design-and-abstraction/help-install-windows/'>Installing Python on Windows</a></li><li><a href='/program-design-and-abstraction/help-install-linux/'>Installing Python on Linux</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 1: Building Abstractions with Functions</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>1.1 Getting Started</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-1-getting-started-and-the-shape-of-python-programs/'>1.1 Getting Started and the Shape of Python Programs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.2 Elements of Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-2-a-expressions-calls-imports-and-evaluation/'>1.2-A Expressions, Calls, Imports, and Evaluation</a></li><li><a href='/program-design-and-abstraction/1-2-b-names-environments-nested-expressions-and-print/'>1.2-B Names, Environments, Nested Expressions, and Print</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.3 Defining New Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-3-a-function-definitions-calls-and-environment-frames/'>1.3-A Function Definitions, Calls, and Environment Frames</a></li><li><a href='/program-design-and-abstraction/1-3-b-local-names-abstraction-operators-and-call-expressions/'>1.3-B Local Names, Abstraction, Operators, and Call Expressions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.4 Designing Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-4-function-design-documentation-comments-and-default-arguments/'>1.4 Function Design, Documentation, Comments, and Default Arguments</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.5 Control</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-5-a-statements-assignment-conditionals-and-boolean-contexts/'>1.5-A Statements, Assignment, Conditionals, and Boolean Contexts</a></li><li><a href='/program-design-and-abstraction/1-5-b-iteration-testing-and-defensive-mental-models/'>1.5-B Iteration, Testing, and Defensive Mental Models</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.6 Higher-Order Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-6-a-functions-as-arguments-summation-and-general-methods/'>1.6-A Functions as Arguments, Summation, and General Methods</a></li><li><a href='/program-design-and-abstraction/1-6-b-nested-definitions-returned-functions-and-newtons-method/'>1.6-B Nested Definitions, Returned Functions, and Newton&#x27;s Method</a></li><li><a href='/program-design-and-abstraction/1-6-c-lambda-currying-first-class-functions-and-decorators/'>1.6-C Lambda, Currying, First-Class Functions, and Decorators</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>1.7 Recursive Functions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/1-7-1-7-1-recursive-functions-and-the-anatomy-of-a-recursive-function/'>1.7-1.7.1 Recursive Functions and the Anatomy of a Recursive Function</a></li><li><a href='/program-design-and-abstraction/1-7-2-1-7-3-mutual-recursion-and-recursive-printing/'>1.7.2-1.7.3 Mutual Recursion and Recursive Printing</a></li><li><a href='/program-design-and-abstraction/1-7-4-1-7-5-tree-recursion-and-integer-partitions/'>1.7.4-1.7.5 Tree Recursion and Integer Partitions</a></li><li><a href='/program-design-and-abstraction/1-7-practice-guide-recursion-and-tree-recursion/'>1.7 Practice Guide: Recursion and Tree Recursion</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 2: Building Abstractions with Data</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>2.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-1-introduction-and-native-data-types/'>2.1 Introduction and Native Data Types</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.2 Data Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-2-a-data-abstraction-and-rational-numbers/'>2.2-A Data Abstraction and Rational Numbers</a></li><li><a href='/program-design-and-abstraction/2-2-b-pairs-barriers-and-data-properties/'>2.2-B Pairs, Barriers, and Data Properties</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.3 Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-3-a-lists-and-sequence-iteration/'>2.3-A Lists and Sequence Iteration</a></li><li><a href='/program-design-and-abstraction/2-3-b-sequence-processing-abstraction-and-strings/'>2.3-B Sequence Processing, Abstraction, and Strings</a></li><li><a href='/program-design-and-abstraction/2-3-c-trees-as-recursive-data/'>2.3-C Trees as Recursive Data</a></li><li><a href='/program-design-and-abstraction/2-3-d-linked-lists-and-recursive-sequence-construction/'>2.3-D Linked Lists and Recursive Sequence Construction</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.4 Mutable Data</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-4-a-objects-mutable-sequences-and-identity/'>2.4-A Objects, Mutable Sequences, and Identity</a></li><li><a href='/program-design-and-abstraction/2-4-b-dictionaries-local-state-and-nonlocal-assignment/'>2.4-B Dictionaries, Local State, and Nonlocal Assignment</a></li><li><a href='/program-design-and-abstraction/2-4-c-nonlocal-state-message-passing-and-mutable-implementations/'>2.4-C Nonlocal State, Message Passing, and Mutable Implementations</a></li><li><a href='/program-design-and-abstraction/2-4-d-propagating-constraints/'>2.4-D Propagating Constraints</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.5 Object-Oriented Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-5-a-objects-classes-and-instance-state/'>2.5-A Objects, Classes, and Instance State</a></li><li><a href='/program-design-and-abstraction/2-5-b-dot-expressions-methods-and-class-attributes/'>2.5-B Dot Expressions, Methods, and Class Attributes</a></li><li><a href='/program-design-and-abstraction/2-5-c-inheritance-interfaces-and-account-specialization/'>2.5-C Inheritance, Interfaces, and Account Specialization</a></li><li><a href='/program-design-and-abstraction/2-5-d-multiple-inheritance-and-the-role-of-objects/'>2.5-D Multiple Inheritance and the Role of Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.6 Implementing Classes and Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-6-a-instances-classes-and-bound-methods/'>2.6-A Instances, Classes, and Bound Methods</a></li><li><a href='/program-design-and-abstraction/2-6-b-account-classes-and-dictionary-based-inheritance/'>2.6-B Account Classes and Dictionary-Based Inheritance</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.7 Object Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-7-a-string-conversion/'>2.7-A String Conversion</a></li><li><a href='/program-design-and-abstraction/2-7-b-special-methods/'>2.7-B Special Methods</a></li><li><a href='/program-design-and-abstraction/2-7-c-multiple-representations/'>2.7-C Multiple Representations</a></li><li><a href='/program-design-and-abstraction/2-7-d-generic-functions/'>2.7-D Generic Functions</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.8 Efficiency</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-8-a-measuring-efficiency/'>2.8-A Measuring Efficiency</a></li><li><a href='/program-design-and-abstraction/2-8-b-memoization/'>2.8-B Memoization</a></li><li><a href='/program-design-and-abstraction/2-8-c-orders-of-growth/'>2.8-C Orders of Growth</a></li><li><a href='/program-design-and-abstraction/2-8-d-example-exponentiation/'>2.8-D Example: Exponentiation</a></li><li><a href='/program-design-and-abstraction/2-8-e-growth-categories/'>2.8-E Growth Categories</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>2.9 Recursive Objects</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/2-9-a-recursive-objects-and-the-link-class/'>2.9-A Recursive Objects and the Link Class</a></li><li><a href='/program-design-and-abstraction/2-9-b-recursive-link-processing-and-partitions/'>2.9-B Recursive Link Processing and Partitions</a></li><li><a href='/program-design-and-abstraction/2-9-c-the-tree-class-and-shared-structure/'>2.9-C The Tree Class and Shared Structure</a></li><li><a href='/program-design-and-abstraction/2-9-d-built-in-sets-and-unordered-set-representations/'>2.9-D Built-In Sets and Unordered Set Representations</a></li><li><a href='/program-design-and-abstraction/2-9-e-ordered-and-tree-structured-sets/'>2.9-E Ordered and Tree-Structured Sets</a></li></ul></div></div></div><div class='nav-chapter is-open'><button class='nav-chapter-h' type='button'><span>Chapter 3: Interpreting Computer Programs</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>3.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-1-a-programs-languages-and-interpreters/'>3.1-A Programs, Languages, and Interpreters</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.2 Functional Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-2-a-scheme-expressions-and-evaluation/'>3.2-A Scheme Expressions and Evaluation</a></li><li><a href='/program-design-and-abstraction/3-2-b-definitions-procedures-and-lexical-scope/'>3.2-B Definitions, Procedures, and Lexical Scope</a></li><li><a href='/program-design-and-abstraction/3-2-c-pairs-lists-and-recursive-sequence-processing/'>3.2-C Pairs, Lists, and Recursive Sequence Processing</a></li><li><a href='/program-design-and-abstraction/3-2-d-quotation-and-symbolic-data/'>3.2-D Quotation and Symbolic Data</a></li><li><a href='/program-design-and-abstraction/3-2-e-turtle-graphics-and-recursive-drawing/'>3.2-E Turtle Graphics and Recursive Drawing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.3 Exceptions</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-3-a-exceptions-and-exception-objects/'>3.3-A Exceptions and Exception Objects</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.4 Interpreters for Languages with Combination</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-4-a-scheme-syntax-calculator/'>3.4-A Scheme-Syntax Calculator</a></li><li><a href='/program-design-and-abstraction/3-4-b-expression-trees-as-pair-data/'>3.4-B Expression Trees as Pair Data</a></li><li><a href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'>3.4-C Parsing Expressions into Trees</a></li><li><a href='/program-design-and-abstraction/3-4-d-calculator-evaluation-and-repl/' class='active'>3.4-D Calculator Evaluation and REPL</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>3.5 Interpreters for Languages with Abstraction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'>3.5-A Scheme Interpreter Structure</a></li><li><a href='/program-design-and-abstraction/3-5-b-environments-frames-and-name-lookup/'>3.5-B Environments, Frames, and Name Lookup</a></li><li><a href='/program-design-and-abstraction/3-5-c-data-as-programs-and-universal-machines/'>3.5-C Data as Programs and Universal Machines</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Chapter 4: Data Processing</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><div class='nav-section-h'>4.1 Introduction</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-1-a-data-streams-and-processing-pipelines/'>4.1-A Data, Streams, and Processing Pipelines</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.2 Implicit Sequences</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-2-a-lazy-computation-and-iterator-state/'>4.2-A Lazy Computation and Iterator State</a></li><li><a href='/program-design-and-abstraction/4-2-b-iterable-processing-and-for-statements/'>4.2-B Iterable Processing and For Statements</a></li><li><a href='/program-design-and-abstraction/4-2-c-generators-and-yield-statements/'>4.2-C Generators and Yield Statements</a></li><li><a href='/program-design-and-abstraction/4-2-d-iterable-and-iterator-interfaces/'>4.2-D Iterable and Iterator Interfaces</a></li><li><a href='/program-design-and-abstraction/4-2-e-streams-and-lazy-stream-processing/'>4.2-E Streams and Lazy Stream Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.3 Declarative Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-3-a-tables-and-declarative-queries/'>4.3-A Tables and Declarative Queries</a></li><li><a href='/program-design-and-abstraction/4-3-b-select-statements-projection-filtering-and-ordering/'>4.3-B Select Statements, Projection, Filtering, and Ordering</a></li><li><a href='/program-design-and-abstraction/4-3-c-joins-aliases-and-dot-expressions/'>4.3-C Joins, Aliases, and Dot Expressions</a></li><li><a href='/program-design-and-abstraction/4-3-d-interpreting-sql-with-python/'>4.3-D Interpreting SQL with Python</a></li><li><a href='/program-design-and-abstraction/4-3-e-recursive-select-statements/'>4.3-E Recursive Select Statements</a></li><li><a href='/program-design-and-abstraction/4-3-f-aggregation-and-grouping/'>4.3-F Aggregation and Grouping</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.4 Logic Programming</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-4-a-facts-queries-and-logical-matching/'>4.4-A Facts, Queries, and Logical Matching</a></li><li><a href='/program-design-and-abstraction/4-4-b-recursive-facts-hierarchical-records-and-list-relations/'>4.4-B Recursive Facts, Hierarchical Records, and List Relations</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.5 Unification</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-5-a-pattern-matching-and-variable-bindings/'>4.5-A Pattern Matching and Variable Bindings</a></li><li><a href='/program-design-and-abstraction/4-5-b-representing-facts-queries-and-binding-frames/'>4.5-B Representing Facts, Queries, and Binding Frames</a></li><li><a href='/program-design-and-abstraction/4-5-c-the-unification-algorithm/'>4.5-C The Unification Algorithm</a></li><li><a href='/program-design-and-abstraction/4-5-d-proofs-as-structured-reasoning/'>4.5-D Proofs as Structured Reasoning</a></li><li><a href='/program-design-and-abstraction/4-5-e-search-and-unique-variable-names/'>4.5-E Search and Unique Variable Names</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.6 Distributed Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-6-a-messages-protocols-and-tcp-ip/'>4.6-A Messages, Protocols, and TCP-IP</a></li><li><a href='/program-design-and-abstraction/4-6-b-client-server-architecture-and-web-requests/'>4.6-B Client-Server Architecture and Web Requests</a></li><li><a href='/program-design-and-abstraction/4-6-c-peer-to-peer-systems-and-distributed-tradeoffs/'>4.6-C Peer-to-Peer Systems and Distributed Tradeoffs</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.7 Distributed Data Processing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-7-a-mapreduce-pure-functions-and-key-value-flow/'>4.7-A MapReduce, Pure Functions, and Key-Value Flow</a></li><li><a href='/program-design-and-abstraction/4-7-b-unix-pipes-and-a-local-mapreduce-implementation/'>4.7-B Unix Pipes and a Local MapReduce Implementation</a></li><li><a href='/program-design-and-abstraction/4-7-c-hadoop-parallel-tasks-and-fault-tolerant-distributed-processing/'>4.7-C Hadoop, Parallel Tasks, and Fault-Tolerant Distributed Processing</a></li></ul></div><div class='nav-section'><div class='nav-section-h'>4.8 Parallel Computing</div><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/4-8-a-parallelism-concurrency-threads-and-processes/'>4.8-A Parallelism, Concurrency, Threads, and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-b-shared-state-atomicity-and-race-conditions/'>4.8-B Shared State, Atomicity, and Race Conditions</a></li><li><a href='/program-design-and-abstraction/4-8-c-when-synchronization-is-not-necessary/'>4.8-C When Synchronization Is Not Necessary</a></li><li><a href='/program-design-and-abstraction/4-8-d-synchronized-queues-and-producer-consumer-coordination/'>4.8-D Synchronized Queues and Producer Consumer Coordination</a></li><li><a href='/program-design-and-abstraction/4-8-e-locks-critical-sections-and-with-statements/'>4.8-E Locks, Critical Sections, and With Statements</a></li><li><a href='/program-design-and-abstraction/4-8-f-barriers-and-phase-based-parallel-work/'>4.8-F Barriers and Phase-Based Parallel Work</a></li><li><a href='/program-design-and-abstraction/4-8-g-message-passing-with-pipes-and-processes/'>4.8-G Message Passing with Pipes and Processes</a></li><li><a href='/program-design-and-abstraction/4-8-h-synchronization-pitfalls-over-synchronization-and-deadlock/'>4.8-H Synchronization Pitfalls, Over-Synchronization, and Deadlock</a></li><li><a href='/program-design-and-abstraction/4-8-i-parallel-computing-conclusion-and-design-tradeoffs/'>4.8-I Parallel Computing Conclusion and Design Tradeoffs</a></li></ul></div></div></div><div class='nav-chapter'><button class='nav-chapter-h' type='button'><span>Practice</span><span class='chev'>&#8250;</span></button><div class='nav-sections'><div class='nav-section'><ul class='nav-lessons'><li><a href='/program-design-and-abstraction/practice-1-1/'>1.1 · Getting Started</a></li><li><a href='/program-design-and-abstraction/practice-1-2/'>1.2 · Elements of Programming</a></li><li><a href='/program-design-and-abstraction/practice-1-3/'>1.3 · Defining New Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-4/'>1.4 · Designing Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-5/'>1.5 · Control</a></li><li><a href='/program-design-and-abstraction/practice-1-6/'>1.6 · Higher-Order Functions</a></li><li><a href='/program-design-and-abstraction/practice-1-7/'>1.7 · Recursive Functions</a></li><li><a href='/program-design-and-abstraction/practice-2-1/'>2.1 · Native Data Types</a></li><li><a href='/program-design-and-abstraction/practice-2-2/'>2.2 · Data Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-3/'>2.3 · Sequences</a></li><li><a href='/program-design-and-abstraction/practice-2-4/'>2.4 · Mutable Data</a></li><li><a href='/program-design-and-abstraction/practice-2-5/'>2.5 · Object-Oriented Programming</a></li><li><a href='/program-design-and-abstraction/practice-2-6/'>2.6 · Implementing Classes</a></li><li><a href='/program-design-and-abstraction/practice-2-7/'>2.7 · Object Abstraction</a></li><li><a href='/program-design-and-abstraction/practice-2-8/'>2.8 · Efficiency</a></li><li><a href='/program-design-and-abstraction/practice-2-9/'>2.9 · Recursive Objects</a></li><li><a href='/program-design-and-abstraction/practice-3-1/'>3.1 · Programs, Languages, Interpreters</a></li><li><a href='/program-design-and-abstraction/practice-3-2/'>3.2 · Functional Programming (Scheme)</a></li><li><a href='/program-design-and-abstraction/practice-3-3/'>3.3 · Exceptions</a></li><li><a href='/program-design-and-abstraction/practice-3-4/'>3.4 · The Calculator Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-3-5/'>3.5 · The Scheme Interpreter</a></li><li><a href='/program-design-and-abstraction/practice-4-1/'>4.1 · Data and Processing Pipelines</a></li><li><a href='/program-design-and-abstraction/practice-4-2/'>4.2 · Iterators and Generators</a></li><li><a href='/program-design-and-abstraction/practice-4-3/'>4.3 · SQL Queries</a></li><li><a href='/program-design-and-abstraction/practice-4-4/'>4.4 · Logic Programming</a></li><li><a href='/program-design-and-abstraction/practice-4-5/'>4.5 · Unification</a></li><li><a href='/program-design-and-abstraction/practice-4-6/'>4.6 · Distributed Computing</a></li><li><a href='/program-design-and-abstraction/practice-4-7/'>4.7 · MapReduce</a></li><li><a href='/program-design-and-abstraction/practice-4-8/'>4.8 · Parallel Computing</a></li></ul></div></div></div></nav></aside>
+  <main class='content'><article class='lesson'><div class='lesson-head'><div class='eyebrow'><span class='eb-ch'>Chapter 3</span><span class='dot'>/</span><span class='eb-sec'>3.4 Interpreters for Languages with Combination</span></div><h1 class='lesson-title'>3.4.4 Calculator Evaluation and the REPL</h1><div class='reading-meta'>&#9719; approx. 19 min read <span class='rm-sep'>&middot;</span> 10 worked examples <span class='rm-sep'>&middot;</span> best read in two passes</div><div class='lead'>
+<p>The previous packets gave the interpreter a way to turn raw Calculator text into an expression tree made of <code>Pair</code> and <code>nil</code> objects. By the end of this lesson you will be able to do five things: explain what it means to <strong>evaluate</strong> an expression tree, describe how the evaluator splits its work between two cooperating functions named <code>calc_eval</code> and <code>calc_apply</code>, trace a nested expression by hand from the inside out, read the official Calculator evaluator line by line, and wrap the whole interpreter in a <strong>read-eval-print loop</strong> that survives a bad input instead of crashing.</p>
+<p>Everything here builds on one habit you have been practicing since the beginning of this course: when something is nested, finish the smaller pieces first, then combine their results.</p>
+</div></div><div class='lesson-grid'><div class='lesson-body'>
+<section id='the-cook-and-the-ingredient-prep-team' class='ls ls-default'>
+<h2 class='ls-h'><span>The Cook and the Ingredient Prep Team</span></h2>
+<div class='ls-body'>
+<p>Imagine a kitchen. A recipe card says:</p>
+<pre class='code text'><code>make a sandwich using toasted bread and sliced tomato</code></pre>
+<p>The cook cannot assemble the sandwich until two smaller jobs are done first: the bread has to be toasted and the tomato has to be sliced. Only when both ingredients are ready can the cook perform the final step of putting the sandwich together. The smaller tasks must be completed before the larger task can finish.</p>
+<p>Calculator evaluation works exactly the same way. For the expression:</p>
+<pre class='code scheme'><code>(* (+ 1 2) (+ 2 3))</code></pre>
+<p>the outer multiplication is the cook&#x27;s final assembly step. It cannot happen until both inner additions have produced their values:</p>
+<pre class='code text'><code>(+ 1 2) -&gt; 3
+(+ 2 3) -&gt; 5
+(* 3 5) -&gt; 15</code></pre>
+<p>Keep this picture. The whole evaluator is just this idea made precise: prepare the ingredients (evaluate the operands), then assemble (apply the operator).</p>
+</div></section>
+<section id='evaluation-gives-meaning-to-a-tree' class='ls ls-default'>
+<h2 class='ls-h'><span>Evaluation Gives Meaning to a Tree</span></h2>
+<div class='ls-body'>
+<p>By this point the interpreter has a structured expression tree. Parsing is finished. Nothing has been computed yet. The tree for <code>(* (+ 1 2) (+ 2 3))</code> is only a description of structure: a combination whose operator is <code>*</code> and whose two operands are themselves combinations.</p>
+<p>Evaluation is the process that answers the central question:</p>
+<pre class='code text'><code>What value does this expression produce?</code></pre>
+<p>For Calculator there are only two legal kinds of expression, and the evaluator must handle each one:</p>
+<ul>
+<li>A <strong>number</strong> is a primitive expression. There is nothing smaller inside it to work out, so it stands for itself.</li>
+<li>A <strong>call expression</strong> is a <code>Pair</code> representing a well-formed Scheme list: an operator followed by zero or more operands. It must be worked out by evaluating its operands and then applying its operator.</li>
+</ul>
+</div></section>
+<section id='two-cooperating-jobs' class='ls ls-default'>
+<h2 class='ls-h'><span>Two Cooperating Jobs</span></h2>
+<div class='ls-body'>
+<p><code>calc_eval</code> calls <code>calc_apply</code> and also calls itself on each operand; <code>calc_apply</code> does not call back, so the recursion all lives in <code>calc_eval</code>.</p>
+<p>The official interpreter separates evaluation into two cooperating functions, each with a narrow responsibility:</p>
+<ul>
+<li><code>calc_eval</code> evaluates an expression. It understands expression <strong>structure</strong>.</li>
+<li><code>calc_apply</code> applies an operator to already-evaluated arguments. It understands <strong>arithmetic</strong>.</li>
+</ul>
+<p>Keeping these jobs apart is what keeps the interpreter understandable. <code>calc_eval</code> asks one question:</p>
+<pre class='code text'><code>Is this expression a number, or is it a combination?</code></pre>
+<p><code>calc_apply</code> asks a different question:</p>
+<pre class='code text'><code>Given an operator symbol and a list of argument values, what result should arithmetic produce?</code></pre>
+<p>Together they form a call-and-response pattern. When <code>calc_eval</code> meets a combination, it evaluates each operand, then hands the operator and the finished argument values to <code>calc_apply</code>, which returns the arithmetic result:</p>
+<pre class='code text'><code>calc_eval sees a combination
+calc_eval evaluates each operand
+calc_eval calls calc_apply
+calc_apply returns the arithmetic result
+calc_eval returns that result</code></pre>
+<p>The two functions are <strong>mutually recursive</strong> in spirit: <code>calc_eval</code> calls <code>calc_apply</code>, and <code>calc_eval</code> also calls itself on each operand. That self-call is the entire reason the evaluator can handle nesting of any depth.</p>
+</div></section>
+<section id='evaluating-primitive-expressions' class='ls ls-default'>
+<h2 class='ls-h'><span>Evaluating Primitive Expressions</span></h2>
+<div class='ls-body'>
+<p>Numbers evaluate to themselves. There is no smaller expression to evaluate inside <code>3</code>; it is already a value.</p>
+<pre class='code text'><code>calc&gt; 3
+3
+calc&gt; 2.5
+2.5</code></pre>
+<p>In interpreter language, expressions that require no further evaluation step are called <strong>self-evaluating</strong>. The only self-evaluating expressions in Calculator are numbers. A larger language might also treat strings or boolean values as self-evaluating, but Calculator does not.</p>
+<p>Here is the structure of evaluating a number, walked one token at a time. The evaluator reads the single token, recognizes its type, and returns it unchanged:</p>
+<pre class='code anatomy'><code>calc_eval(3)
+├─ calc_eval ... the evaluator: decides what to do based on the expression&#x27;s type
+├─ 3 .......... a number token, which is self-evaluating
+└─ evaluates to  3</code></pre>
+</div></section>
+<section id='evaluating-call-expressions' class='ls ls-default'>
+<h2 class='ls-h'><span>Evaluating Call Expressions</span></h2>
+<div class='ls-body'>
+<p>A call expression is more work. The evaluator must first evaluate every operand, then apply the operator to those values.</p>
+<p>Start with the simplest call, one where the operands are already numbers:</p>
+<pre class='code text'><code>calc&gt; (+ 2 3)
+5</code></pre>
+<p>Here is that call expression walked one token at a time. Read each branch row as &quot;what this token contributes,&quot; and the final row as the value the whole line produces:</p>
+<pre class='code anatomy'><code>(+ 2 3)
+├─ + .......... the operator symbol, passed to calc_apply
+├─ 2 .......... first operand, evaluated by calc_eval to 2
+├─ 3 .......... second operand, evaluated by calc_eval to 3
+└─ evaluates to  5</code></pre>
+<p>The interpreter does this in two stages. First it evaluates the operands, which here are already numbers and so evaluate to themselves. Then it applies <code>+</code> to the resulting values:</p>
+<pre class='code text'><code>expression: (+ 2 3)
+operator: +
+operands before evaluation: 2, 3
+operands after evaluation: 2, 3
+apply + to 2 and 3
+result: 5</code></pre>
+<p>Now nest one expression inside another:</p>
+<pre class='code text'><code>calc&gt; (* (+ 1 2) (+ 2 3))
+15</code></pre>
+<p>The operands are no longer numbers; they are themselves combinations. Walk the outer line one token at a time. Notice that the two operand tokens are whole subexpressions, and each branch row records the value that subexpression evaluates to:</p>
+<pre class='code anatomy'><code>(* (+ 1 2) (+ 2 3))
+├─ * .......... the operator symbol, passed to calc_apply
+├─ (+ 1 2) .... first operand, evaluated by calc_eval to 3
+├─ (+ 2 3) .... second operand, evaluated by calc_eval to 5
+└─ evaluates to  15</code></pre>
+<p>So the work reduces to three steps, two preparations and one assembly:</p>
+<pre class='code text'><code>evaluate (+ 1 2) -&gt; 3
+evaluate (+ 2 3) -&gt; 5
+apply * to 3 and 5 -&gt; 15</code></pre>
+</div></section>
+<section id='the-official-evaluator' class='ls ls-default'>
+<h2 class='ls-h'><span>The Official Evaluator</span></h2>
+<div class='ls-body'>
+<p>The <code>scalc</code> module implements an evaluator for the Calculator language. The <code>calc_eval</code> function takes an expression as an argument and returns its value. For Calculator, the only two legal syntactic forms are numbers and call expressions, which are <code>Pair</code> instances representing well-formed Scheme lists. Numbers are self-evaluating, so they can be returned directly from <code>calc_eval</code>. Call expressions require function application.</p>
+<p>Here is the official <code>calc_eval</code>, reproduced exactly:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (1)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">calc_eval</span><span style="color: #657b83">(exp):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Evaluate a Calculator expression.&quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">type</span><span style="color: #657b83">(exp)</span> <span style="color: #859900">in</span> <span style="color: #657b83">(</span><span style="color: #268bd2">int</span><span style="color: #657b83">,</span> <span style="color: #268bd2">float</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">simplify(exp)</span>
+    <span style="color: #859900">elif</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(exp,</span> <span style="color: #657b83">Pair):</span>
+        <span style="color: #657b83">arguments</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">exp</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span><span style="color: #93a1a1">.</span><span style="color: #657b83">map(calc_eval)</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">simplify(calc_apply(exp</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">arguments))</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">raise</span> <span style="color: #268bd2">TypeError</span><span style="color: #657b83">(exp</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&#39; is not a number or call expression&#39;</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>Read it slowly, one branch at a time.</p>
+<ul>
+<li>If <code>exp</code> is an <code>int</code> or a <code>float</code>, it is a number. Return it (after <code>simplify</code> tidies the display).</li>
+<li>If <code>exp</code> is a <code>Pair</code>, it is a combination. Then <code>exp.first</code> is the operator and <code>exp.second</code> is the operand list.</li>
+<li>The line <code>exp.second.map(calc_eval)</code> is the heart of the function. It maps <code>calc_eval</code> across every operand, producing a Scheme list of finished argument <strong>values</strong>.</li>
+<li><code>calc_apply(exp.first, arguments)</code> then performs the arithmetic, and <code>simplify</code> cleans up the numeric result for display.</li>
+<li>Anything that is neither a number nor a <code>Pair</code> is not a legal expression, so the evaluator raises a <code>TypeError</code>.</li>
+</ul>
+<p>Call expressions are evaluated by first recursively mapping <code>calc_eval</code> across the list of operands, which computes a list of arguments, and then applying the operator to those arguments in a second function, <code>calc_apply</code>.</p>
+<p>The single most important line is:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (2)</span>
+<span style="color: #657b83">arguments</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">exp</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span><span style="color: #93a1a1">.</span><span style="color: #657b83">map(calc_eval)</span>
+</code></pre>
+<p>That line says: before applying the operator, evaluate every operand expression. Because <code>calc_eval</code> is what gets mapped, each operand is evaluated by the same rules, which is precisely what lets the evaluator descend into nesting of any depth.</p>
+<p>Here is that key line walked one token at a time, so the recursion is explicit. The final row gives the value bound to <code>arguments</code>:</p>
+<pre class='code anatomy'><code>arguments = exp.second.map(calc_eval)
+├─ exp.second ........ the operand list (everything after the operator)
+├─ .map(calc_eval) ... evaluate each operand with calc_eval
+├─ arguments = ....... bind the resulting list of values to the name arguments
+└─ result ............ a Scheme list of finished argument values</code></pre>
+</div></section>
+<section id='applying-operators' class='ls ls-default'>
+<h2 class='ls-h'><span>Applying Operators</span></h2>
+<div class='ls-body'>
+<p>The Calculator language is simple enough that the logic of applying each operator fits in the body of a single function. In <code>calc_apply</code>, each conditional clause corresponds to applying one operator. Here is the official <code>calc_apply</code>, reproduced exactly, including the argument-count checks:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (3)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">calc_apply</span><span style="color: #657b83">(operator,</span> <span style="color: #657b83">args):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Apply the named operator to a list of args.&quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #859900">not</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(operator,</span> <span style="color: #268bd2">str</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">raise</span> <span style="color: #268bd2">TypeError</span><span style="color: #657b83">(</span><span style="color: #268bd2">str</span><span style="color: #657b83">(operator)</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&#39; is not a symbol&#39;</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">operator</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;+&#39;</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">reduce(add,</span> <span style="color: #657b83">args,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">operator</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;-&#39;</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">if</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(args)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">raise</span> <span style="color: #268bd2">TypeError</span><span style="color: #657b83">(operator</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&#39; requires at least 1 argument&#39;</span><span style="color: #657b83">)</span>
+        <span style="color: #859900">elif</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(args)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #93a1a1">-</span><span style="color: #657b83">args</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span>
+        <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">reduce(sub,</span> <span style="color: #657b83">args</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second,</span> <span style="color: #657b83">args</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">operator</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;*&#39;</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">reduce(mul,</span> <span style="color: #657b83">args,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">elif</span> <span style="color: #657b83">operator</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&#39;/&#39;</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">if</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(args)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">raise</span> <span style="color: #268bd2">TypeError</span><span style="color: #657b83">(operator</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&#39; requires at least 1 argument&#39;</span><span style="color: #657b83">)</span>
+        <span style="color: #859900">elif</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(args)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">1</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">1</span><span style="color: #93a1a1">/</span><span style="color: #657b83">args</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span>
+        <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+            <span style="color: #859900">return</span> <span style="color: #657b83">reduce(truediv,</span> <span style="color: #657b83">args</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second,</span> <span style="color: #657b83">args</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+    <span style="color: #859900">else</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">raise</span> <span style="color: #268bd2">TypeError</span><span style="color: #657b83">(operator</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&#39; is an unknown operator&#39;</span><span style="color: #657b83">)</span>
+</code></pre>
+<p>Each suite computes the result of a different operator, or raises an appropriate <code>TypeError</code> when the wrong number of arguments is given. The operator rules encoded here are:</p>
+<ul>
+<li><code>+</code> adds all its arguments, starting from the identity value <code>0</code>.</li>
+<li><code>*</code> multiplies all its arguments, starting from the identity value <code>1</code>.</li>
+<li><code>-</code> negates a single argument, or subtracts every later argument from the first.</li>
+<li><code>/</code> reciprocates a single argument, or divides every later argument into the first.</li>
+</ul>
+<p><code>calc_apply</code> can be called directly, but it must be passed a list of <strong>values</strong> as arguments rather than a list of operand expressions. The helper <code>as_scheme_list</code> builds the <code>Pair</code> list the interpreter expects:</p>
+<pre class='code text'><code>&gt;&gt;&gt; calc_apply(&#x27;+&#x27;, as_scheme_list(1, 2, 3))
+6
+&gt;&gt;&gt; calc_apply(&#x27;-&#x27;, as_scheme_list(10, 1, 2, 3))
+4
+&gt;&gt;&gt; calc_apply(&#x27;*&#x27;, nil)
+1
+&gt;&gt;&gt; calc_apply(&#x27;*&#x27;, as_scheme_list(1, 2, 3, 4, 5))
+120
+&gt;&gt;&gt; calc_apply(&#x27;/&#x27;, as_scheme_list(40, 5))
+8.0</code></pre>
+<p>Notice the third line: <code>calc_apply(&#x27;*&#x27;, nil)</code> applies <code>*</code> to the empty list and returns the identity value <code>1</code>. The last line divides <code>40</code> by <code>5</code> and produces the float <code>8.0</code>.</p>
+</div></section>
+<section id='the-helper-functions' class='ls ls-default'>
+<h2 class='ls-h'><span>The Helper Functions</span></h2>
+<div class='ls-body'>
+<p>The page says the definitions of <code>simplify</code>, <code>reduce</code>, and <code>as_scheme_list</code> appear in the model. Here they are, reproduced exactly so the evaluator above is complete.</p>
+<p><code>simplify</code> is what makes <code>(/ 40 5)</code> print as <code>8</code> rather than <code>8.0</code> in the REPL. It returns an <code>int</code> when a <code>float</code> has no fractional part, and otherwise returns its argument unchanged:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (4)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">simplify</span><span style="color: #657b83">(value):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return an int if value is an integer, or value otherwise.</span>
+
+<span style="color: #93a1a1">    &gt;&gt;&gt; simplify(8.0)</span>
+<span style="color: #93a1a1">    8</span>
+<span style="color: #93a1a1">    &gt;&gt;&gt; simplify(2.3)</span>
+<span style="color: #93a1a1">    2.3</span>
+<span style="color: #93a1a1">    &gt;&gt;&gt; simplify(&#39;+&#39;)</span>
+<span style="color: #93a1a1">    &#39;+&#39;</span>
+<span style="color: #93a1a1">    &quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(value,</span> <span style="color: #268bd2">float</span><span style="color: #657b83">)</span> <span style="color: #859900">and</span> <span style="color: #268bd2">int</span><span style="color: #657b83">(value)</span> <span style="color: #93a1a1">==</span> <span style="color: #657b83">value:</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">int</span><span style="color: #657b83">(value)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">value</span>
+</code></pre>
+<p><code>reduce</code> walks a Scheme list of <code>Pair</code> objects, combining the elements with a two-argument function and a starting value. It is the engine behind <code>+</code>, <code>-</code>, <code>*</code>, and <code>/</code>:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (5)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">reduce</span><span style="color: #657b83">(fn,</span> <span style="color: #657b83">scheme_list,</span> <span style="color: #657b83">start):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Reduce a recursive list of Pairs using fn and a start value.</span>
+
+<span style="color: #93a1a1">    &gt;&gt;&gt; reduce(add, as_scheme_list(1, 2, 3), 0)</span>
+<span style="color: #93a1a1">    6</span>
+<span style="color: #93a1a1">    &quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">scheme_list</span> <span style="color: #859900">is</span> <span style="color: #657b83">nil:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">start</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">reduce(fn,</span> <span style="color: #657b83">scheme_list</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second,</span> <span style="color: #657b83">fn(start,</span> <span style="color: #657b83">scheme_list</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first))</span>
+</code></pre>
+<p><code>as_scheme_list</code> builds the nested <code>Pair</code> structure the interpreter uses, given ordinary Python values:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (6)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">as_scheme_list</span><span style="color: #657b83">(</span><span style="color: #93a1a1">*</span><span style="color: #657b83">args):</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Return a recursive list of Pairs that contains the elements of args.</span>
+
+<span style="color: #93a1a1">    &gt;&gt;&gt; as_scheme_list(1, 2, 3)</span>
+<span style="color: #93a1a1">    Pair(1, Pair(2, Pair(3, nil)))</span>
+<span style="color: #93a1a1">    &quot;&quot;&quot;</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">len</span><span style="color: #657b83">(args)</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">0</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">nil</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">Pair(args[</span><span style="color: #2aa198">0</span><span style="color: #657b83">],</span> <span style="color: #657b83">as_scheme_list(</span><span style="color: #93a1a1">*</span><span style="color: #657b83">args[</span><span style="color: #2aa198">1</span><span style="color: #657b83">:]))</span>
+</code></pre>
+</div></section>
+<section id='evaluating-a-nested-tree-directly' class='ls ls-default'>
+<h2 class='ls-h'><span>Evaluating a Nested Tree Directly</span></h2>
+<div class='ls-body'>
+<p>The role of <code>calc_eval</code> is to make proper calls to <code>calc_apply</code> by first computing the value of each operand sub-expression before passing it as an argument. Because of that, <code>calc_eval</code> can accept a nested expression and work the whole thing out. The official text builds the expression tree for <code>(+ (* 3 4) 5)</code> and evaluates it:</p>
+<pre class='code text'><code>&gt;&gt;&gt; print(exp)
+(+ (* 3 4) 5)
+&gt;&gt;&gt; calc_eval(exp)
+17</code></pre>
+<p>This transcript is the full interpreter pipeline running after parsing. The expression tree already exists as nested <code>Pair</code> objects, so <code>calc_eval</code> can walk the tree: it first evaluates the operand <code>(* 3 4)</code> to <code>12</code>, then applies <code>+</code> to <code>12</code> and <code>5</code> to produce <code>17</code>.</p>
+<p>The structure of <code>calc_eval</code> is an example of <strong>dispatching on type</strong>: the function chooses what to do based on the form of the expression. A number requires no further evaluation step, while a <code>Pair</code> triggers the recursive evaluate-then-apply process.</p>
+</div></section>
+<section id='a-compact-executable-evaluator' class='ls ls-default'>
+<h2 class='ls-h'><span>A Compact Executable Evaluator</span></h2>
+<div class='ls-body'>
+<p>The official evaluator depends on the <code>Pair</code>, <code>nil</code>, and reader machinery from the previous packets. To see the evaluate-then-apply cycle run on its own, here is a small self-contained Python version that mirrors the official design while staying short enough to trace. It defines a minimal <code>Pair</code>, a minimal <code>nil</code>, and its own <code>calc_eval</code> and <code>calc_apply</code>:</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (7)</span>
+<span style="color: #cb4b16">from</span> <span style="color: #268bd2">operator</span> <span style="color: #cb4b16">import</span> <span style="color: #657b83">add,</span> <span style="color: #657b83">mul,</span> <span style="color: #657b83">sub,</span> <span style="color: #657b83">truediv</span>
+
+
+<span style="color: #859900">class</span> <span style="color: #268bd2">Pair</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">__init__</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">first,</span> <span style="color: #657b83">second):</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">first</span>
+        <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">second</span>
+
+    <span style="color: #859900">def</span> <span style="color: #268bd2">map</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">fn):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">Pair(fn(</span><span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first),</span> <span style="color: #268bd2">self</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span><span style="color: #93a1a1">.</span><span style="color: #657b83">map(fn))</span>
+
+
+<span style="color: #859900">class</span> <span style="color: #268bd2">Nil</span><span style="color: #657b83">:</span>
+    <span style="color: #859900">def</span> <span style="color: #268bd2">map</span><span style="color: #657b83">(</span><span style="color: #268bd2">self</span><span style="color: #657b83">,</span> <span style="color: #657b83">fn):</span>
+        <span style="color: #859900">return</span> <span style="color: #268bd2">self</span>
+
+
+<span style="color: #657b83">nil</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Nil()</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">as_scheme_list</span><span style="color: #657b83">(</span><span style="color: #93a1a1">*</span><span style="color: #657b83">values):</span>
+    <span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">nil</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">value</span> <span style="color: #859900">in</span> <span style="color: #268bd2">reversed</span><span style="color: #657b83">(values):</span>
+        <span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Pair(value,</span> <span style="color: #657b83">result)</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">result</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">reduce_pair</span><span style="color: #657b83">(fn,</span> <span style="color: #657b83">args,</span> <span style="color: #657b83">start):</span>
+    <span style="color: #657b83">total</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">start</span>
+    <span style="color: #657b83">current</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">args</span>
+    <span style="color: #859900">while</span> <span style="color: #657b83">current</span> <span style="color: #859900">is</span> <span style="color: #859900">not</span> <span style="color: #657b83">nil:</span>
+        <span style="color: #657b83">total</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">fn(total,</span> <span style="color: #657b83">current</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+        <span style="color: #657b83">current</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">current</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">total</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">calc_apply</span><span style="color: #657b83">(operator,</span> <span style="color: #657b83">args):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">operator</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;+&quot;</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">reduce_pair(add,</span> <span style="color: #657b83">args,</span> <span style="color: #2aa198">0</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">operator</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;*&quot;</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">reduce_pair(mul,</span> <span style="color: #657b83">args,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">)</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">operator</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;-&quot;</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">args</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span> <span style="color: #859900">is</span> <span style="color: #657b83">nil:</span>
+            <span style="color: #859900">return</span> <span style="color: #93a1a1">-</span><span style="color: #657b83">args</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">reduce_pair(sub,</span> <span style="color: #657b83">args</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second,</span> <span style="color: #657b83">args</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">operator</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;/&quot;</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">if</span> <span style="color: #657b83">args</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span> <span style="color: #859900">is</span> <span style="color: #657b83">nil:</span>
+            <span style="color: #859900">return</span> <span style="color: #2aa198">1</span> <span style="color: #93a1a1">/</span> <span style="color: #657b83">args</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">reduce_pair(truediv,</span> <span style="color: #657b83">args</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second,</span> <span style="color: #657b83">args</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first)</span>
+    <span style="color: #859900">raise</span> <span style="color: #268bd2">TypeError</span><span style="color: #657b83">(operator</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&quot; is an unknown operator&quot;</span><span style="color: #657b83">)</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">calc_eval</span><span style="color: #657b83">(exp):</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(exp,</span> <span style="color: #657b83">(</span><span style="color: #268bd2">int</span><span style="color: #657b83">,</span> <span style="color: #268bd2">float</span><span style="color: #657b83">)):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">exp</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(exp,</span> <span style="color: #657b83">Pair):</span>
+        <span style="color: #657b83">arguments</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">exp</span><span style="color: #93a1a1">.</span><span style="color: #657b83">second</span><span style="color: #93a1a1">.</span><span style="color: #657b83">map(calc_eval)</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">calc_apply(exp</span><span style="color: #93a1a1">.</span><span style="color: #657b83">first,</span> <span style="color: #657b83">arguments)</span>
+    <span style="color: #859900">raise</span> <span style="color: #268bd2">TypeError</span><span style="color: #657b83">(</span><span style="color: #268bd2">str</span><span style="color: #657b83">(exp)</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&quot; is not a number or call expression&quot;</span><span style="color: #657b83">)</span>
+
+
+<span style="color: #657b83">left</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Pair(</span><span style="color: #2aa198">&quot;+&quot;</span><span style="color: #657b83">,</span> <span style="color: #657b83">as_scheme_list(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">))</span>
+<span style="color: #657b83">right</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Pair(</span><span style="color: #2aa198">&quot;+&quot;</span><span style="color: #657b83">,</span> <span style="color: #657b83">as_scheme_list(</span><span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">))</span>
+<span style="color: #657b83">expression</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">Pair(</span><span style="color: #2aa198">&quot;*&quot;</span><span style="color: #657b83">,</span> <span style="color: #657b83">as_scheme_list(left,</span> <span style="color: #657b83">right))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(calc_eval(expression))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(calc_apply(</span><span style="color: #2aa198">&quot;+&quot;</span><span style="color: #657b83">,</span> <span style="color: #657b83">as_scheme_list(</span><span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">)))</span>
+<span style="color: #268bd2">print</span><span style="color: #657b83">(calc_apply(</span><span style="color: #2aa198">&quot;*&quot;</span><span style="color: #657b83">,</span> <span style="color: #657b83">nil))</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/f0b32c8e4c99.json' data-mount='st0'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st0' hidden></div></figure>
+<p>Expected output:</p>
+<pre class='code text'><code>15
+6
+1</code></pre>
+<p>This version uses the same load-bearing line as the official evaluator, <code>arguments = exp.second.map(calc_eval)</code>, so the recursion you trace here is the recursion that runs in the real interpreter.</p>
+</div></section>
+<section id='why-calc-apply-receives-values-not-trees' class='ls ls-default'>
+<h2 class='ls-h'><span>Why calc_apply Receives Values, Not Trees</span></h2>
+<div class='ls-body'>
+<p>A common beginner shortcut is to imagine that <code>calc_apply</code> can look inside any expression and figure it out for itself. In this design, it cannot, and that limitation is on purpose.</p>
+<p><code>calc_apply</code> is deliberately narrow. It expects:</p>
+<pre class='code text'><code>operator symbol + already evaluated argument values</code></pre>
+<p>For example, in:</p>
+<pre class='code scheme'><code>(* (+ 1 2) (+ 2 3))</code></pre>
+<p><code>calc_apply</code> should never receive the two inner expression trees <code>(+ 1 2)</code> and <code>(+ 2 3)</code>. Instead, <code>calc_eval</code> must first turn those trees into values:</p>
+<pre class='code text'><code>(+ 1 2) -&gt; 3
+(+ 2 3) -&gt; 5</code></pre>
+<p>Only then is <code>calc_apply</code> asked the question it knows how to answer:</p>
+<pre class='code text'><code>apply * to the values 3 and 5</code></pre>
+<p>This division of labor is what keeps the interpreter understandable. One function handles structure; the other handles arithmetic, and neither has to do the other&#x27;s job.</p>
+</div></section>
+<section id='the-evaluation-trace-for-a-nested-expression' class='ls ls-default'>
+<h2 class='ls-h'><span>The Evaluation Trace for a Nested Expression</span></h2>
+<div class='ls-body'>
+<p>Now trace the full machine model for:</p>
+<pre class='code scheme'><code>(* (+ 1 2) (+ 2 3))</code></pre>
+<p>Read this indented trace the way the machine runs it: each deeper indentation is a recursive call to <code>calc_eval</code>, and a call cannot return until its inner calls have returned.</p>
+<pre class='code text'><code>calc_eval((* (+ 1 2) (+ 2 3)))
+  operator is *
+  operands are (+ 1 2) and (+ 2 3)
+
+  calc_eval((+ 1 2))
+    operator is +
+    operands are 1 and 2
+    calc_eval(1) -&gt; 1
+    calc_eval(2) -&gt; 2
+    calc_apply(+, (1 2)) -&gt; 3
+
+  calc_eval((+ 2 3))
+    operator is +
+    operands are 2 and 3
+    calc_eval(2) -&gt; 2
+    calc_eval(3) -&gt; 3
+    calc_apply(+, (2 3)) -&gt; 5
+
+  calc_apply(*, (3 5)) -&gt; 15</code></pre>
+<p>This is the same mental model as any recursive function: solve the smaller subexpressions first, then combine their results. The outer <code>calc_apply(*, ...)</code> is the cook&#x27;s final assembly step, and it runs last.</p>
+</div></section>
+<section id='the-read-eval-print-loop' class='ls ls-default'>
+<h2 class='ls-h'><span>The Read-Eval-Print Loop</span></h2>
+<div class='ls-body'>
+<p>An interpreter is rarely run on a single expression. It normally runs in a loop, reading one expression after another. A typical way to interact with an interpreter is through a <strong>read-eval-print loop</strong>, or REPL: a mode of interaction that reads an expression, evaluates it, and prints the result for the user. The Python interactive session you have used all course is itself an example of such a loop.</p>
+<p>The name spells out four stages:</p>
+<pre class='code text'><code>Read
+Eval
+Print
+Loop</code></pre>
+<p>Each stage names one step, and you have already built three of the four in earlier packets:</p>
+<ul>
+<li>Read: parse the user&#x27;s text into an expression tree, using <code>scheme_read</code>.</li>
+<li>Eval: evaluate the expression tree, using <code>calc_eval</code>.</li>
+<li>Print: display the result, using <code>print</code>.</li>
+<li>Loop: ask for the next input, using <code>while True</code>.</li>
+</ul>
+<p>An implementation of a REPL can be largely independent of the interpreter it uses. The official <code>read_eval_print_loop</code> buffers input from the user, constructs an expression using the language-specific <code>scheme_read</code> function, then prints the result of applying <code>calc_eval</code> to that expression:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (8)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">read_eval_print_loop</span><span style="color: #657b83">():</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Run a read-eval-print loop for calculator.&quot;&quot;&quot;</span>
+    <span style="color: #859900">while</span> <span style="color: #2aa198">True</span><span style="color: #657b83">:</span>
+        <span style="color: #657b83">src</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">buffer_input()</span>
+        <span style="color: #859900">while</span> <span style="color: #657b83">src</span><span style="color: #93a1a1">.</span><span style="color: #657b83">more_on_line:</span>
+            <span style="color: #657b83">expression</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">scheme_read(src)</span>
+            <span style="color: #268bd2">print</span><span style="color: #657b83">(calc_eval(expression))</span>
+</code></pre>
+<p>That function is short precisely because the previous packets already built the pieces it calls. The outer <code>while True</code> is the Loop. The inner <code>while src.more_on_line</code> lets the reader pull several complete expressions out of one input line. <code>scheme_read</code> does the Read, <code>calc_eval</code> does the Eval, and <code>print</code> does the Print.</p>
+<p>This version contains all the essential components of an interactive interface. An example session looks like this:</p>
+<pre class='code text'><code>&gt; (* 1 2 3)
+6
+&gt; (+)
+0
+&gt; (+ 2 (/ 4 8))
+2.5
+&gt; (+ 2 2) (* 3 3)
+4
+9
+&gt; (+ 1
+     (- 23)
+     (* 4 2.5))
+-12</code></pre>
+<p>These cases show several interpreter behaviors at once:</p>
+<ul>
+<li><code>(* 1 2 3)</code> evaluates a multi-operand expression and returns <code>6</code>.</li>
+<li><code>(+)</code> uses the identity value for addition, <code>0</code>.</li>
+<li><code>(+ 2 (/ 4 8))</code> evaluates the inner division first, giving <code>0.5</code>, then adds to get <code>2.5</code>.</li>
+<li><code>(+ 2 2) (* 3 3)</code> shows that the inner <code>while src.more_on_line</code> reads two complete expressions from one line and prints <code>4</code> then <code>9</code>.</li>
+<li>The final multi-line example shows why the reader buffers input: the interpreter waits until it has read enough tokens to complete the expression, even across line breaks, before evaluating it to <code>-12</code>.</li>
+</ul>
+</div></section>
+<section id='errors-in-the-repl' class='ls ls-default'>
+<h2 class='ls-h'><span>Errors in the REPL</span></h2>
+<div class='ls-body'>
+<p>The loop above has no mechanism for termination or error handling. A good interactive interpreter should not disappear every time the user makes one mistake. It should report the problem and then continue listening for the next input.</p>
+<p>We can improve the interface by reporting errors and by letting the user exit deliberately. To do this, the original suite of the <code>while</code> statement is placed inside a <code>try</code> statement. The first <code>except</code> clause handles the <code>SyntaxError</code> and <code>ValueError</code> exceptions raised by <code>scheme_read</code>, as well as the <code>TypeError</code> and <code>ZeroDivisionError</code> exceptions raised by <code>calc_eval</code>. The second <code>except</code> clause exits the loop when the user signals a keyboard interrupt or an end-of-file:</p>
+<pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (9)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">read_eval_print_loop</span><span style="color: #657b83">():</span>
+    <span style="color: #93a1a1">&quot;&quot;&quot;Run a read-eval-print loop for calculator.&quot;&quot;&quot;</span>
+    <span style="color: #859900">while</span> <span style="color: #2aa198">True</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">try</span><span style="color: #657b83">:</span>
+            <span style="color: #657b83">src</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">buffer_input()</span>
+            <span style="color: #859900">while</span> <span style="color: #657b83">src</span><span style="color: #93a1a1">.</span><span style="color: #657b83">more_on_line:</span>
+                <span style="color: #657b83">expression</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">scheme_read(src)</span>
+                <span style="color: #268bd2">print</span><span style="color: #657b83">(calc_eval(expression))</span>
+        <span style="color: #859900">except</span> <span style="color: #657b83">(</span><span style="color: #268bd2">SyntaxError</span><span style="color: #657b83">,</span> <span style="color: #268bd2">TypeError</span><span style="color: #657b83">,</span> <span style="color: #268bd2">ValueError</span><span style="color: #657b83">,</span> <span style="color: #268bd2">ZeroDivisionError</span><span style="color: #657b83">)</span> <span style="color: #859900">as</span> <span style="color: #657b83">err:</span>
+            <span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #268bd2">type</span><span style="color: #657b83">(err)</span><span style="color: #93a1a1">.</span><span style="color: #268bd2">__name__</span> <span style="color: #93a1a1">+</span> <span style="color: #2aa198">&#39;:&#39;</span><span style="color: #657b83">,</span> <span style="color: #657b83">err)</span>
+        <span style="color: #859900">except</span> <span style="color: #657b83">(</span><span style="color: #268bd2">KeyboardInterrupt</span><span style="color: #657b83">,</span> <span style="color: #268bd2">EOFError</span><span style="color: #657b83">):</span>  <span style="color: #93a1a1; font-style: italic"># &lt;Control&gt;-D, etc.</span>
+            <span style="color: #268bd2">print</span><span style="color: #657b83">(</span><span style="color: #2aa198">&#39;Calculation completed.&#39;</span><span style="color: #657b83">)</span>
+            <span style="color: #859900">return</span>
+</code></pre>
+<p>This loop reports errors without exiting. Rather than ending the program on an error, restarting the loop after an error message lets users revise their expressions. Upon importing the <code>readline</code> module, users can even recall their previous inputs using the up arrow or Control-P.</p>
+<p>That last detail is a small but real quality-of-life feature, and it costs almost nothing. <code>readline</code> is a standard library module that hooks into the line-editing the REPL does while it reads input. Once it is imported, the loop&#x27;s <code>buffer_input</code> step gains an input history: each line you submit is remembered, so pressing the up arrow (or Control-P) walks backward through what you already typed instead of forcing you to retype a long expression. Nothing in <code>read_eval_print_loop</code> has to change for this to work; importing the module is enough, because the recall happens during the Read step before <code>scheme_read</code> ever sees the text. So after a mistake you can press up, edit the recalled line, and resubmit:</p>
+<pre class='code text'><code>&gt; (+ 1 2
+SyntaxError: unexpected end of file
+&gt; (+ 1 2)        # recalled with the up arrow, then closed
+3</code></pre>
+<p>The result is an informative error-reporting interface:</p>
+<pre class='code text'><code>&gt; )
+SyntaxError: unexpected token: )
+&gt; 2.3.4
+ValueError: invalid numeral: 2.3.4
+&gt; +
+TypeError: + is not a number or call expression
+&gt; (/ 5)
+TypeError: / requires exactly 2 arguments
+&gt; (/ 1 0)
+ZeroDivisionError: division by zero</code></pre>
+<p>Look at where each error comes from. The machine path is:</p>
+<pre class='code text'><code>read user input
+if parsing fails, report a syntax or numeral error
+otherwise evaluate the expression
+if evaluation fails, report the type or zero-division error
+return to the prompt</code></pre>
+<p>The first two errors, <code>SyntaxError</code> and <code>ValueError</code>, are raised during the Read step by <code>scheme_read</code>: a stray <code>)</code> has no matching open parenthesis, and <code>2.3.4</code> is not a valid numeral. The last three are raised during the Eval step by <code>calc_eval</code> and <code>calc_apply</code>: a bare <code>+</code> is neither a number nor a call expression, <code>(/ 5)</code> is reported as needing exactly 2 arguments, and <code>(/ 1 0)</code> divides by zero. One detail worth flagging so you don&#x27;t think you misread the code: this session comes from a stricter variant of <code>calc_apply</code> that requires <code>/</code> to receive exactly two arguments, which is why <code>(/ 5)</code> is rejected here. The <code>calc_apply</code> shown earlier in this lesson is more permissive and treats a single argument to <code>/</code> as a reciprocal, so the same input would not raise there. This connects directly to the work on exceptions in Section 3.3: exceptions let the interpreter recover from one bad input and continue the interactive session.</p>
+<p>As we generalize this interpreter to richer languages later, the <code>read_eval_print_loop</code> will be parameterized by a parsing function, an evaluation function, and the exception types the <code>try</code> statement handles. Beyond those substitutions, every REPL can be built from this same structure.</p>
+</div></section>
+<section id='step-through-checkpoint' class='ls ls-pytutor'>
+<h2 class='ls-h'><span class='ls-badge'>&#9654;</span><span>Step-Through Checkpoint</span></h2>
+<div class='ls-body'>
+<p>The block below is a stripped-down evaluator that uses ordinary Python lists in place of <code>Pair</code>, so the evaluate-then-apply cycle runs with no extra machinery. Stepping through it draws the <strong>environment diagram</strong> behind the evaluate-then-apply cycle. Each <code>evaluate</code> call opens its own frame holding that subexpression&#x27;s <code>operator</code> and growing <code>values</code> list. The outer frame stays open on the stack while the inner <code>evaluate</code> frames for <code>[&quot;+&quot;, 1, 2]</code> and <code>[&quot;+&quot;, 2, 3]</code> run to completion. Each <code>apply_operator</code> frame appears only once its caller&#x27;s <code>values</code> list is full. Before you step through it, make a quick guess at three things, and don&#x27;t worry if you&#x27;re off: how many <code>evaluate</code> frames open over the whole run, how many times <code>apply_operator</code> is called, and what the outermost <code>evaluate</code> frame&#x27;s <code>values</code> list holds at the moment the second inner combination starts being evaluated.</p>
+<figure class='codeblock'><pre class='code python'><code><span style="color: #93a1a1; font-style: italic"># (10)</span>
+<span style="color: #859900">def</span> <span style="color: #268bd2">evaluate</span><span style="color: #657b83">(exp):</span>
+    <span style="color: #859900">if</span> <span style="color: #268bd2">isinstance</span><span style="color: #657b83">(exp,</span> <span style="color: #268bd2">int</span><span style="color: #657b83">):</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">exp</span>
+    <span style="color: #657b83">operator</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">exp[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span>
+    <span style="color: #657b83">values</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[]</span>
+    <span style="color: #859900">for</span> <span style="color: #657b83">operand</span> <span style="color: #859900">in</span> <span style="color: #657b83">exp[</span><span style="color: #2aa198">1</span><span style="color: #657b83">:]:</span>
+        <span style="color: #657b83">values</span><span style="color: #93a1a1">.</span><span style="color: #657b83">append(evaluate(operand))</span>
+    <span style="color: #859900">return</span> <span style="color: #657b83">apply_operator(operator,</span> <span style="color: #657b83">values)</span>
+
+
+<span style="color: #859900">def</span> <span style="color: #268bd2">apply_operator</span><span style="color: #657b83">(operator,</span> <span style="color: #657b83">values):</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">operator</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;+&quot;</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">values[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span> <span style="color: #93a1a1">+</span> <span style="color: #657b83">values[</span><span style="color: #2aa198">1</span><span style="color: #657b83">]</span>
+    <span style="color: #859900">if</span> <span style="color: #657b83">operator</span> <span style="color: #93a1a1">==</span> <span style="color: #2aa198">&quot;*&quot;</span><span style="color: #657b83">:</span>
+        <span style="color: #859900">return</span> <span style="color: #657b83">values[</span><span style="color: #2aa198">0</span><span style="color: #657b83">]</span> <span style="color: #93a1a1">*</span> <span style="color: #657b83">values[</span><span style="color: #2aa198">1</span><span style="color: #657b83">]</span>
+    <span style="color: #859900">raise</span> <span style="color: #268bd2">ValueError</span><span style="color: #657b83">(operator)</span>
+
+
+<span style="color: #657b83">program</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">[</span><span style="color: #2aa198">&quot;*&quot;</span><span style="color: #657b83">,</span> <span style="color: #657b83">[</span><span style="color: #2aa198">&quot;+&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">1</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">],</span> <span style="color: #657b83">[</span><span style="color: #2aa198">&quot;+&quot;</span><span style="color: #657b83">,</span> <span style="color: #2aa198">2</span><span style="color: #657b83">,</span> <span style="color: #2aa198">3</span><span style="color: #657b83">]]</span>
+<span style="color: #657b83">result</span> <span style="color: #93a1a1">=</span> <span style="color: #657b83">evaluate(program)</span>
+</code></pre><button class='pt-step' type='button' data-trace='/program-design-and-abstraction/traces/34790b195d08.json' data-mount='st1'><span class='pt-arrow'>&#9654;</span><span class='pt-step-label'>Step through</span></button><div class='pt-mount' id='st1' hidden></div></figure>
+<p>Step through it one line at a time and check each prediction as the frames open and close. You should have counted seven <code>evaluate</code> frames and three calls to <code>apply_operator</code>, and seen the outer frame&#x27;s <code>values</code> grow from <code>[3]</code> to <code>[3, 5]</code> while that frame waited for the inner calls to finish. Only then can the outer call apply <code>*</code> and bind <code>15</code> to <code>result</code>. That waiting frame is the cook standing by until both ingredients are ready.</p>
+</div></section>
+<section id='common-beginner-traps' class='ls ls-traps'>
+<h2 class='ls-h'><span class='ls-badge'>&#9888;</span><span>Common Beginner Traps</span></h2>
+<div class='ls-body'>
+<p>Trap 1: Applying the operator before evaluating the operands. For nested expressions the operands are themselves full expressions, so the interpreter must evaluate them into values first.</p>
+<p>Trap 2: Thinking <code>calc_eval</code> and <code>calc_apply</code> do the same job. <code>calc_eval</code> handles expression structure and decides what kind of expression it is looking at. <code>calc_apply</code> handles the arithmetic rules for one already-identified operator.</p>
+<p>Trap 3: Forgetting that numbers evaluate to themselves. The number <code>3</code> does not need to be parsed into anything smaller. It is self-evaluating and is returned directly.</p>
+<p>Trap 4: Passing operand trees to <code>calc_apply</code>. <code>calc_apply</code> expects finished values such as <code>3</code> and <code>5</code>, never the trees <code>(+ 1 2)</code> and <code>(+ 2 3)</code>. If a <code>Pair</code> reaches the arithmetic, the operator tries to combine it with a number and Python raises <code>TypeError: unsupported operand type(s)</code>. Turning trees into values is <code>calc_eval</code>&#x27;s job.</p>
+<p>Trap 5: Treating REPL errors as fatal. An interactive interpreter should report an error and keep listening for the next input, which is exactly what the <code>try</code> statement in the loop provides.</p>
+<p>Trap 6: Losing track of where exceptions belong. Parsing errors such as a stray <code>)</code> or the numeral <code>2.3.4</code> happen during the Read step. Arithmetic errors such as dividing by zero happen during the Eval step. A single REPL can catch both and report each clearly.</p>
+</div></section>
+<section id='check-your-understanding' class='ls ls-cyu'>
+<h2 class='ls-h'><span class='ls-badge'>&#10003;</span><span>Check Your Understanding</span></h2>
+<div class='ls-body'>
+<ol>
+<li>What does <code>calc_eval</code> do that <code>calc_apply</code> does not?</li>
+<li>Why does <code>calc_eval</code> call itself on the operands?</li>
+<li>What does <code>(+ 2 3)</code> evaluate to, and how does the evaluator get there?</li>
+<li>What does <code>(* (+ 1 2) (+ 2 3))</code> evaluate to?</li>
+<li>What are the four stages of a REPL, and which earlier piece performs each one?</li>
+<li>Why should a REPL catch exceptions instead of always terminating?</li>
+<li>When evaluating <code>(* (+ 1 2) (+ 2 3))</code>, why should <code>calc_apply</code> receive <code>3</code> and <code>5</code> rather than <code>(+ 1 2)</code> and <code>(+ 2 3)</code>?</li>
+<li>What does <code>(- 10 (* 2 3))</code> evaluate to, and what order does the evaluator work the pieces in?</li>
+</ol>
+<details class='cyu-answers'><summary>Show the answers</summary>
+<ol>
+<li><code>calc_eval</code> evaluates a whole expression tree, dispatching on whether the expression is a number or a <code>Pair</code>. <code>calc_apply</code> only applies one already-identified operator to a list of already-evaluated argument values.</li>
+<li>Operands can be nested expressions, so each operand must be evaluated into a value before the current operator can be applied. The self-call is what makes nesting of any depth work.</li>
+<li>It evaluates to <code>5</code>. The evaluator sees <code>+</code> as the operator, evaluates the operands <code>2</code> and <code>3</code> to themselves, then applies addition to produce <code>5</code>.</li>
+<li><code>(+ 1 2)</code> is <code>3</code>, <code>(+ 2 3)</code> is <code>5</code>, and <code>(* 3 5)</code> is <code>15</code>.</li>
+<li>Read, evaluate, print, and loop. <code>scheme_read</code> performs Read, <code>calc_eval</code> performs Eval, <code>print</code> performs Print, and the outer <code>while True</code> performs Loop.</li>
+<li>Catching exceptions lets the REPL report one bad input and continue accepting future inputs instead of crashing the whole session.</li>
+<li><code>calc_eval</code> is responsible for evaluating the nested operand expressions first. <code>calc_apply</code> is built to perform arithmetic only on already-computed argument values, so passing it trees would break the design.</li>
+<li>It evaluates to <code>4</code>. The operand <code>(* 2 3)</code> is a combination, so the evaluator works it out first to <code>6</code>, then applies <code>-</code> to <code>10</code> and <code>6</code>, subtracting the later argument from the first to produce <code>4</code>.</li>
+</ol>
+</details></div></section>
+<section id='summary' class='ls ls-summary'>
+<h2 class='ls-h'><span class='ls-badge'>&#167;</span><span>Summary</span></h2>
+<div class='ls-body'>
+<p>Evaluation gives meaning to an expression tree. In the Calculator interpreter, <code>calc_eval</code> recursively evaluates expressions by dispatching on their type, and <code>calc_apply</code> applies an operator to already-evaluated arguments. Numbers are self-evaluating, while call expressions are handled by evaluating their operands first and then applying the operator, so nested combinations work because the evaluator finishes the smaller subexpressions before the outer operator runs. The helper functions <code>simplify</code>, <code>reduce</code>, and <code>as_scheme_list</code> round out the evaluator. A read-eval-print loop connects reading, evaluation, printing, and looping into an interactive session, and wrapping the loop in a <code>try</code> statement lets the interpreter report a bad input and keep going instead of crashing.</p>
+</div></section><nav class='pager'><a class='pg pg-prev' href='/program-design-and-abstraction/3-4-c-parsing-expressions-into-trees/'><span class='pg-k'>&#8592;&nbsp; Previous</span><span class='pg-t'>3.4-C Parsing Expressions into Trees</span></a><a class='pg pg-next' href='/program-design-and-abstraction/3-5-a-scheme-interpreter-structure/'><span class='pg-k'>Next &nbsp;&#8594;</span><span class='pg-t'>3.5-A Scheme Interpreter Structure</span></a></nav><footer class='colophon'><div class='colophon-mark'>Program Design and Abstraction</div><p><em>Program Design and Abstraction</em> by Alex Toumayan. Adapted from <a href='https://www.composingprograms.com/' target='_blank' rel='noreferrer'>Composing Programs</a> by John DeNero, based on <em>Structure and Interpretation of Computer Programs</em> by Harold Abelson and Gerald Jay Sussman. Licensed under a <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noreferrer'>Creative Commons Attribution-ShareAlike 4.0 International License</a>. Interactive code visualizations are powered by <a href='http://pythontutor.com' target='_blank' rel='noreferrer'>Online Python Tutor</a>, created by Philip Guo, used under the MIT License.</p></footer></div><aside class='toc' aria-label='On this page'><div class='toc-h'>On this page</div><ul><li><a href='#the-cook-and-the-ingredient-prep-team'>The Cook and the Ingredient Prep Team</a></li><li><a href='#evaluation-gives-meaning-to-a-tree'>Evaluation Gives Meaning to a Tree</a></li><li><a href='#two-cooperating-jobs'>Two Cooperating Jobs</a></li><li><a href='#evaluating-primitive-expressions'>Evaluating Primitive Expressions</a></li><li><a href='#evaluating-call-expressions'>Evaluating Call Expressions</a></li><li><a href='#the-official-evaluator'>The Official Evaluator</a></li><li><a href='#applying-operators'>Applying Operators</a></li><li><a href='#the-helper-functions'>The Helper Functions</a></li><li><a href='#evaluating-a-nested-tree-directly'>Evaluating a Nested Tree Directly</a></li><li><a href='#a-compact-executable-evaluator'>A Compact Executable Evaluator</a></li><li><a href='#why-calc-apply-receives-values-not-trees'>Why calc_apply Receives Values, Not Trees</a></li><li><a href='#the-evaluation-trace-for-a-nested-expression'>The Evaluation Trace for a Nested Expression</a></li><li><a href='#the-read-eval-print-loop'>The Read-Eval-Print Loop</a></li><li><a href='#errors-in-the-repl'>Errors in the REPL</a></li><li><a href='#step-through-checkpoint'>Step-Through Checkpoint</a></li><li><a href='#common-beginner-traps'>Common Beginner Traps</a></li><li><a href='#check-your-understanding'>Check Your Understanding</a></li><li><a href='#summary'>Summary</a></li></ul></aside></div></article></main>
+</div>
+<script src='/program-design-and-abstraction/assets/site.js?v=8fe96c62'></script>
+<script src='/program-design-and-abstraction/vendor/pytutor/js/d3.v2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-1.8.2.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.simplemodal.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.ba-bbq.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery.jsPlumb-1.3.10-all-min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/jquery-ui-1.8.24.custom.min.js'></script><script src='/program-design-and-abstraction/vendor/pytutor/js/pytutor.js'></script><script>jQuery(function($){var O={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:300};var Ov={embeddedMode:true,editCodeBaseURL:null,drawParentPointers:true,showAllFrameLabels:true,codeDivWidth:640,verticalStack:true};function ptCopy(id,code){var d=document.getElementById(id);if(!d)return;var cd=d.querySelector('#codeDisplayDiv');if(!cd)return;var b=document.createElement('button');b.type='button';b.className='pt-copy';b.textContent='Copy';b.setAttribute('aria-label','Copy code');b.addEventListener('click',function(){var done=function(){b.textContent='Copied';b.classList.add('copied');setTimeout(function(){b.textContent='Copy';b.classList.remove('copied');},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,done);}else{done();}});cd.insertBefore(b,cd.firstChild);}(window.PT_WIDGETS||[]).forEach(function(w){new ExecutionVisualizer(w[0],w[1],O);ptCopy(w[0],(w[1]&&w[1].code)||'');});document.addEventListener('click',function(e){var b=e.target.closest('.pt-step');if(!b)return;var m=document.getElementById(b.getAttribute('data-mount')),L=b.querySelector('.pt-step-label');if(b.getAttribute('data-loaded')){var h=m.hidden;m.hidden=!h;L.textContent=h?'Hide':'Step through';b.classList.toggle('open',h);return;}b.setAttribute('data-loaded','1');L.textContent='Loading...';fetch(b.getAttribute('data-trace')).then(function(r){return r.json();}).then(function(t){m.hidden=false;m.innerHTML="<div class='pt-holder'><div id='"+m.id+"-v'></div></div>";new ExecutionVisualizer(m.id+'-v',t,Ov);L.textContent='Hide';b.classList.add('open');}).catch(function(){L.textContent='Step through';b.removeAttribute('data-loaded');});});});</script>
+</body>
+</html>
